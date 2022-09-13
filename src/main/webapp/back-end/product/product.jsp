@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.product.model.*"%>
-<% 
+<%  
 	ProductVO productVO = (ProductVO)request.getAttribute("productVO");
 %>
 <!DOCTYPE html>
@@ -50,6 +50,7 @@
         </ul>
       </nav>
     </header>
+
 
 
     <div class="contain">
