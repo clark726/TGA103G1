@@ -2,6 +2,7 @@ package com.product.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 public class ProductVO implements Serializable {
 
@@ -14,9 +15,9 @@ public class ProductVO implements Serializable {
 	private Integer stock;
 	private Integer status;
 	private Date date;
+	private List<Object> imgs;
 	
 	public ProductVO() {};
-	
 	
 	
 	public ProductVO(Integer product_id, String name, Integer price, Integer store_id, String description,
@@ -32,10 +33,34 @@ public class ProductVO implements Serializable {
 		this.status = status;
 		this.date = date;
 	}
+	
+	public ProductVO(Integer product_id, String name, Integer price, Integer store_id, String description,
+			Integer type_id, Integer stock, Integer status, Date date, List<Object> imgs) {
+		super();
+		this.product_id = product_id;
+		this.name = name;
+		this.price = price;
+		this.store_id = store_id;
+		this.description = description;
+		this.type_id = type_id;
+		this.stock = stock;
+		this.status = status;
+		this.date = date;
+		this.imgs = imgs;
+	}
+	public ProductVO(Integer product_id , List<Object> imgs) {
+		this.product_id = product_id;
+		this.imgs = imgs;
+	}
 
-
-
-
+	
+	
+	public List<Object> getImgs() {
+		return imgs;
+	}
+	public void setImgs(List<Object> imgs) {
+		this.imgs = imgs;
+	}
 	public Integer getProduct_id(){
 		return product_id;
 	}

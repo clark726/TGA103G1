@@ -2,6 +2,7 @@ package com.product.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -19,11 +20,11 @@ import javax.servlet.http.Part;
 
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
+import com.product_img.model.Product_imgService;
 import com.product_img.model.Product_imgVO;
-import com.product_img.model.Product_imgVOJDBC;
 
 @WebServlet("/ProductServlet")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+@MultipartConfig
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -76,7 +77,7 @@ public class ProductServlet extends HttpServlet {
 			productVO.setPrice(p_price);
 			productVO.setStock(p_stock);
 			productVO.setDescription(p_produce);
-
+			productVO.setStore_id(1);
 			req.setAttribute("productVO", productVO); // 含有輸入格式錯誤的empVO物件,也存入req
 
 			if (!errorMsgs.isEmpty()) {
@@ -86,38 +87,40 @@ public class ProductServlet extends HttpServlet {
 			}
 
 			Collection<Part> parts = req.getParts();
-			for(Part part : parts) {
+			List<Product_imgVO> imgList = new ArrayList<>();
+			for (Part part : parts) {
 				InputStream in = part.getInputStream();
-				Product_imgVO img1 = new Product_imgVO();
-				Product_imgVOJDBC img = new Product_imgVOJDBC();
-				byte[] b = new byte[(int)in.available()];
-				in.read(b);
-				img1.setImg(b);
-//				img1.setProduct_id();
-				
+				if (part.getSubmittedFileName() != null && part.getSize()!= 0) {
+					Product_imgVO img = new Product_imgVO();
+//				byte[] b = new byte[(int)in.available()];
+//				in.read(b);
+					img.setImg(in.readAllBytes());
+					imgList.add(img);
+					System.out.println(part.getSubmittedFileName());
+				}
 			}
-			
+
 			/*************************** 2.開始新增資料 ***************************************/
 			ProductService service = new ProductService();
-			service.addProduct(p_name, p_price, 1, p_produce, p_type, p_stock);
-			
-		
+			service.addProduct(productVO, imgList);
+
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-			req.setAttribute("productVO", service); // 資料庫取出的empVO物件,存入req
+//			req.setAttribute("productVO", productVO); // 資料庫取出的empVO物件,存入req
 
 			String url = "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}
 
+		
 		if ("delete".equals(action)) {
 
 			/*************************** 1.接收請求參數 ***************************************/
 			Integer product_id = Integer.valueOf(req.getParameter("product_id"));
+
 			/*************************** 2.開始刪除資料 ***************************************/
 			ProductService productSvc = new ProductService();
 			productSvc.delete(product_id);
-
 			/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
 			String url = "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
@@ -130,29 +133,28 @@ public class ProductServlet extends HttpServlet {
 
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer product_id = Integer.valueOf(req.getParameter("product_id").trim());
-			
-			/***************************2.開始查詢資料****************************************/
+
+			/*************************** 2.開始查詢資料 ****************************************/
 			ProductService productSvc = new ProductService();
 			ProductVO productVO = productSvc.getOneProduct(product_id);
-			
-			/***************************3.查詢完成,準備轉交(Send the Success view)************/
-			req.setAttribute("productVO", productVO);         // 資料庫取出的productVO物件,存入req
+
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+			req.setAttribute("productVO", productVO); // 資料庫取出的productVO物件,存入req
 			String url = "/back-end/product/updateproduct.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}
-		
-		
-		if ("update".equals(action)) { 
-			
+
+		if ("update".equals(action)) {
+
 			List<String> errorMsgs = new LinkedList<String>();
-		
+
 			req.setAttribute("errorMsgs", errorMsgs);
-			/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer product_id = Integer.valueOf(req.getParameter("product_id").trim());
-			
+
 			Integer p_type = Integer.valueOf(req.getParameter("p_type"));
-			
+
 			String p_name = req.getParameter("p_name");
 			if (p_name == null || p_name.trim().length() == 0) {
 				errorMsgs.add("請勿空白");
@@ -177,10 +179,8 @@ public class ProductServlet extends HttpServlet {
 			if (p_produce == null || p_produce.trim().length() == 0) {
 				errorMsgs.add("請勿空白");
 			}
-			
+
 			Integer p_status = Integer.valueOf(req.getParameter("p_status").trim());
-			
-			
 
 			ProductVO productVO = new ProductVO();
 			productVO.setProduct_id(product_id);
@@ -198,12 +198,12 @@ public class ProductServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return; // 程式中斷
 			}
-			
-			/***************************2.開始修改資料*****************************************/
+
+			/*************************** 2.開始修改資料 *****************************************/
 			ProductService productSvc = new ProductService();
-			productVO = productSvc.updatStore(product_id, p_name, p_price, 1, p_produce, p_type, p_stock , p_status);
-			
-			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			productVO = productSvc.updatStore(product_id, p_name, p_price, 1, p_produce, p_type, p_stock, p_status);
+
+			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 			req.setAttribute("productVO", productVO); // 資料庫update成功後,正確的的empVO物件,存入req
 			String url = "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp

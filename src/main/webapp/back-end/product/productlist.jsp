@@ -1,3 +1,5 @@
+<%@page import="com.product_img.model.Product_imgVO"%>
+<%@page import="com.product_img.model.Product_imgService"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
@@ -8,6 +10,12 @@
 ProductService productsvc = new ProductService();
 List<ProductVO> list = productsvc.getAll();
 pageContext.setAttribute("list", list);
+
+Product_imgService productimgSvc = new Product_imgService();
+List<Product_imgVO> listimg = productimgSvc.getAll();
+pageContext.setAttribute("listimg", listimg);
+
+
 %>
 
 
@@ -34,9 +42,11 @@ h4 {
 }
 
 table {
-	width: 800px;
+	width: 1000px;
 	margin-top: 5px;
 	margin-bottom: 5px;
+	border: 1px solid red;
+	transform: translate(80px, 10%);
 }
 
 table, th, td {
@@ -51,6 +61,21 @@ th, td {
 h1 {
 	text-align: center;
 }
+
+h1 a {
+	text-decoration: none;
+	color: black;
+}
+
+h1 button {
+	font-size: 20px;
+}
+
+div.div_func div  a {
+	text-decoration: none;
+	color: white;
+}
+
 </style>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back.css">
 </head>
@@ -65,7 +90,7 @@ h1 {
 					<a class="edit_store" type="button">修改店家內容</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button">上下架商品管理</a>
+					<a class="manager_item" type="button" href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -75,56 +100,64 @@ h1 {
 		</aside>
 		<main class="main">
 
-			<h1>商品列表</h1>
-			<table>
-				<tr>
-					<th>商品編號</th>
-					<th>商品名稱</th>
-					<th>價錢</th>
-					<th>商品描述</th>
-					<th>類型</th>
-					<th>庫存</th>
-					<th>狀態</th>
-					<th>修改</th>
-					<th>刪除</th>
-				</tr>
-
-				<c:forEach var="proVO" items="${list}">
-
+			<h1>
+				商品列表
+				<button>
+					<a href="<%=request.getContextPath()%>/back-end/product/product.jsp">新增商品</a>
+				</button>
+			</h1>
+			<div class="div_table">
+		
+	
+				<table>
 					<tr>
-						<td>${proVO.product_id}</td>
-						<td>${proVO.name}</td>
-						<td>${proVO.price}</td>
-						<td>${proVO.description}</td>
-						<td>${proVO.type_id == 1 ?  "水果" : ""}
-							${proVO.type_id == 2 ?  "茶類" : ""}
-							${proVO.type_id == 3 ?  "氣泡" : ""}
-							${proVO.type_id == 4 ?  "草本" : ""}</td>
-						<td>${proVO.stock}</td>
-						<td>
-							 ${proVO.status == 0 ? "下架":"上架"}
-						</td>
-						<td>
-							<FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/ProductServlet"
-								style="margin-bottom: 0px;">
-								<input type="submit" value="修改"> <input type="hidden"
-									name="product_id" value="${proVO.product_id}"> <input
-									type="hidden" name="action" value="getOne_For_Update">
-							</FORM>
-						</td>
-						<td>
-							<FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/ProductServlet"
-								style="margin-bottom: 0px;">
-								<input type="submit" value="刪除"> <input type="hidden"
-									name="product_id" value="${proVO.product_id}"> <input
-									type="hidden" name="action" value="delete">
-							</FORM>
-						</td>
+						<th>商品編號</th>
+						<th>商品名稱</th>
+						<th>價錢</th>
+						<th>商品描述</th>
+						<th>類型</th>
+						<th>庫存</th>
+						<th>狀態</th>
+						<th>修改</th>
+						<th>刪除</th>
 					</tr>
+				<c:forEach var="imgpro"  items="${listimg}">
+					<img href="imgpro.img">
 				</c:forEach>
-			</table>
+					<c:forEach var="proVO" items="${list}" >
+				
+						<tr>
+							<td>${proVO.product_id}</td>
+							<td>${proVO.name}</td>
+							<td>${proVO.price}</td>
+							<td>${proVO.description}</td>
+							<td>${proVO.type_id == 1 ?  "水果" : ""}${proVO.type_id == 2 ?  "茶類" : ""}
+								${proVO.type_id == 3 ?  "氣泡" : ""} ${proVO.type_id == 4 ?  "草本" : ""}</td>
+							<td>${proVO.stock}</td>
+							<td>${proVO.status == 0 ? "下架":"上架"}</td>
+							<td>
+								<FORM METHOD="post"
+									ACTION="<%=request.getContextPath()%>/ProductServlet"
+									style="margin-bottom: 0px;">
+									<input type="submit" value="修改"> <input type="hidden"
+										name="product_id" value="${proVO.product_id}"> <input
+										type="hidden" name="action" value="getOne_For_Update">
+								</FORM>
+							</td>
+							<td>
+								<FORM METHOD="post"
+									ACTION="<%=request.getContextPath()%>/ProductServlet"
+									style="margin-bottom: 0px;">
+									<input type="submit" value="刪除"> <input type="hidden"
+										name="product_id" value="${proVO.product_id}"> <input
+										type="hidden" name="action" value="delete">
+								</FORM>
+							</td>
+						</tr>
+					</c:forEach>
+				
+				</table>
+			</div>
 		</main>
 	</div>
 	<script>

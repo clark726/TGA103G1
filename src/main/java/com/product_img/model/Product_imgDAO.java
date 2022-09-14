@@ -9,4 +9,6 @@ public interface Product_imgDAO {
 	public void delete(Integer img_id);
 	public Product_imgVO findByPrimaryKey(Integer img_id);
 	public List<Product_imgVO>getAll();
+	
+	
 }

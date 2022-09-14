@@ -8,19 +8,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductVOJDBC implements ProductDAO{
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/barjarjo?useUnicode=yes&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Taipei";
-	String userid = "root";
-	String passwd = "password";
-	
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import com.product_img.model.Product_imgVO;
+
+public class ProductJNDI implements ProductDAO {
+
+	private static DataSource ds = null;
+	static {
+		try {
+			 Context ctx = new InitialContext();
+			 ds = (DataSource) ctx.lookup("java:comp/env/jdbc/barjarjo");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	@Override
 	public Integer insert(ProductVO product) {
 		String sql = "insert into product (name , price , store_id , description , type_id , stock )\n"
 				+ "values(?,?,?,?,?,?);";
 		
 		
-		try(Connection connection = DriverManager.getConnection(url , userid , passwd);
+		try(Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql , new String[] {"product_id"})){
 		
 			ps.setString(1,product.getName());
@@ -31,6 +43,7 @@ public class ProductVOJDBC implements ProductDAO{
 			ps.setInt(6, product.getStock());
 			ps.executeUpdate();
 			
+			//自動取編號
 			ResultSet rs = ps.getGeneratedKeys();
 			if(rs.next()) {
 				return  rs.getInt(1);
@@ -48,7 +61,7 @@ public class ProductVOJDBC implements ProductDAO{
 	public void update(ProductVO product) {
 		String sql = "update product set name = ? , price = ? , store_id = ? , description = ? , type_id = ? , stock = ? , status = ?\n"
 				+ "where product_id = ?;";
-		try(Connection connection = DriverManager.getConnection(url, userid , passwd);
+		try(Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)){
 			ps.setString(1, product.getName());
 			ps.setInt(2, product.getPrice());
@@ -74,7 +87,7 @@ public class ProductVOJDBC implements ProductDAO{
 
 		String sql = "delete from product where product_id = ? ";
 		
-		try(Connection connection = DriverManager.getConnection(url , userid , passwd);
+		try(Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)){
 			
 			ps.setInt(1, product_id);
@@ -93,7 +106,7 @@ public class ProductVOJDBC implements ProductDAO{
 				+ "where product_id = ?;";
 		ProductVO product = null;
 		
-		try(Connection connection = DriverManager.getConnection(url, userid , passwd);
+		try(Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)){
 			ps.setInt(1, product_id);
 		
@@ -125,7 +138,7 @@ public class ProductVOJDBC implements ProductDAO{
 				+ "from product";
 		List<ProductVO> list = new ArrayList<>();
 		ProductVO product = null;
-		try(Connection connection = DriverManager.getConnection(url, userid , passwd);
+		try(Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)){
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
@@ -148,6 +161,38 @@ public class ProductVOJDBC implements ProductDAO{
 		}
 		
 		return list;
+	}
+	
+	public ProductVO findProductid(Integer product_id) {
+
+		String sql = "select p.product_id , p.name , price, store_id ,description, type_id , stock , status, p.date , img \n"
+				+ "from product p\n"
+				+ "	left join product_img m\n"
+				+ "    on p.product_id = m.product_id;";
+		ProductVO img = null;
+		
+		try(Connection connection = ds.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);
+				){
+			
+			ps.setInt(1, product_id);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				img = new ProductVO();
+				List<Object> listobj = new ArrayList<Object>();
+				listobj.add(rs.getObject("img"));
+				//取照片
+				img.setImgs(listobj);
+				
+				img.setProduct_id(rs.getInt("product_id"));
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return img;
 	}
 
 	public static void main(String[] args) {

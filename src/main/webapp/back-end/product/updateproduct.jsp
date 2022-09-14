@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.product.model.*"%>
 <%
@@ -17,41 +18,17 @@ request.getAttribute("errorMsgs");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/backproduct.css">
 
+<style>
+div.div_func div  a {
+	text-decoration: none;
+	color: white;
+}
+</style>
+
 </head>
 <body style="background-color: rgb(129, 93, 65)">
-	<header class="header">
-		<div class="fl_left">
-			<h1 id="logo_h1">
-				<a href="＃" id="logo">Bar.Jar.Jo</a>
-			</h1>
-		</div>
 
-		<nav class="fl_right">
-			<ul class="nav_ul">
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">地圖</a></li>
-				<li><a href="#">討論區</a></li>
-				<li><a href="#">廠商專區</a></li>
-				<li><a href="#" class="icon">店家主題</a>
-					<ul id="store">
-						<li><a href="#">Bistro</a></li>
-						<li><a href="#">Cocktail bar</a></li>
-						<li><a href="#">Whisky bar</a></li>
-					</ul></li>
-				<li><a href="#" class="icon">會員專區</a>
-					<ul id="store">
-						<li><a href="#">我的最愛</a></li>
-						<li><a href="#">修改會員資料</a></li>
-						<li><a href="#">修改密碼</a></li>
-						<li><a href="#">訂單管理</a></li>
-					</ul></li>
-
-				<li><a href="#">購物商城</a></li>
-				<li><a href="#">登入註冊</a></li>
-			</ul>
-		</nav>
-	</header>
-
+	<div w3-include-html="<%=request.getContextPath()%>/com/header.jsp"></div>
 
 	<div class="contain">
 		<aside class="aside">
@@ -61,7 +38,8 @@ request.getAttribute("errorMsgs");
 					<a class="edit_store" type="button">修改店家內容</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button">上下架商品管理</a>
+					<a class="manager_item" type="button"
+						href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -74,7 +52,7 @@ request.getAttribute("errorMsgs");
 				method="post">
 				<div class="all_product">
 					<div class="title">
-						<h1>新增商品</h1>
+						<h1>修改商品</h1>
 					</div>
 
 					<%-- 錯誤表列 --%>
@@ -181,7 +159,7 @@ request.getAttribute("errorMsgs");
         reader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="\${reader.result}" class="preview_img" >
           `;
           document.querySelector("#preview1").innerHTML = str;
          
@@ -200,7 +178,7 @@ request.getAttribute("errorMsgs");
         reader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="\${reader.result}" class="preview_img" >
           `;
           document.querySelector("#preview2").innerHTML = str;
          
@@ -219,7 +197,7 @@ request.getAttribute("errorMsgs");
         reader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="\${reader.result}" class="preview_img" >
           `;
           document.querySelector("#preview3").innerHTML = str;
          
@@ -229,6 +207,40 @@ request.getAttribute("errorMsgs");
           document.querySelector("#text3").innerText="預覽圖";
         };
       });
+      
+      //header
+      function includeHTML() {
+			var z, i, elmnt, file, xhttp;
+			/* Loop through a collection of all HTML elements: */
+			z = document.getElementsByTagName("*");
+			for (i = 0; i < z.length; i++) {
+				elmnt = z[i];
+				/*search for elements with a certain atrribute:*/
+				file = elmnt.getAttribute("w3-include-html");
+				if (file) {
+					/* Make an HTTP request using the attribute value as the file name: */
+					xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4) {
+							if (this.status == 200) {
+								elmnt.innerHTML = this.responseText;
+							}
+							if (this.status == 404) {
+								elmnt.innerHTML = "Page not found.";
+							}
+							/* Remove the attribute, and call this function once more: */
+							elmnt.removeAttribute("w3-include-html");
+							includeHTML();
+						}
+					};
+					xhttp.open("GET", file, true);
+					xhttp.send();
+					/* Exit the function: */
+					return;
+				}
+			}
+		}
+		includeHTML();
     </script>
 </body>
 </html>
