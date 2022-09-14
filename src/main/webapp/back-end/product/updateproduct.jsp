@@ -173,7 +173,7 @@ request.getAttribute("errorMsgs");
 	<script>
  
      //file_1
-     document.querySelector("#p_file1").qaddEventListener("change", function(e){
+     document.querySelector("#p_file1").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview1").innerHTML="";
           let reader = new FileReader();
