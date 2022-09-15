@@ -11,24 +11,19 @@ public class StoreService {
 		store = new StoreVOJDBC();
 	}
 	
-	public StoreVO addStore( String account, String name, String password, String phone, String email,
-			String address, String lng, String lat, Integer theme_id, String dayoff, String work_open,
-			String work_end ,String produce) {
+	public StoreVO addStore(StoreVO storevo) {
+		String account = storevo.getAccount();
+		String password = storevo.getPassword();
+		String phone = storevo.getPhone();
+		String email = storevo.getEmail();
+		String address = storevo.getAddress();
+		Integer store_type = storevo.getStore_type();
+		String dayoff = storevo.getDayoff();
+		String open = storevo.getWork_open();
+		String end = storevo.getWork_end();
+	
 		
-		StoreVO storevo = new StoreVO();
 		
-		storevo.setAccount(account);
-		storevo.setName(name);
-		storevo.setPassword(password);
-		storevo.setPhone(phone);
-		storevo.setAddress(address);
-		storevo.setLng(lng);
-		storevo.setLat(lat);
-		storevo.setTheme_id(theme_id);
-		storevo.setDayoff(dayoff);
-		storevo.setWork_open(work_open);
-		storevo.setWork_end(work_end);
-		storevo.setProduce(produce);
 		store.insert(storevo);
 		
 		
@@ -36,7 +31,7 @@ public class StoreService {
 		
 	}
 	//預留給 Struts 2 或 Spring MVC 用
-	public void addStore(StoreVO storevo) {
+	public void addStore2(StoreVO storevo) {
 		store.insert(storevo);
 	}
 	

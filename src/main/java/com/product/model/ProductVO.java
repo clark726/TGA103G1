@@ -16,6 +16,7 @@ public class ProductVO implements Serializable {
 	private Integer status;
 	private Date date;
 	private List<Object> imgs;
+	private Object img;
 	
 	public ProductVO() {};
 	
@@ -48,6 +49,21 @@ public class ProductVO implements Serializable {
 		this.date = date;
 		this.imgs = imgs;
 	}
+	public ProductVO(Integer product_id, String name, Integer price, Integer store_id, String description,
+			Integer type_id, Integer stock, Integer status, Date date, Object img) {
+		super();
+		this.product_id = product_id;
+		this.name = name;
+		this.price = price;
+		this.store_id = store_id;
+		this.description = description;
+		this.type_id = type_id;
+		this.stock = stock;
+		this.status = status;
+		this.date = date;
+		this.img = img;
+	}
+	
 	public ProductVO(Integer product_id , List<Object> imgs) {
 		this.product_id = product_id;
 		this.imgs = imgs;
@@ -55,6 +71,12 @@ public class ProductVO implements Serializable {
 
 	
 	
+	public Object getImg() {
+		return img;
+	}
+	public void setImg(Object img) {
+		this.img = img;
+	}
 	public List<Object> getImgs() {
 		return imgs;
 	}

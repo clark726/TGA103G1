@@ -47,7 +47,9 @@ public class Product_imgService {
 		return list;
 	}
 	
-
+	public byte[] findByProductID(Integer product_id) {
+		return productimgdao.findByProductID(product_id).getImg();
+	}
 	
 	
 }

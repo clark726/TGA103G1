@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,10 +42,15 @@ public class ProductServlet extends HttpServlet {
 
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-
+	
 			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-			Integer p_type = Integer.valueOf(req.getParameter("p_type"));
-
+		
+//			Integer p_type = Integer.parseInt(req.getParameter("p_type"));
+			Integer p_type = 0;
+			if(req.getParameter("p_type") !=null) {
+				p_type = Integer.parseInt(req.getParameter("p_type"));
+			}
+			
 			String p_name = req.getParameter("p_name");
 			if (p_name == null || p_name.trim().length() == 0) {
 				errorMsgs.put("p_name", "請勿空白");
@@ -52,7 +58,7 @@ public class ProductServlet extends HttpServlet {
 
 			Integer p_price = null;
 			try {
-				p_price = Integer.valueOf(req.getParameter("p_price").trim());
+				p_price = Integer.parseInt(req.getParameter("p_price").trim());
 			} catch (NumberFormatException e) {
 				p_price = 0;
 				errorMsgs.put("p_price", "請填數字");
@@ -60,7 +66,7 @@ public class ProductServlet extends HttpServlet {
 
 			Integer p_stock = null;
 			try {
-				p_stock = Integer.valueOf(req.getParameter("p_stock").trim());
+				p_stock = Integer.parseInt(req.getParameter("p_stock").trim());
 			} catch (NumberFormatException e) {
 				p_stock = 0;
 				errorMsgs.put("p_stock", "請填數字");
@@ -92,11 +98,12 @@ public class ProductServlet extends HttpServlet {
 				InputStream in = part.getInputStream();
 				if (part.getSubmittedFileName() != null && part.getSize()!= 0) {
 					Product_imgVO img = new Product_imgVO();
+					System.out.println(part.getName());
 //				byte[] b = new byte[(int)in.available()];
 //				in.read(b);
 					img.setImg(in.readAllBytes());
 					imgList.add(img);
-					System.out.println(part.getSubmittedFileName());
+				
 				}
 			}
 
@@ -107,9 +114,11 @@ public class ProductServlet extends HttpServlet {
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 //			req.setAttribute("productVO", productVO); // 資料庫取出的empVO物件,存入req
 
-			String url = "/back-end/product/productlist.jsp";
+			String url = req.getContextPath()+"/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
-			successView.forward(req, res);
+			res.sendRedirect(url);
+//			successView.forward(req, res);
+		
 		}
 
 		
@@ -209,6 +218,20 @@ public class ProductServlet extends HttpServlet {
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 			successView.forward(req, res);
 		}
+		
+		if ("getImg".equals(action)) {
+			String prdStr = req.getParameter("product_id");
+			if (prdStr != null) {
+				int product_id = Integer.parseInt(prdStr);
+				Product_imgService imgService = new Product_imgService();
+				byte[] img = imgService.findByProductID(product_id);
+				ServletOutputStream out = res.getOutputStream();
+				out.write(img);
+				out.close();
+			}
+		}
+		
+		
 	}
 
 }

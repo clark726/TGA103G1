@@ -10,12 +10,6 @@
 ProductService productsvc = new ProductService();
 List<ProductVO> list = productsvc.getAll();
 pageContext.setAttribute("list", list);
-
-Product_imgService productimgSvc = new Product_imgService();
-List<Product_imgVO> listimg = productimgSvc.getAll();
-pageContext.setAttribute("listimg", listimg);
-
-
 %>
 
 
@@ -76,6 +70,9 @@ div.div_func div  a {
 	color: white;
 }
 
+img {
+	width: 100px
+}
 </style>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back.css">
 </head>
@@ -90,7 +87,8 @@ div.div_func div  a {
 					<a class="edit_store" type="button">修改店家內容</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button" href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
+					<a class="manager_item" type="button"
+						href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -103,15 +101,17 @@ div.div_func div  a {
 			<h1>
 				商品列表
 				<button>
-					<a href="<%=request.getContextPath()%>/back-end/product/product.jsp">新增商品</a>
+					<a
+						href="<%=request.getContextPath()%>/back-end/product/product.jsp">新增商品</a>
 				</button>
 			</h1>
 			<div class="div_table">
-		
-	
+
+
 				<table>
 					<tr>
 						<th>商品編號</th>
+						<th>商品圖片</th>
 						<th>商品名稱</th>
 						<th>價錢</th>
 						<th>商品描述</th>
@@ -121,13 +121,15 @@ div.div_func div  a {
 						<th>修改</th>
 						<th>刪除</th>
 					</tr>
-				<c:forEach var="imgpro"  items="${listimg}">
-					<img href="imgpro.img">
-				</c:forEach>
-					<c:forEach var="proVO" items="${list}" >
-				
+					<%@ include file="page1.file"%>
+					<c:forEach var="proVO" items="${list}" begin="<%=pageIndex%>"
+						end="<%=pageIndex+rowsPerPage-1%>">
+
 						<tr>
 							<td>${proVO.product_id}</td>
+							<td><img
+								src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${proVO.product_id}">
+							</td>
 							<td>${proVO.name}</td>
 							<td>${proVO.price}</td>
 							<td>${proVO.description}</td>
@@ -155,7 +157,7 @@ div.div_func div  a {
 							</td>
 						</tr>
 					</c:forEach>
-				
+					<%@ include file="page2.file"%>
 				</table>
 			</div>
 		</main>

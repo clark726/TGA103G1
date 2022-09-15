@@ -81,30 +81,23 @@ public class Product_imgJNDI implements Product_imgDAO {
 	}
 
 	@Override
-	public Product_imgVO findByPrimaryKey(Integer img_id) {
+	public Product_imgVO findByProductID(Integer prd_id) {
 
-		String sql = "SELECT img_id , date , img , product_id FROM  product_img\n"
-				+ "where img_id = ?;";
+		String sql = "SELECT img FROM product_img where product_id = ?";
 		Product_imgVO img = null;
-		
-		try(Connection connection = ds.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql);
-				){
-			
-			ps.setInt(1, img_id);
+
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);) {
+
+			ps.setInt(1, prd_id);
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				img = new Product_imgVO();
-				img.setImg_id(rs.getInt("img_id"));
-				img.setDate(rs.getDate("date"));
-				//取照片
+				// 取照片
 				img.setImg(rs.getBytes("img"));
-				
-				img.setProduct_id(rs.getInt("product_id"));
-				
 			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -156,7 +149,7 @@ public class Product_imgJNDI implements Product_imgDAO {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println(jdbc.findByPrimaryKey(3));
+//		System.out.println(jdbc.findByPrimaryKey(3));
 //		List<Product_imgVO> list = new ArrayList<>();
 //		list = jdbc.getAll();
 //		for(Product_imgVO all2 : list) {

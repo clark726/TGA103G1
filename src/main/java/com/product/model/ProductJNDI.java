@@ -134,8 +134,10 @@ public class ProductJNDI implements ProductDAO {
 	@Override
 	public List<ProductVO> getAll() {
 
-		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
-				+ "from product";
+		String sql = "select p.product_id , p.name , price, store_id ,description, type_id , stock , status, p.date , img \n"
+				+ "from product p\n"
+				+ "	left join product_img m\n"
+				+ "    on p.product_id = m.product_id;";
 		List<ProductVO> list = new ArrayList<>();
 		ProductVO product = null;
 		try(Connection connection = ds.getConnection();
@@ -152,6 +154,10 @@ public class ProductJNDI implements ProductDAO {
 				product.setStock(rs.getInt("stock"));
 				product.setStatus(rs.getInt("status"));
 				product.setDate(rs.getDate("date"));
+				
+//				List<Object> img = new ArrayList<Object>();
+//				img.add(rs.getObject("img"));
+				product.setImg(rs.getBytes("img"));
 				
 				list.add(product);
 			}

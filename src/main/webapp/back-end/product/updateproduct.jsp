@@ -23,6 +23,10 @@ div.div_func div  a {
 	text-decoration: none;
 	color: white;
 }
+
+img {
+	max-width: 100%;
+}
 </style>
 
 </head>
@@ -92,6 +96,8 @@ div.div_func div  a {
 						</div>
 						<div class="all_preview">
 							<div class="preview" id="preview1">
+							<img
+									src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${productVO.product_id}">
 								<span class="text" id="text1">預覽圖</span>
 							</div>
 							<div class="preview" id="preview2">
