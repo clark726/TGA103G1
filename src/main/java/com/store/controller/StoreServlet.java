@@ -62,23 +62,35 @@ public class StoreServlet extends HttpServlet {
 			if(password == null || (password.trim()).length() == 0) {
 				errorMsgs.put("password", "請輸入文字");
 			}
-			String phoneRex = "\\d{2}-\\d{8}";
+			String phoneRex = "\\d{10}";
 			if(phone == null || (phone.trim()).length() == 0) {
-				errorMsgs.put("phone", "請輸入文字");
+				errorMsgs.put("phone", "請勿空白");
 			}else if(!phone.trim().matches(phoneRex)) {
-				errorMsgs.put("phone", "請符 xx-xxxxxxxx 格式");
+				errorMsgs.put("phone", "請輸入數字");
 			}
 			
-
-
+			String emailRex = "@";
+			if(email == null || (email.trim()).length() == 0) {
+				errorMsgs.put("email", "請勿空白");
+			}else if(!phone.trim().matches(emailRex)) {
+				errorMsgs.put("email", "請輸入數字");
+			}
+			
+			if(address == null || (address.trim()).length() == 0) {
+				errorMsgs.put("address", "請勿空白");
+			}
+			if(address == null || (address.trim()).length() == 0) {
+				errorMsgs.put("address", "請勿空白");
+			}
+			if(dayoff == null || (dayoff.trim().length() == 0)) {
+				errorMsgs.put("dayoff", "請輸入文字");
+			}
 			String openRex = "\\d{2}\\:\\d{2}";
 			if(open == null || (open.trim()).length() == 0) {
 				errorMsgs.put("open", "請輸入文字");
 			}else if(!(open.trim().matches(openRex))) {
 				errorMsgs.put("open", "請符 xx:xx 格式");
 			}
-			
-	
 			String closeRex = "\\d{2}\\:\\d{2}";
 			if(end == null || (end.trim().length() == 0)) {
 				errorMsgs.put("close", "請輸入文字");
@@ -86,10 +98,6 @@ public class StoreServlet extends HttpServlet {
 				errorMsgs.put("close", "請符 xx:xx 格式");
 			}
 			
-			
-			if(dayoff == null || (dayoff.trim().length() == 0)) {
-				errorMsgs.put("dayoff", "請輸入文字");
-			}
 			/***************************2.開始新增資料***************************************/
 			StoreService service = new StoreService() ;
 			service.addStore(vo);

@@ -25,7 +25,9 @@ import com.product_img.model.Product_imgService;
 import com.product_img.model.Product_imgVO;
 
 @WebServlet("/ProductServlet")
-@MultipartConfig
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
+//當數據量大於fileSizeThreshold值時，內容將被寫入磁碟
+//上傳過程中無論是單個文件超過maxFileSize值，或者上傳的總量大於maxRequestSize 值都會拋出IllegalStateException 異常
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -92,20 +94,19 @@ public class ProductServlet extends HttpServlet {
 				return; // 程式中斷
 			}
 
-			Collection<Part> parts = req.getParts();
+			Part part = req.getPart("p_file1");
 			List<Product_imgVO> imgList = new ArrayList<>();
-			for (Part part : parts) {
+		
 				InputStream in = part.getInputStream();
 				if (part.getSubmittedFileName() != null && part.getSize()!= 0) {
 					Product_imgVO img = new Product_imgVO();
-					System.out.println(part.getName());
 //				byte[] b = new byte[(int)in.available()];
 //				in.read(b);
 					img.setImg(in.readAllBytes());
 					imgList.add(img);
 				
 				}
-			}
+			
 
 			/*************************** 2.開始新增資料 ***************************************/
 			ProductService service = new ProductService();
@@ -199,7 +200,18 @@ public class ProductServlet extends HttpServlet {
 			productVO.setStock(p_stock);
 			productVO.setDescription(p_produce);
 			productVO.setStatus(p_status);
-
+			productVO.setStore_id(1);
+			
+			Part part = req.getPart("p_file1");
+			List<Product_imgVO> imgList = new ArrayList<>();
+				InputStream in = part.getInputStream();
+			
+				if (part.getSize()!= 0) {
+					Product_imgVO img = new Product_imgVO();
+					img.setImg(in.readAllBytes());
+					imgList.add(img);
+				}
+			
 			req.setAttribute("productVO", productVO); // 含有輸入格式錯誤的empVO物件,也存入req
 
 			if (!errorMsgs.isEmpty()) {
@@ -210,13 +222,13 @@ public class ProductServlet extends HttpServlet {
 
 			/*************************** 2.開始修改資料 *****************************************/
 			ProductService productSvc = new ProductService();
-			productVO = productSvc.updatStore(product_id, p_name, p_price, 1, p_produce, p_type, p_stock, p_status);
+			productSvc.updatProduct(productVO,imgList );
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 			req.setAttribute("productVO", productVO); // 資料庫update成功後,正確的的empVO物件,存入req
-			String url = "/back-end/product/productlist.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-			successView.forward(req, res);
+			String url = req.getContextPath()+"/back-end/product/productlist.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			res.sendRedirect(url);
 		}
 		
 		if ("getImg".equals(action)) {

@@ -12,7 +12,7 @@ public class Product_imgService {
 
 	public Product_imgService() {
 		
-		productimgdao = new Product_imgVOJDBC();
+		productimgdao = new Product_imgJNDI();
 	
 	}
 
@@ -49,6 +49,11 @@ public class Product_imgService {
 	
 	public byte[] findByProductID(Integer product_id) {
 		return productimgdao.findByProductID(product_id).getImg();
+	}
+	
+	public void update(Product_imgVO vo) {
+		
+		productimgdao.update(vo);
 	}
 	
 	

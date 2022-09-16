@@ -21,6 +21,11 @@ public class ProductService {
 		imgdao = new Product_imgJNDI();
 	}
 
+	/**
+	 * @param productVO
+	 * @param imgList
+	 * @return
+	 */
 	public ProductVO addProduct(ProductVO productVO, List<Product_imgVO> imgList) {
 
 //		ProductVO vo = new ProductVO();
@@ -44,21 +49,25 @@ public class ProductService {
 		productdao.insert(productvo);
 	}
 
-	public ProductVO updatStore(Integer product_id, String name, Integer price, Integer store_id, String description,
-			Integer type_id, Integer stock, Integer status) {
+	public ProductVO updatProduct(ProductVO productvo ,List<Product_imgVO> imgList ) {
 
-		ProductVO vo = new ProductVO();
-		vo.setProduct_id(product_id);
-		vo.setName(name);
-		vo.setPrice(price);
-		vo.setStore_id(store_id);
-		vo.setDescription(description);
-		vo.setType_id(type_id);
-		vo.setStock(stock);
-		vo.setStatus(status);
-		productdao.update(vo);
-
-		return vo;
+//		ProductVO vo = new ProductVO();
+//		vo.setProduct_id(product_id);
+//		vo.setName(name);
+//		vo.setPrice(price);
+//		vo.setStore_id(store_id);
+//		vo.setDescription(description);
+//		vo.setType_id(type_id);
+//		vo.setStock(stock);
+//		vo.setStatus(status);
+	
+		Integer product_id = productdao.update(productvo);
+		for (Product_imgVO imgVO : imgList) {
+			imgVO.setProduct_id(product_id);
+			imgdao.update(imgVO);
+		}
+		
+		return productvo;
 	}
 
 	public void delete(Integer product_id) {

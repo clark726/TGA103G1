@@ -70,19 +70,11 @@ div.div_func div  a {
 					<div class="comm" id="p_pre">
 						<label>商品圖片：</label>
 						<div class="div_file">
-							<input type="file" class="p_file" id="p_file1" name="p_file1">
-							<input type="file" class="p_file" id="p_file2" name="p_file2">
-							<input type="file" class="p_file" id="p_file3" name="p_file3">
+							<input type="file" class="p_file" id="p_file1" name="p_file1" accept="image/gif, image/jpeg, image/png">
 						</div>
 						<div class="all_preview">
 							<div class="preview" id="preview1">
 								<span class="text" id="text1">預覽圖</span>
-							</div>
-							<div class="preview" id="preview2">
-								<span class="text" id="text2">預覽圖</span>
-							</div>
-							<div class="preview" id="preview3">
-								<span class="text" id="text3">預覽圖</span>
 							</div>
 						</div>
 
@@ -149,44 +141,7 @@ div.div_func div  a {
           document.querySelector("#text1").innerText="預覽圖";
         };
       });
-      //file_2
-      document.querySelector("#p_file2").addEventListener("change", function(e){
-        if(this.files.length > 0){
-          document.querySelector("#preview2").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
-          
-          let str = `
-            <img src="\${reader.result}" class="preview_img" >
-          `;
-          document.querySelector("#preview2").innerHTML = str;
-         
-        });
       
-        }else{
-          document.querySelector("#text2").innerText="預覽圖";
-        };
-      });
-      //file_3
-      document.querySelector("#p_file3").addEventListener("change", function(e){
-        if(this.files.length > 0){
-          document.querySelector("#preview3").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
-          
-          let str = `
-            <img src="\${reader.result}" class="preview_img" >
-          `;
-          document.querySelector("#preview3").innerHTML = str;
-         
-        });
-      
-        }else{
-          document.querySelector("#text3").innerText="預覽圖";
-        };
-      });
       
       //header
       function includeHTML() {

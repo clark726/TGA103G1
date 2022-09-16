@@ -45,7 +45,7 @@ public class ProductVOJDBC implements ProductDAO{
 	}
 
 	@Override
-	public void update(ProductVO product) {
+	public Integer update(ProductVO product) {
 		String sql = "update product set name = ? , price = ? , store_id = ? , description = ? , type_id = ? , stock = ? , status = ?\n"
 				+ "where product_id = ?;";
 		try(Connection connection = DriverManager.getConnection(url, userid , passwd);
@@ -60,11 +60,12 @@ public class ProductVOJDBC implements ProductDAO{
 			ps.setInt(8, product.getProduct_id());
 			
 			ps.executeUpdate();
-			
+			return product.getProduct_id();
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 		
 		
 	}

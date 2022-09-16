@@ -50,14 +50,13 @@ public class Product_imgJNDI implements Product_imgDAO {
 	@Override
 	public void update(Product_imgVO img) {
 
-		String sql = "update product_img set img_id = ? , img = ? , product_id = ?\n"
-				+ "where img_id = ?";
+		String sql = "update product_img set   img = ? where product_id = ?\n";
 		try(Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)){
 			
-			ps.setInt(1, img.getImg_id());
-			ps.setBytes(2, img.getImg());
-			ps.setInt(3, img.getProduct_id());
+		
+			ps.setBytes(1, img.getImg());
+			ps.setInt(2, img.getProduct_id());
 			
 			ps.executeUpdate();
 		}catch(SQLException e) {
