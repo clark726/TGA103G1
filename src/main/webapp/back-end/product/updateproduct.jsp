@@ -4,7 +4,6 @@
 <%@ page import="com.product.model.*"%>
 <%
 ProductVO productVO = (ProductVO) request.getAttribute("productVO");
-request.getAttribute("errorMsgs");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,11 +27,21 @@ img {
 	max-width: 100%;
 }
 </style>
+<!-- Boostrap 導入程式 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+	crossorigin="anonymous"></script>
 
 </head>
 <body style="background-color: rgb(129, 93, 65)">
 
-	<div w3-include-html="<%=request.getContextPath()%>/com/header.jsp"></div>
+	<div w3-include-html="<%=request.getContextPath()%>/com/header.html"></div>
 
 	<div class="contain">
 		<aside class="aside">
@@ -59,16 +68,6 @@ img {
 						<h1>修改商品</h1>
 					</div>
 
-					<%-- 錯誤表列 --%>
-					<c:if test="${not empty errorMsgs}">
-						<font style="color: red">請修正以下錯誤:</font>
-						<ul>
-							<c:forEach var="message" items="${errorMsgs}">
-								<li style="color: red">${message}</li>
-							</c:forEach>
-						</ul>
-					</c:if>
-
 					<h1>
 						商品編號 :<%=productVO.getProduct_id()%></h1>
 
@@ -85,12 +84,14 @@ img {
 					<div class="comm">
 						<label for="p_name">商品名稱 : </label> <input type="text" id="p_name"
 							name="p_name" value="<%=productVO.getName()%>">
+						<p>${errorMsgs.p_name}</p>
 					</div>
 
 					<div class="comm" id="p_pre">
 						<label>商品圖片：</label>
 						<div class="div_file">
-							<input type="file" class="p_file" id="p_file1" name="p_file1" accept="image/gif, image/jpeg, image/png">
+							<input type="file" class="p_file" id="p_file1" name="p_file1"
+								accept="image/gif, image/jpeg, image/png">
 
 						</div>
 						<div class="all_preview">
@@ -107,11 +108,13 @@ img {
 					<div class="comm">
 						<label for="p_price">商品售價 :</label> <input type="text"
 							id="p_price" name="p_price" value="<%=productVO.getPrice()%>">
+						<p>${errorMsgs.p_price}</p>
 					</div>
 
 					<div class="comm">
 						<label for="p_stock">庫存 : </label> <input type="text" id="p_stock"
 							name="p_stock" value="<%=productVO.getStock()%>">
+						<p>${errorMsgs.p_stock}</p>
 					</div>
 
 					<div class="comm">
@@ -125,13 +128,14 @@ img {
 					<div class="comm">
 						<label for="p_produce">商品介紹 :</label>
 						<textarea name="p_produce" id="p_produce" cols="30" rows="10"><%=productVO.getDescription()%></textarea>
-
+						<p>${errorMsgs.p_produce}</p>
 						<div id="button">
 							<div id="button_new">
 								<input type="hidden" name="action" value="update"> <input
 									type="hidden" name="product_id"
 									value="<%=productVO.getProduct_id()%>"> <input
 									type="submit" value="送出修改">
+
 							</div>
 
 						</div>
@@ -147,7 +151,7 @@ img {
 
 
 	<script src="../js/jquery-3.6.0.min.js"></script>
-	<script src="../js/slider.js"></script>
+	
 	<script>
  
      //file_1

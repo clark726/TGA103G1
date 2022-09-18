@@ -44,15 +44,14 @@ public class ProductServlet extends HttpServlet {
 
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-	
+
 			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
-		
-//			Integer p_type = Integer.parseInt(req.getParameter("p_type"));
+
 			Integer p_type = 0;
-			if(req.getParameter("p_type") !=null) {
+			if (req.getParameter("p_type") != null) {
 				p_type = Integer.parseInt(req.getParameter("p_type"));
 			}
-			
+
 			String p_name = req.getParameter("p_name");
 			if (p_name == null || p_name.trim().length() == 0) {
 				errorMsgs.put("p_name", "請勿空白");
@@ -96,17 +95,16 @@ public class ProductServlet extends HttpServlet {
 
 			Part part = req.getPart("p_file1");
 			List<Product_imgVO> imgList = new ArrayList<>();
-		
-				InputStream in = part.getInputStream();
-				if (part.getSubmittedFileName() != null && part.getSize()!= 0) {
-					Product_imgVO img = new Product_imgVO();
+
+			InputStream in = part.getInputStream();
+			if (part.getSubmittedFileName() != null && part.getSize() != 0) {
+				Product_imgVO img = new Product_imgVO();
 //				byte[] b = new byte[(int)in.available()];
 //				in.read(b);
-					img.setImg(in.readAllBytes());
-					imgList.add(img);
-				
-				}
-			
+				img.setImg(in.readAllBytes());
+				imgList.add(img);
+
+			}
 
 			/*************************** 2.開始新增資料 ***************************************/
 			ProductService service = new ProductService();
@@ -115,14 +113,13 @@ public class ProductServlet extends HttpServlet {
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 //			req.setAttribute("productVO", productVO); // 資料庫取出的empVO物件,存入req
 
-			String url = req.getContextPath()+"/back-end/product/productlist.jsp";
+			String url = req.getContextPath() + "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			res.sendRedirect(url);
 //			successView.forward(req, res);
-		
+
 		}
 
-		
 		if ("delete".equals(action)) {
 
 			/*************************** 1.接收請求參數 ***************************************/
@@ -138,8 +135,6 @@ public class ProductServlet extends HttpServlet {
 		}
 
 		if ("getOne_For_Update".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
 
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer product_id = Integer.valueOf(req.getParameter("product_id").trim());
@@ -157,8 +152,7 @@ public class ProductServlet extends HttpServlet {
 
 		if ("update".equals(action)) {
 
-			List<String> errorMsgs = new LinkedList<String>();
-
+			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer product_id = Integer.valueOf(req.getParameter("product_id").trim());
@@ -167,7 +161,7 @@ public class ProductServlet extends HttpServlet {
 
 			String p_name = req.getParameter("p_name");
 			if (p_name == null || p_name.trim().length() == 0) {
-				errorMsgs.add("請勿空白");
+				errorMsgs.put("p_name", "請勿空白");
 			}
 
 			Integer p_price = null;
@@ -175,7 +169,7 @@ public class ProductServlet extends HttpServlet {
 				p_price = Integer.valueOf(req.getParameter("p_price").trim());
 			} catch (NumberFormatException e) {
 				p_price = 0;
-				errorMsgs.add("請填數字");
+				errorMsgs.put("p_price", "請填數字");
 			}
 
 			Integer p_stock = null;
@@ -183,11 +177,11 @@ public class ProductServlet extends HttpServlet {
 				p_stock = Integer.valueOf(req.getParameter("p_stock").trim());
 			} catch (NumberFormatException e) {
 				p_stock = 0;
-				errorMsgs.add("請填數字");
+				errorMsgs.put("p_stock", "請填數字");
 			}
 			String p_produce = req.getParameter("p_produce");
 			if (p_produce == null || p_produce.trim().length() == 0) {
-				errorMsgs.add("請勿空白");
+				errorMsgs.put("p_produce", "請勿空白");
 			}
 
 			Integer p_status = Integer.valueOf(req.getParameter("p_status").trim());
@@ -201,36 +195,35 @@ public class ProductServlet extends HttpServlet {
 			productVO.setDescription(p_produce);
 			productVO.setStatus(p_status);
 			productVO.setStore_id(1);
-			
-			Part part = req.getPart("p_file1");
-			List<Product_imgVO> imgList = new ArrayList<>();
-				InputStream in = part.getInputStream();
-			
-				if (part.getSize()!= 0) {
-					Product_imgVO img = new Product_imgVO();
-					img.setImg(in.readAllBytes());
-					imgList.add(img);
-				}
-			
 			req.setAttribute("productVO", productVO); // 含有輸入格式錯誤的empVO物件,也存入req
 
 			if (!errorMsgs.isEmpty()) {
-				RequestDispatcher failureView = req.getRequestDispatcher("/product/updateproduct.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/product/updateproduct.jsp");
 				failureView.forward(req, res);
 				return; // 程式中斷
+			}
+			
+			Part part = req.getPart("p_file1");
+			List<Product_imgVO> imgList = new ArrayList<>();
+			InputStream in = part.getInputStream();
+
+			if (part.getSize() != 0) {
+				Product_imgVO img = new Product_imgVO();
+				img.setImg(in.readAllBytes());
+				imgList.add(img);
 			}
 
 			/*************************** 2.開始修改資料 *****************************************/
 			ProductService productSvc = new ProductService();
-			productSvc.updatProduct(productVO,imgList );
+			productSvc.updatProduct(productVO, imgList);
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 			req.setAttribute("productVO", productVO); // 資料庫update成功後,正確的的empVO物件,存入req
-			String url = req.getContextPath()+"/back-end/product/productlist.jsp";
+			String url = req.getContextPath() + "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			res.sendRedirect(url);
 		}
-		
+
 		if ("getImg".equals(action)) {
 			String prdStr = req.getParameter("product_id");
 			if (prdStr != null) {
@@ -242,8 +235,7 @@ public class ProductServlet extends HttpServlet {
 				out.close();
 			}
 		}
-		
-		
+
 	}
 
 }

@@ -5,40 +5,32 @@ import java.util.List;
 public class StoreService {
 
 	private StoreDAO store;
-	
+
 	public StoreService() {
-		
-		store = new StoreVOJDBC();
+
+		store = new StoreJNDI();
 	}
-	
-	public StoreVO addStore(StoreVO storevo) {
-		String account = storevo.getAccount();
-		String password = storevo.getPassword();
-		String phone = storevo.getPhone();
-		String email = storevo.getEmail();
-		String address = storevo.getAddress();
-		Integer store_type = storevo.getStore_type();
-		String dayoff = storevo.getDayoff();
-		String open = storevo.getWork_open();
-		String end = storevo.getWork_end();
-	
-		
-		
-		store.insert(storevo);
-		
-		
-		return storevo;
-		
+
+	public boolean addStore(StoreVO storevo) {
+
+		if ((store.findStoreAccount(storevo.getAccount()) == null)) {
+			System.out.println(store.findStoreAccount(storevo.getAccount()));
+			store.insert(storevo);
+			return true;
+		}
+		return false;
+
 	}
-	//預留給 Struts 2 或 Spring MVC 用
+
+	// 預留給 Struts 2 或 Spring MVC 用
 	public void addStore2(StoreVO storevo) {
 		store.insert(storevo);
 	}
-	
-	public StoreVO updateStore(Integer store_id ,String account, String name, String password, String phone, String email,
-			String address, String lng, String lat, Integer theme_id, String dayoff, String work_open,
-			String work_end ,String produce) {
-		
+
+	public StoreVO updateStore(Integer store_id, String account, String name, String password, String phone,
+			String email, String address, String lng, String lat, Integer theme_id, String dayoff, String work_open,
+			String work_end, String produce) {
+
 		StoreVO storevo = new StoreVO();
 		storevo.setstore_id(store_id);
 		storevo.setAccount(account);
@@ -53,23 +45,48 @@ public class StoreService {
 		storevo.setWork_open(work_open);
 		storevo.setWork_end(work_end);
 		storevo.setProduce(produce);
-		
+
 		store.update(storevo);
-		
+
 		return store.findByPrimaryKey(store_id);
 	}
-	
 
-	
 	public void deleteStore(Integer store_id) {
 		store.delete(store_id);
 	}
-	
+
 	public StoreVO getOneStore(Integer store_id) {
 		return store.findByPrimaryKey(store_id);
 	}
-	
-	public List<StoreVO> getAllStore(){
+
+	public List<StoreVO> getAllStore() {
 		return store.getAll();
+	}
+
+	public StoreVO login(StoreVO vo) {
+		
+		String account = vo.getAccount();
+		String password = vo.getPassword();
+	
+		
+		if ("".equals(account)) {
+			vo.setMessage("帳號未輸入");
+			vo.setSuccessful(false);
+			return vo;
+		}
+		if ("".equals(password)) {
+			vo.setMessage("密碼未輸入");
+			vo.setSuccessful(false);
+			return vo;
+		}
+		if (store.Login(account, password) == null) {
+			vo.setSuccessful(false);
+			vo.setMessage("帳號或密碼錯誤！");
+			return vo;
+		}else {
+			vo.setSuccessful(true);
+		}
+		
+		return vo;
 	}
 }

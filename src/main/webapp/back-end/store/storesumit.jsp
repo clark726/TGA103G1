@@ -1,5 +1,11 @@
+<%@page import="com.store.model.StoreVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.product.model.*"%>
+<%
+StoreVO storevo = (StoreVO) request.getAttribute("StoreVO");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +16,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/storeumit.css" />
+	href="<%=request.getContextPath()%>/css/storesumit.css" />
 <style>
 div.city {
 	display: flex;
@@ -54,38 +60,56 @@ div.city {
 
 	<div class="div_register">
 		<main class="register_main">
-			<form action="" class="register_form" method="post" >
+			<form action="<%=request.getContextPath()%>/StoreServlet"
+				class="register_form" method="post">
 				<h2>廠商註冊</h2>
 				<div class="register_row">
 					<label for="register_acc">帳號</label>
 					<div>
 						<input type="text" id="register_acc" class="register_control"
-							name="account" />
+							name="account"
+							value="<%=(storevo == null) ? "" : storevo.getAccount()%>" />
 					</div>
+					<p>${errorMsgs.account}</p>
+					<p>${errorMsgs.error}</p>
 				</div>
 
 				<div class="register_row">
 					<label for="register_psw">密碼</label>
 					<div>
 						<input type="password" id="register_psw" class="register_control"
-							name="password" />
+							name="password"
+							value="<%=(storevo == null) ? "" : storevo.getPassword()%>" />
 					</div>
+					<p>${errorMsgs.password}</p>
+				</div>
+				<div class="register_row">
+					<label for="name">店家名稱</label>
+					<div>
+						<input type="text" id="name" class="register_control" name="name"
+							value="<%=(storevo == null) ? "" : storevo.getName()%>" />
+					</div>
+					<p>${errorMsgs.name}</p>
 				</div>
 
 				<div class="register_row">
 					<label for="register_dbpsw">電話</label>
 					<div>
 						<input type="text" id="register_dbpsw" class="register_control"
-							name="phone" />
+							name="phone"
+							value="<%=(storevo == null) ? "" : storevo.getPhone()%>" />
 					</div>
+					<p>${errorMsgs.phone}</p>
 				</div>
 
 				<div class="register_row">
 					<label for="register_email">Email</label>
 					<div>
 						<input type="text" id="register_email" class="register_control"
-							name="email" />
+							name="email"
+							value="<%=(storevo == null) ? "" : storevo.getEmail()%>" />
 					</div>
+					<p>${errorMsgs.email}</p>
 				</div>
 
 				<div class="register_row">
@@ -93,22 +117,23 @@ div.city {
 					<div class="city">
 						<input class="js-demeter-tw-zipcode-selector" data-city="#city"
 							data-dist="#dist" placeholder="請輸入郵遞區號"
-							style="width: 100px; margin-left: 100px" />
-						<select id="city" placeholder="請選擇縣市" name="city"
+							style="width: 100px; margin-left: 100px" /> <select id="city"
+							placeholder="請選擇縣市" name="city"
 							style="height: 25px; width: 100px; margin-left: 100px"></select>
 						<select id="dist" placeholder="請選擇鄉鎮區" name="dist"
 							style="height: 25px; width: 100px; margin-left: 100px"></select>
-						<input type="text" id="register_addr" class="register_control" name="address" />
+						<input type="text" id="register_addr" class="register_control"
+							name="address" />
 					</div>
 				</div>
 
 				<div class="register_row">
 					<label for="register_day">店家類型</label>
 					<div>
-						<select name="store_type" id="store_type" name="store_type">
-							<option value="0">Bistro</option>
-							<option value="1">Cocktail Bar</option>
-							<option value="2">Whisky Bar</option>
+						<select id="store_type" name="theme_id">
+							<option value="1">Bistro</option>
+							<option value="2">Cocktail Bar</option>
+							<option value="3">Whisky Bar</option>
 						</select>
 					</div>
 				</div>
@@ -117,24 +142,30 @@ div.city {
 					<label for="register_day">公休日</label>
 					<div>
 						<input type="text" id="register_day" class="register_control"
-							name="dayoff" />
+							name="dayoff"
+							value="<%=(storevo == null) ? "" : storevo.getDayoff()%>" />
 					</div>
+					<p>${errorMsgs.dayoff}</p>
 				</div>
 
 				<div class="register_row">
 					<label for="register_open">營業開始</label>
 					<div>
 						<input type="text" id="register_open" class="register_control"
-							placeholder="Ex: 18:00" name="open" />
+							placeholder="Ex: 18:00" name="open"
+							value="<%=(storevo == null) ? "" : storevo.getWork_open()%>" />
 					</div>
+					<p>${errorMsgs.open}</p>
 				</div>
 
 				<div class="register_row">
 					<label for="register_close">營業結束</label>
 					<div>
 						<input type="text" id="register_close" class="register_control"
-							placeholder="Ex: 24:00" name="end" />
+							placeholder="Ex: 24:00" name="end"
+							value="<%=(storevo == null) ? "" : storevo.getWork_end()%>" />
 					</div>
+					<p>${errorMsgs.end}</p>
 				</div>
 
 				<div class="register_btn">
@@ -147,5 +178,5 @@ div.city {
 		</main>
 	</div>
 
-	<script src="../js/jquery-3.6.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 	<script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>

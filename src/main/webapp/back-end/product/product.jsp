@@ -22,9 +22,21 @@ div.div_func div  a {
 	color: white;
 }
 </style>
+    <!-- Boostrap 導入程式 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
 </head>
 <body style="background-color: rgb(129, 93, 65)">
-	<div w3-include-html="<%=request.getContextPath()%>/com/header.jsp"></div>
+	<div w3-include-html="<%=request.getContextPath()%>/com/header.html"></div>
 
 	<div class="contain">
 		<aside class="aside">
@@ -117,7 +129,7 @@ div.div_func div  a {
 
 
 
-	<script src="../js/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 	<script src="../js/slider.js"></script>
 	<script>
  

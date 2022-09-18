@@ -2,7 +2,9 @@ package com.store.model;
 
 import java.io.Serializable;
 
-public class StoreVO implements Serializable {
+import com.common.Result;
+
+public class StoreVO  extends Result implements Serializable {
 
 	private Integer store_id;
 	private String account;
@@ -18,7 +20,6 @@ public class StoreVO implements Serializable {
 	private String work_open;
 	private String work_end;
 	private String produce;
-	private Integer store_type;
 	
 	public StoreVO() {};
 	
@@ -50,14 +51,6 @@ public class StoreVO implements Serializable {
 
 	public void setStore_id(Integer store_id) {
 		this.store_id = store_id;
-	}
-
-	public Integer getStore_type() {
-		return store_type;
-	}
-
-	public void setStore_type(Integer store_type) {
-		this.store_type = store_type;
 	}
 
 	public String getAccount() {

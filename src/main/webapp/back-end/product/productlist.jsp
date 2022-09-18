@@ -12,39 +12,50 @@ List<ProductVO> list = productsvc.getAll();
 pageContext.setAttribute("list", list);
 %>
 
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>所有員工資料 - listAllEmp.jsp</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<title>所有員工資料 - listAllEmp.jsp</title>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/header.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/back.css">
 <style>
 table#table-1 {
-	background-color: #20202b;
-	border: 2px solid black;
+	border: 1px solid black;
 	text-align: center;
-}
-
-table#table-1 h4 {
-	color: red;
-	display: block;
-	margin-bottom: 1px;
-}
-
-h4 {
-	color: blue;
-	display: inline;
 }
 
 table {
 	width: 1000px;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	border: 1px solid red;
+	border: 1px solid black;
 	transform: translate(80px, 10%);
 }
 
-table, th, td {
-	border: 1px solid #37322a;
+table#table-1  tr {
+	border-color: inherit;
+	border-style: solid;
+	border-width: 0;
+	border: 1px solid black;
+}
+
+table#table-1  th {
+	border-color: inherit;
+	border-style: solid;
+	border-width: 0;
+	border: 1px solid black;
+}
+
+table#table-1  td {
+	border-color: inherit;
+	border-style: solid;
+	border-width: 0;
+	border: 1px solid black;
 }
 
 th, td {
@@ -71,14 +82,24 @@ div.div_func div  a {
 }
 
 img {
-	width: 100px
+	width: 100px;
+	height: 100px
 }
 </style>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/back.css">
+<!-- Boostrap 導入程式 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+	crossorigin="anonymous"></script>
+
 </head>
 <body style="background-color: rgb(129, 93, 65)">
-
-	<div w3-include-html="<%=request.getContextPath()%>/com/header.jsp"></div>
+	<div w3-include-html="<%=request.getContextPath()%>/com/header.html"></div>
 	<div class="contain">
 		<aside class="aside">
 			<p id="p1">廠商後台</p>
@@ -108,7 +129,7 @@ img {
 			<div class="div_table">
 
 
-				<table>
+				<table id="table-1">
 					<tr>
 						<th>商品編號</th>
 						<th>商品圖片</th>
@@ -195,6 +216,36 @@ img {
 			}
 		}
 		includeHTML();
+		
+		  (() => {
+			  const username = document.querySelector('#account');
+			  const password = document.querySelector('#password');
+			  const errMsg = document.querySelector('#errMsg');
+			  document.getElementById('btn1').addEventListener('click', () => {
+			    fetch('http://localhost:8080/TGA103G1_/StoreLogin', {
+			      method: 'POST',
+			      headers: { 'Content-Type': 'application/json' },
+			      body: JSON.stringify({
+			        account: username.value,
+			        password: password.value
+			      }),
+			    })
+			      .then(resp => resp.json() )
+			      .then(body => {
+			        errMsg.textContent = "";
+			        const { successful, message } = body;
+			        if (successful) {
+			          const { account, password} = body;
+			          sessionStorage.setItem('account', account);
+			          sessionStorage.setItem('password', password);
+			          location = '../back-end/product/productlist.jsp';
+			        } else {
+			          errMsg.textContent = message;
+			        }
+			      });
+			  });
+			})();
+		
 	</script>
 </body>
 </html>
