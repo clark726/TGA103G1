@@ -35,7 +35,7 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 				Integer member_id = rs.getInt(2);
 				Integer forum_id = rs.getInt(3);
 				String context = rs.getString(4);
-				LocalDateTime date = (LocalDateTime) rs.getObject(5);
+				LocalDateTime date = rs.getObject(5,LocalDateTime.class);
 
 				Forum_messageVO m = new Forum_messageVO(message_id, member_id, forum_id, context, date);
 				forum_message.add(m);
@@ -49,7 +49,7 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	@Override
 	public Forum_messageVO findByPrimaryKey(Integer id) {
 		Forum_messageVO m = null;
-		String sql = "select message_id,member_id,forum_id,context,date " + "from message where message_id = ?;";
+		String sql = "select * from forum_message where message_id = ?;";
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -58,7 +58,7 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 				Integer member_id = rs.getInt(2);
 				Integer forum_id = rs.getInt(3);
 				String context = rs.getString(4);
-				LocalDateTime date = (LocalDateTime) rs.getObject(5);
+				LocalDateTime date = rs.getObject(5,LocalDateTime.class);
 
 				m = new Forum_messageVO(message_id,member_id,forum_id,context,date);
 			}
@@ -102,10 +102,17 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	@Override
 	public void delete(Integer id) {
 		int rowCount = 0;
-		String sql = "Delete from forum_message where message_id = ?;";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, id);
-			rowCount = ps.executeUpdate();
+		String sql1 = "SET FOREIGN_KEY_CHECKS=0;";
+		String sql2 = "Delete from forum_message where message_id = ?;";
+		String sql3 = "SET FOREIGN_KEY_CHECKS=1;";
+		try (Connection connection = ds.getConnection();
+			PreparedStatement ps1 = connection.prepareStatement(sql1);
+				PreparedStatement ps2 = connection.prepareStatement(sql2);
+				PreparedStatement ps3 = connection.prepareStatement(sql3);) {
+			ps1.executeUpdate();
+			ps2.setObject(1, id);
+			ps2.executeUpdate();
+			ps3.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -7,7 +7,7 @@ import java.util.List;
 public class Forum_messageService {
 	private Forum_messageJNDIDAO dao;
 
-	public void Forum_messageService(){
+	public Forum_messageService(){
 		dao = new Forum_messageJNDIDAO();
 	}
 

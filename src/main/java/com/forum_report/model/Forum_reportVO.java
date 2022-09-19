@@ -3,13 +3,14 @@ package com.forum_report.model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Forum_reportVO  implements Serializable {
     private Integer forum_report_id;
     private Integer member_id;
     private String reason;
-    private java.util.Date date;
+    private LocalDateTime date;
     private Integer forum_id;
     private Integer status;
 
@@ -37,11 +38,11 @@ public class Forum_reportVO  implements Serializable {
         this.reason = reason;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

@@ -35,4 +35,10 @@ public class Store_themeVO implements Serializable {
 	public void setIntroduce(String introduce) {
 		this.introduce = introduce;
 	}
+
+	@Override
+	public String toString() {
+		return "Store_themeVO [theme_id=" + theme_id + ", theme_name=" + theme_name + ", introduce=" + introduce + "]";
+	}
+	
 }

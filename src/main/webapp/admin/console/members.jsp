@@ -13,22 +13,22 @@ td {
 .member_id, .account {
 	max-width: 100px;
 }
+
+form{
+	display:inline-block;
+}
+body {
+	display: block;
+	margin: 0px;
+}
 </style>
 </head>
-<%
-Integer a = Integer.parseInt(request.getParameter("page"));
-Integer b = (Integer) request.getSession().getAttribute("memberPages");
-if (a > b - 1 || a < 0) {
-	response.sendRedirect(request.getContextPath() + "/admin/console/admin.jsp?page=0");
-	return;
-}
-%>
 <form action="<%=request.getContextPath()%>/control" method="post"
 	style="float: right;">
 	<input type="hidden" name="action" value="logout">
 	<button type="submit">logout</button>
 </form>
-<h2>Hi ${admin} </h2>
+<h2>Hi ${admin}</h2>
 
 <form action="<%=request.getContextPath()%>/control" method="post">
 	<input type="hidden" name="action" value="search"> <input
@@ -44,9 +44,8 @@ if (a > b - 1 || a < 0) {
 <br>
 
 <a href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">messageReport</a><hr>
-<a href="/TGA103G1/admin/console/forumReport.html">forumReport</a>
-<a href="<%=request.getContextPath()%>/admin/console/members.jsp">顯示較多</a>
-<hr>
+<a href="/TGA103G1/admin/console/forumReport.html">forumReport</a><hr>
+<a href="<%=request.getContextPath()%>/admin/console/admin.jsp?page=0">顯示較少</a><hr>
 
 <table>
 	<tr>
@@ -60,8 +59,7 @@ if (a > b - 1 || a < 0) {
 		<td>update</td>
 		<td>reset</td>
 	</tr>
-	<c:forEach var="member" items="${members}" begin="${param.page*datas}"
-		end="${param.page*datas+(datas-1)}" varStatus="s">
+	<c:forEach var="member" items="${members}" varStatus="s">
 		<tr>
 			<form action="<%=request.getContextPath()%>/control" method="post">
 				<td><input type="text" name="member_id" class="member_id"
@@ -91,14 +89,6 @@ if (a > b - 1 || a < 0) {
 			</form>
 		</tr>
 	</c:forEach>
-	<c:if test="${param.page != 0}">
-		<a
-			href="<%=request.getContextPath()%>/admin/console/admin.jsp?page=${param.page-1}">上一頁</a>
-	</c:if>
-	<c:if test="${param.page < memberPages-1}">
-		<a
-			href="<%=request.getContextPath()%>/admin/console/admin.jsp?page=${param.page+1}">下一頁</a>
-	</c:if>
 </table>
 <script>
 	document.querySelectorAll(".update").forEach(function(target) {

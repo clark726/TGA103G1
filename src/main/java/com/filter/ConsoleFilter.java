@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.*;
 @WebFilter(urlPatterns = {"/admin/console/*"})
-public class LoginFilter extends HttpFilter{
+public class ConsoleFilter extends HttpFilter{
 
 	@Override
 	protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
