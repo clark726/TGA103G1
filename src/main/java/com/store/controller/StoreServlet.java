@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.store.model.StoreService;
 import com.store.model.StoreVO;
+import com.store.service.StoreService;
+import com.store.service.impl.StoreServiceImpl;
 
 
 
@@ -105,7 +106,7 @@ public class StoreServlet extends HttpServlet {
 			
 	
 			/***************************2.開始新增資料***************************************/
-			StoreService service = new StoreService() ;
+			StoreService service = new StoreServiceImpl() ;
 			//判斷是否相同帳號
 			if(service.addStore(vo) == false) {
 				errorMsgs.put("error", "重複帳號");

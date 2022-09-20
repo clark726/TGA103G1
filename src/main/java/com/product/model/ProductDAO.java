@@ -10,4 +10,5 @@ public interface ProductDAO {
 	public void delete(Integer product_id);
 	public ProductVO findByPrimaryKey(Integer product_id);
 	public List<ProductVO> getAll();
+	public List<ProductVO> ShowStoreProduct(Integer productvo);
 }

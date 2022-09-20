@@ -67,7 +67,7 @@ public class StoreVOJDBC implements StoreDAO {
 			ps.setString(11, storeVo.getWork_open());
 			ps.setString(12, storeVo.getWork_end());
 			ps.setString(13, storeVo.getProduce());
-			ps.setInt(14, storeVo.getstore_id());
+			ps.setInt(14, storeVo.getStore_id());
 			
 			ps.executeUpdate();
 			
@@ -144,7 +144,7 @@ public class StoreVOJDBC implements StoreDAO {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				store = new StoreVO();
-				store.setstore_id(rs.getInt("store_id"));
+				store.setStore_id(rs.getInt("store_id"));
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));
@@ -183,7 +183,7 @@ public class StoreVOJDBC implements StoreDAO {
 		vo.setWork_end("00:00:00");
 		vo.setWork_open("00:00:00");
 		vo.setAddress("1");
-		vo.setstore_id(11);
+		vo.setStore_id(11);
 //		jdbc.insert(vo);
 		jdbc.update(vo);
 		

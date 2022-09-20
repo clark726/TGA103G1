@@ -176,4 +176,10 @@ public class ProductVOJDBC implements ProductDAO{
 //			System.out.println(product);
 //		}
 	}
+
+	@Override
+	public List<ProductVO> ShowStoreProduct(Integer store_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

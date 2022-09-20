@@ -1,4 +1,4 @@
-package com.product.model;
+package com.product.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -7,18 +7,27 @@ import java.io.ObjectOutputStream;
 import java.util.Base64;
 import java.util.List;
 
+import com.product.model.ProductDAO;
+import com.product.model.ProductJNDI;
+import com.product.model.ProductVO;
+import com.product.service.ProductService;
 import com.product_img.model.Product_imgDAO;
 import com.product_img.model.Product_imgJNDI;
 import com.product_img.model.Product_imgVO;
 import com.product_img.model.Product_imgVOJDBC;
+import com.store.model.StoreDAO;
+import com.store.model.StoreJNDI;
+import com.store.model.StoreVO;
 
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
 	private ProductDAO productdao;
 	private Product_imgDAO imgdao;
+	private StoreDAO storedao;
 
-	public ProductService() {
+	public ProductServiceImpl() {
 		productdao = new ProductJNDI();
 		imgdao = new Product_imgJNDI();
+		storedao = new StoreJNDI();
 	}
 
 	/**
@@ -27,14 +36,6 @@ public class ProductService {
 	 * @return
 	 */
 	public ProductVO addProduct(ProductVO productVO, List<Product_imgVO> imgList) {
-
-//		ProductVO vo = new ProductVO();
-//		vo.setName(name);
-//		vo.setPrice(price);
-//		vo.setStore_id(store_id);
-//		vo.setDescription(description);
-//		vo.setType_id(type_id);
-//		vo.setStock(stock);
 
 		Integer product_id = productdao.insert(productVO);
 		for (Product_imgVO imgVO : imgList) {
@@ -81,17 +82,21 @@ public class ProductService {
 			vo.setImg((String)base64Str);
 		}
 
-		return productdao.getAll();
+		return list;
 	}
 
 	public ProductVO getOneProduct(Integer product_id) {
 		return productdao.findByPrimaryKey(product_id);
 	}
 	
-	
-	
-	
+	@Override
+	public List<ProductVO> ShowStoreProduct(String account) {
+		StoreVO store = storedao.findStoreAccount(account);
+		List<ProductVO> list = productdao.ShowStoreProduct(store.getStore_id());
+		return list;
+	}
 
+	
 	// object 轉 byte[]
 	public byte[] toByteArray(Object obj) {
 		byte[] bytes = null;
@@ -108,5 +113,4 @@ public class ProductService {
 		}
 		return bytes;
 	}
-
 }

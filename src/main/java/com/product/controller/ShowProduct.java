@@ -1,8 +1,9 @@
-package com.store.controller;
+package com.product.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,41 +12,38 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.product.model.ProductVO;
+import com.product.service.ProductService;
+import com.product.service.impl.ProductServiceImpl;
 import com.store.model.StoreVO;
 import com.store.service.StoreService;
 import com.store.service.impl.StoreServiceImpl;
 
-@WebServlet("/StoreLogin")
-public class StoreLogin extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private Gson _gson = new Gson();
-	private StoreService StoreSvc = new StoreServiceImpl();
+@WebServlet("/ShowProduct")
+public class ShowProduct extends HttpServlet {
 
+	private Gson _gson = new Gson();
+	private ProductService productSvc = new ProductServiceImpl();
+	private StoreService storeSvc = new StoreServiceImpl();
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		StoreVO store = _gson.fromJson(request.getReader().readLine(), StoreVO.class);
-		StoreSvc.login(store);
-		if (store.isSuccessful()) {
-			if (request.getSession(false) != null) {
-				request.changeSessionId();
-			}
-			final HttpSession session = request.getSession();
-			session.setAttribute("loggedin", true);
-			session.setAttribute("store", store);
-			System.out.println(session.getId());
-		}
-		response.setContentType("application/json");
-		try (PrintWriter pw = response.getWriter()) {
-			pw.print(new GsonBuilder().create().toJson(store));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		HttpSession session = request.getSession();
+		StoreVO store =  (StoreVO) session.getAttribute("store");
+		List<ProductVO> Productlist =  productSvc.ShowStoreProduct(store.getAccount());
+		StoreVO storeId = storeSvc.findStoreId(store.getAccount());
+		
+		session.setAttribute("Productlist", Productlist); 
+		session.setAttribute("storeId", storeId);
+		String url = "/back-end/product/productlist.jsp";
+		RequestDispatcher successView = request.getRequestDispatcher(url);
+		successView.forward(request, response);
 		
 	}
+	
 
 	@Override
 	protected void doOptions(HttpServletRequest request, HttpServletResponse response)

@@ -1,12 +1,17 @@
-package com.store.model;
+package com.store.service.impl;
 
 import java.util.List;
 
-public class StoreService {
+import com.store.model.StoreDAO;
+import com.store.model.StoreJNDI;
+import com.store.model.StoreVO;
+import com.store.service.StoreService;
+
+public class StoreServiceImpl implements StoreService {
 
 	private StoreDAO store;
 
-	public StoreService() {
+	public StoreServiceImpl() {
 
 		store = new StoreJNDI();
 	}
@@ -32,7 +37,7 @@ public class StoreService {
 			String work_end, String produce) {
 
 		StoreVO storevo = new StoreVO();
-		storevo.setstore_id(store_id);
+		storevo.setStore_id(store_id);
 		storevo.setAccount(account);
 		storevo.setName(name);
 		storevo.setPassword(password);
@@ -64,11 +69,10 @@ public class StoreService {
 	}
 
 	public StoreVO login(StoreVO vo) {
-		
+
 		String account = vo.getAccount();
 		String password = vo.getPassword();
-	
-		
+
 		if ("".equals(account)) {
 			vo.setMessage("帳號未輸入");
 			vo.setSuccessful(false);
@@ -83,10 +87,17 @@ public class StoreService {
 			vo.setSuccessful(false);
 			vo.setMessage("帳號或密碼錯誤！");
 			return vo;
-		}else {
+		} else {
 			vo.setSuccessful(true);
 		}
-		
+
 		return vo;
 	}
+
+	@Override
+	public StoreVO findStoreId(String account) {
+
+		return store.findStoreAccount(account);
+	}
+
 }

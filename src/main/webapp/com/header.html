@@ -104,7 +104,7 @@
           
             <div class="sigup">
               <span>尚加入廠商</span>
-              <a href="../back-end/store/storesumit.jsp" type="button" class="member" style="   text-decoration: none;">立即加入</a>
+              <a href="" type="button" class="member" style="   text-decoration: none;">立即加入</a>
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@
   const password = document.querySelector('#password');
   const errMsg = document.querySelector('#errMsg');
   document.getElementById('btn1').addEventListener('click', () => {
-    fetch('http://localhost:8080/TGA103G1_/StoreLogin', {
+    fetch('http://localhost:8080/TGA103G1/StoreLogin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -133,7 +133,7 @@
           const { account, password} = body;
           sessionStorage.setItem('account', account);
           sessionStorage.setItem('password', password);
-          location = '../back-end/product/productlist.jsp';
+          location = 'http://localhost:8080/TGA103G1/ShowProduct';
         } else {
           errMsg.textContent = message;
         }

@@ -8,7 +8,11 @@
 <%@ page import="com.product.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-
+<%
+ProductService productsvc = new ProductServiceImpl();
+List<ProductVO> list = productsvc.getAll();
+pageContext.setAttribute("list", list);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +21,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>商品列表</title>
+<title>所有員工資料 - listAllEmp.jsp</title>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back.css">
@@ -141,8 +145,9 @@ img {
 						<th>修改</th>
 						<th>刪除</th>
 					</tr>
-				
-					<c:forEach var="proVO" items="${Productlist}">
+					<%@ include file="page1.file"%>
+					<c:forEach var="proVO" items="${list}" begin="<%=pageIndex%>"
+						end="<%=pageIndex+rowsPerPage-1%>">
 
 						<tr>
 							<td>${proVO.product_id}</td>
@@ -176,6 +181,7 @@ img {
 							</td>
 						</tr>
 					</c:forEach>
+					<%@ include file="page2.file"%>
 				</table>
 			</div>
 		</main>
@@ -208,7 +214,7 @@ img {
 						          const { account, password} = body;
 						          sessionStorage.setItem('account', account);
 						          sessionStorage.setItem('password', password);
-						          location = '../product/productlist.jsp';
+						          location = '../back-end/product/productlist.jsp';
 						        } else {
 						          errMsg.textContent = message;
 						        }

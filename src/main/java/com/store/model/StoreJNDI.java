@@ -71,7 +71,7 @@ public class StoreJNDI implements StoreDAO {
 			ps.setString(11, storeVo.getWork_open());
 			ps.setString(12, storeVo.getWork_end());
 			ps.setString(13, storeVo.getProduce());
-			ps.setInt(14, storeVo.getstore_id());
+			ps.setInt(14, storeVo.getStore_id());
 
 			ps.executeUpdate();
 
@@ -143,7 +143,7 @@ public class StoreJNDI implements StoreDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				store = new StoreVO();
-				store.setstore_id(rs.getInt("store_id"));
+				store.setStore_id(rs.getInt("store_id"));
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));
@@ -168,7 +168,7 @@ public class StoreJNDI implements StoreDAO {
 
 	@Override
 	public StoreVO findStoreAccount(String account) {
-		String sql = "select account , name , password , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce\n"
+		String sql = "select store_id ,account , name , password , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce\n"
 				+ "from store where account = ?;";
 
 		StoreVO store = null;
@@ -179,6 +179,7 @@ public class StoreJNDI implements StoreDAO {
 
 			while (rs.next()) {
 				store = new StoreVO();
+				store.setStore_id(rs.getInt("store_id"));
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));

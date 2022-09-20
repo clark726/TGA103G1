@@ -17,12 +17,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.product.model.ProductService;
+import com.mysql.cj.Session;
 import com.product.model.ProductVO;
+import com.product.service.ProductService;
+import com.product.service.impl.ProductServiceImpl;
 import com.product_img.model.Product_imgService;
 import com.product_img.model.Product_imgVO;
+import com.store.model.StoreVO;
 
 @WebServlet("/ProductServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
@@ -40,6 +44,9 @@ public class ProductServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 
+		// 取出登入帳號的storeID
+		HttpSession session = req.getSession();
+		StoreVO store = (StoreVO) session.getAttribute("storeId");
 		if ("insert".equals(action)) {
 
 			Map<String, String> errorMsgs = new LinkedHashMap<String, String>();
@@ -84,7 +91,7 @@ public class ProductServlet extends HttpServlet {
 			productVO.setPrice(p_price);
 			productVO.setStock(p_stock);
 			productVO.setDescription(p_produce);
-			productVO.setStore_id(1);
+			productVO.setStore_id(store.getStore_id());
 			req.setAttribute("productVO", productVO); // 含有輸入格式錯誤的empVO物件,也存入req
 
 			if (!errorMsgs.isEmpty()) {
@@ -107,7 +114,7 @@ public class ProductServlet extends HttpServlet {
 			}
 
 			/*************************** 2.開始新增資料 ***************************************/
-			ProductService service = new ProductService();
+			ProductService service = new ProductServiceImpl();
 			service.addProduct(productVO, imgList);
 
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
@@ -126,7 +133,7 @@ public class ProductServlet extends HttpServlet {
 			Integer product_id = Integer.valueOf(req.getParameter("product_id"));
 
 			/*************************** 2.開始刪除資料 ***************************************/
-			ProductService productSvc = new ProductService();
+			ProductServiceImpl productSvc = new ProductServiceImpl();
 			productSvc.delete(product_id);
 			/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
 			String url = "/back-end/product/productlist.jsp";
@@ -140,7 +147,7 @@ public class ProductServlet extends HttpServlet {
 			Integer product_id = Integer.valueOf(req.getParameter("product_id").trim());
 
 			/*************************** 2.開始查詢資料 ****************************************/
-			ProductService productSvc = new ProductService();
+			ProductServiceImpl productSvc = new ProductServiceImpl();
 			ProductVO productVO = productSvc.getOneProduct(product_id);
 
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
@@ -194,7 +201,7 @@ public class ProductServlet extends HttpServlet {
 			productVO.setStock(p_stock);
 			productVO.setDescription(p_produce);
 			productVO.setStatus(p_status);
-			productVO.setStore_id(1);
+			productVO.setStore_id(store.getStore_id());
 			req.setAttribute("productVO", productVO); // 含有輸入格式錯誤的empVO物件,也存入req
 
 			if (!errorMsgs.isEmpty()) {
@@ -202,7 +209,7 @@ public class ProductServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return; // 程式中斷
 			}
-			
+
 			Part part = req.getPart("p_file1");
 			List<Product_imgVO> imgList = new ArrayList<>();
 			InputStream in = part.getInputStream();
@@ -214,7 +221,7 @@ public class ProductServlet extends HttpServlet {
 			}
 
 			/*************************** 2.開始修改資料 *****************************************/
-			ProductService productSvc = new ProductService();
+			ProductService productSvc = new ProductServiceImpl();
 			productSvc.updatProduct(productVO, imgList);
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
