@@ -62,12 +62,12 @@ pageContext.setAttribute("list", list);
 <%-- 			<c:forEach var="forumvo" items="${list}"> --%>
 	<div style="background-color: #FFD382; width:1024px;height:768px;border:3px;margin:0 auto;">
 	
-	<h2 align="center">我是文章標題</h2>
+	<h2 align="center">文章標題 ${forumvo.title} </h2>
 	
 	</div>
 	
 		<table border="1" align="center">
-	<h2>${forumvo.title}</h2>
+
 		
 
 <!-- 		<input id="searchforum" type="search" -->

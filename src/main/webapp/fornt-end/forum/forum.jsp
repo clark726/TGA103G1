@@ -87,7 +87,7 @@ pageContext.setAttribute("list", list);
 					<td>${forumvo.forum_id}</td>
 					<td>${forumvo.member_id}</td>
 					<td>${forumvo.date}</td>
-					<td>${forumvo.title}</td>
+					<td><a href="TGA103G1//ForumServlet/page=${forumvo.forum_id}">${forumvo.title}</a></td>
 					<td>${forumvo.like}</td>
 					<td>${forumvo.look}</td>
 					<td>${forumvo.message}</td>
