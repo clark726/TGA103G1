@@ -82,6 +82,27 @@ public class StoreJNDI implements StoreDAO {
 	}
 
 	@Override
+	public void updateProduce(StoreVO storeVo) {
+		String sql = "update store set dayoff = ? , work_open = ? , work_end = ? , produce = ?\n"
+				+ "where store_id = ? ;";
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+		
+			ps.setString(1, storeVo.getDayoff());
+			ps.setString(2, storeVo.getWork_open());
+			ps.setString(3, storeVo.getWork_end());
+			ps.setString(4, storeVo.getProduce());
+			ps.setInt(5, storeVo.getStore_id());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
 	public void delete(Integer store_id) {
 		String sql = "delete from store where store_id = ?";
 

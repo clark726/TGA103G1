@@ -16,40 +16,32 @@ import com.store.model.StoreVO;
 import com.store.service.StoreService;
 import com.store.service.impl.StoreServiceImpl;
 
-@WebServlet("/StoreLogin")
-public class StoreLogin extends HttpServlet {
+@WebServlet("/StoreUpdate")
+public class StoreUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson _gson = new Gson();
-	private StoreService StoreSvc = new StoreServiceImpl();
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private StoreService storeSvc = new StoreServiceImpl();
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		request.getSession().getAttribute("");
 		StoreVO store = _gson.fromJson(request.getReader().readLine(), StoreVO.class);
-		StoreSvc.login(store);
-		if (store.isSuccessful()) {
-			if (request.getSession(false) != null) {
-				request.changeSessionId();
-			}
-			final HttpSession session = request.getSession();
-			session.setAttribute("loggedin", true);
-			session.setAttribute("store", store);
-		}
+		//取出存在session的storeId放入前端傳來的store
+		HttpSession session = request.getSession();
+		StoreVO storevoId = (StoreVO) session.getAttribute("storeId");
+		 Integer storeId = storevoId.getStore_id();
+		store.setStore_id(storeId);
+		storeSvc.updateStore(store);
+		
 		response.setContentType("application/json");
 		try (PrintWriter pw = response.getWriter()) {
 			pw.print(new GsonBuilder().create().toJson(store));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	}
-
-	@Override
-	protected void doOptions(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		setHeaders(response);
 	}
 
 	private void setHeaders(HttpServletResponse response) {

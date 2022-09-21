@@ -208,4 +208,8 @@ public class StoreVOJDBC implements StoreDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void updateProduce(StoreVO storevo) {
+	}
 }

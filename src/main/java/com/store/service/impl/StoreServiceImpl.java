@@ -9,18 +9,17 @@ import com.store.service.StoreService;
 
 public class StoreServiceImpl implements StoreService {
 
-	private StoreDAO store;
+	private StoreDAO storedao;
 
 	public StoreServiceImpl() {
 
-		store = new StoreJNDI();
+		storedao = new StoreJNDI();
 	}
 
 	public boolean addStore(StoreVO storevo) {
 
-		if ((store.findStoreAccount(storevo.getAccount()) == null)) {
-			System.out.println(store.findStoreAccount(storevo.getAccount()));
-			store.insert(storevo);
+		if ((storedao.findStoreAccount(storevo.getAccount()) == null)) {
+			storedao.insert(storevo);
 			return true;
 		}
 		return false;
@@ -29,43 +28,59 @@ public class StoreServiceImpl implements StoreService {
 
 	// 預留給 Struts 2 或 Spring MVC 用
 	public void addStore2(StoreVO storevo) {
-		store.insert(storevo);
+		storedao.insert(storevo);
 	}
 
-	public StoreVO updateStore(Integer store_id, String account, String name, String password, String phone,
-			String email, String address, String lng, String lat, Integer theme_id, String dayoff, String work_open,
-			String work_end, String produce) {
+	public StoreVO updateStore(StoreVO store) {
 
-		StoreVO storevo = new StoreVO();
-		storevo.setStore_id(store_id);
-		storevo.setAccount(account);
-		storevo.setName(name);
-		storevo.setPassword(password);
-		storevo.setPhone(phone);
-		storevo.setAddress(address);
-		storevo.setLng(lng);
-		storevo.setLat(lat);
-		storevo.setTheme_id(theme_id);
-		storevo.setDayoff(dayoff);
-		storevo.setWork_open(work_open);
-		storevo.setWork_end(work_end);
-		storevo.setProduce(produce);
+		String dayoff = store.getDayoff();
+		String produce = store.getProduce();
+		String work_open = store.getWork_open();
+		String work_end = store.getWork_end();
 
-		store.update(storevo);
+		if ("".equals(dayoff)) {
+			store.setMessage("公休請勿空白");
+			store.setSuccessful(false);
+			return store;
+		}
+		if ("".equals(produce)) {
+			store.setMessage("介紹請勿空白");
+			store.setSuccessful(false);
+			return store;
+		}
+		String timeRex = "\\d{2}\\:\\d{2}";
+		if ("".equals(work_open)) {
+			store.setMessage("營業開始請勿空白");
+			store.setSuccessful(false);
+			return store;
+		} else if (!(work_open.trim().matches(timeRex))) {
+			store.setMessage("營業開始請符合格式");
+			return store;
+		}
+		if ("".equals(work_end)) {
+			store.setMessage("營業結束請勿空白");
+			store.setSuccessful(false);
+			return store;
+		} else if (!(work_end.trim().matches(timeRex))) {
+			store.setMessage("營業結束請符合格式");
+			return store;
+		}
 
-		return store.findByPrimaryKey(store_id);
+		storedao.updateProduce(store);
+		store.setSuccessful(true);
+		return store;
 	}
 
 	public void deleteStore(Integer store_id) {
-		store.delete(store_id);
+		storedao.delete(store_id);
 	}
 
 	public StoreVO getOneStore(Integer store_id) {
-		return store.findByPrimaryKey(store_id);
+		return storedao.findByPrimaryKey(store_id);
 	}
 
 	public List<StoreVO> getAllStore() {
-		return store.getAll();
+		return storedao.getAll();
 	}
 
 	public StoreVO login(StoreVO vo) {
@@ -83,7 +98,7 @@ public class StoreServiceImpl implements StoreService {
 			vo.setSuccessful(false);
 			return vo;
 		}
-		if (store.Login(account, password) == null) {
+		if (storedao.Login(account, password) == null) {
 			vo.setSuccessful(false);
 			vo.setMessage("帳號或密碼錯誤！");
 			return vo;
@@ -97,7 +112,7 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public StoreVO findStoreId(String account) {
 
-		return store.findStoreAccount(account);
+		return storedao.findStoreAccount(account);
 	}
 
 }

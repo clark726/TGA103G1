@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<link rel="stylesheet" href="../../css/storealter.css">
+<link rel="stylesheet" href="../../css/header.css" />
+</head>
+<body style="background-color: rgb(129, 93, 65)">
+	<div w3-include-html="../../com/header.html"></div>
+
+	<div class="contain">
+		<aside class="aside">
+			<p id="p1">廠商後台</p>
+			<div class="div_func">
+				<div>
+					<a class="edit_store" type="button">修改店家內容</a>
+				</div>
+				<div>
+					<a class="manager_item" type="button"
+						href="../product/productlist.jsp">上下架商品管理</a>
+				</div>
+				<div>
+					<a class="edit_item" type="button">修改商家訂單內容</a>
+				</div>
+
+			</div>
+		</aside>
+		<main class="main">
+			<form action="" method="post">
+				<div class="store_all">
+					<div class="title">
+						<h1>店家首頁</h1>
+					</div>
+					<div class="store_produce">
+						<h2>簡介</h2>
+						<textarea name="store_produce" id="textarea" cols="50" rows="3"></textarea>
+						<span id="errMsg" class="error"
+							style="color: yellow; font-size: 20px"></span>
+					</div>
+
+					<div class="store_produce">
+						<h2>營業開始</h2>
+						<input type="text" id="work_open" class="time">
+						<h2>營業結束</h2>
+						<input type="text" id="work_end" class="time">
+						<h2>公休日期</h2>
+						<input type="text" id="dayoff" class="time">
+					</div>
+
+					<div class="store_produce">
+						<h2>環境照片</h2>
+						<div class="file">
+							<input type="file" id="p_file1">
+							<div class="preview" id="preview1">
+								<span class="text" id="text1">首圖</span>
+							</div>
+						</div>
+
+						<div class="file">
+							<input type="file" id="p_file2">
+							<div class="preview" id="preview2">
+								<span class="text" id="text2">內頁一</span>
+							</div>
+						</div>
+
+						<div class="file">
+							<input type="file" id="p_file3">
+							<div class="preview" id="preview3">
+								<span class="text" id="text3">內頁二</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="store_produce">
+						<h2>菜單</h2>
+						<div class="file">
+							<input type="file" id="p_file4">
+							<div class="preview" id="preview4">
+								<span class="text" id="text4">預覽圖</span>
+							</div>
+						</div>
+						<div class="file">
+							<input type="file" id="p_file5">
+							<div class="preview" id="preview5">
+								<span class="text" id="text5">預覽圖</span>
+							</div>
+						</div>
+						<div class="button">
+
+							<div class="inner_button">
+
+								<button type="button" id="updatebtn">更新</button>
+							</div>
+							<div class="inner_button">
+								<button type="">取消</button>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</form>
+		</main>
+	</div>
+
+	</div>
+	<script>
+      function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /* Loop through a collection of all HTML elements: */
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+          elmnt = z[i];
+          /*search for elements with a certain atrribute:*/
+          file = elmnt.getAttribute("w3-include-html");
+          if (file) {
+            /* Make an HTTP request using the attribute value as the file name: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+              if (this.readyState == 4) {
+                if (this.status == 200) {
+                  elmnt.innerHTML = this.responseText;
+                }
+                if (this.status == 404) {
+                  elmnt.innerHTML = "Page not found.";
+                }
+                /* Remove the attribute, and call this function once more: */
+                elmnt.removeAttribute("w3-include-html");
+                includeHTML();
+              }
+            };
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Exit the function: */
+            return;
+          }
+        }
+      }
+      includeHTML();
+
+      //首頁
+      document.querySelector("#p_file1").addEventListener("change", function(e){
+        if(this.files.length > 0){
+          document.querySelector("#preview1").innerHTML="";
+          let reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.addEventListener("load", function(){
+          
+          let str = `
+            <img src="${reader.result}" class="preview_img" >
+          `;
+          document.querySelector("#preview1").innerHTML = str;
+         
+        });
+      
+        }else{
+          document.querySelector("#text1").innerText="預覽圖";
+        };
+      });
+
+      // 內頁一
+      document.querySelector("#p_file2").addEventListener("change", function(e){
+        if(this.files.length > 0){
+          document.querySelector("#preview2").innerHTML="";
+          let reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.addEventListener("load", function(){
+          
+          let str = `
+            <img src="${reader.result}" class="preview_img" >
+          `;
+          document.querySelector("#preview2").innerHTML = str;
+         
+        });
+      
+        }else{
+          document.querySelector("#text2").innerText="內頁一";
+        };
+      });
+
+      //內頁二
+
+      document.querySelector("#p_file3").addEventListener("change", function(e){
+        if(this.files.length > 0){
+          document.querySelector("#preview3").innerHTML="";
+          let reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.addEventListener("load", function(){
+          
+          let str = `
+            <img src="${reader.result}" class="preview_img" >
+          `;
+          document.querySelector("#preview3").innerHTML = str;
+         
+        });
+      
+        }else{
+          document.querySelector("#text3").innerText="內頁二";
+        };
+      });
+
+      //菜單一
+
+      document.querySelector("#p_file4").addEventListener("change", function(e){
+        if(this.files.length > 0){
+          document.querySelector("#preview4").innerHTML="";
+          let reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.addEventListener("load", function(){
+          
+          let str = `
+            <img src="${reader.result}" class="preview_img" >
+          `;
+          document.querySelector("#preview4").innerHTML = str;
+         
+        });
+      
+        }else{
+          document.querySelector("#text4").innerText="內頁二";
+        };
+      });
+
+      //菜單二
+
+      document.querySelector("#p_file5").addEventListener("change", function(e){
+        if(this.files.length > 0){
+          document.querySelector("#preview5").innerHTML="";
+          let reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.addEventListener("load", function(){
+          
+          let str = `
+            <img src="${reader.result}" class="preview_img" >
+          `;
+          document.querySelector("#preview5").innerHTML = str;
+         
+        });
+      
+        }else{
+          document.querySelector("#text5").innerText="內頁二";
+        };
+      });
+
+
+      (() => {
+  const textarea = document.querySelector('#textarea');
+  const work_open = document.querySelector('#work_open');
+  const work_end = document.querySelector('#work_end');
+  const dayoff = document.querySelector('#dayoff');
+  const p_file1 = document.querySelector('#p_file1');
+  const p_file2 = document.querySelector('#p_file2');
+  const p_file3 = document.querySelector('#p_file3');
+  const p_file4 = document.querySelector('#p_file4');
+  const p_file5 = document.querySelector('#p_file5');
+  const errMsg = document.querySelector("#errMsg");
+  document.getElementById('updatebtn').addEventListener('click', () => {
+    fetch('/TGA103G1/StoreUpdate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        work_open: work_open.value,
+        work_end: work_end.value,
+        produce:textarea.value,
+        dayoff: dayoff.value
+      }),
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+        console.log(body);
+        errMsg.textContent = "";
+        const { successful, message } = body;
+         if (successful) {
+           location = '/TGA103G1/store/storealter.html';
+         } else {
+           errMsg.textContent = message;
+         }
+      });
+      //圖片
+      fetch('/TGA103G1/StoreImgUpdate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        img: p_file1.value,
+        img: p_file2.value,
+        img:p_file3.value,
+        img: p_file4.value,
+        img: p_file5.value
+      }),
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+        console.log(body);
+        errMsg.textContent = "";
+        const { successful, message } = body;
+         if (successful) {
+           location = '/TGA103G1/store/storealter.html';
+         } else {
+           errMsg.textContent = message;
+         }
+      });
+      
+
+  });
+})();
+    </script>
+</body>
+</html>

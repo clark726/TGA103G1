@@ -102,7 +102,7 @@ img {
 			<p id="p1">廠商後台</p>
 			<div class="div_func">
 				<div>
-					<a class="edit_store" type="button">修改店家內容</a>
+					<a class="edit_store" type="button" href="<%=request.getContextPath()%>/back-end/store/storealter.html">修改店家內容</a>
 				</div>
 				<div>
 					<a class="manager_item" type="button"

@@ -11,4 +11,5 @@ public interface StoreDAO {
 	public List<StoreVO> getAll();
 	public StoreVO findStoreAccount(String account);
 	public StoreVO Login(String account , String password);
+	public void updateProduce(StoreVO storevo);
 }

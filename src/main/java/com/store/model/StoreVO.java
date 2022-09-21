@@ -1,6 +1,7 @@
 package com.store.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.common.Result;
 
@@ -20,6 +21,7 @@ public class StoreVO extends Result implements Serializable {
 	private String work_open;
 	private String work_end;
 	private String produce;
+	private List<Object> imgs;
 
 	public StoreVO() {
 	};
@@ -42,6 +44,16 @@ public class StoreVO extends Result implements Serializable {
 		this.work_open = work_open;
 		this.work_end = work_end;
 		this.produce = produce;
+	}
+
+	
+	
+	public List<Object> getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(List<Object> imgs) {
+		this.imgs = imgs;
 	}
 
 	public Integer getStore_id() {
