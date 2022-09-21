@@ -167,13 +167,15 @@
 document.querySelectorAll(".deleteForumMessage").forEach(function(el){
 	el.addEventListener("click",function(even){
 		if(confirm("確定要刪除嗎?")){
+			var reason = window.prompt("刪除原因");
 			 var trEl = el.closest("tr");
 			$.ajax({
         url: "/TGA103G1/control",           
         type: "post",                  
         data: {"action":"deleteForumMessage",
 		        "deleteVal":trEl.children[3].innerHTML,
-				"btnVal":trEl.children[1].innerHTML},                        
+				"btnVal":trEl.children[1].innerHTML,
+				"reason":reason},                        
         beforeSend: function(){     
         },
         headers: {},

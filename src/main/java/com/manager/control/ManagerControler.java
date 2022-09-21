@@ -149,6 +149,9 @@ public class ManagerControler extends HttpServlet {
 			map.put("status", reports.get(x).getStatus());
 			list.add(map);
 		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("admin", req.getSession().getAttribute("admin"));
+		list.add(map);
 		resp.getWriter().print(gson.toJson(list));
 	}
 
@@ -166,6 +169,7 @@ public class ManagerControler extends HttpServlet {
 	public void deleteForumMessage(HttpServletRequest req, HttpServletResponse resp) {
 		String deleteVal = req.getParameter("deleteVal");
 		this.forumMessage.delete(Integer.parseInt(deleteVal));
+		System.out.println(req.getParameter("reason"));
 		updateforumReport(req, resp);
 	}
 

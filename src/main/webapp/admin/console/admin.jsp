@@ -104,11 +104,12 @@ if (a > b - 1 || a < 0) {
 </form>
 <h2>Hi ${admin} </h2>
 
-<form action="<%=request.getContextPath()%>/control" method="post">
-	<input type="hidden" name="action" value="search"> <input
-		type="number" name="member_id" placeholder="member_id">
-	<button type="submit">search</button>
-</form>
+			<form action="<%=request.getContextPath()%>/control" method="post">
+				<input type="hidden" name="action" value="search"
+					> <input type="number" name="member_id"
+					placeholder="member_id" class="searchInput">
+				<button type="submit" class="searchButton">search</button>
+			</form>
 
 <form action="<%=request.getContextPath()%>/control" method="post">
 	<input type="hidden" name="action" value="cancelSearch"> 
@@ -138,18 +139,19 @@ if (a > b - 1 || a < 0) {
 		end="${param.page*datas+(datas-1)}" varStatus="s">
 		<tr>
 			<form action="<%=request.getContextPath()%>/control" method="post">
-				<td><input type="text" name="member_id" class="member_id"
-					value="${member.member_id}" readonly></td>
-				<td><input readonly type="text" name="account" class="account"
-					value="${member.account}"></td> <input type="hidden"
-					name="password" value="${member.password}"> <input
-					type="hidden" name="birthday" value="${member.birthday}">
-				<td><input readonly type="text" name="address"
-					value="${member.address}"></td>
-				<td><input type="text" name="nickname"
-					value="${member.nickname}" class="nickname"></td>
-				<td><input type="text" name="phone" value="${member.phone}"
-					class="phone"></td>
+				<input type="hidden" name="member_id" class="member_id"
+					value="${member.member_id}">
+				<td>${member.member_id}</td>
+				<input  type="hidden" name="account" class="account" value="${member.account}">
+				<td>${member.account}</td>
+					<input type="hidden" name="password" value="${member.password}"> 
+					<input type="hidden" name="birthday" value="${member.birthday}">
+				<input type="hidden" name="address" value="${member.address}">
+				<td>${member.address}</td>
+				<input type="hidden" name="nickname" value="${member.nickname}" class="nickname">
+				<td>${member.nickname}</td>
+				<input type="hidden" name="phone" value="${member.phone}" class="phone">
+				<td>${member.phone}</td>
 				<input type="hidden" name="register" value="${member.register}">
 				<td><select name="permission">
 						<option value="0" ${member.permission == 0 ? "selected":""}>已封鎖</option>
@@ -157,10 +159,10 @@ if (a > b - 1 || a < 0) {
 						<option value="2" ${member.permission == 2 ? "selected":""}>已驗證</option>
 				</select></td>
 				<td><button type="submit" class="update">update</button></td>
-				<td><button type="reset">reset</button></td> <input type="hidden"
-					name="action" value="update"> <input type="hidden"
-					name="gender" value="${member.gender}"> <input
-					type="hidden" name="email" value="${member.email}">
+				<td><button type="reset">reset</button></td> 
+					<input type="hidden" name="action" value="update"> 
+					<input type="hidden" name="gender" value="${member.gender}"> 
+					<input type="hidden" name="email" value="${member.email}">
 			</form>
 		</tr>
 	</c:forEach>
@@ -209,6 +211,16 @@ if (a > b - 1 || a < 0) {
 
 		})
 	});
+		
+		document.querySelector(".searchButton").addEventListener("click",function(ev){
+			var ipt = document.querySelector(".searchInput").value.trim();
+			if(ipt == ""){
+				e.preventDefault();
+			}
+			if(!(/^\d+$/.test(ipt))){
+				ev.preventDefault();
+			}
+		})
 	</script>
 </body>
 </html>

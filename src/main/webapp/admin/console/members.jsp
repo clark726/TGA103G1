@@ -11,22 +11,23 @@
 <link rel="stylesheet" href="/TGA103G1/admin/css/header.css" />
 <link rel="stylesheet" href="/TGA103G1/admin/css/back.css">
 <style>
-	td {
-		border: 1px solid black;
-	}
-	
-	.member_id, .account {
-		max-width: 100px;
-	}
-	
-	form{
-		display:inline-block;
-	}
-	body {
-		display: block;
-		margin: 0px;
-	}
-	</style>
+td {
+	border: 1px solid black;
+}
+
+.member_id, .account {
+	max-width: 100px;
+}
+
+form {
+	display: inline-block;
+}
+
+body {
+	display: block;
+	margin: 0px;
+}
+</style>
 </head>
 <body>
 	<header class="header">
@@ -58,7 +59,7 @@
 
 				<li><a href="#">購物商城</a></li>
 				<li><a href="/TGA103G1/control">登出</a></li>
-				
+
 			</ul>
 		</nav>
 	</header>
@@ -78,10 +79,11 @@
 				</div>
 				<hr>
 				<div>
-					<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉</a>
+					<a class="front_paga"
+						href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉</a>
 				</div>
 				<div>
-					<a  class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
+					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
 				</div>
 				<div>
 					<a class="audit" type="button">審核上架</a>
@@ -96,30 +98,33 @@
 		</aside>
 
 		<main class="main">
-<%-- 			<form action="<%=request.getContextPath()%>/control" method="post" --%>
-<!-- 				style="float: right;"> -->
-<!-- 				<input type="hidden" name="action" value="logout"> -->
-<!-- 				<button type="submit">logout</button> -->
-<!-- 			</form> -->
+			<%-- 			<form action="<%=request.getContextPath()%>/control" method="post" --%>
+			<!-- 				style="float: right;"> -->
+			<!-- 				<input type="hidden" name="action" value="logout"> -->
+			<!-- 				<button type="submit">logout</button> -->
+			<!-- 			</form> -->
 			<h2>Hi ${admin}</h2>
-			
+
 			<form action="<%=request.getContextPath()%>/control" method="post">
-				<input type="hidden" name="action" value="search"> <input
-					type="number" name="member_id" placeholder="member_id">
-				<button type="submit">search</button>
+				<input type="hidden" name="action" value="search"
+					> <input type="number" name="member_id"
+					placeholder="member_id" class="searchInput">
+				<button type="submit" class="searchButton">search</button>
 			</form>
-			
+
 			<form action="<%=request.getContextPath()%>/control" method="post">
-				<input type="hidden" name="action" value="cancelSearch"> 
+				<input type="hidden" name="action" value="cancelSearch">
 				<button type="submit">cancel</button>
 			</form>
 			<h2>${error}</h2>
 			<br>
-			
+
 			<hr>
-			
-			<a href="<%=request.getContextPath()%>/admin/console/admin.jsp?page=0">顯示較少</a><hr>
-			
+
+			<a
+				href="<%=request.getContextPath()%>/admin/console/admin.jsp?page=0">顯示較少</a>
+			<hr>
+
 			<table>
 				<tr>
 					<td>member_id</td>
@@ -127,7 +132,7 @@
 					<td>address</td>
 					<td>nickname</td>
 					<td>phone</td>
-<!-- 					<td>register</td> -->
+					<!-- 					<td>register</td> -->
 					<td>permission</td>
 					<td>update</td>
 					<td>reset</td>
@@ -135,31 +140,30 @@
 				<c:forEach var="member" items="${members}" varStatus="s">
 					<tr>
 						<form action="<%=request.getContextPath()%>/control" method="post">
-							<input type="hidden" name="member_id" class="member_id" value="${member.member_id}">
-							<td>${member.member_id}</td>
-							<input type="hidden" name="account" class="account" value="${member.account}">
-							<td>${member.account}</td> 
-							<input type="hidden" name="password" value="${member.password}"> 
-							<input type="hidden" name="birthday" value="${member.birthday}">
-							<input  type="hidden" name="address" value="${member.address}">
-							<td>${member.address}</td>
-							<input type="hidden" name="nickname" value="${member.nickname}" class="nickname">
-							<td>${member.nickname}</td>
-							<input type="hidden" name="phone" value="${member.phone}" class="phone">
-							<td>${member.phone}</td>
-							<input type="hidden" name="register" value="${member.register}">
-							<td>
-								<select name="permission">
+							<input type="hidden" name="member_id" class="member_id"
+								value="${member.member_id}">
+							<td>${member.member_id}</td> <input type="hidden" name="account"
+								class="account" value="${member.account}">
+							<td>${member.account}</td> <input type="hidden" name="password"
+								value="${member.password}"> <input type="hidden"
+								name="birthday" value="${member.birthday}"> <input
+								type="hidden" name="address" value="${member.address}">
+							<td>${member.address}</td> <input type="hidden" name="nickname"
+								value="${member.nickname}" class="nickname">
+							<td>${member.nickname}</td> <input type="hidden" name="phone"
+								value="${member.phone}" class="phone">
+							<td>${member.phone}</td> <input type="hidden" name="register"
+								value="${member.register}">
+							<td><select name="permission">
 									<option value="0" ${member.permission == 0 ? "selected":""}>已封鎖</option>
 									<option value="1" ${member.permission == 1 ? "selected":""}>已註冊</option>
 									<option value="2" ${member.permission == 2 ? "selected":""}>已驗證</option>
-								</select>
-							</td>
+							</select></td>
 							<td><button type="submit" class="update">update</button></td>
-							<td><button type="reset">reset</button></td> 
-							<input type="hidden" name="action" value="update"> 
-							<input type="hidden" name="gender" value="${member.gender}"> 
-							<input type="hidden" name="email" value="${member.email}">
+							<td><button type="reset">reset</button></td> <input type="hidden"
+								name="action" value="update"> <input type="hidden"
+								name="gender" value="${member.gender}"> <input
+								type="hidden" name="email" value="${member.email}">
 						</form>
 					</tr>
 				</c:forEach>
@@ -167,39 +171,16 @@
 
 		</main>
 	</div>
-<!-- 	<script> -->
-// 		document.querySelectorAll(".update").forEach(function(target) {
-// 			target.addEventListener("click", function(e) {
-// 				var phonelist = document.querySelectorAll(".phone");
-// 				var nicknamelist = document.querySelectorAll(".nickname");
-// 				for (let x = 0; x < phonelist.length; x++) {
-// 					if (phonelist[x].value.length > 10) {
-// 						e.preventDefault();
-// 						alert("phone number to long");
-// 						return;
-// 					}
-// 					if (!/^\d+$/.test(phonelist[x].value)) {
-// 						e.preventDefault();
-// 						alert("phone is not number");
-// 						return;
-// 					}
-// 					if (phonelist[x].value.length < 8) {
-// 						e.preventDefault();
-// 						alert("phone is to short");
-// 						return;
-// 					}
-// 				}
-	
-// 				for (var x = 0; x < nicknamelist.length; x++) {
-// 					if (nicknamelist[x].value.lenght > 50) {
-// 						e.preventDefault();
-// 						alert("nickname too long");
-// 					}
-// 				}
-// 				;
-	
-// 			})
-// 		});
-<!-- 	</script> -->
+	<script type="text/javascript">
+	document.querySelector(".searchButton").addEventListener("click",function(ev){
+		var ipt = document.querySelector(".searchInput").value.trim();
+		if(ipt == ""){
+			e.preventDefault();
+		}
+		if(!(/^\d+$/.test(ipt))){
+			ev.preventDefault();
+		}
+	})
+	</script>
 </body>
 </html>
