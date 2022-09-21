@@ -1,6 +1,8 @@
 package com.manager.control;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,34 +16,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.forum.model.ForumVO;
+import com.forum.model.service.impl.ForumServiceImpl;
 import com.forum_message.model.Forum_messageService;
 import com.forum_message.model.Forum_messageVO;
-import com.forum_report.model.Forum_reportService;
+import com.forum_report.model.service.impl.*;
 import com.forum_report.model.Forum_reportVO;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.manager.model.ManagerService;
+import com.manager.model.service.impl.*;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-import com.message_report.model.Message_reportService;
-import com.message_report.model.Message_reportVO;
+import com.message_report.model.service.impl.*;
 
 @WebServlet(value = "/control", loadOnStartup = 100)
 public class ManagerControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	MemberService memberService;
-	Message_reportService message_reportService;
+	Message_reportServiceImpl message_reportService;
 	Integer datas;
 	Forum_messageService forumMessage;
-	Forum_reportService forumReport;
+	Forum_reportServiceImpl forumReport;
+	ForumServiceImpl forum;
 
 	@Override
 	public void init() throws ServletException {
 		this.memberService = new MemberService();
-		this.message_reportService = new Message_reportService();
+		this.message_reportService = new Message_reportServiceImpl();
 		this.forumMessage = new Forum_messageService();
 		this.datas = 5;
-		this.forumReport = new Forum_reportService();
+		this.forumReport = new Forum_reportServiceImpl();
+		this.forum = new ForumServiceImpl();
 	}
 
 	@Override
@@ -81,13 +85,53 @@ public class ManagerControler extends HttpServlet {
 			case "getAllforumReport":
 				getAllforumReport(req, resp);
 				break;
+			case "readForum":
+				readForum(req,resp);
+				break;
+			case "seenForum":
+				seenForum(req,resp);
+				break;
+			case "deleteForum":
+				deleteForum(req,resp);
+				break;
 			default:
 				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 				System.out.println(action);
 			}
 		} else {
+			req.getSession().invalidate();
 			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 		}
+	}
+	
+	public void deleteForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String forumId = req.getParameter("forumId"); 
+		String reportId = req.getParameter("reportId");
+		this.forumReport.update(Integer.parseInt(reportId));
+		PrintWriter out = resp.getWriter();
+		 if(this.forum.blockade(Integer.parseInt(forumId))) {
+			 out.print("成功刪除文章");
+		 }else {
+			out.print("失敗");
+		}
+	}
+	
+	public void seenForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String forumReport = req.getParameter("forumReport");
+		PrintWriter out = resp.getWriter();
+		if(this.forumReport.update(Integer.parseInt(forumReport))) {
+			out.print("修改成功");
+		}else {
+			out.print("修改失敗");
+		}
+		out.close();
+	}
+	
+	public void readForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String forumId = req.getParameter("forumId"); 
+		Integer id = Integer.parseInt(forumId); 
+		ForumVO forum = this.forum.get(id);
+		resp.getWriter().print(forum.getContent());
 	}
 
 	public void getAllforumReport(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -100,7 +144,8 @@ public class ManagerControler extends HttpServlet {
 			map.put("member_id", reports.get(x).getMember_id());
 			map.put("forum_id", reports.get(x).getForum_id());
 			map.put("reason", reports.get(x).getReason());
-			map.put("date", localDateTimeToDate(reports.get(x).getDate()).getTime());
+//			map.put("date", localDateTimeToDate(reports.get(x).getDate()).getTime());
+			map.put("date", reports.get(x).getDate().toString());
 			map.put("status", reports.get(x).getStatus());
 			list.add(map);
 		}
@@ -187,7 +232,7 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ManagerService service = new ManagerService();
+		ManagerServiceImpl service = new ManagerServiceImpl();
 		String code = req.getParameter("code");
 		HttpSession session = req.getSession();
 		String rand = (String) session.getAttribute("rand");

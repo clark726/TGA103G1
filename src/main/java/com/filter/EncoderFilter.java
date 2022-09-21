@@ -6,7 +6,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-@WebFilter(urlPatterns = {"/*"}, initParams = {@WebInitParam(name = "charset", value = "UTF-8")})
+@WebFilter(urlPatterns = {"/*"}, 
+initParams = {@WebInitParam(name = "charset", value = "UTF-8")},
+dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR})
 public class EncoderFilter extends HttpFilter{
 	public static final String DEFAULT_ENCODING = "UTF-8";
     private String charset;

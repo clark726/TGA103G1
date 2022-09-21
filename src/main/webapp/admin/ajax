@@ -1,0 +1,23 @@
+	$.ajax({
+        url: "/TGA103G1/control",           
+        type: "post",                  
+        data: {"action":"getAllMessage",
+		        		"btnVal":btnVal},              
+        dataType: "json",            
+        beforeSend: function(){     
+        },
+        headers: {},
+        statusCode: {                
+          200: function (res) {},
+          404: function (res) {},
+          500: function (res) {}
+        },
+        success: function(xhr){
+			alert(xhr.context);
+        },
+        error: function(xhr){
+			console.log("error");         
+            console.log(xhr);
+        },
+        complete: function(xhr){}
+      });

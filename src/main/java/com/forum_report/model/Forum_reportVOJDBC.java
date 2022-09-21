@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,7 @@ public class Forum_reportVOJDBC implements Forum_reportDAO{
 				forum.setMember_id(rs.getInt("member_id"));
 				forum.setForum_id(rs.getInt("forum_id"));
 				forum.setReason(rs.getString("reason"));
-				forum.setDate(rs.getDate("date"));
+				forum.setDate(rs.getObject("date",LocalDateTime.class));
 				forum.setStatus(rs.getInt("status"));
 
 			}
@@ -117,7 +118,7 @@ public class Forum_reportVOJDBC implements Forum_reportDAO{
 				forum.setMember_id(rs.getInt("member_id"));
 				forum.setForum_id(rs.getInt("forum_id"));
 				forum.setReason(rs.getString("reason"));
-				forum.setDate(rs.getDate("date"));
+				forum.setDate(rs.getObject("date",LocalDateTime.class));
 				forum.setStatus(rs.getInt("status"));
 				
 				list.add(forum);

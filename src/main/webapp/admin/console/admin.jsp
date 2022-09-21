@@ -2,19 +2,94 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>admin</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<link rel="stylesheet" href="/TGA103G1/admin/css/header.css" />
+<link rel="stylesheet" href="/TGA103G1/admin/css/back.css">
 <style>
-td {
-	border: 1px solid black;
-}
-
-.member_id, .account {
-	max-width: 100px;
-}
-</style>
+	td {
+		border: 1px solid black;
+	}
+	
+	.member_id, .account {
+		max-width: 100px;
+	}
+		form{
+		display:inline-block;
+	}
+	</style>
 </head>
+<body>
+	<header class="header">
+		<div class="fl_left">
+			<h1 id="logo_h1">
+				<a href="＃" id="logo">Bar.Jar.Jo</a>
+			</h1>
+		</div>
+
+		<nav class="fl_right">
+			<ul class="nav_ul">
+				<li><a href="#">HOME</a></li>
+				<li><a href="#">地圖</a></li>
+				<li><a href="#">討論區</a></li>
+				<li><a href="#">廠商專區</a></li>
+				<li><a href="#" class="icon">店家主題</a>
+					<ul id="store">
+						<li><a href="#">Bistro</a></li>
+						<li><a href="#">Cocktail bar</a></li>
+						<li><a href="#">Whisky bar</a></li>
+					</ul></li>
+				<li><a href="#" class="icon">會員專區</a>
+					<ul id="store">
+						<li><a href="#">我的最愛</a></li>
+						<li><a href="#">修改會員資料</a></li>
+						<li><a href="#">修改密碼</a></li>
+						<li><a href="#">訂單管理</a></li>
+					</ul></li>
+
+				<li><a href="#">購物商城</a></li>
+				<li><a href="/TGA103G1/control">登出</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<div class="contain">
+		<aside class="aside">
+			<p id="p1">管理者後台</p>
+			<div class="div_func">
+				<div>
+					<a class="edit_store" type="button">修改會員資料</a>
+				</div>
+				<div>
+					<a class="manager_item" type="button">上下架商品管理</a>
+				</div>
+				<div>
+					<a class="edit_item" type="button">修改商家訂單內容</a>
+				</div>
+				<hr>
+				<div>
+					<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉</a>
+				</div>
+				<div>
+					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
+				</div>
+				<div>
+					<a class="audit" type="button">審核上架</a>
+				</div>
+				<div>
+					<a class="change_state" type="button">改變帳號狀態</a>
+				</div>
+				<div>
+					<a class="manager" type="submit">..</a>
+				</div>
+			</div>
+		</aside>
+
+		<main class="main">
 <%
 Integer a = Integer.parseInt(request.getParameter("page"));
 Integer b = (Integer) request.getSession().getAttribute("memberPages");
@@ -26,7 +101,6 @@ if (a > b - 1 || a < 0) {
 <form action="<%=request.getContextPath()%>/control" method="post"
 	style="float: right;">
 	<input type="hidden" name="action" value="logout">
-	<button type="submit">logout</button>
 </form>
 <h2>Hi ${admin} </h2>
 
@@ -43,8 +117,8 @@ if (a > b - 1 || a < 0) {
 <h2>${error}</h2>
 <br>
 
-<a href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">messageReport</a><hr>
-<a href="/TGA103G1/admin/console/forumReport.html">forumReport</a>
+<hr>
+
 <a href="<%=request.getContextPath()%>/admin/console/members.jsp">顯示較多</a>
 <hr>
 
@@ -55,7 +129,7 @@ if (a > b - 1 || a < 0) {
 		<td>address</td>
 		<td>nickname</td>
 		<td>phone</td>
-		<td>register</td>
+<!-- 		<td>register</td> -->
 		<td>permission</td>
 		<td>update</td>
 		<td>reset</td>
@@ -76,8 +150,7 @@ if (a > b - 1 || a < 0) {
 					value="${member.nickname}" class="nickname"></td>
 				<td><input type="text" name="phone" value="${member.phone}"
 					class="phone"></td>
-				<td><input type="datetime-local" name="register"
-					value="${member.register}"></td>
+				<input type="hidden" name="register" value="${member.register}">
 				<td><select name="permission">
 						<option value="0" ${member.permission == 0 ? "selected":""}>已封鎖</option>
 						<option value="1" ${member.permission == 1 ? "selected":""}>已註冊</option>
@@ -100,8 +173,11 @@ if (a > b - 1 || a < 0) {
 			href="<%=request.getContextPath()%>/admin/console/admin.jsp?page=${param.page+1}">下一頁</a>
 	</c:if>
 </table>
-<script>
-	document.querySelectorAll(".update").forEach(function(target) {
+
+		</main>
+	</div>
+	<script>
+		document.querySelectorAll(".update").forEach(function(target) {
 		target.addEventListener("click", function(e) {
 			var phonelist = document.querySelectorAll(".phone");
 			var nicknamelist = document.querySelectorAll(".nickname");
@@ -133,6 +209,6 @@ if (a > b - 1 || a < 0) {
 
 		})
 	});
-</script>
+	</script>
 </body>
 </html>
