@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,14 +25,14 @@ import com.forum_report.model.service.impl.*;
 import com.forum_report.model.Forum_reportVO;
 import com.google.gson.Gson;
 import com.manager.model.service.impl.*;
-import com.member.model.MemberService;
-import com.member.model.MemberVO;
+import com.member.service.impl.MemberServiceImpl;
+import com.member.vo.MemberVO;
 import com.message_report.model.service.impl.*;
 
 @WebServlet(value = "/control", loadOnStartup = 100)
 public class ManagerControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	MemberService memberService;
+	MemberServiceImpl memberService;
 	Message_reportServiceImpl message_reportService;
 	Integer datas;
 	Forum_messageService forumMessage;
@@ -40,7 +41,12 @@ public class ManagerControler extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		this.memberService = new MemberService();
+		try {
+			this.memberService = new MemberServiceImpl();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.message_reportService = new Message_reportServiceImpl();
 		this.forumMessage = new Forum_messageService();
 		this.datas = 5;
@@ -199,7 +205,7 @@ public class ManagerControler extends HttpServlet {
 	private void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			Integer member_id = Integer.valueOf(req.getParameter("member_id"));
-			MemberVO memberVO = memberService.get(member_id);
+			MemberVO memberVO = memberService.findByPrimaryKey(member_id);
 			if (memberVO != null) {
 				List<MemberVO> list = new ArrayList<>();
 				list.add(memberVO);
@@ -226,11 +232,11 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	public void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		memberService.update(Integer.parseInt(req.getParameter("member_id")), req.getParameter("account"),
+		memberService.update(new MemberVO(Integer.parseInt(req.getParameter("member_id")), req.getParameter("account"),
 				req.getParameter("password"), LocalDate.parse(req.getParameter("birthday")),
 				req.getParameter("address"), Integer.parseInt(req.getParameter("gender")), req.getParameter("email"),
 				req.getParameter("nickname"), req.getParameter("phone"),
-				LocalDateTime.parse(req.getParameter("register")), Integer.parseInt(req.getParameter("permission")));
+				LocalDate.parse(req.getParameter("register")), Integer.parseInt(req.getParameter("permission"))));
 		req.getSession().setAttribute("members", memberService.getAll());
 		resp.sendRedirect(req.getHeader("referer"));
 	}

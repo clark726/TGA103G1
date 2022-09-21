@@ -1,6 +1,8 @@
 package com.member.service;
 
 
+import java.util.List;
+
 import com.member.vo.MemberVO;
 
 public interface MemberService {
@@ -10,5 +12,8 @@ public interface MemberService {
 	boolean register(MemberVO member);
 	
 	MemberVO login(MemberVO member);
-
+	
+	MemberVO findByPrimaryKey(Integer member_id);
+	
+	List<MemberVO> getAll();
 }

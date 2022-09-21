@@ -13,11 +13,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import com.member.model.MemberVO;
-
 public class Message_reportJNDIDAO {
 
+	
 	private static DataSource ds = null;
 	static {
 		try {

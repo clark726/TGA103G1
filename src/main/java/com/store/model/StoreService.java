@@ -40,7 +40,7 @@ public class StoreService {
 			String work_end ,String produce) {
 		
 		StoreVO storevo = new StoreVO();
-		storevo.setstore_id(store_id);
+		storevo.setStore_id(store_id);
 		storevo.setAccount(account);
 		storevo.setName(name);
 		storevo.setPassword(password);

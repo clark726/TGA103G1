@@ -46,6 +46,8 @@ public class MemberVO extends Result{
 		this.permission = permission;
 	}
 	
+	
+	
 	public Integer getMember_id() {
 		return member_id;
 	}

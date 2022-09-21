@@ -10,23 +10,19 @@ import java.util.List;
 
 public class StoreVOJDBC implements StoreDAO {
 
-	
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/barjarjo?useUnicode=yes&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Taipei";
 	String userid = "root";
 	String passwd = "password";
-	
-	
-	
+
 	@Override
 	public boolean insert(StoreVO storeVo) {
 		String sql = "insert into store( account , name , password , phone , email , address  , theme_id , dayoff , work_open , work_end , produce)\n"
 				+ "values( ? , ? , ?, ?, ? ,? ,? ,? ,?, ? , ? );";
 		int i = 0;
-		try(Connection connection = DriverManager.getConnection(url, userid, passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
-			
-			
+		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+
 			ps.setString(1, storeVo.getAccount());
 			ps.setString(2, storeVo.getName());
 			ps.setString(3, storeVo.getPassword());
@@ -38,10 +34,10 @@ public class StoreVOJDBC implements StoreDAO {
 			ps.setString(9, storeVo.getWork_open());
 			ps.setString(10, storeVo.getWork_end());
 			ps.setString(11, storeVo.getProduce());
-			
-			 i = ps.executeUpdate();
-			
-		}catch(SQLException e) {
+
+			i = ps.executeUpdate();
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return i != 0;
@@ -51,9 +47,9 @@ public class StoreVOJDBC implements StoreDAO {
 	public void update(StoreVO storeVo) {
 		String sql = "update store set account = ? , name = ?, password = ? , phone = ?, email = ? , address = ?  , lng = ? , lat = ? , theme_id = ? , dayoff = ? , work_open = ? , work_end = ? , produce = ?\n"
 				+ "where store_id = ? ;";
-		try(Connection connection = DriverManager.getConnection(url , userid, passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
-			
+		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+
 			ps.setString(1, storeVo.getAccount());
 			ps.setString(2, storeVo.getName());
 			ps.setString(3, storeVo.getPassword());
@@ -68,46 +64,45 @@ public class StoreVOJDBC implements StoreDAO {
 			ps.setString(12, storeVo.getWork_end());
 			ps.setString(13, storeVo.getProduce());
 			ps.setInt(14, storeVo.getStore_id());
-			
+
 			ps.executeUpdate();
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public void delete(Integer store_id) {
 		String sql = "delete from store where store_id = ?";
-		
-		try(Connection connection = DriverManager.getConnection(url , userid , passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
+
+		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, store_id);
-			
+
 			ps.executeUpdate();
-			
-		}catch(SQLException e){
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public StoreVO findByPrimaryKey(Integer store_id) {
-		
+
 		String sql = "select account , name , password , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce\n"
-				+ "from store\n"
-				+ "where store_id = ?;";
+				+ "from store\n" + "where store_id = ?;";
 		StoreVO store = null;
-		
-		try(Connection connection = DriverManager.getConnection(url , userid, passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
+
+		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, store_id);
 			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				store = new StoreVO();
-				store.setstore_id(store_id);
+				store.setStore_id(store_id);
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));
@@ -121,29 +116,28 @@ public class StoreVOJDBC implements StoreDAO {
 				store.setWork_open(rs.getString("work_open"));
 				store.setWork_end(rs.getString("work_end"));
 				store.setProduce(rs.getString("produce"));
-				
+
 			}
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return store;
 	}
 
 	@Override
 	public List<StoreVO> getAll() {
-	
+
 		List<StoreVO> list = new ArrayList<>();
 		StoreVO store = null;
 		String sql = "select store_id , account , name , password , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce\n"
 				+ "from store";
-		
-		try(Connection connection = DriverManager.getConnection(url , userid , passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
+
+		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				store = new StoreVO();
 				store.setStore_id(rs.getInt("store_id"));
 				store.setAccount(rs.getString("account"));
@@ -161,42 +155,14 @@ public class StoreVOJDBC implements StoreDAO {
 				store.setProduce(rs.getString("produce"));
 				list.add(store);
 			}
-			
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
+
 	
-	public static void main(String[] args) {
-		StoreVOJDBC jdbc = new StoreVOJDBC();
-		StoreVO vo = new StoreVO();
-		vo.setAccount("222222");
-		vo.setName("123");
-		vo.setDayoff("11");
-		vo.setEmail("11");
-		vo.setLat("11");
-		vo.setLng("11");
-		vo.setPassword("11");
-		vo.setPhone("11");
-		vo.setTheme_id(1);
-		vo.setWork_end("00:00:00");
-		vo.setWork_open("00:00:00");
-		vo.setAddress("1");
-		vo.setstore_id(10);
-//		jdbc.insert(vo);
-//		jdbc.update(vo);
-//		jdbc.delete(10);
-//		StoreVO select = jdbc.findByPrimaryKey(1);
-//		System.out.println(select);
-//		System.out.println(jdbc.getAll());
-//		List<StoreVO> list = jdbc.getAll();
-//		list.forEach(System.out::println);
-		
-	}
-}<<<<<<< HEAD
-}
 
 	@Override
 	public StoreVO findStoreAccount(String account) {

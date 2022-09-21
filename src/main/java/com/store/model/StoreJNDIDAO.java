@@ -65,7 +65,7 @@ public class StoreJNDIDAO {
 			ps.setString(11, storeVo.getWork_open());
 			ps.setString(12, storeVo.getWork_end());
 			ps.setString(13, storeVo.getProduce());
-			ps.setInt(14, storeVo.getstore_id());
+			ps.setInt(14, storeVo.getStore_id());
 			row = ps.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -95,7 +95,7 @@ public class StoreJNDIDAO {
 			
 			while(rs.next()) {
 				store = new StoreVO();
-				store.setstore_id(store_id);
+				store.setStore_id(store_id);
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));
@@ -124,7 +124,7 @@ public class StoreJNDIDAO {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				StoreVO store = new StoreVO();
-				store.setstore_id(rs.getInt("store_id"));
+				store.setStore_id(rs.getInt("store_id"));
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));

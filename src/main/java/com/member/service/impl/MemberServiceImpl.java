@@ -1,8 +1,15 @@
 package com.member.service.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import com.member.dao.MemberDao;
 import com.member.dao.impl.MemberDaoImpl;
@@ -11,14 +18,14 @@ import com.member.vo.MemberVO;
 
 public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
-	
-	
+
 	public MemberServiceImpl() throws NamingException {
 		dao = new MemberDaoImpl();
 	}
+
 	@Override
 	public boolean register(MemberVO member) {
-		
+
 		final String account = member.getAccount();
 		if (account == null || account.isEmpty()) {
 			member.setMessage("帳號未輸入");
@@ -47,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 			member.setSuccessful(false);
 			return false;
 		}
-		
+
 		final Integer gender = member.getGender();
 		if (gender == null) {
 			member.setMessage("請勾選性別");
@@ -63,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
 
 		final String nickname = member.getNickname();
 		if (nickname == null || nickname.isEmpty()) {
-			
+
 			return false;
 		}
 
@@ -83,32 +90,33 @@ public class MemberServiceImpl implements MemberService {
 		dao.insert(member);
 		return true;
 	}
+
 	@Override
 	public MemberVO login(MemberVO member) {
 		final String account = member.getAccount();
-		if(account == null || account.isEmpty()) {
+		if (account == null || account.isEmpty()) {
 			member.setMessage("帳號未輸入");
 			member.setSuccessful(false);
 		}
-		
+
 		final String password = member.getPassword();
-		if(password == null || password.isEmpty()) {
+		if (password == null || password.isEmpty()) {
 			member.setMessage("密碼未輸入");
 			member.setSuccessful(false);
 		}
 
 		return dao.login(member);
 	}
+
 	@Override
 	public MemberVO update(MemberVO member) {
 		Integer id = member.getMember_id();
-		
+
 		final String account = member.getAccount();
 		if (account == null || account.isEmpty()) {
 
 		}
-		
-		
+
 		final Integer gender = member.getGender();
 		if (gender == null) {
 		}
@@ -128,5 +136,19 @@ public class MemberServiceImpl implements MemberService {
 		dao.update(member);
 		return member;
 	}
+
+	@Override
+	public MemberVO findByPrimaryKey(Integer member_id) {
+		
+		return findByPrimaryKey(member_id);
+	}
+
+	@Override
+	public List<MemberVO> getAll() {
+		
+		return dao.getAll();
+	}
+
+
 
 }
