@@ -19,10 +19,10 @@ public class StoreVOJDBC implements StoreDAO {
 	
 	
 	@Override
-	public void insert(StoreVO storeVo) {
-		String sql = "insert into store( account , name , password , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce)\n"
-				+ "values( ? , ? , ?, ?, ? ,? ,? ,? ,?, ? , ? , ? ,?);";
-		
+	public boolean insert(StoreVO storeVo) {
+		String sql = "insert into store( account , name , password , phone , email , address  , theme_id , dayoff , work_open , work_end , produce)\n"
+				+ "values( ? , ? , ?, ?, ? ,? ,? ,? ,?, ? , ? );";
+		int i = 0;
 		try(Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)){
 			
@@ -33,19 +33,18 @@ public class StoreVOJDBC implements StoreDAO {
 			ps.setString(4, storeVo.getPhone());
 			ps.setString(5, storeVo.getEmail());
 			ps.setString(6, storeVo.getAddress());
-			ps.setString(7, storeVo.getLng());
-			ps.setString(8, storeVo.getLat());
-			ps.setInt(9, storeVo.getTheme_id());
-			ps.setString(10, storeVo.getDayoff());
-			ps.setString(11, storeVo.getWork_open());
-			ps.setString(12, storeVo.getWork_end());
-			ps.setString(13, storeVo.getProduce());
+			ps.setInt(7, storeVo.getTheme_id());
+			ps.setString(8, storeVo.getDayoff());
+			ps.setString(9, storeVo.getWork_open());
+			ps.setString(10, storeVo.getWork_end());
+			ps.setString(11, storeVo.getProduce());
 			
-			ps.executeUpdate();
+			 i = ps.executeUpdate();
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return i != 0;
 	}
 
 	@Override
@@ -68,7 +67,7 @@ public class StoreVOJDBC implements StoreDAO {
 			ps.setString(11, storeVo.getWork_open());
 			ps.setString(12, storeVo.getWork_end());
 			ps.setString(13, storeVo.getProduce());
-			ps.setInt(14, storeVo.getstore_id());
+			ps.setInt(14, storeVo.getStore_id());
 			
 			ps.executeUpdate();
 			
@@ -146,7 +145,7 @@ public class StoreVOJDBC implements StoreDAO {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				store = new StoreVO();
-				store.setstore_id(rs.getInt("store_id"));
+				store.setStore_id(rs.getInt("store_id"));
 				store.setAccount(rs.getString("account"));
 				store.setName(rs.getString("name"));
 				store.setPassword(rs.getString("password"));
@@ -195,5 +194,23 @@ public class StoreVOJDBC implements StoreDAO {
 //		List<StoreVO> list = jdbc.getAll();
 //		list.forEach(System.out::println);
 		
+	}
+}<<<<<<< HEAD
+}
+
+	@Override
+	public StoreVO findStoreAccount(String account) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StoreVO Login(String account, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateProduce(StoreVO storevo) {
 	}
 }

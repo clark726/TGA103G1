@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   box-sizing: border-box;
 }
@@ -34,6 +33,8 @@ a#logo {
 ul.nav_ul {
   display: inline-block;
   margin-left: 100px;
+  height: 30px;
+  margin-top:20px
 }
 ul.nav_ul li {
   display: inline-block;
@@ -81,3 +82,26 @@ ul.nav_ul li a.icon::after {
   top: -2px;
   margin-left: 5px;
 }
+
+/* 廠商彈窗 */
+a.sumit{
+  text-decoration: none;
+  font-size: 30px;
+  
+}
+.modal-header h3{
+  font-size: 30px;
+  color: black;
+  position: absolute;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input.account,
+input.password {
+margin: 30px;
+width: 90%;
+border-radius: 20px;
+}
+

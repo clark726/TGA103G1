@@ -9,19 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductVOJDBC implements ProductDAO{
-	
+	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/barjarjo?useUnicode=yes&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Taipei";
 	String userid = "root";
 	String passwd = "password";
 	
 	@Override
-	public void insert(ProductVO product) {
+	public Integer insert(ProductVO product) {
 		String sql = "insert into product (name , price , store_id , description , type_id , stock )\n"
 				+ "values(?,?,?,?,?,?);";
 		
 		
 		try(Connection connection = DriverManager.getConnection(url , userid , passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
+				PreparedStatement ps = connection.prepareStatement(sql , new String[] {"product_id"})){
 		
 			ps.setString(1,product.getName());
 			ps.setInt(2, product.getPrice());
@@ -29,18 +29,23 @@ public class ProductVOJDBC implements ProductDAO{
 			ps.setString(4 , product.getDescription());
 			ps.setInt(5, product.getType_id());
 			ps.setInt(6, product.getStock());
-
-			
 			ps.executeUpdate();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				return  rs.getInt(1);
+			}
+			
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 		
 	}
 
 	@Override
-	public void update(ProductVO product) {
+	public Integer update(ProductVO product) {
 		String sql = "update product set name = ? , price = ? , store_id = ? , description = ? , type_id = ? , stock = ? , status = ?\n"
 				+ "where product_id = ?;";
 		try(Connection connection = DriverManager.getConnection(url, userid , passwd);
@@ -55,11 +60,12 @@ public class ProductVOJDBC implements ProductDAO{
 			ps.setInt(8, product.getProduct_id());
 			
 			ps.executeUpdate();
-			
+			return product.getProduct_id();
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 		
 		
 	}
@@ -158,10 +164,10 @@ public class ProductVOJDBC implements ProductDAO{
 		p1.setStock(20);
 //		p1.setStatus(1);
 		
-		jdbc.insert(p1);
+//		jdbc.insert(p1);
 //		jdbc.update(p1);
-//		ProductVO p = jdbc.findByPrimaryKey(1);
-//		System.out.println(p);
+		ProductVO p = jdbc.findByPrimaryKey(1);
+		System.out.println(p);
 //	
 //		List<ProductVO> list = new ArrayList<>();
 //		list = jdbc.getAll();
@@ -169,5 +175,11 @@ public class ProductVOJDBC implements ProductDAO{
 //		for(ProductVO product : list) {
 //			System.out.println(product);
 //		}
+	}
+
+	@Override
+	public List<ProductVO> ShowStoreProduct(Integer store_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

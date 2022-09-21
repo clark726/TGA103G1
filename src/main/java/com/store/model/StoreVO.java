@@ -1,8 +1,11 @@
 package com.store.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class StoreVO implements Serializable {
+import com.common.Result;
+
+public class StoreVO extends Result implements Serializable {
 
 	private Integer store_id;
 	private String account;
@@ -18,12 +21,14 @@ public class StoreVO implements Serializable {
 	private String work_open;
 	private String work_end;
 	private String produce;
-	
-	public StoreVO() {};
-	
+	private List<Object> imgs;
+
+	public StoreVO() {
+	};
+
 	public StoreVO(Integer store_id, String account, String name, String password, String phone, String email,
-			String address, String lng, String lat, Integer theme_id, String dayoff, String work_open,
-			String work_end , String produce) {
+			String address, String lng, String lat, Integer theme_id, String dayoff, String work_open, String work_end,
+			String produce) {
 		super();
 		this.store_id = store_id;
 		this.account = account;
@@ -41,8 +46,24 @@ public class StoreVO implements Serializable {
 		this.produce = produce;
 	}
 
-
 	
+	
+	public List<Object> getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(List<Object> imgs) {
+		this.imgs = imgs;
+	}
+
+	public Integer getStore_id() {
+		return store_id;
+	}
+
+	public void setStore_id(Integer store_id) {
+		this.store_id = store_id;
+	}
+
 	public String getAccount() {
 		return account;
 	}
@@ -139,15 +160,10 @@ public class StoreVO implements Serializable {
 		this.work_end = work_end;
 	}
 
-	public void setstore_id(Integer store_id) {
-		this.store_id = store_id;
- 	}
-	public Integer getstore_id() {
-		return  store_id;
-	}
 	public String getProduce() {
 		return produce;
 	}
+
 	public void setProduce(String produce) {
 		this.produce = produce;
 	}
@@ -159,10 +175,5 @@ public class StoreVO implements Serializable {
 				+ ", theme_id=" + theme_id + ", dayoff=" + dayoff + ", work_open=" + work_open + ", work_end="
 				+ work_end + ", produce=" + produce + "]";
 	}
-	
-	
-
 
 }
-
- 

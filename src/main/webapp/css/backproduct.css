@@ -1,5 +1,5 @@
 html {
-  height: 100vh;
+  height: 800px;
 }
 .contain {
   /* border: 1px solid red; */
@@ -46,12 +46,15 @@ div.contain aside.aside div.div_func div {
   /* margin: auto; */
   text-align: center;
 }
-div.contain aside.aside div.div_func div > a {
-  /* border: 1px solid red; */
+div.contain aside.aside div.div_func div  a {
+ 
   /* border: 0px solid transparent; */
   /* outline: n one; */
   vertical-align: middle;
+  text-decoration: none;
+  color: white;
 }
+
 div.contain aside.aside div.div_func div > a:hover {
   background-color: rgb(137, 100, 6);
   color: white;

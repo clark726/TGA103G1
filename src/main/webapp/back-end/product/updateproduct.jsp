@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.product.model.*"%>
 <%
 ProductVO productVO = (ProductVO) request.getAttribute("productVO");
-request.getAttribute("errorMsgs");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,41 +17,31 @@ request.getAttribute("errorMsgs");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/backproduct.css">
 
+<style>
+div.div_func div  a {
+	text-decoration: none;
+	color: white;
+}
+
+img {
+	max-width: 100%;
+}
+</style>
+<!-- Boostrap 導入程式 -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+	crossorigin="anonymous"></script>
+
 </head>
 <body style="background-color: rgb(129, 93, 65)">
-	<header class="header">
-		<div class="fl_left">
-			<h1 id="logo_h1">
-				<a href="＃" id="logo">Bar.Jar.Jo</a>
-			</h1>
-		</div>
 
-		<nav class="fl_right">
-			<ul class="nav_ul">
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">地圖</a></li>
-				<li><a href="#">討論區</a></li>
-				<li><a href="#">廠商專區</a></li>
-				<li><a href="#" class="icon">店家主題</a>
-					<ul id="store">
-						<li><a href="#">Bistro</a></li>
-						<li><a href="#">Cocktail bar</a></li>
-						<li><a href="#">Whisky bar</a></li>
-					</ul></li>
-				<li><a href="#" class="icon">會員專區</a>
-					<ul id="store">
-						<li><a href="#">我的最愛</a></li>
-						<li><a href="#">修改會員資料</a></li>
-						<li><a href="#">修改密碼</a></li>
-						<li><a href="#">訂單管理</a></li>
-					</ul></li>
-
-				<li><a href="#">購物商城</a></li>
-				<li><a href="#">登入註冊</a></li>
-			</ul>
-		</nav>
-	</header>
-
+	<div w3-include-html="<%=request.getContextPath()%>/com/header.html"></div>
 
 	<div class="contain">
 		<aside class="aside">
@@ -61,7 +51,8 @@ request.getAttribute("errorMsgs");
 					<a class="edit_store" type="button">修改店家內容</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button">上下架商品管理</a>
+					<a class="manager_item" type="button"
+						href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -71,21 +62,11 @@ request.getAttribute("errorMsgs");
 		</aside>
 		<main class="main">
 			<form action="<%=request.getContextPath()%>/ProductServlet"
-				method="post">
+				method="post" enctype="multipart/form-data">
 				<div class="all_product">
 					<div class="title">
-						<h1>新增商品</h1>
+						<h1>修改商品</h1>
 					</div>
-
-					<%-- 錯誤表列 --%>
-					<c:if test="${not empty errorMsgs}">
-						<font style="color: red">請修正以下錯誤:</font>
-						<ul>
-							<c:forEach var="message" items="${errorMsgs}">
-								<li style="color: red">${message}</li>
-							</c:forEach>
-						</ul>
-					</c:if>
 
 					<h1>
 						商品編號 :<%=productVO.getProduct_id()%></h1>
@@ -103,25 +84,23 @@ request.getAttribute("errorMsgs");
 					<div class="comm">
 						<label for="p_name">商品名稱 : </label> <input type="text" id="p_name"
 							name="p_name" value="<%=productVO.getName()%>">
+						<p>${errorMsgs.p_name}</p>
 					</div>
 
 					<div class="comm" id="p_pre">
 						<label>商品圖片：</label>
 						<div class="div_file">
-							<input type="file" class="p_file" id="p_file1"> <input
-								type="file" class="p_file" id="p_file2"> <input
-								type="file" class="p_file" id="p_file3">
+							<input type="file" class="p_file" id="p_file1" name="p_file1"
+								accept="image/gif, image/jpeg, image/png">
+
 						</div>
 						<div class="all_preview">
 							<div class="preview" id="preview1">
+								<img
+									src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${productVO.product_id}">
 								<span class="text" id="text1">預覽圖</span>
 							</div>
-							<div class="preview" id="preview2">
-								<span class="text" id="text2">預覽圖</span>
-							</div>
-							<div class="preview" id="preview3">
-								<span class="text" id="text3">預覽圖</span>
-							</div>
+
 						</div>
 
 					</div>
@@ -129,11 +108,13 @@ request.getAttribute("errorMsgs");
 					<div class="comm">
 						<label for="p_price">商品售價 :</label> <input type="text"
 							id="p_price" name="p_price" value="<%=productVO.getPrice()%>">
+						<p>${errorMsgs.p_price}</p>
 					</div>
 
 					<div class="comm">
 						<label for="p_stock">庫存 : </label> <input type="text" id="p_stock"
 							name="p_stock" value="<%=productVO.getStock()%>">
+						<p>${errorMsgs.p_stock}</p>
 					</div>
 
 					<div class="comm">
@@ -147,13 +128,14 @@ request.getAttribute("errorMsgs");
 					<div class="comm">
 						<label for="p_produce">商品介紹 :</label>
 						<textarea name="p_produce" id="p_produce" cols="30" rows="10"><%=productVO.getDescription()%></textarea>
-
+						<p>${errorMsgs.p_produce}</p>
 						<div id="button">
 							<div id="button_new">
 								<input type="hidden" name="action" value="update"> <input
 									type="hidden" name="product_id"
 									value="<%=productVO.getProduct_id()%>"> <input
 									type="submit" value="送出修改">
+
 							</div>
 
 						</div>
@@ -169,7 +151,7 @@ request.getAttribute("errorMsgs");
 
 
 	<script src="../js/jquery-3.6.0.min.js"></script>
-	<script src="../js/slider.js"></script>
+	
 	<script>
  
      //file_1
@@ -181,7 +163,7 @@ request.getAttribute("errorMsgs");
         reader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="\${reader.result}" class="preview_img" >
           `;
           document.querySelector("#preview1").innerHTML = str;
          
@@ -191,44 +173,41 @@ request.getAttribute("errorMsgs");
           document.querySelector("#text1").innerText="預覽圖";
         };
       });
-      //file_2
-      document.querySelector("#p_file2").addEventListener("change", function(e){
-        if(this.files.length > 0){
-          document.querySelector("#preview2").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
-          
-          let str = `
-            <img src="${reader.result}" class="preview_img" >
-          `;
-          document.querySelector("#preview2").innerHTML = str;
-         
-        });
+     
       
-        }else{
-          document.querySelector("#text2").innerText="預覽圖";
-        };
-      });
-      //file_3
-      document.querySelector("#p_file3").addEventListener("change", function(e){
-        if(this.files.length > 0){
-          document.querySelector("#preview3").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
-          
-          let str = `
-            <img src="${reader.result}" class="preview_img" >
-          `;
-          document.querySelector("#preview3").innerHTML = str;
-         
-        });
-      
-        }else{
-          document.querySelector("#text3").innerText="預覽圖";
-        };
-      });
+      //header
+      function includeHTML() {
+			var z, i, elmnt, file, xhttp;
+			/* Loop through a collection of all HTML elements: */
+			z = document.getElementsByTagName("*");
+			for (i = 0; i < z.length; i++) {
+				elmnt = z[i];
+				/*search for elements with a certain atrribute:*/
+				file = elmnt.getAttribute("w3-include-html");
+				if (file) {
+					/* Make an HTTP request using the attribute value as the file name: */
+					xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4) {
+							if (this.status == 200) {
+								elmnt.innerHTML = this.responseText;
+							}
+							if (this.status == 404) {
+								elmnt.innerHTML = "Page not found.";
+							}
+							/* Remove the attribute, and call this function once more: */
+							elmnt.removeAttribute("w3-include-html");
+							includeHTML();
+						}
+					};
+					xhttp.open("GET", file, true);
+					xhttp.send();
+					/* Exit the function: */
+					return;
+				}
+			}
+		}
+		includeHTML();
     </script>
 </body>
 </html>
