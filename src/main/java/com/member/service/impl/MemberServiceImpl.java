@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
 	public MemberServiceImpl() throws NamingException {
 		dao = new MemberDaoImpl();
 	}
-
+	
 	@Override
 	public boolean register(MemberVO member) {
 
