@@ -14,7 +14,7 @@ import com.member.service.MemberService;
 import com.member.service.impl.MemberServiceImpl;
 import com.member.vo.MemberVO;
 
-@WebServlet("/member/register")
+@WebServlet("/register")
 public class MemberRegister extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
@@ -26,7 +26,6 @@ public class MemberRegister extends HttpServlet{
 		try {
 			service = new MemberServiceImpl();
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -41,6 +40,7 @@ public class MemberRegister extends HttpServlet{
 		String checkpassword = req.getParameter("dbpassword");
 		String birthday  = req.getParameter("birthday");
 		LocalDate birthday2 = LocalDate.parse(birthday);
+		
 		String city = req.getParameter("city");
 		String dist = req.getParameter("dist");
 		String addres = req.getParameter("address");

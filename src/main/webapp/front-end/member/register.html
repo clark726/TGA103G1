@@ -104,7 +104,7 @@ div.register_btn #cancel > a:visited{
     <div w3-include-html="../member/jsp/header.jsp"></div>
     <div class="div_register">
         <main class="register_main">
-            <form action="/member/register" class="register_form" method="post">
+            <form action="" class="register_form" method="post">
                 <h2>會員註冊</h2>
                 <div class="register_row">
                     <label for="register_acc">帳號</label>
@@ -186,7 +186,98 @@ div.register_btn #cancel > a:visited{
     <div w3-include-html="../member/jsp/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
-<script>            
+<script>        
+
+(() => {
+	const btn1 = document.querySelector('#register');
+	const msg = document.querySelector('#msg');
+	const username = document.querySelector('#register_acc');
+	const password = document.querySelector('#register_psw');
+	const confirmPassword = document.querySelector('#register_dbpsw');
+	const birthday = document.querySelector('#register_birth');
+    const city = document.querySelector("#city").value;
+    const dist = document.querySelector("#dist").value;
+    const addre = document.querySelector("#register_addr").value;
+    const address = city + dist + addre;
+	const nickname = document.querySelector('#register_sname');
+	const phone = document.querySelector('#register_phone');
+	const inputs = document.querySelectorAll('input');
+	btn1.addEventListener('click', () => {
+		const accLength = username.value.length;
+		if (accLength < 5 || accLength > 50) {
+			msg.textContent = '帳號長度須介於5~50字元';
+			return;
+		}
+
+		const pwdLength = password.value.length;
+		if (pwdLength < 6 || pwdLength > 12) {
+			msg.textContent = '密碼長度須介於6~12字元';
+			return;
+		}
+
+		if (confirmPassword.value !== password.value) {
+			msg.textContent = '密碼與確認密碼不相符';
+			return;
+		}
+
+		const birthdayLength = birthday.value.length;
+		if (birthdayLength == null) {
+			msg.textContent = '生日不能為空';
+			return;
+		}
+		const addressLength = address.value.length;
+		if (addressLength == null) {
+			msg.textContent = '地址不能為空';
+			return;
+		}
+		const nicknameLength = nickname.value.length;
+		if (nicknameLength < 1 || nicknameLength > 20) {
+			msg.textContent = '暱稱長度須介於1~20字元';
+			return;
+		}
+		const phoneLength = phone.value.length;
+		if (phoneLength  != 10) {
+			msg.textContent = '請輸入手機號碼';
+			return;
+		}
+
+		msg.textContent = '';
+		fetch('/TGA103G1/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				username: username.value,
+				password: password.value,
+                birthday: birthday.value,
+                address: address.value,
+				nickname: nickname.value,
+                phone: phone.value
+			}),
+		})
+			.then(resp => resp.json())
+			.then(body => {
+				const { successful } = body;
+				if (successful) {
+					for (let input of inputs) {
+						input.disabled = true;
+					}
+					btn1.disabled = true;
+					msg.className = 'info';
+					msg.textContent = '註冊成功';
+				} else {
+					msg.className = 'error';
+					msg.textContent = '註冊失敗';
+				}
+			});
+	});
+
+})();
+
+
+
+
 function includeHTML() {
   var z, i, elmnt, file, xhttp;
   /* Loop through a collection of all HTML elements: */
