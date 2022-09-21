@@ -11,7 +11,7 @@ import javax.servlet.http.*;
 import javax.sql.*;
 
 import com.manager.model.*;
-import com.member.model.MemberService;
+import com.member.service.MemberService;
 
 @WebServlet("/control")
 public class MemberServlet extends HttpServlet {
