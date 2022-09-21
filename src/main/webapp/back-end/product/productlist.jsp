@@ -192,7 +192,7 @@ img {
 						const password = document.querySelector('#password');
 						const errMsg = document.querySelector('#errMsg');
 						document.getElementById('btn1').addEventListener('click', () => {
-						    fetch('http://localhost:8080/TGA103G1/StoreLogin', {
+						    fetch('/TGA103G1/StoreLogin', {
 						      method: 'POST',
 						      headers: { 'Content-Type': 'application/json' },
 						      body: JSON.stringify({
@@ -208,7 +208,7 @@ img {
 						          const { account, password} = body;
 						          sessionStorage.setItem('account', account);
 						          sessionStorage.setItem('password', password);
-						          location = '../product/productlist.jsp';
+						          location = '/TGA103G1/ShowProduct';
 						        } else {
 						          errMsg.textContent = message;
 						        }

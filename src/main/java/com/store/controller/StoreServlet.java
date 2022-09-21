@@ -121,8 +121,8 @@ public class StoreServlet extends HttpServlet {
 			}
 			
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-			String url = "/back-end/product/productlist.jsp";
-			req.getSession().setAttribute("store", account);
+			String url = "/main.html";
+			req.getSession().setAttribute("storesumit", account);
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 	}

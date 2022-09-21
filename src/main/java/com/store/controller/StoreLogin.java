@@ -21,7 +21,7 @@ public class StoreLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson _gson = new Gson();
 	private StoreService StoreSvc = new StoreServiceImpl();
-
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		setHeaders(response);

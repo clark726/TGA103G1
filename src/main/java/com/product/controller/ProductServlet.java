@@ -27,6 +27,8 @@ import com.product.service.impl.ProductServiceImpl;
 import com.product_img.model.Product_imgService;
 import com.product_img.model.Product_imgVO;
 import com.store.model.StoreVO;
+import com.store.service.StoreService;
+import com.store.service.impl.StoreServiceImpl;
 
 @WebServlet("/ProductServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
@@ -34,7 +36,9 @@ import com.store.model.StoreVO;
 //上傳過程中無論是單個文件超過maxFileSize值，或者上傳的總量大於maxRequestSize 值都會拋出IllegalStateException 異常
 public class ProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private StoreService storeSvc = new StoreServiceImpl();
+	private ProductService productSvc = new ProductServiceImpl();
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
@@ -43,6 +47,7 @@ public class ProductServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
 
 		// 取出登入帳號的storeID
 		HttpSession session = req.getSession();
@@ -116,14 +121,15 @@ public class ProductServlet extends HttpServlet {
 			/*************************** 2.開始新增資料 ***************************************/
 			ProductService service = new ProductServiceImpl();
 			service.addProduct(productVO, imgList);
-
+			
 			/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-//			req.setAttribute("productVO", productVO); // 資料庫取出的empVO物件,存入req
 
+			List<ProductVO> Productlist =  productSvc.ShowStoreProduct(store.getAccount());
+			session.setAttribute("Productlist", Productlist);//存入店家商品session
+			
 			String url = req.getContextPath() + "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			res.sendRedirect(url);
-//			successView.forward(req, res);
 
 		}
 
@@ -137,6 +143,8 @@ public class ProductServlet extends HttpServlet {
 			productSvc.delete(product_id);
 			/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
 			String url = "/back-end/product/productlist.jsp";
+			List<ProductVO> Productlist =  productSvc.ShowStoreProduct(store.getAccount());
+			session.setAttribute("Productlist", Productlist);//存入店家商品session
 			RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 			successView.forward(req, res);
 		}
@@ -226,6 +234,8 @@ public class ProductServlet extends HttpServlet {
 
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 			req.setAttribute("productVO", productVO); // 資料庫update成功後,正確的的empVO物件,存入req
+			List<ProductVO> Productlist =  productSvc.ShowStoreProduct(store.getAccount());
+			session.setAttribute("Productlist", Productlist); //存入店家商品session
 			String url = req.getContextPath() + "/back-end/product/productlist.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			res.sendRedirect(url);
