@@ -1,0 +1,144 @@
+*{
+    box-sizing: border-box;
+}
+div.menCenter_contain{
+    display: flex;
+    min-height: 550px;
+    margin: 20px;
+    margin-left: 10%;
+}
+div.menCenter_contain aside.menCenter_aside{
+    
+    min-width: 200px;
+    display:block;
+    background-color: #e2e5ac;
+}
+div.menCenter_contain aside.menCenter_aside > h2{
+    font-size: 28px;
+    text-align: center;
+    
+    text-shadow: 5px;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul{
+    list-style: none;
+    padding: 0px;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li{
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button {
+    width: 100%;
+    border-radius: 5px;
+    
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a{
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 43px;
+    padding-right: 43px;
+    display: block;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:hover{
+    background-color: #DD774e;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:link{
+    color: black;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:visited{
+    color: black;
+}
+div.menCenter_contain main.menCenter_main{
+    display: flex;
+    width: 100%;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div{
+    /* border: 1px solid lightblue; */
+    width: 100%;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_title{
+    /* border: 1px solid lawngreen; */
+    margin-top: 5px;
+    font-size: 20px;
+    margin-left: 40%;
+}
+
+            /* 我的最愛的main */
+    main.menCenter_main{
+            /* border: 1px solid blue; */
+            /* height: 1000px; */
+            /* background-color: orange; */
+            width: calc(100% - var(--aside-width));
+            margin-left: var(--aside-width);
+            min-height: calc(100vh - var(--header-height));
+            padding: 20px;
+        }
+
+        @media (max-width: 767.98px){
+            main.menCenter_main{
+                margin-left: 0;
+                width: 100%;
+
+            }
+        }
+
+        main.menCenter_main ul.item_list{
+            /* border: 1px solid red; */
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            display: flex;
+            flex-wrap:wrap;
+
+        }
+        main.menCenter_main ul.item_list > li{
+            /* border: 1px solid blue; */
+            width: calc((100% - 60px) /4 );
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        main.menCenter_main ul.item_list > li:nth-child(4n){
+            margin-right: 0;
+        }
+
+        @media (max-width: 767.98px){
+            main.menCenter_main ul.item_list > li{
+                width: calc((100% - 20px) / 2);
+            }
+            main.menCenter_main ul.item_list > li:nth-child(2n){
+            margin-right: 0;
+        }
+        }
+
+        main.menCenter_main ul.item_list > li a{
+            /* border: 1px solid green; */
+            
+            text-decoration: none;
+        }
+        main.menCenter_main ul.item_list > li a div.img_block{
+            /* border: 1px solid yellow; */
+            font-size: 0;
+        }
+        main.menCenter_main ul.item_list > li a span.item_text{
+            /* border: 1px solid white; */
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        main.menCenter_main ul.item_list > li a:link{
+            color: blue;
+        }
+        main.menCenter_main ul.item_list > li a:visited{
+            color: blue;
+        }
+        main.menCenter_main ul.item_list > li div img#img_heart{
+            transform: translate(20%,130%)
+        }
+        main.menCenter_main ul.item_list > li div img#img_heart:hover{
+            cursor: pointer;
+        }

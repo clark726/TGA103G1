@@ -1,0 +1,106 @@
+*{
+    box-sizing: border-box;
+}
+div.menCenter_contain{
+    display: flex;
+    min-height: 550px;
+    margin: 20px;
+    margin-left: 10%;
+}
+div.menCenter_contain aside.menCenter_aside{
+    
+    min-width: 200px;
+    display:block;
+    background-color: #e2e5ac;
+}
+div.menCenter_contain aside.menCenter_aside > h2{
+    font-size: 28px;
+    text-align: center;
+    margin-top: 23px;
+    margin-bottom: 23px;
+    text-shadow: 5px;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul{
+    list-style: none;
+    padding: 0px;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li{
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button {
+    width: 100%;
+    border-radius: 5px;
+    
+    
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a{
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 44px;
+    padding-right: 44px;
+    display: block;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:hover{
+    background-color: #DD774e;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:link{
+    color: black;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:visited{
+    color: black;
+}
+div.menCenter_contain main.menCenter_main{
+    display: flex;
+    width: 100%;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div{
+    /* border: 1px solid lightblue; */
+    width: 100%;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_title{
+    /* border: 1px solid lawngreen; */
+    margin-top: 5px;
+    font-size: 20px;
+    margin-left: 76%;
+}
+
+div.menCenter_div > img{
+    border: 1px solid gray;
+    width: 200px;
+    height: 200px;
+    margin-top: 70px;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv {
+    display: flex;
+    /* border: 1px solid red; */
+    text-align: center;
+    justify-content: center;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form > button{
+    margin-top: 30px;
+    font-size: 20px;
+    text-shadow: 5px;
+    border-radius: 3px;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form div.form_div{
+    margin: 20px;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form div.form_div > input{
+    font-size: 18px;
+    width: 300px;
+    border-radius: 3px;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form div.form_div > label{
+    font-size: 20px;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form div.div_gender{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form div.div_gender > label{
+    font-size: 20px;
+}

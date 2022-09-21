@@ -1,0 +1,96 @@
+*{
+    box-sizing: border-box;
+}
+div.div_register{
+    background-color: rgb(129, 93, 65);
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+div.div_register main.register_main{
+    width: 600px;
+    height: 100%;   
+    background-color: rgba(226, 229, 172,0.8);
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+div.div_register main.register_main form.register_form{
+    margin: 0px;
+    text-align: left;
+}
+div.div_register main.register_main form.register_form div.register_row{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 60px;
+    font-size: 18px;
+    font-weight: 700;
+    position: relative;
+}
+div.div_register main.register_main form.register_form div.register_row > label{
+    padding: 10px;
+    
+}
+
+div.div_register main.register_main form.register_form > h2{
+    text-align: center;
+    font-size: 28px;
+}
+div.div_register main.register_main form.register_form div{
+    width: 70%;
+}
+div.div_register main.register_main form.register_form div > .register_control{
+    border: 1px solid #ced4da;
+    margin-left: 30px;
+    border-radius: 5px;
+    height: inherit;
+    height: 30px;
+    width: 100%;
+    }
+#register_acc , #register_psw , #register_birth ,#register_addr,#register_sname,#register_phone{
+    margin-left: 70px;
+}
+#register_mail{
+    margin-left: 60px;
+}
+.gender{
+    /* border: 1px solid red; */
+    margin-left: 35px;
+}
+div.register_btn{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px 80px;
+}
+div.register_btn  > button{
+    height: 40px;
+    border-radius: 5px;
+    width: 60px;
+}
+div.register_btn > button:hover{
+    background-color: #DD774E;
+    cursor: pointer;
+    font-weight: 700;
+    width: 60px;
+    border-radius: 10px;
+}
+div.register_btn #cancel > a{
+    text-decoration: none;
+    padding: 0px;
+}
+div.register_btn #cancel > a:link{
+    color: black;
+}
+div.register_btn #cancel > a:visited{
+    color: black;
+}
+.city{
+    margin-left: 100px;
+}
