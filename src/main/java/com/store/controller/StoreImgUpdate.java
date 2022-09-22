@@ -1,6 +1,7 @@
 package com.store.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +28,11 @@ public class StoreImgUpdate extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		Store_imgVO storeimg = _gson.fromJson(request.getReader().readLine(), Store_imgVO.class);
+		
+		String Base641 = "data:image/jpeg;base64,";
+//		String base64Str = Base64.getEncoder().encodeToString((storeimg.getImg()));
+		
+		
 		// 取出存在session的storeId放入前端傳來的store
 		HttpSession session = request.getSession();
 		StoreVO storevoId = (StoreVO) session.getAttribute("storeId");

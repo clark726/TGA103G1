@@ -10,6 +10,7 @@ public class Store_imgVO implements Serializable{
 	private Integer store_id;
 	private Date date;
 	private byte[] img;
+	private String imgstr;
 	
 	public Store_imgVO() {};
 	
@@ -21,6 +22,15 @@ public class Store_imgVO implements Serializable{
 		this.img = img;
 	}
 	
+	
+	public String getImgstr() {
+		return imgstr;
+	}
+
+	public void setImgstr(String imgstr) {
+		this.imgstr = imgstr;
+	}
+
 	public Integer getImg_id() {
 		return img_id;
 	}

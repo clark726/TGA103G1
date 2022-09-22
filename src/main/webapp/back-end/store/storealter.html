@@ -55,14 +55,14 @@
 						<div class="file">
 							<input type="file" id="p_file1">
 							<div class="preview" id="preview1">
-								<span class="text" id="text1">首圖</span>
+								<span class="text" id="text1" value="首圖">首圖</span>
 							</div>
 						</div>
 
 						<div class="file">
 							<input type="file" id="p_file2">
 							<div class="preview" id="preview2">
-								<span class="text" id="text2">內頁一</span>
+								<span class="text" id="text2" value="內頁一">內頁一</span>
 							</div>
 						</div>
 
@@ -140,37 +140,40 @@
         }
       }
       includeHTML();
-
+      let mainImgReader = new FileReader();
+      let firstImgReader = new FileReader();
+      let secondImgReader = new FileReader();
+      let menauImg1 = new FileReader();
+      let menauImg2 = new FileReader();
       //首頁
       document.querySelector("#p_file1").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview1").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
+          
+          mainImgReader.readAsDataURL(this.files[0]);
+          mainImgReader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="${mainImgReader.result}" class="preview_img" >
           `;
           document.querySelector("#preview1").innerHTML = str;
-         
+            console.log(mainImgReader.result)
         });
       
         }else{
           document.querySelector("#text1").innerText="預覽圖";
         };
       });
-
+  
       // 內頁一
       document.querySelector("#p_file2").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview2").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
+          firstImgReader.readAsDataURL(this.files[0]);
+          firstImgReader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="${firstImgReader.result}" class="preview_img" >
           `;
           document.querySelector("#preview2").innerHTML = str;
          
@@ -186,12 +189,11 @@
       document.querySelector("#p_file3").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview3").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
+          secondImgReader.readAsDataURL(this.files[0]);
+          secondImgReader.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="${secondImgReader.result}" class="preview_img" >
           `;
           document.querySelector("#preview3").innerHTML = str;
          
@@ -207,12 +209,11 @@
       document.querySelector("#p_file4").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview4").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
+          menauImg1.readAsDataURL(this.files[0]);
+          menauImg1.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="${menauImg1.result}" class="preview_img" >
           `;
           document.querySelector("#preview4").innerHTML = str;
          
@@ -228,12 +229,11 @@
       document.querySelector("#p_file5").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview5").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
+          menauImg2.readAsDataURL(this.files[0]);
+          menauImg2.addEventListener("load", function(){
           
           let str = `
-            <img src="${reader.result}" class="preview_img" >
+            <img src="${menauImg2.result}" class="preview_img" >
           `;
           document.querySelector("#preview5").innerHTML = str;
          
@@ -283,11 +283,11 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        img: p_file1.value,
-        img: p_file2.value,
-        img:p_file3.value,
-        img: p_file4.value,
-        img: p_file5.value
+        img: mainImgReader.result,
+        img: firstImgReader.result,
+        img: secondImgReader.result,
+        img: menauImg1.result,
+        img: menauImg2.result
       }),
     })
       .then(resp => resp.json() )
@@ -305,6 +305,7 @@
 
   });
 })();
+
     </script>
 </body>
 </html>

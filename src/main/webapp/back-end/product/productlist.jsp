@@ -96,13 +96,14 @@ img {
 
 </head>
 <body style="background-color: rgb(129, 93, 65)">
-	<div id="xxx" ></div>
+	<div id="xxx"></div>
 	<div class="contain">
 		<aside class="aside">
 			<p id="p1">廠商後台</p>
 			<div class="div_func">
 				<div>
-					<a class="edit_store" type="button" href="<%=request.getContextPath()%>/back-end/store/storealter.html">修改店家內容</a>
+					<a class="edit_store" type="button"
+						href="<%=request.getContextPath()%>/back-end/store/storealter.html">修改店家內容</a>
 				</div>
 				<div>
 					<a class="manager_item" type="button"
@@ -141,7 +142,7 @@ img {
 						<th>修改</th>
 						<th>刪除</th>
 					</tr>
-				
+
 					<c:forEach var="proVO" items="${Productlist}">
 
 						<tr>
@@ -187,6 +188,7 @@ img {
 					.then(resp => resp.text())
 					.then(content => {
 						xxx.innerHTML = content;
+						  changelog()
 						
 						const username = document.querySelector('#account');
 						const password = document.querySelector('#password');
@@ -209,14 +211,29 @@ img {
 						          sessionStorage.setItem('account', account);
 						          sessionStorage.setItem('password', password);
 						          location = '/TGA103G1/ShowProduct';
+								
+	
 						        } else {
 						          errMsg.textContent = message;
 						        }
 						      });
 						  });			
 					});
+					
 		}
 		includeHTML();
+		
+			function changelog(){
+			
+			if(sessionStorage.getItem("account")){
+            document.querySelector("#login").style.display='none'
+            document.querySelector("#logout").style.display='block'
+          }
+		}
+	
+    console.log(sessionStorage.getItem("account"))
+		
+	
 	</script>
 </body>
 </html>

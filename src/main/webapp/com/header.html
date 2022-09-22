@@ -55,7 +55,8 @@
           </li>
 
           <li><a href="#">購物商城</a></li>
-          <li><a href="#">登入註冊</a></li>
+          <li><a href="#" id="login">登入註冊</a><a href="http://localhost:8080/TGA103G1/StoreLogout" id="logout" style= 'display: none'>登出</a></li>
+       
         </ul>
       </nav>
     </header>
@@ -134,12 +135,23 @@
           sessionStorage.setItem('account', account);
           sessionStorage.setItem('password', password);
           location = 'http://localhost:8080/TGA103G1/ShowProduct';
+       
         } else {
           errMsg.textContent = message;
         }
       });
   });
 })();
+
+function changelog(){
+			
+			if(sessionStorage.getItem("account")){
+            document.querySelector("#login").style.display='none'
+            document.querySelector("#logout").style.display='block'
+          }
+		}
+changelog()
+    console.log(sessionStorage.getItem("account"))
     </script>
   </body>
 </html>
