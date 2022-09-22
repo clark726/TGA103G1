@@ -232,13 +232,14 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	public void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		memberService.update(new MemberVO(Integer.parseInt(req.getParameter("member_id")), req.getParameter("account"),
-				req.getParameter("password"), LocalDate.parse(req.getParameter("birthday")),
-				req.getParameter("address"), Integer.parseInt(req.getParameter("gender")), req.getParameter("email"),
-				req.getParameter("nickname"), req.getParameter("phone"),
-				LocalDate.parse(req.getParameter("register")), Integer.parseInt(req.getParameter("permission"))));
-		req.getSession().setAttribute("members", memberService.getAll());
-		resp.sendRedirect(req.getHeader("referer"));
+		Integer idInteger = Integer.parseInt(req.getParameter("member_id"));
+		Integer permissionInteger = Integer.parseInt(req.getParameter("permission"));
+		if(memberService.updatePermission(idInteger,permissionInteger)) {
+			req.getSession().setAttribute("members", memberService.getAll());
+			resp.sendRedirect(req.getHeader("referer"));
+		} else {
+			System.out.println("ManagerControler");
+		}
 	}
 
 	public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
