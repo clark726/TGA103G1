@@ -9,18 +9,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入</title>
-      <link rel="stylesheet" href="<%=request.getContextPath()%>/css/login.css">
+      <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/login.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
     <div class="div_login" style="background-image: url('/images/12.jpg');">
         <main class="login_main">
             <form method="post" action="<%=request.getContextPath()%>/member/login" class="login_form">
                 <h2>會員登入</h2>
-                <h2 style="text-align:center;">${result}</h2>
+                <font style="text-align:center;">${result}</font>
                 <div>
                     <label for="login_account">帳號:</label>
-                    <input type="text" id="login_account" name="account">
+                    <input type="text" id="login_account" name="account"> 
                     <br>
                     <span id="account_err" class="err_msg" style="color: red; font-size: 10px; display: none;">帳號輸入錯誤</span>
                 </div>
@@ -48,7 +48,7 @@
             </div>
         </main>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {

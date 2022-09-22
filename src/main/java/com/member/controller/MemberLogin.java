@@ -40,7 +40,8 @@ public class MemberLogin extends HttpServlet{
 		String password = req.getParameter("password");
 
 		HttpSession session = req.getSession();
-
+	
+		
 		MemberVO member = new MemberVO();
 		member.setAccount(account);
 		member.setPassword(password);
@@ -59,10 +60,10 @@ public class MemberLogin extends HttpServlet{
 			req.setAttribute("memberVO", result);
 			session.setAttribute("userid", userid);
 			
-			req.getRequestDispatcher("/member/member_center.jsp").forward(req, resp);
+			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
 		}else {
 			
-			req.getRequestDispatcher("/member/register.jsp").forward(req, resp);
+			req.getRequestDispatcher("/front-end/member/jsp/register.jsp").forward(req, resp);
 		}
 	}
 }
