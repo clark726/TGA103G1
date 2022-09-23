@@ -22,7 +22,9 @@ public class StoreVO extends Result implements Serializable {
 	private String work_end;
 	private String produce;
 	private List<Object> imgs;
-
+	private byte[] img;
+	private String imgstr;
+	
 	public StoreVO() {
 	};
 
@@ -48,6 +50,22 @@ public class StoreVO extends Result implements Serializable {
 
 	
 	
+	public String getImgstr() {
+		return imgstr;
+	}
+
+	public void setImgstr(String imgstr) {
+		this.imgstr = imgstr;
+	}
+
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
+
 	public List<Object> getImgs() {
 		return imgs;
 	}

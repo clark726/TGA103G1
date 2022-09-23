@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../../css/header.css" />
 </head>
 <body style="background-color: rgb(129, 93, 65)">
-	<div w3-include-html="../../com/header.html"></div>
+	<div id="xxx"></div>
 
 	<div class="contain">
 		<aside class="aside">
@@ -55,21 +55,21 @@
 						<div class="file">
 							<input type="file" id="p_file1">
 							<div class="preview" id="preview1">
-								<span class="text" id="text1" value="首圖">首圖</span>
+								<span class="text" id="text1" >首圖</span>
 							</div>
 						</div>
 
 						<div class="file">
 							<input type="file" id="p_file2">
 							<div class="preview" id="preview2">
-								<span class="text" id="text2" value="內頁一">內頁一</span>
+								<span class="text" id="text2">內頁一</span>
 							</div>
 						</div>
 
 						<div class="file">
 							<input type="file" id="p_file3">
 							<div class="preview" id="preview3">
-								<span class="text" id="text3">內頁二</span>
+								<span class="text" id="text3" >內頁二</span>
 							</div>
 						</div>
 					</div>
@@ -79,13 +79,13 @@
 						<div class="file">
 							<input type="file" id="p_file4">
 							<div class="preview" id="preview4">
-								<span class="text" id="text4">預覽圖</span>
+								<span class="text" id="text4">菜單一</span>
 							</div>
 						</div>
 						<div class="file">
 							<input type="file" id="p_file5">
 							<div class="preview" id="preview5">
-								<span class="text" id="text5">預覽圖</span>
+								<span class="text" id="text5">菜單二</span>
 							</div>
 						</div>
 						<div class="button">
@@ -108,36 +108,42 @@
 
 	</div>
 	<script>
-      function includeHTML() {
-        var z, i, elmnt, file, xhttp;
-        /* Loop through a collection of all HTML elements: */
-        z = document.getElementsByTagName("*");
-        for (i = 0; i < z.length; i++) {
-          elmnt = z[i];
-          /*search for elements with a certain atrribute:*/
-          file = elmnt.getAttribute("w3-include-html");
-          if (file) {
-            /* Make an HTTP request using the attribute value as the file name: */
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-              if (this.readyState == 4) {
-                if (this.status == 200) {
-                  elmnt.innerHTML = this.responseText;
-                }
-                if (this.status == 404) {
-                  elmnt.innerHTML = "Page not found.";
-                }
-                /* Remove the attribute, and call this function once more: */
-                elmnt.removeAttribute("w3-include-html");
-                includeHTML();
-              }
-            };
-            xhttp.open("GET", file, true);
-            xhttp.send();
-            /* Exit the function: */
-            return;
-          }
-        }
+   
+   function includeHTML() {
+        const xxx = document.querySelector("#xxx");
+        fetch("/TGA103G1/com/header.html")
+          .then((resp) => resp.text())
+          .then((content) => {
+            xxx.innerHTML = content;
+            changelog();
+
+            const username = document.querySelector("#account");
+            const password = document.querySelector("#password");
+            const errMsg = document.querySelector("#errMsg");
+            document.getElementById("btn1").addEventListener("click", () => {
+              fetch("/TGA103G1/StoreLogin", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  account: username.value,
+                  password: password.value,
+                }),
+              })
+                .then((resp) => resp.json())
+                .then((body) => {
+                  errMsg.textContent = "";
+                  const { successful, message } = body;
+                  if (successful) {
+                    const { account, password } = body;
+                    sessionStorage.setItem("account", account);
+                    sessionStorage.setItem("password", password);
+                    location = "/TGA103G1/ShowProduct";
+                  } else {
+                    errMsg.textContent = message;
+                  }
+                });
+            });
+          });
       }
       includeHTML();
       let mainImgReader = new FileReader();
@@ -157,7 +163,7 @@
             <img src="${mainImgReader.result}" class="preview_img" >
           `;
           document.querySelector("#preview1").innerHTML = str;
-            console.log(mainImgReader.result)
+           
         });
       
         }else{
@@ -250,12 +256,8 @@
   const work_open = document.querySelector('#work_open');
   const work_end = document.querySelector('#work_end');
   const dayoff = document.querySelector('#dayoff');
-  const p_file1 = document.querySelector('#p_file1');
-  const p_file2 = document.querySelector('#p_file2');
-  const p_file3 = document.querySelector('#p_file3');
-  const p_file4 = document.querySelector('#p_file4');
-  const p_file5 = document.querySelector('#p_file5');
   const errMsg = document.querySelector("#errMsg");
+  
   document.getElementById('updatebtn').addEventListener('click', () => {
     fetch('/TGA103G1/StoreUpdate', {
       method: 'POST',
@@ -269,43 +271,58 @@
     })
       .then(resp => resp.json() )
       .then(body => {
-        console.log(body);
+        
         errMsg.textContent = "";
         const { successful, message } = body;
          if (successful) {
-           location = '/TGA103G1/store/storealter.html';
+
          } else {
            errMsg.textContent = message;
          }
-      });
-      //圖片
+
+          //圖片
       fetch('/TGA103G1/StoreImgUpdate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         img: mainImgReader.result,
-        img: firstImgReader.result,
-        img: secondImgReader.result,
-        img: menauImg1.result,
-        img: menauImg2.result
+        firstImg: firstImgReader.result,
+        secondImg: secondImgReader.result,
+        meanuImg: menauImg1.result,
+        meanuImg2: menauImg2.result,
+    
       }),
     })
       .then(resp => resp.json() )
       .then(body => {
         console.log(body);
+        console.log(mainImgReader.result)
         errMsg.textContent = "";
         const { successful, message } = body;
          if (successful) {
-           location = '/TGA103G1/store/storealter.html';
+           location = 'http://localhost:8080/TGA103G1/back-end/store/storealter.html';
+         
          } else {
            errMsg.textContent = message;
          }
       });
+      });
+    
       
 
   });
 })();
 
+function changelog(){
+			
+			if(sessionStorage.getItem("account")){
+            document.querySelector("#login").style.display='none'
+            document.querySelector("#logout").style.display='block'
+          }
+		}
+changelog()
+
     </script>
+ 
 </body>
 </html>

@@ -19,7 +19,38 @@ public class Store_imgServiceImpl implements Store_imgService{
 	}
 	@Override
 	public void insert(Store_imgVO img) {
-		storeimgdao.insert(img);
+		
+
+		Store_imgVO imgmain = new Store_imgVO();
+		imgmain.setImg(img.getImg());
+		imgmain.setStore_id(img.getStore_id());
+		imgmain.setStatus1(1);
+		storeimgdao.insert(imgmain);
+		
+		Store_imgVO imgfirst = new Store_imgVO();
+		imgfirst.setImg(img.getFirstImg());
+		imgfirst.setStore_id(img.getStore_id());
+		imgfirst.setStatus1(2);
+		storeimgdao.insert(imgfirst);
+		
+		Store_imgVO imgsecond = new Store_imgVO();
+		imgsecond.setImg(img.getSecondImg());
+		imgsecond.setStore_id(img.getStore_id());
+		imgsecond.setStatus1(3);
+		storeimgdao.insert(imgsecond);
+		
+		Store_imgVO meanu1 = new Store_imgVO();
+		meanu1.setImg(img.getMeanuImg());
+		meanu1.setStore_id(img.getStore_id());
+		meanu1.setStatus1(4);
+		storeimgdao.insert(meanu1);
+		
+		Store_imgVO meanu2 = new Store_imgVO();
+		meanu2.setImg(img.getMeanuImg2());
+		meanu2.setStore_id(img.getStore_id());
+		meanu2.setStatus1(5);
+		storeimgdao.insert(meanu2);
+		
 	}
 
 	@Override

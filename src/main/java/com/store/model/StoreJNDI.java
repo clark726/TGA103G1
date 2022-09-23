@@ -262,4 +262,32 @@ public class StoreJNDI implements StoreDAO {
 		return store;
 	}
 
+	@Override
+	public List<StoreVO> findStoreFrontpageBythemeId(Integer theme_id) {
+		
+		String sql = "SELECT DISTINCT  s.store_id , s.name , s.theme_id , i.img , status  FROM store s \n"
+				+ "		left join store_img i\n"
+				+ "    on s.store_id = i.store_id\n"
+				+ "where i.status = 1 and s.theme_id = ?;";
+
+		List<StoreVO> list = new ArrayList<StoreVO>();
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, theme_id);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				StoreVO store = new StoreVO();
+				store.setStore_id(rs.getInt("store_id"));
+				store.setName(rs.getString("name"));
+				store.setImgstr(new String(rs.getBytes("img")));
+				list.add(store);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
 }

@@ -25,14 +25,15 @@ public class Store_imgJNDI implements Store_imgDAO{
 	}
 
 	public void insert(Store_imgVO img) {
-		String sql = "insert into store_img (store_id , img)\n" + "values(?, ?);";
+		String sql = "insert into store_img (store_id , img , status)\n" + "values(?, ? , ?);";
 
 		try (Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, img.getStore_id());
-			ps.setBytes(2, img.getImg());
+			ps.setBytes(2, img.getImg().getBytes());
+			ps.setInt(3, img.getStatus1());
 			ps.executeUpdate();
-
+			System.out.println(img.getImg().getBytes());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,7 +44,7 @@ public class Store_imgJNDI implements Store_imgDAO{
 		try (Connection connection = ds.getConnection();
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, img.getStore_id());
-			ps.setBytes(2, img.getImg());
+			ps.setBytes(2, img.getImg().getBytes());
 			ps.setInt(3, img.getImg_id());
 			ps.executeUpdate();
 
@@ -80,7 +81,7 @@ public class Store_imgJNDI implements Store_imgDAO{
 				img.setImg_id(rs.getInt("img_id"));
 				img.setStore_id(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
-				img.setImg(rs.getBytes("img"));
+				img.setImg(new String( rs.getBytes("img")));
 			}
 
 		} catch (Exception e) {
@@ -104,7 +105,7 @@ public class Store_imgJNDI implements Store_imgDAO{
 				img.setImg_id(rs.getInt("img_id"));
 				img.setStore_id(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
-				img.setImg(rs.getBytes("img"));
+				img.setImg(new String( rs.getBytes("img")));
 
 				list.add(img);
 			}

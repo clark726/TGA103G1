@@ -188,8 +188,8 @@ img {
 					.then(resp => resp.text())
 					.then(content => {
 						xxx.innerHTML = content;
-						  changelog()
-						
+						changelog()
+						logout()
 						const username = document.querySelector('#account');
 						const password = document.querySelector('#password');
 						const errMsg = document.querySelector('#errMsg');
@@ -210,8 +210,9 @@ img {
 						          const { account, password} = body;
 						          sessionStorage.setItem('account', account);
 						          sessionStorage.setItem('password', password);
-						          location = '/TGA103G1/ShowProduct';
-								
+						          
+								  
+							
 	
 						        } else {
 						          errMsg.textContent = message;
@@ -223,15 +224,22 @@ img {
 		}
 		includeHTML();
 		
-			function changelog(){
-			
-			if(sessionStorage.getItem("account")){
-            document.querySelector("#login").style.display='none'
-            document.querySelector("#logout").style.display='block'
-          }
-		}
-	
-    console.log(sessionStorage.getItem("account"))
+		 //登出鈕
+        function changelog() {
+    if (sessionStorage.getItem("account")) {
+      document.querySelector("#login").style.display = "none";
+      document.querySelector("#logout").style.display = "block";
+    }
+  }
+		 
+      //登出
+      function logout(){
+        document.querySelector("#logout").addEventListener("click", function(){
+            sessionStorage.removeItem("account")
+          })
+      }
+		
+		
 		
 	
 	</script>

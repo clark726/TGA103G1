@@ -24,7 +24,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, img.getStore_id());
-			ps.setBytes(2, img.getImg());
+			ps.setBytes(2, img.getImg().getBytes());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -38,7 +38,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, img.getStore_id());
-			ps.setBytes(2, img.getImg());
+			ps.setBytes(2, img.getImg().getBytes());
 			ps.setInt(3, img.getImg_id());
 			ps.executeUpdate();
 
@@ -77,7 +77,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 				img.setImg_id(rs.getInt("img_id"));
 				img.setStore_id(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
-				img.setImg(rs.getBytes("img"));
+				img.setImg(new String(rs.getBytes("img")));
 			}
 
 		} catch (Exception e) {
@@ -102,7 +102,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 				img.setImg_id(rs.getInt("img_id"));
 				img.setStore_id(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
-				img.setImg(rs.getBytes("img"));
+				img.setImg(new String(rs.getBytes("img")));
 
 				list.add(img);
 			}
@@ -124,7 +124,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		FileInputStream in = new FileInputStream("/Users/chenguanlun/Desktop/圖檔/A1557651782.jpeg");
 		byte[] b = new byte[(int) in.available()];
 		in.read(b);
-		img.setImg(b);
+//		img.setImg(b);
 		img.setImg_id(1);
 		in.close();
 //		jdbc.insert(img);

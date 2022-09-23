@@ -17,25 +17,30 @@
 	crossorigin="anonymous"></script>
 </head>
 <body style="background-color: rgb(129, 93, 65)">
+	</head>
+<body>
+
 	<header class="header">
 		<div class="fl_left">
 			<h1 id="logo_h1">
-				<a href="＃" id="logo">Bar.Jar.Jo</a>
+				<a href=".../main.html" id="logo">Bar.Jar.Jo</a>
 			</h1>
 		</div>
 
 		<nav class="fl_right">
 			<ul class="nav_ul">
-				<li><a href="#">HOME</a></li>
+				<li><a href="#" id="home">HOME</a></li>
 				<li><a href="#">地圖</a></li>
 				<li><a href="#">討論區</a></li>
 				<li><a href="#" data-bs-toggle="modal"
 					data-bs-target="#loginModal">廠商專區</a></li>
 				<li><a href="#" class="icon">店家主題</a>
 					<ul id="store">
-						<li><a href="#">Bistro</a></li>
-						<li><a href="#">Cocktail bar</a></li>
-						<li><a href="#">Whisky bar</a></li>
+						<li><a href="http://localhost:8080/TGA103G1/back-end/store/storeType.html" data-themid="1" class="theme_id">Bistro</a></li>
+						<li><a href="http://localhost:8080/TGA103G1/back-end/store/storeType.html" data-themid="2" class="theme_id">Cocktail
+								bar</a></li>
+						<li><a href="http://localhost:8080/TGA103G1/back-end/store/storeType.html" data-themid="3" class="theme_id">Whisky
+								bar</a></li>
 					</ul></li>
 				<li><a href="#" class="icon">會員專區</a>
 					<ul id="store">
@@ -46,7 +51,9 @@
 					</ul></li>
 
 				<li><a href="#">購物商城</a></li>
-				<li><a href="#">登入註冊</a></li>
+				<li><a href="#" id="login">登入註冊</a><a
+					href="http://localhost:8080/TGA103G1/StoreLogout" id="logout"
+					style="display: none">登出</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -75,30 +82,32 @@
 					<!-- password -->
 					<div class="form-group">
 						<input type="password" class="password form-control"
-							placeholder="密碼" id="password">
+							placeholder="密碼" id="password" />
 					</div>
 					<!-- checkbox -->
 					<div class="form-group">
 						<input type="checkbox" class="remember" placeholder="密碼"
-							style="margin-bottom: 20px; margin-left: 30px">記住密碼 <span
-							id="errMsg" class="error" style="margin-left: 70px; color: red;"></span>
+							style="margin-bottom: 20px; margin-left: 30px" />記住密碼
+						<span id="errMsg" class="error"
+							style="margin-left: 70px; color: red"></span>
 					</div>
 					<!-- 送出按鈕 -->
 					<button type="button" id="btn1" class="btn btn-info"
-						style="width: 80%; font-size: 25px; color: white; margin-left: 50px; background-color: rgb(68, 48, 43);">登入</button>
+						style="width: 80%; font-size: 25px; color: white; margin-left: 50px; background-color: rgb(68, 48, 43);">
+						登入</button>
 				</form>
 				<!-- Footer -->
 				<div class="modal-footer">
-
 					<div class="sigup">
-						<span>尚加入廠商</span> <a href="./back-end/store/storesumit.jsp" type="button" class="member"
-							style="text-decoration: none;">立即加入</a>
+						<span>尚加入廠商</span> <a href="" type="button" class="member"
+							style="text-decoration: none">立即加入</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	
+	
 	<div class="silder">
 		<a href="#"><img src="./img/1.webp" id="img" /></a>
 	</div>
@@ -142,51 +151,79 @@
 		</div>
 	</footer>
 
-
 	<script>
-		var arr = [ "./img/1.webp", "./img/2.jpeg", "./img/3.webp" ];
+       
 
-		window.onload = function() {
-			document.querySelectorAll(".change").forEach(function(el) {
-				el.addEventListener("click", function(e) {
-					$(".change").removeClass("-on");
+	
+	//換頁
+	   var arr = ["./img/1.webp", "./img/2.jpeg", "./img/3.webp"];
 
-					e.target.classList.add("-on");
 
-					document.querySelector("#img").src = arr[e.target.value];
-				});
-			});
-		};
-		
-		 (() => {
-			  const username = document.querySelector('#account');
-			  const password = document.querySelector('#password');
-			  const errMsg = document.querySelector('#errMsg');
-			  
-			  document.getElementById('btn1').addEventListener('click', () => {
-			    fetch('/TGA103G1/StoreLogin', {
-			      method: 'POST',
-			      headers: { 'Content-Type': 'application/json' },
-			      body: JSON.stringify({
-			        account: username.value,
-			        password: password.value
-			      }),
-			    })
-			      .then(resp => resp.json() )
-			      .then(body => {
-			        errMsg.textContent = "";
-			        const { successful, message } = body;
-			        if (successful) {
-			          const { account, password} = body;
-			          sessionStorage.setItem('account', account);
-			          sessionStorage.setItem('password', password);
-			          location = '/TGA103G1/ShowProduct';
-			        } else {
-			          errMsg.textContent = message;
-			        }
-			      });
-			  });
-			})();
-	</script>
+document.querySelectorAll(".change").forEach(function (el) {
+el.addEventListener("click", function (e) {
+  $(".change").removeClass("-on");
+
+  e.target.classList.add("-on");
+
+  document.querySelector("#img").src = arr[e.target.value];
+});
+});
+	
+//登入
+(() => {
+  const username = document.querySelector("#account");
+  const password = document.querySelector("#password");
+  const errMsg = document.querySelector("#errMsg");
+  document.getElementById("btn1").addEventListener("click", () => {
+    fetch("http://localhost:8080/TGA103G1/StoreLogin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        account: username.value,
+        password: password.value,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((body) => {
+        errMsg.textContent = "";
+        const { successful, message } = body;
+        if (successful) {
+          const { account, password } = body;
+          sessionStorage.setItem("account", account);
+          sessionStorage.setItem("password", password);
+          location = "http://localhost:8080/TGA103G1/ShowProduct";
+        } else {
+          errMsg.textContent = message;
+        }
+      });
+  });
+})();
+
+//登出
+document.querySelector("#logout").addEventListener("click", function(){
+    sessionStorage.removeItem("account")
+  })
+
+//換登出鈕
+function changelog() {
+  if (sessionStorage.getItem("account")) {
+    document.querySelector("#login").style.display = "none";
+    document.querySelector("#logout").style.display = "block";
+  }
+}
+changelog();
+
+
+
+
+//點擊theme_id
+let allthemeid =  document.querySelectorAll(".theme_id");
+allthemeid.forEach(function(e){
+  e.addEventListener("click", function(e){
+		let id = e.target.getAttribute("data-themid");
+		sessionStorage.setItem("themeId",id)
+  })
+})
+    </script>
 </body>
 </html>

@@ -115,4 +115,10 @@ public class StoreServiceImpl implements StoreService {
 		return storedao.findStoreAccount(account);
 	}
 
+	@Override
+	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId) {
+
+		return storedao.findStoreFrontpageBythemeId(themeId);
+	}
+
 }

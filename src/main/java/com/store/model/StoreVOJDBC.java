@@ -179,4 +179,14 @@ public class StoreVOJDBC implements StoreDAO {
 	@Override
 	public void updateProduce(StoreVO storevo) {
 	}
+
+	@Override
+	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
 }

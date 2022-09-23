@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<link rel="stylesheet" href="../../css/storeType.css" />
+<link rel="stylesheet" href="../../css/header.css" />
+<link rel="stylesheet" href="../../css/footer.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+</head>
+<body style="background-color: rgb(129, 93, 65)">
+	<div id="xxx"></div>
+	<main class="main">
+		<div class="top">
+			<div class="div_produce">
+				<div class="div_title">
+					<h1>餐酒館</h1>
+				</div>
+				<p>
+					這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文
+					紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文</p>
+			</div>
+			<div class="div_img">
+				<img src="./圖檔/1.webp" style="width: 600px; height: 200px" />
+			</div>
+		</div>
+		<hr />
+
+		<div class="botton">
+			<ul class="item_list"></ul>
+		</div>
+	</main>
+	<div w3-include-html="./commhtml/footer.html"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<script>
+	function includeHTML() {
+		const xxx = document.querySelector('#xxx');
+			fetch('/TGA103G1/com/header.html')
+				.then(resp => resp.text())
+				.then(content => {
+					xxx.innerHTML = content;
+
+					changelog()
+					logout()
+					changeTheme()
+					
+					const username = document.querySelector('#account');
+					const password = document.querySelector('#password');
+					const errMsg = document.querySelector('#errMsg');
+					document.getElementById('btn1').addEventListener('click', () => {
+					    fetch('/TGA103G1/StoreLogin', {
+					      method: 'POST',
+					      headers: { 'Content-Type': 'application/json' },
+					      body: JSON.stringify({
+					        account: username.value,
+					        password: password.value
+					      }),
+					    })
+					      .then(resp => resp.json() )
+					      .then(body => {
+					        errMsg.textContent = "";
+					        const { successful, message } = body;
+					        if (successful) {
+					          const { account, password} = body;
+					          sessionStorage.setItem('account', account);
+					          sessionStorage.setItem('password', password);
+					    
+					        } else {
+					          errMsg.textContent = message;
+					        }
+					      });
+					  });			
+				});
+				
+	}
+	includeHTML();
+	
+	 //登出鈕
+    function changelog() {
+if (sessionStorage.getItem("account")) {
+  document.querySelector("#login").style.display = "none";
+  document.querySelector("#logout").style.display = "block";
+}
+}
+	 
+  //登出
+  function logout(){
+    document.querySelector("#logout").addEventListener("click", function(){
+        sessionStorage.removeItem("account")
+      })
+  }
+	//加入最愛
+	function like(){
+    var all_icon = $(".fa-solid");
+    all_icon.forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.target.classList.toggle("-on");
+      });
+    });
+	}
+	//點擊theme_id
+	function changeTheme(){
+let allthemeid =  document.querySelectorAll(".theme_id");
+allthemeid.forEach(function(e){
+  e.addEventListener("click", function(e){
+		let id = e.target.getAttribute("data-themid");
+		sessionStorage.setItem("themeId",id)
+  })
+})
+}
+	let themeId = sessionStorage.getItem("themeId");
+
+	fetch("http://localhost:8080/TGA103G1/ShowStoreType", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        theme_id: themeId
+      }),
+    })
+      .then(resp => resp.json())
+      .then(body => {
+		console.log(body[1].name)
+		
+		
+		for(var i = 0; i < body['length']; i++){
+
+			$("ul.item_list").append(`
+			 	<li><i class="fa-solid fa-heart"></i> 
+			 		<a href="#">
+			 			<div class="img_block">
+			 				<img src="${body[i].imgstr}" />
+			 			</div>
+			 			<div class="icon">
+			 				<span class="item_text">${body[i].name}</span>
+			 			</div>
+			 	</a></li>`)
+		}
+
+      });
+
+  </script>
+</html>
