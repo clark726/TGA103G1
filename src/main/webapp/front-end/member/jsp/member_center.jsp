@@ -5,16 +5,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%--  <%
-  MemberVO memberVO = (MemberVO) request.getAttribute("memberVO"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
-%>  --%>
+<%session.getAttribute("userid");
+
+%>
+
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_center.css">
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/member_center.css">
 </head>
 <body>
     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
@@ -24,19 +25,19 @@
                 <h2>會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_center.jsp">修改基本資料</a></button>
+                        <button><a href="<%=request.getContextPath() %>/member/MemberUpdate">修改基本資料</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerChangePsw.jsp">修改密碼</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center%EF%BC%ADanegerOrder.jsp">訂單管理</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerMyLove.jsp">我的最愛</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerForum.jsp">討論區</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
                         <button><a href="">聊天室</a></button>
@@ -58,28 +59,30 @@
                             </div> --%>
                             <div class="form_div">
                                 <label for="">名稱</label>
-                                <input type="text" placeholder="名稱" name="nickname" value="${memberVO.nickname} ">
+                                <input type="text" placeholder="名稱" name="nickname" value="${userid.nickname}">
                             </div>
+                                <font size="1" class="font" color="red"></font>
                             <div class="form_div">
                                 <label for="">信箱</label>
-                                <input type="text" placeholder="信箱" name="email"  value="${memberVO.email}">
+                                <input type="text" placeholder="信箱" name="email"  value="${userid.email}">
                             </div>
+                                <font size="1" class="font" color="red">${errorMsgs.email}</font>
                             <div class="form_div">
                                 <label for="">地址</label>
-                                <input type="text" placeholder="地址" name="address"  value="${memberVO.address} ">
+                                <input type="text" placeholder="地址" name="address"  value="${userid.address}">
                             </div>
+                                <font size="1" class="font" color="red">${errorMsgs.address}</font>
                             <div class="form_div">
                                 <label for="">電話</label>
-                                <input type="text" placeholder="手機" name="phone"  value="${memberVO.phone}">
+                                <input type="text" placeholder="手機" name="phone"  value="${userid.phone}">
                             </div>
+                                <font size="1" class="font" color="red">${errorMsgs.phone}</font>
                             <div class="div_gender">
                                 <label for="">性別</label>
-                                <input type="radio" id="male" name="gender"  value="0" class="gender" ${memberVO.gender == 0 ? "checked" : ""}><label for="male">男</label>
-                                <input type="radio" id="famale" name="gender" value="1" class="gender" ${memberVO.gender == 0 ? "" : "checked"}><label for="famale">女</label>
+                                <input type="radio" id="male" name="gender"  value="0" class="gender" ${userid.gender == 0 ? "checked" : ""}><label for="male">男</label>
+                                <input type="radio" id="famale" name="gender" value="1" class="gender" ${userid.gender  == 0 ? "" : "checked"}><label for="famale">女</label>
                             </div>
-							<input type="hidden" name="action" value="update">
-							<input type="hidden" name="member_id" value="${memberVO.member_id}">
-							<input type="hidden" name="member_id" value="${memberVO.account}">
+						
                             <button type="submit">確定修改</button>
                         </form>
                     </div>

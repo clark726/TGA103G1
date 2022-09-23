@@ -17,7 +17,7 @@
         <main class="login_main">
             <form method="post" action="<%=request.getContextPath()%>/member/login" class="login_form">
                 <h2>會員登入</h2>
-                <font style="text-align:center;">${result}</font>
+                <font style="text-align:center">${result}</font>
                 <div>
                     <label for="login_account">帳號:</label>
                     <input type="text" id="login_account" name="account"> 

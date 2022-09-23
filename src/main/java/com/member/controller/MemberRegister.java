@@ -39,6 +39,7 @@ public class MemberRegister extends HttpServlet{
 		resp.setContentType("text/html; charset=UTF-8");
 		Map<String,String> errorMsgs = new LinkedHashMap<String,String>();
 		req.setAttribute("errorMsgs", errorMsgs);
+		
 		LocalDate birthday2 = null;
 		String account = req.getParameter("account");
 		String password = req.getParameter("password");
@@ -108,7 +109,6 @@ public class MemberRegister extends HttpServlet{
 		}else {
 			service.register(member);
 		}
-		String context =  req.getContextPath();
 		if (!errorMsgs.isEmpty()) {
 			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/jsp/register.jsp");
 			failureView.forward(req, resp);

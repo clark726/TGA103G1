@@ -22,6 +22,9 @@ div.div_login main.login_main form.login_form input{
     border-radius: 5px;
     font-size: 18px;
 }
+div.div_login main.login_main form.login_form > font{
+	margin-left: 400px;
+}
 div.div_login main.login_main form.login_form > h2{
     font-size: 30px;
 }

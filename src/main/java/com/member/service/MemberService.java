@@ -7,7 +7,7 @@ import com.member.vo.MemberVO;
 
 public interface MemberService {
 	
-	Boolean update(MemberVO member);
+	boolean update(MemberVO member);
 	
 	boolean register(MemberVO member);
 	
@@ -15,9 +15,13 @@ public interface MemberService {
 	
 	MemberVO findByPrimaryKey(Integer member_id);
 	
+	MemberVO selectByUsername(String account);
+	
 	List<MemberVO> getAll();
 
 	boolean login(String account, String password);
 	
 	boolean updatePermission(Integer id,Integer permission);
+	
+	boolean updatePassword(MemberVO member);
 }
