@@ -70,14 +70,14 @@
 					<a class="edit_store" href="<%=request.getContextPath()%>/admin/console/members.jsp?">修改會員資料</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button">上下架商品管理</a>
+					<a class="manager_item" type="button" href="<%=request.getContextPath() %>/admin/console/administrators.jsp">管理員們</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
 				</div>
 				<hr>
 				<div>
-					<a class="front_paga" >留言檢舉</a>
+					<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉</a>
 				</div>
 				<div>
 					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
@@ -174,6 +174,7 @@ document.querySelectorAll(".deleteForumMessage").forEach(function(el){
         data: {"action":"deleteForumMessage",
 		        "deleteVal":trEl.children[3].innerHTML,
 				"btnVal":trEl.children[1].innerHTML,
+				"memberId":trEl.children[2].innerHTML,
 				"reason":reason},                        
         beforeSend: function(){     
         },

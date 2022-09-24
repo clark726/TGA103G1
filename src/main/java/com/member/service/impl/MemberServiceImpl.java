@@ -132,7 +132,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO findByPrimaryKey(Integer member_id) {
-		return findByPrimaryKey(member_id);
+		return dao.findByPrimaryKey(member_id);
 	}
 
 	@Override

@@ -17,8 +17,8 @@ public class ManagerServiceImpl implements ManagerService {
 		return dao.getAll();
 	}
 	
-	public void delete(Integer id) {
-		dao.delete(id);
+	public boolean delete(Integer id) {
+		 return dao.delete(id);
 	}
 	
 	public ManagerVO get(Integer id) {
@@ -26,10 +26,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	
-	public ManagerVO insert(String account,String password) {
-		ManagerVO result = new ManagerVO(account,password);
-		dao.add(result);
-		return result;
+	public boolean insert(String account,String password) {
+		return dao.add(new ManagerVO(account,password));
 	}
 	
 	public ManagerVO update(Integer member_id, String account, String password) {

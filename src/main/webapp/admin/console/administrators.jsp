@@ -8,6 +8,16 @@
 <title>Document</title>
 <link rel="stylesheet" href="/TGA103G1/admin/css/header.css" />
 <link rel="stylesheet" href="/TGA103G1/admin/css/back.css">
+<style>
+	table{
+	display: flex;
+	justify-content: center; 
+	align-items: center; 
+	}
+	td {
+		border: 1px solid black;
+	}
+	</style>
 </head>
 <body>
 	<header class="header">
@@ -51,7 +61,7 @@
 					<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/members.jsp">修改會員資料</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button" href="<%=request.getContextPath() %>/admin/console/administrators.jsp">管理員們</a>
+					<a class="manager_item" href="/TGA103G1/admin/console/administrators.jsp">管理員們</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -64,7 +74,7 @@
 					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
 				</div>
 				<div>
-					<a class="forum" href="/TGA103G1/admin/console/onTheShelf.jsp">審核上架</a>
+					<a class="audit" type="button">審核上架</a>
 				</div>
 				<div>
 					<a class="change_state" type="button">改變帳號狀態</a>
@@ -76,8 +86,49 @@
 		</aside>
 
 		<main class="main">
-
+			<table>
+				<tr>
+					<td>id</td>
+					<td>account</td>
+					<td>password</td>
+					<td>delete</td>
+				</tr>
+				<c:forEach items="${admins }" var="admin">
+					<tr>
+						<td class="adminId">${admin.manager_id}</td>
+						<td>${admin.account }</td>
+						<td>${admin.password }</td>
+						<td><button type="button" class="delete ${admin.manager_id}">delete</button></td>
+					</tr>
+				</c:forEach>	
+			</table>
+			<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/register.jsp">註冊新管理員</a>
 		</main>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<script>
+    document.querySelectorAll(".delete").forEach(function (el) {
+        el.addEventListener("click", function (ev) {
+            var trEl = el.closest("tr");
+          var adminId = trEl.children[0].innerText;
+          if (window.confirm("確定要刪除嗎?")) {
+            $.ajax({
+              url: "/TGA103G1/control",
+              type: "post",
+              data: { action: "deleteAdmin", adminId: adminId },
+              dataType: "text",
+              success: function (xhr) {
+                alert(xhr);
+				trEl.remove();
+              },
+              error: function (xhr) {
+                console.log("error");
+                console.log(xhr);
+              },
+            });
+          }
+        });
+      });
+	</script>
 </body>
 </html>

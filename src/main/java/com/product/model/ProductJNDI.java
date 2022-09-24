@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.search.IntegerComparisonTerm;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -189,20 +190,16 @@ public class ProductJNDI implements ProductDAO {
 		return img;
 	}
 
-	
-
 	@Override
 	public List<ProductVO> ShowStoreProduct(Integer store_id) {
 		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
-				+ "from product\n"
-				+ "where  store_id = ?;";
+				+ "from product\n" + "where  store_id = ?;";
 		List<ProductVO> list = new ArrayList<>();
 		ProductVO product = null;
-		try(Connection connection = ds.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql)){
-			ps.setInt(1,store_id );
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, store_id);
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				product = new ProductVO();
 				product.setProduct_id(rs.getInt("product_id"));
 				product.setName(rs.getString("name"));
@@ -213,19 +210,17 @@ public class ProductJNDI implements ProductDAO {
 				product.setStock(rs.getInt("stock"));
 				product.setStatus(rs.getInt("status"));
 				product.setDate(rs.getDate("date"));
-				
-				
+
 				list.add(product);
 			}
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return list;
 	}
-	
-	
+
 	public static void main(String[] args) {
 
 		ProductVOJDBC jdbc = new ProductVOJDBC();
@@ -251,4 +246,19 @@ public class ProductJNDI implements ProductDAO {
 //			System.out.println(product);
 //		}
 	}
+
+	@Override
+	public boolean updateStatus(Integer id, Integer status) {
+		int row = 0;
+		String sql = "UPDATE `product` SET `status` = ? WHERE (`product_id` = ?);";
+		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql);) {
+			ps.setObject(1, status);
+			ps.setObject(2, id);
+			row = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return row == 1;
+	}
+
 }

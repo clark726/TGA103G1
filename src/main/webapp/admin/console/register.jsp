@@ -48,10 +48,10 @@
 			<p id="p1">管理者後台</p>
 			<div class="div_func">
 				<div>
-					<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/members.jsp">修改會員資料</a>
+					<a class="edit_store" type="button">修改會員資料</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button" href="<%=request.getContextPath() %>/admin/console/administrators.jsp">管理員們</a>
+					<a class="manager_item" type="button">上下架商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -64,7 +64,7 @@
 					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
 				</div>
 				<div>
-					<a class="forum" href="/TGA103G1/admin/console/onTheShelf.jsp">審核上架</a>
+					<a class="audit" type="button">審核上架</a>
 				</div>
 				<div>
 					<a class="change_state" type="button">改變帳號狀態</a>
@@ -76,8 +76,39 @@
 		</aside>
 
 		<main class="main">
-
+			<form action="<%=request.getContextPath()%>/control" method="post">
+			<input type="text" name="account" placeholder="account" class="account">
+			<input type="password" name="password" placeholder="password" class="password1">
+			<input type="password" placeholder="password" class="password2">
+			<input type="hidden" name="action" value="register">
+			<button class="submit" type="button">submit</button>
+			</form>
 		</main>
 	</div>
+	<script>
+	document.querySelector(".submit").addEventListener("click",function(e){
+		var account = document.querySelector(".account").value;
+		var password = document.querySelector(".password1").value;
+		var again = document.querySelector(".password2").value;
+		if(account.length <8 ||account.length>15){
+			e.preventDefault();
+			alert("8~15");
+		}
+		if(!(/^\w+$/.test(account))){
+			e.preventDefault();
+		}
+		if(password.length<8 || password.length>15){
+			e.preventDefault();
+			alert("8~15");
+		}
+		if(!(/^\w+$/.test(password))){
+			e.preventDefault();
+		}
+		if(password != again){
+			e.preventDefault();
+			alert("再次確認密碼");
+		}
+	})
+	</script>
 </body>
 </html>

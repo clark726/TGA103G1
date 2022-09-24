@@ -17,4 +17,6 @@ public interface MemberDao {
 	List<MemberVO> getAll();
 
 	boolean updatePermission(Integer id, Integer permission);
+
+	MemberVO findByPrimaryKey(Integer member_id);
 }

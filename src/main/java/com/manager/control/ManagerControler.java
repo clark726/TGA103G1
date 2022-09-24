@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,27 +26,34 @@ import com.forum_message.model.Forum_messageVO;
 import com.forum_report.model.service.impl.*;
 import com.forum_report.model.Forum_reportVO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.manager.model.ManagerVO;
 import com.manager.model.service.impl.*;
 import com.member.service.impl.MemberServiceImpl;
 import com.member.vo.MemberVO;
 import com.message_report.model.service.impl.*;
+import com.product.model.ProductVO;
+import com.product.service.impl.ProductServiceImpl;
+import com.product_img.model.Product_imgService;
 
-@WebServlet(value = "/control", loadOnStartup = 100)
+@WebServlet(urlPatterns = {"/control"}, loadOnStartup = 100, asyncSupported=true)
 public class ManagerControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	MemberServiceImpl memberService;
-	Message_reportServiceImpl message_reportService;
-	Integer datas;
-	Forum_messageService forumMessage;
-	Forum_reportServiceImpl forumReport;
-	ForumServiceImpl forum;
+	private MemberServiceImpl memberService;
+	private Message_reportServiceImpl message_reportService;
+	private Integer datas;
+	private Forum_messageService forumMessage;
+	private Forum_reportServiceImpl forumReport;
+	private ForumServiceImpl forum;
+	private ManagerServiceImpl managerService;
+	private ProductServiceImpl productService;
+	private Product_imgService productImage;
 
 	@Override
 	public void init() throws ServletException {
 		try {
 			this.memberService = new MemberServiceImpl();
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.message_reportService = new Message_reportServiceImpl();
@@ -52,11 +61,27 @@ public class ManagerControler extends HttpServlet {
 		this.datas = 5;
 		this.forumReport = new Forum_reportServiceImpl();
 		this.forum = new ForumServiceImpl();
+		this.managerService = new ManagerServiceImpl();
+		this.productService = new ProductServiceImpl();
+		this.productImage = new Product_imgService();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		this.doPost(req, resp);
+		String action = req.getParameter("action");
+		if (action != null) {
+			switch (action) {
+			case "watchimage":
+				watchimage(req,resp);
+				break;
+			default:
+				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
+				System.out.println(action);
+			}
+		} else {
+			req.getSession().invalidate();
+			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
+		}
 	}
 
 	@Override
@@ -100,6 +125,21 @@ public class ManagerControler extends HttpServlet {
 			case "deleteForum":
 				deleteForum(req,resp);
 				break;
+			case "register":
+				register(req,resp);
+				break;
+			case "deleteAdmin":
+				deleteAdmin(req,resp);
+				break;
+			case "roductStatusSelect":
+				roductStatusSelect(req,resp);
+				break;
+			case "getAllProduct":
+				getAllProduct(req,resp);
+				break;
+			case "updateProdcut":
+				updateProdcut(req,resp);
+				break;
 			default:
 				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 				System.out.println(action);
@@ -108,6 +148,69 @@ public class ManagerControler extends HttpServlet {
 			req.getSession().invalidate();
 			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 		}
+	}
+	
+	
+	public void watchimage(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
+		String id = req.getParameter("id");
+		
+	}
+	
+	public void updateProdcut(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
+		try {
+			Integer status = Integer.parseInt(req.getParameter("status"));
+			Integer id = Integer.parseInt(req.getParameter("productId")); 
+			if(this.productService.updateStatus(id,status)) {
+				req.getSession().setAttribute("products", this.productService.getAll());
+				resp.sendRedirect(req.getHeader("referer"));
+				return;
+			}
+		}catch (NumberFormatException e) {
+			System.out.println("control.updateProdcut 數字格式不府和");
+		}
+		System.out.println("control.updateProdcut 修改資料失敗");
+		resp.sendRedirect(req.getHeader("referer"));
+	}
+	
+	public void getAllProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException ,ServletException{
+		List<ProductVO> list = this.productService.getAll();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		resp.getWriter().print(gson.toJson(list));
+	}
+	
+	public void roductStatusSelect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String productStatus = req.getParameter("productStatus");
+		Integer status = Integer.parseInt(productStatus);
+		req.getSession().removeAttribute(productStatus);
+		req.getSession().setAttribute("productStatus", status);
+//		resp.getWriter().print(productStatus);
+	}
+	
+	public void deleteAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		try (PrintWriter out = resp.getWriter()){
+			Integer id = Integer.parseInt(req.getParameter("adminId"));
+			if(this.managerService.delete(id)) {
+				out.print("成功刪除");
+			}else {
+				out.print("刪除失敗");
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.out.println("control.deleteAdmin 輸入的不是數字");
+		} 
+	}
+	
+	public void register(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		String accountString = req.getParameter("account");
+		String passwordString = req.getParameter("password");
+		if(this.managerService.insert(accountString, passwordString)) {
+			sessionSetAttribute(req.getSession());
+			resp.sendRedirect("/TGA103G1/admin/console/administrators.jsp");
+		}else {
+			System.out.println("control.register fail");
+			resp.sendRedirect(req.getHeader("referer"));
+		}
+
 	}
 	
 	public void deleteForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -175,7 +278,22 @@ public class ManagerControler extends HttpServlet {
 	public void deleteForumMessage(HttpServletRequest req, HttpServletResponse resp) {
 		String deleteVal = req.getParameter("deleteVal");
 		this.forumMessage.delete(Integer.parseInt(deleteVal));
-		System.out.println(req.getParameter("reason"));
+		String member_Id = req.getParameter("memberId");
+		Integer memberId = Integer.parseInt(member_Id);
+		String accountString = memberService.findByPrimaryKey(memberId).getAccount();
+		new Thread(new MailService(accountString,"留言遭刪除",accountString,req.getParameter("reason"))).start();
+		
+//		AsyncContext asyncContext = req.startAsync();
+//		asyncContext.start(new MailService(asyncContext));
+		
+//		req.setAttribute("account", accountString);
+//		if(req.isAsyncSupported()) {
+//			AsyncContext asyncContext = req.getAsyncContext();
+//			asyncContext.start(new MailService(asyncContext));
+//		}else {
+//			System.out.println("not asyncContext support cant send mail");
+//		}
+
 		updateforumReport(req, resp);
 	}
 
@@ -243,7 +361,7 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ManagerServiceImpl service = new ManagerServiceImpl();
+		managerService = new ManagerServiceImpl();
 		String code = req.getParameter("code");
 		HttpSession session = req.getSession();
 		String rand = (String) session.getAttribute("rand");
@@ -251,7 +369,7 @@ public class ManagerControler extends HttpServlet {
 			if (code.equals(rand)) {
 				String user = req.getParameter("user");
 				String password = req.getParameter("password");
-				if (service.check(user, password)) {
+				if (managerService.check(user, password)) {
 					session.setAttribute("admin", user);
 					sessionSetAttribute(session);
 					resp.sendRedirect(req.getContextPath() + "/admin/console/members.jsp");
@@ -277,6 +395,10 @@ public class ManagerControler extends HttpServlet {
 				memberList.size() % datas == 0 ? memberList.size() / datas : memberList.size() / datas + 1);
 		session.setAttribute("messageReportList", this.message_reportService.getAll());
 		session.setAttribute("datas", datas);
+		List<ManagerVO> list = this.managerService.getAll();
+		session.setAttribute("admins", list);
+		session.setAttribute("products", this.productService.getAll());
+		session.setAttribute("productStatus", 3);
 	}
 
 	public void requestSetError(HttpServletRequest req, HttpServletResponse resp, String errorMessage)

@@ -58,17 +58,16 @@ public class ManagerJNDIDAO implements ManagerDAO{
 
     @Override
     public boolean add(ManagerVO obj) {
-        int rows = -1;
+        int rows = 0;
         String sql = "INSERT INTO `manager` (`account`, `password`) VALUES (?,?);";
-        try(Connection conn = ds.getConnection();
-            PreparedStatement ppst = conn.prepareStatement(sql)){
+        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
             ppst.setObject(1,obj.getAccount());
             ppst.setObject(2,obj.getPassword());
             rows = ppst.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return rows != -1;
+        return rows == 1;
     }
 
     @Override
@@ -98,7 +97,7 @@ public class ManagerJNDIDAO implements ManagerDAO{
         }catch (Exception e){
             e.printStackTrace();
         }
-        return rows != 0;
+        return rows == 1;
     }
     public boolean check(String account,String password) {
     	String sql = "select count(2) from manager where account=? and password= ?;";

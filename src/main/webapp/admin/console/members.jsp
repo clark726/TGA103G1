@@ -68,10 +68,10 @@ body {
 			<p id="p1">管理者後台</p>
 			<div class="div_func">
 				<div>
-					<a class="edit_store" type="button">修改會員資料</a>
+					<a class="front_paga" href="<%=request.getContextPath()%>/admin/console/members.jsp">修改會員資料</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button">上下架商品管理</a>
+					<a class="manager_item" type="button" href="<%=request.getContextPath() %>/admin/console/administrators.jsp">管理員們</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -85,7 +85,7 @@ body {
 					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
 				</div>
 				<div>
-					<a class="audit" type="button">審核上架</a>
+					<a class="forum" href="/TGA103G1/admin/console/onTheShelf.jsp">審核上架</a>
 				</div>
 				<div>
 					<a class="change_state" type="button">改變帳號狀態</a>
@@ -131,7 +131,6 @@ body {
 					<td>address</td>
 					<td>nickname</td>
 					<td>phone</td>
-					<!-- 					<td>register</td> -->
 					<td>permission</td>
 					<td>update</td>
 					<td>reset</td>
@@ -139,35 +138,26 @@ body {
 				<c:forEach var="member" items="${members}" varStatus="s">
 					<tr>
 						<form action="<%=request.getContextPath()%>/control" method="post">
-							<input type="hidden" name="member_id" class="member_id"
-								value="${member.member_id}">
-							<td>${member.member_id}</td> <input type="hidden" name="account"
-								class="account" value="${member.account}">
-							<td>${member.account}</td> <input type="hidden" name="password"
-								value="${member.password}"> <input type="hidden"
-								name="birthday" value="${member.birthday}"> <input
-								type="hidden" name="address" value="${member.address}">
-							<td>${member.address}</td> <input type="hidden" name="nickname"
-								value="${member.nickname}" class="nickname">
-							<td>${member.nickname}</td> <input type="hidden" name="phone"
-								value="${member.phone}" class="phone">
-							<td>${member.phone}</td> <input type="hidden" name="register"
-								value="${member.register}">
-							<td><select name="permission">
+							<td>${member.member_id}</td> 
+								<input type="hidden" name="member_id" class="member_id" value="${member.member_id}">
+							<td>${member.account}</td> 
+							<td>${member.address}</td> 
+							<td>${member.nickname}</td> 
+							<td>${member.phone}</td> 
+							<td>
+								<select name="permission">
 									<option value="0" ${member.permission == 0 ? "selected":""}>已封鎖</option>
 									<option value="1" ${member.permission == 1 ? "selected":""}>已註冊</option>
 									<option value="2" ${member.permission == 2 ? "selected":""}>已驗證</option>
-							</select></td>
+								</select>
+							</td>
 							<td><button type="submit" class="update">update</button></td>
-							<td><button type="reset">reset</button></td> <input type="hidden"
-								name="action" value="update"> <input type="hidden"
-								name="gender" value="${member.gender}"> <input
-								type="hidden" name="email" value="${member.email}">
+							<td><button type="reset">reset</button></td> 
+							<input type="hidden" name="action" value="update"> 
 						</form>
 					</tr>
 				</c:forEach>
 			</table>
-
 		</main>
 	</div>
 	<script type="text/javascript">
