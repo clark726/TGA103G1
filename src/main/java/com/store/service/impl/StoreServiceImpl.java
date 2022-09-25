@@ -48,23 +48,7 @@ public class StoreServiceImpl implements StoreService {
 			store.setSuccessful(false);
 			return store;
 		}
-		String timeRex = "\\d{2}\\:\\d{2}";
-		if ("".equals(work_open)) {
-			store.setMessage("營業開始請勿空白");
-			store.setSuccessful(false);
-			return store;
-		} else if (!(work_open.trim().matches(timeRex))) {
-			store.setMessage("營業開始請符合格式");
-			return store;
-		}
-		if ("".equals(work_end)) {
-			store.setMessage("營業結束請勿空白");
-			store.setSuccessful(false);
-			return store;
-		} else if (!(work_end.trim().matches(timeRex))) {
-			store.setMessage("營業結束請符合格式");
-			return store;
-		}
+		
 
 		storedao.updateProduce(store);
 		store.setSuccessful(true);
@@ -108,7 +92,11 @@ public class StoreServiceImpl implements StoreService {
 
 		return vo;
 	}
-
+	
+	public List<StoreVO> findStorepageByStoreId(Integer store_id) {
+		return storedao.findStorepageByStoreId(store_id);
+	}
+	
 	@Override
 	public StoreVO findStoreId(String account) {
 
@@ -120,5 +108,7 @@ public class StoreServiceImpl implements StoreService {
 
 		return storedao.findStoreFrontpageBythemeId(themeId);
 	}
+
+
 
 }

@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Arrays;
 
-public class Store_imgVO implements Serializable {
+import com.common.Result;
 
+public class Store_imgVO extends Result implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Integer img_id;
 	private Integer store_id;
 	private Date date;
@@ -17,6 +20,61 @@ public class Store_imgVO implements Serializable {
 	private String imgstr;
 	private Integer status1;
 	private byte[] ingbyte;
+	private String account;
+	private String dayoff;
+	private String work_open;
+	private String work_end;
+	private String produce;
+	private String name;
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getDayoff() {
+		return dayoff;
+	}
+
+	public void setDayoff(String dayoff) {
+		this.dayoff = dayoff;
+	}
+
+	public String getWork_open() {
+		return work_open;
+	}
+
+	public void setWork_open(String work_open) {
+		this.work_open = work_open;
+	}
+
+	public String getWork_end() {
+		return work_end;
+	}
+
+	public void setWork_end(String work_end) {
+		this.work_end = work_end;
+	}
+
+	public String getProduce() {
+		return produce;
+	}
+
+	public void setProduce(String produce) {
+		this.produce = produce;
+	}
 
 	public byte[] getIngbyte() {
 		return ingbyte;

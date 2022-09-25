@@ -186,6 +186,13 @@ public class StoreVOJDBC implements StoreDAO {
 		return null;
 	}
 
+	@Override
+	public List<StoreVO> findStorepageByStoreId(Integer store_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 
 

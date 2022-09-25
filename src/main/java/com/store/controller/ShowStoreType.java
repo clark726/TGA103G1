@@ -29,7 +29,6 @@ public class ShowStoreType extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		StoreVO storevo = _gson.fromJson(request.getReader().readLine(), StoreVO.class);
-		
 		List<StoreVO> list = storeSvc.findStoreFrontpageBythemeId(storevo.getTheme_id());
 
 		response.setContentType("application/json");

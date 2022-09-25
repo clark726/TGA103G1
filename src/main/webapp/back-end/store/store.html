@@ -102,6 +102,8 @@
           .then((content) => {
             xxx.innerHTML = content;
             changelog();
+            logout();
+            changeTheme();
 
             const username = document.querySelector("#account");
             const password = document.querySelector("#password");
@@ -133,28 +135,52 @@
       }
       includeHTML();
 
-      function changelog() {
-        if (sessionStorage.getItem("account")) {
-          document.querySelector("#login").style.display = "none";
-          document.querySelector("#logout").style.display = "block";
-        }
-      }
+   //登出鈕
+   function changelog() {
+if (sessionStorage.getItem("account")) {
+  document.querySelector("#login").style.display = "none";
+  document.querySelector("#logout").style.display = "block";
+  document.querySelector("#loginbox").style.display = "none";
+  document.querySelector("#normal").style.display = "block";
+}
+}
+	 
+  //登出
+  function logout(){
+    document.querySelector("#logout").addEventListener("click", function(){
+        sessionStorage.removeItem("account")
+      })
+  }
+
+  	//點擊theme_id
+	function changeTheme(){
+let allthemeid =  document.querySelectorAll(".theme_id");
+allthemeid.forEach(function(e){
+  e.addEventListener("click", function(e){
+		let id = e.target.getAttribute("data-themid");
+		sessionStorage.setItem("themeId",id)
+  })
+})
+}
+      
+fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        theme_id: themeId
+      }),
+    })
+      .then(resp => resp.json())
+      .then(body => {
+		console.log(body)
+    	 
+
+		
+
+      });
+
 
       
-      window.onload = function(){
-        fetch("" ,{
-          method:"GET",
-          header: {"Content-Type" : "application/json"},
-          body: JSON.stringify({
-
-          }),
-        })
-          .then((resp) => resp.json)
-          .then((body) => {
-
-
-          })
-      }
     </script>
   </body>
 </html>

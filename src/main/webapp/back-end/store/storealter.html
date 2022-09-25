@@ -20,7 +20,7 @@
 				</div>
 				<div>
 					<a class="manager_item" type="button"
-						href="../product/productlist.jsp">上下架商品管理</a>
+						href="../product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
@@ -32,20 +32,50 @@
 			<form action="" method="post">
 				<div class="store_all">
 					<div class="title">
-						<h1>店家首頁</h1>
+						<h1 id="storename"></h1>
 					</div>
 					<div class="store_produce">
 						<h2>簡介</h2>
 						<textarea name="store_produce" id="textarea" cols="50" rows="3"></textarea>
-						<span id="errMsg" class="error"
+						<span id="errMsgUpdate" 
+							style="color: yellow; font-size: 20px"></span>
+							<span id="errMsgUpdateImg" 
 							style="color: yellow; font-size: 20px"></span>
 					</div>
 
 					<div class="store_produce">
 						<h2>營業開始</h2>
-						<input type="text" id="work_open" class="time">
+						<select name="work_open" id="work_open"
+							style="font-size: 15px; height: 50px; width: 80px;">
+							<option value="17:00:00">17:00</option>
+							<option value="17:30:00">17:30</option>
+							<option value="18:00:00">18:00</option>
+							<option value="18:30:00">18:30</option>
+							<option value="19:00:00">19:00</option>
+							<option value="19:30:00">19:30</option>
+							<option value="20:00:00">20:00</option>
+							<option value="20:30:00">20:30</option>
+							<option value="21:00:00">21:00</option>
+							<option value="21:30:00">21:30</option>
+							<option value="22:00:00">22:00</option>
+							<option value="22:30:00">22:30</option>
+						</select>
 						<h2>營業結束</h2>
-						<input type="text" id="work_end" class="time">
+						<select name="work_end" id="work_end"
+							style="font-size: 15px; height: 50px; width: 80px;">
+							<option value="21:00:00">21:00</option>
+							<option value="21:30:00">21:30</option>
+							<option value="22:00:00">22:00</option>
+							<option value="22:30:00">22:30</option>
+							<option value="23:00:00">23:00</option>
+							<option value="23:30:00">23:30</option>
+							<option value="24:00:00">24:00</option>
+							<option value="01:00:00">01:00</option>
+							<option value="01:30:00">01:30</option>
+							<option value="02:00:00">02:00</option>
+							<option value="02:30:00">02:30</option>
+							<option value="03:00:00">03:00</option>
+						</select>
 						<h2>公休日期</h2>
 						<input type="text" id="dayoff" class="time">
 					</div>
@@ -55,21 +85,24 @@
 						<div class="file">
 							<input type="file" id="p_file1">
 							<div class="preview" id="preview1">
-								<span class="text" id="text1" >首圖</span>
+								<img src="" id=mainImg class="preview_img"  accept="image/gif, image/jpeg, image/png"> <span
+									class="text" id="text1">首圖</span>
 							</div>
 						</div>
 
 						<div class="file">
 							<input type="file" id="p_file2">
 							<div class="preview" id="preview2">
-								<span class="text" id="text2">內頁一</span>
+								<img src="" id="firstImg" class="preview_img"  accept="image/gif, image/jpeg, image/png"> <span
+									class="text" id="text2">內頁一</span>
 							</div>
 						</div>
 
 						<div class="file">
 							<input type="file" id="p_file3">
 							<div class="preview" id="preview3">
-								<span class="text" id="text3" >內頁二</span>
+								<img src="" id="secondImg" class="preview_img"  accept="image/gif, image/jpeg, image/png"> <span
+									class="text" id="text3">內頁二</span>
 							</div>
 						</div>
 					</div>
@@ -79,19 +112,20 @@
 						<div class="file">
 							<input type="file" id="p_file4">
 							<div class="preview" id="preview4">
-								<span class="text" id="text4">菜單一</span>
+								<img src="" id="meanuImg" class="preview_img"  accept="image/gif, image/jpeg, image/png"> <span
+									class="text" id="text4">菜單一</span>
 							</div>
 						</div>
 						<div class="file">
 							<input type="file" id="p_file5">
 							<div class="preview" id="preview5">
-								<span class="text" id="text5">菜單二</span>
+								<img src="" id="meanuImg2" class="preview_img"  accept="image/gif, image/jpeg, image/png"> <span
+									class="text" id="text5">菜單二</span>
 							</div>
 						</div>
 						<div class="button">
 
 							<div class="inner_button">
-
 								<button type="button" id="updatebtn">更新</button>
 							</div>
 							<div class="inner_button">
@@ -116,7 +150,7 @@
           .then((content) => {
             xxx.innerHTML = content;
             changelog();
-
+            logout();
             const username = document.querySelector("#account");
             const password = document.querySelector("#password");
             const errMsg = document.querySelector("#errMsg");
@@ -146,6 +180,45 @@
           });
       }
       includeHTML();
+
+  const textarea = document.querySelector('#textarea');
+  const work_open = document.querySelector('#work_open');
+  const work_end = document.querySelector('#work_end');
+  const dayoff = document.querySelector('#dayoff');
+  let store_id = sessionStorage.getItem("account")
+  const mainImg = document.querySelector("#mainImg");
+  const firstImg = document.querySelector("#firstImg");
+  const secondImg = document.querySelector("#secondImg");
+  const meanuImgfirst = document.querySelector("#meanuImg");
+  const menauImgsecond = document.querySelector("#meanuImg2");
+  const errMsgImformation = document.querySelector("#errMsgImformation");
+  const storename = document.querySelector("#storename");
+      //取得店家資訊
+       
+                fetch('/TGA103G1/StoreGetbackInformation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        account:store_id
+      }),
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+       
+        storename.innerText = body[0].name,
+        textarea.value = body[0].produce,
+        work_open.value = body[0].work_open,
+        work_end.value = body[0].work_end,
+        dayoff.value = body[0].dayoff,
+        mainImg.src = body[0].img,
+        firstImg.src = body[1].img,
+        secondImg.src = body[2].img,
+        meanuImgfirst.src = body[3].img,
+        menauImgsecond.src = body[4].img
+      });
+
+     
+
       let mainImgReader = new FileReader();
       let firstImgReader = new FileReader();
       let secondImgReader = new FileReader();
@@ -160,10 +233,10 @@
           mainImgReader.addEventListener("load", function(){
           
           let str = `
-            <img src="${mainImgReader.result}" class="preview_img" >
+            <img src="${mainImgReader.result}" class="preview_img id="mainImg" >
           `;
           document.querySelector("#preview1").innerHTML = str;
-           
+          console.log(mainImgReader.result)
         });
       
         }else{
@@ -179,7 +252,7 @@
           firstImgReader.addEventListener("load", function(){
           
           let str = `
-            <img src="${firstImgReader.result}" class="preview_img" >
+            <img src="${firstImgReader.result}" class="preview_img"  id="firstImg">
           `;
           document.querySelector("#preview2").innerHTML = str;
          
@@ -189,7 +262,7 @@
           document.querySelector("#text2").innerText="內頁一";
         };
       });
-
+ 
       //內頁二
 
       document.querySelector("#p_file3").addEventListener("change", function(e){
@@ -199,7 +272,7 @@
           secondImgReader.addEventListener("load", function(){
           
           let str = `
-            <img src="${secondImgReader.result}" class="preview_img" >
+            <img src="${secondImgReader.result}" class="preview_img" id="secondImg">
           `;
           document.querySelector("#preview3").innerHTML = str;
          
@@ -219,7 +292,7 @@
           menauImg1.addEventListener("load", function(){
           
           let str = `
-            <img src="${menauImg1.result}" class="preview_img" >
+            <img src="${menauImg1.result}" class="preview_img" id="meanuImg" >
           `;
           document.querySelector("#preview4").innerHTML = str;
          
@@ -239,7 +312,7 @@
           menauImg2.addEventListener("load", function(){
           
           let str = `
-            <img src="${menauImg2.result}" class="preview_img" >
+            <img src="${menauImg2.result}" class="preview_img"  id="meanuImg2">
           `;
           document.querySelector("#preview5").innerHTML = str;
          
@@ -252,13 +325,17 @@
 
 
       (() => {
-  const textarea = document.querySelector('#textarea');
-  const work_open = document.querySelector('#work_open');
-  const work_end = document.querySelector('#work_end');
-  const dayoff = document.querySelector('#dayoff');
-  const errMsg = document.querySelector("#errMsg");
+    //更新店家資訊
+  const errMsgUpdate = document.querySelector("#errMsgUpdate");
   
   document.getElementById('updatebtn').addEventListener('click', () => {
+// //判斷第一次選圖要全選
+//     console.log(mainImg.getAttribute('src') == "")
+//     if( mainImg.src == null && firstImg.src == null && secondImg.src == null && meanuImgfirst.src == null &&  menauImgsecond.src == null){
+//         alert("第一次請填寫完整")
+//         console.log("aa")
+//     }
+
     fetch('/TGA103G1/StoreUpdate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -274,12 +351,16 @@
         
         errMsg.textContent = "";
         const { successful, message } = body;
-         if (successful) {
-
-         } else {
-           errMsg.textContent = message;
+         if (!successful) {
+          errMsgUpdate.textContent = message;
          }
 
+
+
+
+  
+
+const errMsgUpdateImg = document.querySelector("#errMsgUpdateImg");
           //圖片
       fetch('/TGA103G1/StoreImgUpdate', {
       method: 'POST',
@@ -299,20 +380,20 @@
         console.log(mainImgReader.result)
         errMsg.textContent = "";
         const { successful, message } = body;
+        console.log(body)
          if (successful) {
            location = 'http://localhost:8080/TGA103G1/back-end/store/storealter.html';
-         
          } else {
-           errMsg.textContent = message;
+          errMsgUpdateImg.textContent = message;
          }
       });
       });
-    
-      
-
   });
 })();
+      
 
+checkImg()
+//登出鈕
 function changelog(){
 			
 			if(sessionStorage.getItem("account")){
@@ -321,8 +402,13 @@ function changelog(){
           }
 		}
 changelog()
-
+//登出
+      function logout(){
+        document.querySelector("#logout").addEventListener("click", function(){
+            sessionStorage.removeItem("account")
+          })
+      }
     </script>
- 
+
 </body>
 </html>

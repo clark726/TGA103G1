@@ -17,14 +17,12 @@
 		<div class="top">
 			<div class="div_produce">
 				<div class="div_title">
-					<h1>餐酒館</h1>
+					<h1 id="storetype"></h1>
 				</div>
-				<p>
-					這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文
-					紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文這裡是介紹文</p>
+				<p id="storeproduce"></p>
 			</div>
 			<div class="div_img">
-				<img src="./圖檔/1.webp" style="width: 600px; height: 200px" />
+				<img src="" id="displayImg" style="width: 600px; height: 200px" />
 			</div>
 		</div>
 		<hr />
@@ -47,7 +45,7 @@
 					changelog()
 					logout()
 					changeTheme()
-					
+					like()
 					const username = document.querySelector('#account');
 					const password = document.querySelector('#password');
 					const errMsg = document.querySelector('#errMsg');
@@ -84,6 +82,8 @@
 if (sessionStorage.getItem("account")) {
   document.querySelector("#login").style.display = "none";
   document.querySelector("#logout").style.display = "block";
+  document.querySelector("#loginbox").style.display = "none";
+  document.querySelector("#normal").style.display = "block";
 }
 }
 	 
@@ -95,13 +95,11 @@ if (sessionStorage.getItem("account")) {
   }
 	//加入最愛
 	function like(){
-    var all_icon = $(".fa-solid");
-    all_icon.forEach(function (el) {
-      el.addEventListener("click", function (e) {
-        e.target.classList.toggle("-on");
-      });
-    });
-	}
+	  $(document).on("click",".fa-solid", function(e){
+		$(e.target).toggleClass("-on")		
+	  })	
+    };
+	
 	//點擊theme_id
 	function changeTheme(){
 let allthemeid =  document.querySelectorAll(".theme_id");
@@ -113,6 +111,9 @@ allthemeid.forEach(function(e){
 })
 }
 	let themeId = sessionStorage.getItem("themeId");
+	let storetype =  document.querySelector("#storetype");
+	let storeproduce =  document.querySelector("#storeproduce");
+	let displayImg =  document.querySelector("#displayImg");
 
 	fetch("http://localhost:8080/TGA103G1/ShowStoreType", {
       method: "POST",
@@ -123,14 +124,16 @@ allthemeid.forEach(function(e){
     })
       .then(resp => resp.json())
       .then(body => {
-		console.log(body[1].name)
-		
-		
-		for(var i = 0; i < body['length']; i++){
+		console.log(body)
+    	  storetype.textContent = body[0].storetype
+    	  storeproduce.textContent = body[0].storeproduce 
+		  displayImg.src = body[0].imgstr
 
+		for(var i = 0; i < body['length']; i++){
+			// console.log(body[i])
 			$("ul.item_list").append(`
 			 	<li><i class="fa-solid fa-heart"></i> 
-			 		<a href="#">
+			 		<a href="http://localhost:8080/TGA103G1/ShowStorePage?storeId=${body[i].store_id}">
 			 			<div class="img_block">
 			 				<img src="${body[i].imgstr}" />
 			 			</div>

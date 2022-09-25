@@ -23,7 +23,7 @@
 	<header class="header">
 		<div class="fl_left">
 			<h1 id="logo_h1">
-				<a href=".../main.html" id="logo">Bar.Jar.Jo</a>
+				<a href="/TGA103G1/main.html" id="logo">Bar.Jar.Jo</a>
 			</h1>
 		</div>
 
@@ -32,8 +32,10 @@
 				<li><a href="#" id="home">HOME</a></li>
 				<li><a href="#">地圖</a></li>
 				<li><a href="#">討論區</a></li>
-				<li><a href="#" data-bs-toggle="modal"
-					data-bs-target="#loginModal">廠商專區</a></li>
+				<li><a href="#" data-bs-toggle="modal" id="loginbox"
+					data-bs-target="#loginModal">廠商專區</a><a
+					href="http://localhost:8080/TGA103G1/ShowProduct" id="normal"
+					style="display: none; width: 65px;">廠商專區</a></li>
 				<li><a href="#" class="icon">店家主題</a>
 					<ul id="store">
 						<li><a href="http://localhost:8080/TGA103G1/back-end/store/storeType.html" data-themid="1" class="theme_id">Bistro</a></li>
@@ -99,7 +101,7 @@
 				<!-- Footer -->
 				<div class="modal-footer">
 					<div class="sigup">
-						<span>尚加入廠商</span> <a href="" type="button" class="member"
+						<span>尚加入廠商</span> <a href="/TGA103G1/back-end/store/storesumit.jsp" type="button" class="member"
 							style="text-decoration: none">立即加入</a>
 					</div>
 				</div>
@@ -209,6 +211,8 @@ function changelog() {
   if (sessionStorage.getItem("account")) {
     document.querySelector("#login").style.display = "none";
     document.querySelector("#logout").style.display = "block";
+    document.querySelector("#loginbox").style.display = "none";
+    document.querySelector("#normal").style.display = "block";
   }
 }
 changelog();
