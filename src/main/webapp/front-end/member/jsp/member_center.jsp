@@ -14,29 +14,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/menber_center.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_center.css">
 </head>
 <body>
-  <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
                 <h2>會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
+                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_center.jsp">修改基本資料</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a></button>
+                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
+                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
+                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerMyLove.jsp">我的最愛</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
+                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
                         <button><a href="">聊天室</a></button>
@@ -86,13 +86,13 @@
                 </div>
                 <div class="menCenter_div">
               		<!-- 在這邊做值的判斷 -->
-                    <img src="<%=request.getContextPath()%>/images/man.png" alt="" class="gender_img">
+                    <img src="<%=request.getContextPath()%>/front-end/member/images/man.png" alt="" class="gender_img">
                     
                 </div>
             </main>
         </div>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
+     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/menber_center.js"></script>
     <script>
@@ -102,18 +102,18 @@
             arr.push(e);
         })
         if(arr[0].checked){
-        	$(".gender_img").attr("src","<%=request.getContextPath()%>/images/man.png")
+        	$(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/man.png")
         }else{
-        	 $(".gender_img").attr("src","<%=request.getContextPath()%>/images/woman.png")
+        	 $(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/woman.png")
         }
     }
         $(function(){
             $("input.gender").on("click",function(){
                 var gender = $(this).val();
                 if(gender == 0){
-                    $(".gender_img").attr("src","<%=request.getContextPath()%>/images/man.png")
+                    $(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/man.png")
                 }else if(gender == 1){
-                    $(".gender_img").attr("src","<%=request.getContextPath()%>/images/woman.png")
+                    $(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/woman.png")
                 }
             })
         })

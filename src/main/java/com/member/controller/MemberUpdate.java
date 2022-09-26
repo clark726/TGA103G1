@@ -29,7 +29,10 @@ public class MemberUpdate extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
-	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("qweqwe");
+	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
@@ -70,10 +73,10 @@ public class MemberUpdate extends HttpServlet{
 			req.setAttribute("gender", gender);
 			req.setAttribute("memberVO", member);
 			session.getAttribute("userid");
-			req.getRequestDispatcher("/member/member_center.jsp").forward(req, resp);
+			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
 		}else {
 			
-			req.getRequestDispatcher("/member/register.jsp").forward(req, resp);
+			req.getRequestDispatcher("/front-end/member/jsp/register.jsp").forward(req, resp);
 		}
 	}
 }

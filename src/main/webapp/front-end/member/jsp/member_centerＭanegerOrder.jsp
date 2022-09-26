@@ -8,33 +8,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/menber_centerManegerOrder.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_centerManegerOrder.css">
   </head>
   <body>
-    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
     <div class="div_menCenter">
       <div class="menCenter_contain">
         <aside class="menCenter_aside">
           <p>會員中心</p>
           <ul class="menCenter_ul">
             <li>
-              <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
+              <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_center.jsp">修改基本資料</a></button>
             </li>
             <li>
               <button>
-                <a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a>
+                <a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerChangePsw.jsp">修改密碼</a>
               </button>
             </li>
             <li>
               <button>
-                <a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a>
+                <a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerＭanegerOrder.jsp">訂單管理</a>
               </button>
             </li>
             <li>
-              <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
+              <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerMyLove.jsp">我的最愛</a></button>
             </li>
             <li>
-              <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
+              <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerForum.jsp">討論區</a></button>
             </li>
             <li>
               <button><a href="">聊天室</a></button>
@@ -53,7 +53,7 @@
               <label for="">搜尋訂單編號</label>
               <input type="text" />
               <img
-                src="<%=request.getContextPath()%>/images/loupe.png"
+                src="<%=request.getContextPath()%>/front/member/images/loupe.png"
                 alt=""
                 style="height: 20px; width: 20px"
               />
@@ -81,7 +81,7 @@
                       <a href="<%=request.getContextPath()%>/member/member_order_detail.jsp">
                       <img
                         class="page_img"
-                        src="<%=request.getContextPath()%>/images/page.png"
+                        src="<%=request.getContextPath()%>/front-end/member/images/page.png"
                         alt=""
                         style="height: 20px; width: 20px"
                       />
@@ -95,7 +95,7 @@
         </main>
       </div>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
+   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
                   
