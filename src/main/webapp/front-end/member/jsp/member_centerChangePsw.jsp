@@ -46,20 +46,24 @@
                     <div class="menCenter_title">修改密碼</div>
                    <br>
                     <div class="change_psw">
-                        <form action="" class="change_form">
+                        <form action="<%=request.getContextPath()%>/member/MemberUpdatePassword" class="change_form" method="post">
                             <div class="change_div">
                                 <label for="">請輸入舊密碼</label>
-                                <input type="password">
+                                <input type="password" name="oldpassword">
                             </div>
+                                <font size="1" color="red" class="font">${errorMsgs.password}</font>
                             <div class="change_div">
                                 <label for="">請輸入新密碼</label>
-                                <input type="password">
+                                <input type="password" name="newpassword">
                             </div>
+                                <font size="1" color="red" class="font">${errorMsgs.password}</font>
                             <div class="change_div">
                                 <label for="">請再輸入新密碼</label>
-                                <input type="password">
+                                <input type="password" name="dbpassword">
                             </div>
-
+                                <font size="1" color="red" class="font">${errorMsgs.dbpassword}</font>
+							<font size="1" color="red" class="font">${error}</font>
+			
                             <button type="submit">確定修改</button>
                         </form>
                     </div>

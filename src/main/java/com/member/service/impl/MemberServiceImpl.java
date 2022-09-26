@@ -109,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Boolean update(MemberVO member) {
+	public boolean update(MemberVO member) {
 		final String email = member.getEmail();
 		if (email == null || email.isEmpty()) {
 			member.setMessage("請輸入電子信箱");
@@ -147,6 +147,21 @@ public class MemberServiceImpl implements MemberService {
 		}else {
 			return dao.updatePermission(id,permission);
 		}
+	}
+
+	@Override
+	public MemberVO selectByUsername(String account) {
+		
+		if(account != null) {
+			return dao.selectByUsername(account);
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean updatePassword(MemberVO member) {
+		return dao.updatePassword(member);
 	}
 
 }

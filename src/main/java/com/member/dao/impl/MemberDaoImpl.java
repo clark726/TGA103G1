@@ -70,12 +70,16 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Boolean login(String account,String password) {
-		final String sql = "select 1 from member where account = '?' and password = '?';";
+	public boolean login(String account,String password) {
+		final String sql = "select 1 from member where account = ? and password = ?;";
 		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
 			ps.setString(1,account);
 			ps.setString(2, password);
-			return ps.executeUpdate() == 1;
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+		
+				return rs.getInt(1) == 1;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -103,22 +107,22 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public MemberVO selectByUsername(String username) {
-		final String sql = "select * from member where account = ?;";
+		final String sql = "select member_id,account,password,birthday,address,gender,email,nickname,phone from member where account = ?;";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, username);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					MemberVO member1 = new MemberVO();
-					member1.setMember_id(rs.getInt("member_id"));
-					member1.setAccount(rs.getString("account"));
-					member1.setPassword(rs.getString("password"));
-					member1.setBirthday(rs.getObject("birthday", LocalDate.class));
-					member1.setAddress(rs.getString("address"));
-					member1.setGender(rs.getInt("gender"));
-					member1.setEmail(rs.getString("email"));
-					member1.setNickname(rs.getString("nickname"));
-					member1.setPhone(rs.getString("phone"));
-
+					member1.setMember_id(rs.getInt(1));
+					member1.setAccount(rs.getString(2));
+					member1.setPassword(rs.getString(3));
+					member1.setBirthday(rs.getObject(4, LocalDate.class));
+					member1.setAddress(rs.getString(5));
+					member1.setGender(rs.getInt(6));
+					member1.setEmail(rs.getString(7));
+					member1.setNickname(rs.getString(8));
+					member1.setPhone(rs.getString(9));
+					
 					return member1;
 				}
 			}
@@ -183,4 +187,21 @@ public class MemberDaoImpl implements MemberDao {
 			return member;
 		}
 
+		@Override
+		public boolean updatePassword(MemberVO member) {
+			String sql = "UPDATE member set  password = ? where member_id = ?;";
+			int rowCount = 0;
+			try (Connection conn = dataSource.getConnection(); 
+					PreparedStatement ps = conn.prepareStatement(sql)) {
+				ps.setString(1, member.getPassword());
+				ps.setInt(2, member.getMember_id());
+
+				rowCount = ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return rowCount == 1;
+			
+		}
+		
 }
