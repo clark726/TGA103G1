@@ -7,4 +7,5 @@ import com.message_report.model.Message_reportVO;
 public interface Message_reportService {
 	public List<Message_reportVO> getAll();
 	public boolean update(Integer id);
+	List<Integer> getMessageReportByMessageId(Integer messageId);
 }

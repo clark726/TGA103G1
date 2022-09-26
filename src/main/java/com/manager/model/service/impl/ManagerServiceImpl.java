@@ -12,7 +12,10 @@ public class ManagerServiceImpl implements ManagerService {
 	public ManagerServiceImpl() {
 		dao = new ManagerJNDIDAO();
 	}
-	
+
+//	public List<Integer> getMessageReportByMessageId(Integer messageId){
+//		return dao.getMessageReportByMessageId(messageId);
+//	}
 	public List<ManagerVO> getAll() {
 		return dao.getAll();
 	}

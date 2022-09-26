@@ -3,6 +3,8 @@ package com.manager.control;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -35,8 +37,9 @@ import com.message_report.model.service.impl.*;
 import com.product.model.ProductVO;
 import com.product.service.impl.ProductServiceImpl;
 import com.product_img.model.Product_imgService;
+import com.util.BeansFactory;
 
-@WebServlet(urlPatterns = {"/control"}, loadOnStartup = 100, asyncSupported=true)
+@WebServlet(urlPatterns = { "/control" }, loadOnStartup = 100, asyncSupported = true)
 public class ManagerControler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberServiceImpl memberService;
@@ -51,19 +54,15 @@ public class ManagerControler extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		try {
-			this.memberService = new MemberServiceImpl();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-		this.message_reportService = new Message_reportServiceImpl();
-		this.forumMessage = new Forum_messageService();
+		this.memberService = BeansFactory.getInstance("MemberServiceImpl", MemberServiceImpl.class);
+		this.message_reportService = BeansFactory.getInstance("Message_reportServiceImpl", Message_reportServiceImpl.class);
+		this.forumMessage = BeansFactory.getInstance("Forum_messageService", Forum_messageService.class);
+		this.forumReport = BeansFactory.getInstance("Forum_reportServiceImpl", Forum_reportServiceImpl.class);
+		this.forum = BeansFactory.getInstance("ForumServiceImpl", ForumServiceImpl.class);
+		this.managerService = BeansFactory.getInstance("ManagerServiceImpl", ManagerServiceImpl.class);
+		this.productService = BeansFactory.getInstance("ProductServiceImpl", ProductServiceImpl.class);
+		this.productImage = BeansFactory.getInstance("Product_imgService", Product_imgService.class);
 		this.datas = 5;
-		this.forumReport = new Forum_reportServiceImpl();
-		this.forum = new ForumServiceImpl();
-		this.managerService = new ManagerServiceImpl();
-		this.productService = new ProductServiceImpl();
-		this.productImage = new Product_imgService();
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class ManagerControler extends HttpServlet {
 		if (action != null) {
 			switch (action) {
 			case "watchimage":
-				watchimage(req,resp);
+				watchimage(req, resp);
 				break;
 			default:
 				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
@@ -117,28 +116,28 @@ public class ManagerControler extends HttpServlet {
 				getAllforumReport(req, resp);
 				break;
 			case "readForum":
-				readForum(req,resp);
+				readForum(req, resp);
 				break;
 			case "seenForum":
-				seenForum(req,resp);
+				seenForum(req, resp);
 				break;
 			case "deleteForum":
-				deleteForum(req,resp);
+				deleteForum(req, resp);
 				break;
 			case "register":
-				register(req,resp);
+				register(req, resp);
 				break;
 			case "deleteAdmin":
-				deleteAdmin(req,resp);
+				deleteAdmin(req, resp);
 				break;
 			case "roductStatusSelect":
-				roductStatusSelect(req,resp);
+				roductStatusSelect(req, resp);
 				break;
 			case "getAllProduct":
-				getAllProduct(req,resp);
+				getAllProduct(req, resp);
 				break;
 			case "updateProdcut":
-				updateProdcut(req,resp);
+				updateProdcut(req, resp);
 				break;
 			default:
 				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
@@ -149,35 +148,34 @@ public class ManagerControler extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 		}
 	}
-	
-	
-	public void watchimage(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
+
+	public void watchimage(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		String id = req.getParameter("id");
-		
+
 	}
-	
-	public void updateProdcut(HttpServletRequest req, HttpServletResponse resp) throws IOException,ServletException {
+
+	public void updateProdcut(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		try {
 			Integer status = Integer.parseInt(req.getParameter("status"));
-			Integer id = Integer.parseInt(req.getParameter("productId")); 
-			if(this.productService.updateStatus(id,status)) {
+			Integer id = Integer.parseInt(req.getParameter("productId"));
+			if (this.productService.updateStatus(id, status)) {
 				req.getSession().setAttribute("products", this.productService.getAll());
 				resp.sendRedirect(req.getHeader("referer"));
 				return;
 			}
-		}catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			System.out.println("control.updateProdcut 數字格式不府和");
 		}
 		System.out.println("control.updateProdcut 修改資料失敗");
 		resp.sendRedirect(req.getHeader("referer"));
 	}
-	
-	public void getAllProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException ,ServletException{
+
+	public void getAllProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		List<ProductVO> list = this.productService.getAll();
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		resp.getWriter().print(gson.toJson(list));
 	}
-	
+
 	public void roductStatusSelect(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String productStatus = req.getParameter("productStatus");
 		Integer status = Integer.parseInt(productStatus);
@@ -185,60 +183,60 @@ public class ManagerControler extends HttpServlet {
 		req.getSession().setAttribute("productStatus", status);
 //		resp.getWriter().print(productStatus);
 	}
-	
+
 	public void deleteAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		try (PrintWriter out = resp.getWriter()){
+		try (PrintWriter out = resp.getWriter()) {
 			Integer id = Integer.parseInt(req.getParameter("adminId"));
-			if(this.managerService.delete(id)) {
+			if (this.managerService.delete(id)) {
 				out.print("成功刪除");
-			}else {
+			} else {
 				out.print("刪除失敗");
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			System.out.println("control.deleteAdmin 輸入的不是數字");
-		} 
+		}
 	}
-	
+
 	public void register(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String accountString = req.getParameter("account");
 		String passwordString = req.getParameter("password");
-		if(this.managerService.insert(accountString, passwordString)) {
+		if (this.managerService.insert(accountString, passwordString)) {
 			sessionSetAttribute(req.getSession());
 			resp.sendRedirect("/TGA103G1/admin/console/administrators.jsp");
-		}else {
+		} else {
 			System.out.println("control.register fail");
 			resp.sendRedirect(req.getHeader("referer"));
 		}
 
 	}
-	
+
 	public void deleteForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String forumId = req.getParameter("forumId"); 
+		String forumId = req.getParameter("forumId");
 		String reportId = req.getParameter("reportId");
 		this.forumReport.update(Integer.parseInt(reportId));
 		PrintWriter out = resp.getWriter();
-		 if(this.forum.blockade(Integer.parseInt(forumId))) {
-			 out.print("成功刪除文章");
-		 }else {
+		if (this.forum.blockade(Integer.parseInt(forumId))) {
+			out.print("文章已屏蔽");
+		} else {
 			out.print("失敗");
 		}
 	}
-	
+
 	public void seenForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String forumReport = req.getParameter("forumReport");
 		PrintWriter out = resp.getWriter();
-		if(this.forumReport.update(Integer.parseInt(forumReport))) {
+		if (this.forumReport.update(Integer.parseInt(forumReport))) {
 			out.print("修改成功");
-		}else {
+		} else {
 			out.print("修改失敗");
 		}
 		out.close();
 	}
-	
+
 	public void readForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String forumId = req.getParameter("forumId"); 
-		Integer id = Integer.parseInt(forumId); 
+		String forumId = req.getParameter("forumId");
+		Integer id = Integer.parseInt(forumId);
 		ForumVO forum = this.forum.get(id);
 		resp.getWriter().print(forum.getContent());
 	}
@@ -270,22 +268,33 @@ public class ManagerControler extends HttpServlet {
 		HttpSession session = req.getSession();
 		List<Forum_messageVO> list = (ArrayList<Forum_messageVO>) session.getAttribute("messageReportList");
 		if (list.remove(btnVal - 1) != null) {
-			session.removeAttribute("messageReportList");
+			session.removeAttribute("messageReportList");////
 			session.setAttribute("messageReportList", list);
 		}
 	}
 
 	public void deleteForumMessage(HttpServletRequest req, HttpServletResponse resp) {
-		String deleteVal = req.getParameter("deleteVal");
-		this.forumMessage.delete(Integer.parseInt(deleteVal));
+		Integer messageId = Integer.parseInt(req.getParameter("deleteVal"));
+//		System.out.println("control.deleteForumMessage.message "+messageId);
+		List<Integer> ids = this.forumMessage.beforeDelete(messageId);
+		List<Integer> messageReportId = this.message_reportService.getMessageReportByMessageId(messageId);
+		for (Integer idsInteger : messageReportId) {
+			this.message_reportService.update(idsInteger);
+		}
+
+		for (Integer idInteger : ids) {
+			this.forumMessage.delete(idInteger);
+		}
 		String member_Id = req.getParameter("memberId");
 		Integer memberId = Integer.parseInt(member_Id);
 		String accountString = memberService.findByPrimaryKey(memberId).getAccount();
-		new Thread(new MailService(accountString,"留言遭刪除",accountString,req.getParameter("reason"))).start();
-		
+		new Thread(new MailService(accountString, "留言遭刪除", accountString, req.getParameter("reason"))).start();
+//		req.getSession().setAttribute("messageReportList", this.message_reportService.getAll());
+		sessionSetAttribute(req.getSession());
+
 //		AsyncContext asyncContext = req.startAsync();
 //		asyncContext.start(new MailService(asyncContext));
-		
+
 //		req.setAttribute("account", accountString);
 //		if(req.isAsyncSupported()) {
 //			AsyncContext asyncContext = req.getAsyncContext();
@@ -294,7 +303,7 @@ public class ManagerControler extends HttpServlet {
 //			System.out.println("not asyncContext support cant send mail");
 //		}
 
-		updateforumReport(req, resp);
+//		updateforumReport(req, resp);
 	}
 
 	// 有時間試試看public改成private
@@ -352,16 +361,16 @@ public class ManagerControler extends HttpServlet {
 	public void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Integer idInteger = Integer.parseInt(req.getParameter("member_id"));
 		Integer permissionInteger = Integer.parseInt(req.getParameter("permission"));
-		if(memberService.updatePermission(idInteger,permissionInteger)) {
+		if (memberService.updatePermission(idInteger, permissionInteger)) {
 			req.getSession().setAttribute("members", memberService.getAll());
 			resp.sendRedirect(req.getHeader("referer"));
 		} else {
-			System.out.println("ManagerControler");
+			System.out.println("ManagerControler.update fail");
 		}
 	}
 
 	public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		managerService = new ManagerServiceImpl();
+//		managerService = new ManagerServiceImpl();
 		String code = req.getParameter("code");
 		HttpSession session = req.getSession();
 		String rand = (String) session.getAttribute("rand");

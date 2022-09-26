@@ -203,7 +203,7 @@ td {
 	      });
 		})
 		
-					$("table").on("click",".seen",function(e){
+		$("table").on("click",".seen",function(e){
 			var trEl = e.currentTarget.closest("tr");
 			var forumId = e.currentTarget.closest("tr").children[0].innerText;
 			$.ajax({

@@ -161,12 +161,10 @@ td {
 								dataType : "text",
 								success : function(xhr) {
 									console.log(xhr);
+								},
+								complete: function(xhr){
 									history.go(0);
-								},
-								error : function(xhr) {
-									console.log("error");
-									console.log(xhr);
-								},
+								}
 							});
 						}
 					}

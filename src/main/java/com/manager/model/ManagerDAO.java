@@ -12,4 +12,5 @@ public interface ManagerDAO {
     boolean update(ManagerVO obj);
 
     boolean delete(Integer id);
+    
 }

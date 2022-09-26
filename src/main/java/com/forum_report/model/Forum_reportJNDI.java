@@ -47,7 +47,6 @@ public class Forum_reportJNDI {
 		try(PreparedStatement ppst = ds.getConnection().prepareStatement("UPDATE `forum_report` SET `status` = '1' WHERE (`forum_report_id` = ?);")){
 			ppst.setObject(1, forum_report_id);
 			row = ppst.executeUpdate();
-			System.out.println(row);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

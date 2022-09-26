@@ -17,4 +17,8 @@ public class Message_reportServiceImpl implements Message_reportService{
 	public boolean update(Integer id) {
 		return jndi.update(id);
 	}
+	@Override
+	public List<Integer> getMessageReportByMessageId(Integer messageId) {
+		return jndi.getMessageReportByMessageId(messageId);
+	}
 }
