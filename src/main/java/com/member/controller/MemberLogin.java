@@ -25,11 +25,7 @@ public class MemberLogin extends HttpServlet{
 	
 	@Override
 	public void init() throws ServletException {
-		try {
 			service = new MemberServiceImpl();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -72,7 +68,8 @@ public class MemberLogin extends HttpServlet{
 //			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
 		}else {
 			
-			req.getRequestDispatcher("/front-end/member/jsp/register.jsp").forward(req, resp);
+			req.setAttribute("result", "帳號或密碼錯誤");
+			req.getRequestDispatcher("/front-end/member/jsp/login.jsp").forward(req, resp);
 		}
 	}
 

@@ -88,9 +88,9 @@ div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerD
     border-radius: 3px;
 }
 div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form div.form_div{
-    margin: 20px,10px;
+    margin-top: 10px;
 }
-div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form font.font{
+div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_innerDiv form.menCenter_form > font{
     
     margin-left: 300px;
 }

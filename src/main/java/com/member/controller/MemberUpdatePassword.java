@@ -25,11 +25,8 @@ public class MemberUpdatePassword extends HttpServlet{
 	
 	@Override
 	public void init() throws ServletException {
-		try {
 			service = new MemberServiceImpl();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+	
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -75,7 +72,7 @@ public class MemberUpdatePassword extends HttpServlet{
 			boolean member2 = service.updatePassword(member1);
 			System.out.println(member2);
 			System.out.println("成功");
-			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
+			resp.sendRedirect(cp+"/front-end/member/jsp/member_center.jsp");
 		}
 
 	}

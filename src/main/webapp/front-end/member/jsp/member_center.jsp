@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
- 	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/member_center.css">
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_center.css">
 </head>
 <body>
     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
@@ -59,31 +59,31 @@
                             </div> --%>
                             <div class="form_div">
                                 <label for="">名稱</label>
-                                <input type="text" placeholder="名稱" name="nickname" value="${userid.nickname}">
+                                <input type="text" placeholder="名稱" id="nickname" name="nickname" value="${userid.nickname}">
                             </div>
-                                <font size="1" class="font" color="red"></font>
+                                <font size="1" class="nickname" color="red"></font>
                             <div class="form_div">
                                 <label for="">信箱</label>
-                                <input type="text" placeholder="信箱" name="email"  value="${userid.email}">
+                                <input type="text" placeholder="信箱" id="email" name="email"  value="${userid.email}">
                             </div>
-                                <font size="1" class="font" color="red">${errorMsgs.email}</font>
+                                <font size="1" class="email" color="red"></font>
                             <div class="form_div">
                                 <label for="">地址</label>
-                                <input type="text" placeholder="地址" name="address"  value="${userid.address}">
+                                <input type="text" placeholder="地址" id="address" name="address"  value="${userid.address}">
                             </div>
-                                <font size="1" class="font" color="red">${errorMsgs.address}</font>
+                                <font size="1" class="address" color="red"></font>
                             <div class="form_div">
                                 <label for="">電話</label>
-                                <input type="text" placeholder="手機" name="phone"  value="${userid.phone}">
+                                <input type="text" placeholder="手機" id="phone" name="phone"  value="${userid.phone}">
                             </div>
-                                <font size="1" class="font" color="red">${errorMsgs.phone}</font>
+                                <font size="1" class="phone" color="red"></font>
                             <div class="div_gender">
                                 <label for="">性別</label>
                                 <input type="radio" id="male" name="gender"  value="0" class="gender" ${userid.gender == 0 ? "checked" : ""}><label for="male">男</label>
                                 <input type="radio" id="famale" name="gender" value="1" class="gender" ${userid.gender  == 0 ? "" : "checked"}><label for="famale">女</label>
                             </div>
 						
-                            <button type="submit">確定修改</button>
+                            <button type="submit" id="submit">確定修改</button>
                         </form>
                     </div>
                 </div>
@@ -99,6 +99,40 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/menber_center.js"></script>
     <script>
+    let nickname = document.querySelector("#nickname");
+    let email = document.querySelector("#email");
+    let address = document.querySelector("#address");
+    let phone = document.querySelector("#phone");
+    let emailRex = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
+    let phoneRex = "^\\d{10}$";
+    $("#submit").on("click",function(e){
+            $("font.nickname").empty();
+            $("font.email").empty();
+            $("font.address").empty();
+            $("font.phone").empty();
+            
+            if(email.value == ""){
+                $("font.email").append(`信箱請勿空白`);
+                e.preventDefault();
+            }else if(!email.value.match(emailRex)){
+                $("font.email").append(`信箱格式不正確`);
+                e.preventDefault();
+            }
+            if(address.value == ""){
+                $("font.address").append(`地址請勿空白`);
+                e.preventDefault();
+                
+            }
+
+            if(phone.value == ""){
+                $("font.phone").append(`電話請勿空白`);                 
+                e.preventDefault();                       
+            }else if(!phone.value.match(phoneRex)){    
+                $("font.phone").append(`電話格式不正確`);                 
+                e.preventDefault();             
+            }
+        })
+    
     window.onload = function(){
         var arr = new Array();
         document.querySelectorAll(".gender").forEach(function(e){

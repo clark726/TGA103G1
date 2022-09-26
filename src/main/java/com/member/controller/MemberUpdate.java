@@ -30,11 +30,8 @@ public class MemberUpdate extends HttpServlet{
 	
 	@Override
 	public void init() throws ServletException {
-		try {
+	
 			service = new MemberServiceImpl();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -26,11 +26,9 @@ public class MemberRegister extends HttpServlet{
 	
 	@Override
 	public void init() throws ServletException {
-		try {
+	
 			service = new MemberServiceImpl();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+
 	}
 	
 	@Override
@@ -64,14 +62,18 @@ public class MemberRegister extends HttpServlet{
 		if(account == null || (account.trim()).length() == 0) {
 			errorMsgs.put("account", "請勿空白");
 		}
+		String psRex = "^[a-zA-z0-9]{4,20}$"; 
 		if(password == null || (password.trim()).length() == 0) {
 			errorMsgs.put("password", "請勿空白");
+		}else if(!password.trim().matches(psRex)) {
+			errorMsgs.put("password", "請輸入4-20個英文或數字");
 		}
+		
 		if(checkpassword == null || (checkpassword.trim()).length() == 0) {
 			errorMsgs.put("checkpassword", "請勿空白");
 		}
 		if(!checkpassword.equals(password)) {
-			errorMsgs.put("password","兩次密碼不相同");
+			errorMsgs.put("checkpassword","兩次密碼不相同");
 		}
 
 		String phoneRex = "\\d{10}";
@@ -105,7 +107,7 @@ public class MemberRegister extends HttpServlet{
 		
 		
 		if(service.register(member) == false) {
-			errorMsgs.put("error", "重複帳號");
+			errorMsgs.put("account", "重複帳號");
 		}else {
 			service.register(member);
 		}

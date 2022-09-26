@@ -19,7 +19,7 @@ import com.member.vo.MemberVO;
 public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 
-	public MemberServiceImpl() throws NamingException {
+	public MemberServiceImpl() {
 		dao = new MemberDaoImpl();
 	}
 
