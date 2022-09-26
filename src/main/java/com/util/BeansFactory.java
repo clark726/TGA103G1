@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.manager.model.service.impl.ManagerServiceImpl;
-import com.member.service.impl.MemberServiceImpl;
-
 public class BeansFactory {
 	private static final Map<String, Object> BEANS_POOL_MAP = new HashMap<String, Object>();
 	static {
@@ -30,7 +27,4 @@ public class BeansFactory {
 	public static <T>T getInstance(String beanName,Class<T> type){
 		return (T)BEANS_POOL_MAP.get(beanName);
 	}
-//	public static void main(String[] args){
-//		System.out.println(BeansFactory.getInstance("MemberServiceImpl", MemberServiceImpl.class) instanceof MemberServiceImpl);
-//	}
 }
