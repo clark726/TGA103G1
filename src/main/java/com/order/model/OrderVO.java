@@ -3,7 +3,9 @@ package com.order.model;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class OrderVO implements Serializable {
+import com.common.Result;
+
+public class OrderVO extends Result implements Serializable {
     private Integer order_id;
     private Integer store_id;
     private Integer member_id;
@@ -17,6 +19,7 @@ public class OrderVO implements Serializable {
     private String phone;
     private String note;
     private String account;
+    
     
     public OrderVO() {
     }

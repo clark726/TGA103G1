@@ -1,4 +1,4 @@
-package com.order.controller;
+package com.order_detail.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,39 +11,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.order.model.OrderVO;
-import com.order.service.OrderService;
-import com.order.service.impl.OrderServiceImpl;
+import com.order_detail.model.Order_detailVO;
+import com.order_detail.service.Order_detailService;
+import com.order_detail.service.impl.Order_detailServiceImpl;
 
-
-@WebServlet("/SelectOrderByOrderId")
-public class SelectOrderByOrderId extends HttpServlet {
+@WebServlet("/UpdateStatus")
+public class UpdateStatus extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Gson _gson = new Gson();
-	private OrderService orderSvc = new OrderServiceImpl();
-
-
-	@Override
+	private Order_detailService OrderDetailSvc = new Order_detailServiceImpl();
+	Gson _gson = new Gson();
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-
-		OrderVO orderVO = _gson.fromJson(request.getReader().readLine(), OrderVO.class);
 		
+		Order_detailVO vo = _gson.fromJson(request.getReader().readLine(), Order_detailVO.class);
 		
-	
-			 orderVO = orderSvc.getOrderByOrderId(orderVO);
+		OrderDetailSvc.updateStatus(vo);
 		
-
 		response.setContentType("application/json");
-		try (PrintWriter pw = response.getWriter()) {
-			pw.print(new GsonBuilder().create().toJson(orderVO));
-
-		} catch (Exception e) {
+		try(PrintWriter pw = response.getWriter()){
+			pw.print(new GsonBuilder().create().toJson(vo));
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+
 }

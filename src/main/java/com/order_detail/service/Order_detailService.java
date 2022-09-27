@@ -1,8 +1,10 @@
-package com.order_detail.model;
+package com.order_detail.service;
 
 import java.util.List;
 
-public interface Order_detailDAO {
+import com.order_detail.model.Order_detailVO;
+
+public interface Order_detailService {
 
 	public boolean insert(Order_detailVO obj);
 
@@ -14,6 +16,5 @@ public interface Order_detailDAO {
 
 	public List<Order_detailVO> getAllByOrderId(Integer order_id);
 	
-	public void updateStatus(Integer order_id , Integer status);
-
+	public Order_detailVO updateStatus(Order_detailVO vo);
 }

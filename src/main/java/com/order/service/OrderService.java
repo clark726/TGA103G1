@@ -8,7 +8,7 @@ public interface OrderService {
 
 	public List<OrderVO> getAllByStoreAccount(String account);
 
-	public OrderVO getOrderByOrderId(String account , Integer order_id);
+	public OrderVO getOrderByOrderId(OrderVO vo);
 
 	public List<OrderVO> getOrderBySataus(String account ,Integer status);
 	

@@ -28,14 +28,16 @@
 			<p id="p1">廠商後台</p>
 			<div class="div_func">
 				<div>
-					<a class="edit_store" type="button">修改店家內容</a>
+					<a class="edit_store" type="button"
+          href="/TGA103G1/back-end/store/storealter.html">修改店家內容</a>
 				</div>
 				<div>
 					<a class="manager_item" type="button"
 						href="../product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
-					<a class="edit_item" type="button">修改商家訂單內容</a>
+					<a class="edit_item" type="button"
+          href="/TGA103G1/back-end/store/storeOrder.html">修改商家訂單內容</a>
 				</div>
 
 			</div>
@@ -89,26 +91,51 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody id="tbody">
-						<!-- <tr>
-							<td>1</td>
-							<td>龍蝦666</td>
-							<td>100</td>
-							<td>線上刷卡</td>
-							<td>宅配到府</td>
-							<td>新北市</td>
-							<td>帥哥</td>
-							<td>2022/9/27</td>
-							<td>09xxxxx</td>
-							<td>無</td>
-							<td>已完成</td>
-							<td>
-								<button class="btn-xs btn-light">
-									訂單明細</button>
-							</td>
-						</tr> -->
-					</tbody>
+					<tbody id="tbody"></tbody>
 				</table>
+        <!-- <button id="order_detail" data-orderId="${body[i].order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
+        data-bs-target="#orderDetail">
+                訂單明細</button> -->
+
+        <!-- 明細彈窗 -->
+        <div class="modal fade" id="orderDetail">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header" style="height: 53px;">
+                <h3 style="
+                margin-top: 15px;">訂單明細</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              
+              <div class="modal-body">
+                <table class="table table-hover table-borderless table-striped">
+                  <thead>
+                    <tr>
+                      <th>商品編號</th>
+                      <th>商品名稱</th>
+                      <th>商品數量</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyDetail"></tbody>
+                </table>
+
+                <div class="col-3">
+                  <span> <h6>出貨狀態</h6> </span><select id="statusSelect">
+                    <option value="0">準備中</option>
+                    <option value="1">已出貨</option>
+                 </select>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button id="statusUpdate" type="button" class="btn btn-primary" style="background-color: rgb(129, 93, 65)">更新</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 彈窗結束 -->
+
+   
 		</main>
 	</div>
 
@@ -220,7 +247,8 @@ const tbody = document.querySelector("#tbody");
 							<td>${body[i].note}</td>
 							<td>${body[i].status == 0 ? "準備中" : "已出貨"}</td>
 							<td>
-								<button class="btn-xs btn-light">
+								<button id="order_detail" data-orderId="${body[i].order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
+					data-bs-target="#orderDetail">
 									訂單明細</button>
 							</td>
 						</tr>`);
@@ -244,7 +272,7 @@ const tbody = document.querySelector("#tbody");
         tbody.innerHTML = "";
            //清空輸入欄位
            inputorderId.value=""
-      
+      if(body.successful == true){
           $(tbody).append(`<tr>
 							<td>${body.order_id}</td>
 							<td>${body.member_id}</td>
@@ -258,17 +286,21 @@ const tbody = document.querySelector("#tbody");
 							<td>${body.note}</td>
 							<td>${body.status == 0 ? "準備中" : "已出貨"}</td>
 							<td>
-								<button class="btn-xs btn-light" data-bs-toggle="modal" 
+								<button id="order_detail" data-orderId="${body.order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
 					data-bs-target="#orderDetail">
 									訂單明細</button>
 							</td>
 						</tr>`);
-        
+          }else{
+            alert(body.message)
+          }
     });
      
     }
 
  });
+
+ //準備中按鈕
 document.querySelector("#preBtn").addEventListener("click" , function(){
   fetch('/TGA103G1/SelectOrderByStatus', {
       method: 'POST',
@@ -296,7 +328,8 @@ document.querySelector("#preBtn").addEventListener("click" , function(){
 							<td>${body[i].note}</td>
 							<td>${body[i].status == 0 ? "準備中" : "已出貨"}</td>
 							<td>
-								<button class="btn-xs btn-light">
+                <button id="order_detail" data-orderId="${body[i].order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
+					data-bs-target="#orderDetail">
 									訂單明細</button>
 							</td>
 						</tr>`);
@@ -304,7 +337,7 @@ document.querySelector("#preBtn").addEventListener("click" , function(){
     });
 });
 
-
+//已出貨按鈕
 document.querySelector("#ShippingBtn").addEventListener("click" , function(){
   fetch('/TGA103G1/SelectOrderByStatus', {
       method: 'POST',
@@ -332,12 +365,61 @@ document.querySelector("#ShippingBtn").addEventListener("click" , function(){
 							<td>${body[i].note}</td>
 							<td>${body[i].status == 0 ? "準備中" : "已出貨"}</td>
 							<td>
-								<button class="btn-xs btn-light">
+                <button id="order_detail" data-orderId="${body[i].order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
+					data-bs-target="#orderDetail">
 									訂單明細</button>
 							</td>
 						</tr>`);
         }
     });
+});
+//明細按鈕
+  const tbodyDetail = document.querySelector("#tbodyDetail");
+  const statusSelect = document.querySelector("#statusSelect");
+  var order_id;
+  $(document).on("click" ,"#order_detail", function(e){
+     order_id =  $(e.target).attr("data-orderId")
+    fetch('/TGA103G1/GetOrderDetail', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        order_id: order_id
+      }),
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+        console.log(body)
+        tbodyDetail.innerHTML="";
+        for(var i = 0; i < body['length']; i++){
+          $(tbodyDetail).append(`<tr>
+							<td>${body[i].product_id}</td>
+							<td>${body[i].product_name}</td>
+							<td>${body[i].amount}</td>
+						</tr>`);
+        }
+        statusSelect.value = body[0].status == 0 ? "0" : "1"
+    });
+  });
+//statusUpdate更新狀態
+$(document).on("click" ,"#statusUpdate" , function(){
+   let status =  statusSelect.value;
+   fetch('/TGA103G1/UpdateStatus', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        order_id: order_id,
+        status:status
+      }),
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+        const{order_id , successful} = body;
+        if(successful){
+          alert("修改完成")
+          location = "/TGA103G1/back-end/store/storeOrder.html";
+        }
+    });
+
 });
     </script>
 

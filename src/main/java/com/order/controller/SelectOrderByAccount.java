@@ -23,7 +23,6 @@ public class SelectOrderByAccount extends HttpServlet {
 	private Gson _gson = new Gson();
 	private OrderService orderSvc = new OrderServiceImpl();
 
-
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -32,13 +31,9 @@ public class SelectOrderByAccount extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		OrderVO orderVO = _gson.fromJson(request.getReader().readLine(), OrderVO.class);
-		
-		String account = orderVO.getAccount();
-		List<OrderVO> list = null;
 
-	
-			list = orderSvc.getAllByStoreAccount(account);
-		
+		String account = orderVO.getAccount();
+		List<OrderVO> list = orderSvc.getAllByStoreAccount(account);
 
 		response.setContentType("application/json");
 		try (PrintWriter pw = response.getWriter()) {

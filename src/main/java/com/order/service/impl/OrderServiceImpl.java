@@ -22,17 +22,27 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderVO getOrderByOrderId(String account , Integer order_id) {
-		return orderDao.getOrderByOrderId(account, order_id);
+	public OrderVO getOrderByOrderId(OrderVO orderVO) {
+		String account = orderVO.getAccount();
+		Integer order_id = orderVO.getOrder_id();
+//搜尋沒有值		
+		OrderVO backOrderVO = orderDao.getOrderByOrderId(account, order_id);
+		
+		if (backOrderVO.getMember_id() == null) {
+			orderVO.setSuccessful(false);
+			orderVO.setMessage("沒有此訂單");
+			return orderVO;
+		} else {
+			backOrderVO.setSuccessful(true);
+			return backOrderVO;
+		}
+		
 	}
-	
+
 	@Override
 	public List<OrderVO> getOrderBySataus(String account, Integer status) {
 		return orderDao.getOrderBySataus(account, status);
 	}
-
-	
-	
 
 	@Override
 	public boolean insert(OrderVO obj) {
@@ -51,7 +61,5 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Order_detailJDBC implements Order_detailDAO<Order_detailVO>{
+public class Order_detailJDBC implements Order_detailDAO{
 
 	
 	String driver = "com.mysql.cj.jdbc.Driver";
@@ -95,7 +95,7 @@ public class Order_detailJDBC implements Order_detailDAO<Order_detailVO>{
 	}
 
 	@Override
-	public List<Order_detailVO> getAll() {
+	public List<Order_detailVO> getAllByOrderId(Integer store_id) {
 		List<Order_detailVO> list = new ArrayList<Order_detailVO>();
 		String sql = "select order_id, product_id, amount "
 				+ " from order_detail;";
@@ -121,15 +121,15 @@ public class Order_detailJDBC implements Order_detailDAO<Order_detailVO>{
 	}
 	
 	public static void main(String[] args) {
-		Order_detailDAO<Order_detailVO> dao = new Order_detailJDBC();
+		Order_detailDAO dao = new Order_detailJDBC();
 		
 		// 取得所有資料
-		List<Order_detailVO> list = dao.getAll();
-		System.out.println("---------Total"+ list.size() +" 筆");
-		for(Order_detailVO odvo : list) {
-			System.out.println(odvo.toString());
-			System.out.println();
-		}
+//		List<Order_detailVO> list = dao.getAll();
+//		System.out.println("---------Total"+ list.size() +" 筆");
+//		for(Order_detailVO odvo : list) {
+//			System.out.println(odvo.toString());
+//			System.out.println();
+//		}
 		//取得單一資料
 		System.out.println("---------------------");
 		Order_detailVO od = dao.findByPrimaryKey(1);
@@ -152,6 +152,12 @@ public class Order_detailJDBC implements Order_detailDAO<Order_detailVO>{
 		//刪除資料
 //		System.out.println(dao.delete(3, 2) ? "Delete Success" : "Delete Failed");
 //		System.out.println("---------------------");
+	}
+
+	@Override
+	public void updateStatus(Integer order_id, Integer status) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

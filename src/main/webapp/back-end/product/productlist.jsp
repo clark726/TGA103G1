@@ -110,7 +110,8 @@ img {
 						href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
-					<a class="edit_item" type="button">修改商家訂單內容</a>
+					<a class="edit_item" type="button"
+					href="<%=request.getContextPath() %>/back-end/store/storeOrder.html">修改商家訂單內容</a>
 				</div>
 
 			</div>
