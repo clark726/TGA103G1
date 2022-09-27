@@ -33,9 +33,7 @@
 	</main>
 	<div w3-include-html="./commhtml/footer.html"></div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.1.js"
-	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script>
 	function includeHTML() {
 		const xxx = document.querySelector('#xxx');
@@ -115,10 +113,8 @@ allthemeid.forEach(function(e){
 }
 	//點擊store_id
 	function clickStore(){
-		$(document).on("click" ,"#storeId", function(e){
-			console.log(e.target.getAttribute("data-store_id"))
-			let store_id = e.target.getAttribute("data-store_id")
-			sessionStorage.setItem("store_id" , store_id)
+		$(document).on("click" ,"li#storeId", function(e){
+			console.log(e.target)
 		})
 	}
 
@@ -145,15 +141,15 @@ allthemeid.forEach(function(e){
 		for(var i = 0; i < body['length']; i++){
 			// console.log(body[i])
 			$("ul.item_list").append(`
-			 	<li  ><i class="fa-solid fa-heart"></i> 
-				<a href="http://localhost:8080/TGA103G1/back-end/store/store.html">
+			 	<li id="storeId" data-store_id="${body[i].store_id}" ><i class="fa-solid fa-heart"></i> 
+			 		<a href="">
 			 			<div class="img_block">
-			 				<img src="${body[i].imgstr}" id="storeId" data-store_id="${body[i].store_id}" />
+			 				<img src="${body[i].imgstr}" />
 			 			</div>
 			 			<div class="icon">
 			 				<span class="item_text">${body[i].name}</span>
 			 			</div>
-			 			</a></li>`)
+			 	</a></li>`)
 		}
 
       });

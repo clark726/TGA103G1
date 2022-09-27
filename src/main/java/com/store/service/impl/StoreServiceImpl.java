@@ -6,6 +6,7 @@ import com.store.model.StoreDAO;
 import com.store.model.StoreJNDI;
 import com.store.model.StoreVO;
 import com.store.service.StoreService;
+import com.store_img.model.Store_imgVO;
 
 public class StoreServiceImpl implements StoreService {
 
@@ -108,6 +109,8 @@ public class StoreServiceImpl implements StoreService {
 
 		return storedao.findStoreFrontpageBythemeId(themeId);
 	}
+
+	
 
 
 

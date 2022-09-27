@@ -113,6 +113,7 @@ public class Store_imgJNDI implements Store_imgDAO {
 		return list;
 	}
 
+	// 取資料時用
 	public Store_imgVO findImgByStoreIdandSratus(Integer store_id, Integer status) {
 		String sql = "SELECT img FROM store_img\n" + "where store_id = ? and status = ?;";
 		Store_imgVO img = null;
@@ -138,27 +139,46 @@ public class Store_imgJNDI implements Store_imgDAO {
 	@Override
 	public List<Store_imgVO> getbackInformation(String account) {
 		String sql = "select s.name , s.dayoff , s.work_open , s.work_end , s.produce , i.img  from store s\n"
-				+ "left join store_img i\n"
-				+ "on s.store_id = i.store_id\n"
-				+ "where s.account = ?";
+				+ "left join store_img i\n" + "on s.store_id = i.store_id\n" + "where s.account = ?";
 		List<Store_imgVO> list = new ArrayList<Store_imgVO>();
-		
-		try (Connection connection = ds.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql)) {
+
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setString(1, account);
-			
+
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Store_imgVO  img = new Store_imgVO();
+				Store_imgVO img = new Store_imgVO();
 				img.setName(rs.getString("name"));
 				img.setDayoff(rs.getString("dayoff"));
 				img.setWork_open(rs.getString("work_open"));
 				img.setWork_end(rs.getString("work_end"));
 				img.setProduce(rs.getString("produce"));
-				//為了第一次要取店家名字給前端
-				if(rs.getBytes("img")!= null){
-					img.setImg(new String( rs.getBytes("img")));
+				// 為了第一次要取店家名字給前端
+				if (rs.getBytes("img") != null) {
+					img.setImg(new String(rs.getBytes("img")));
 				}
+				list.add(img);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<Store_imgVO> findStorepageImgByStoreId(Integer store_id) {
+		String sql = "SELECT img , status FROM store_img\n" + "where store_id = ?";
+		List<Store_imgVO> list = new ArrayList<Store_imgVO>();
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, store_id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Store_imgVO img = new Store_imgVO();
+				img = new Store_imgVO();
+				img.setImg(new String(rs.getBytes("img")));
+				img.setStatus1(rs.getInt("status"));
 				list.add(img);
 			}
 

@@ -3,6 +3,7 @@ package com.store.service;
 import java.util.List;
 
 import com.store.model.StoreVO;
+import com.store_img.model.Store_imgVO;
 
 public interface StoreService {
 
@@ -17,4 +18,5 @@ public interface StoreService {
 	public StoreVO findStoreId(String account);
 	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId);
 	public List<StoreVO> findStorepageByStoreId(Integer store_id);
+	
 }

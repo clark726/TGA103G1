@@ -23,50 +23,37 @@
     ></script>
 
   </head>
-  <body style="background-color: rgb(129, 93, 65)">
+  <body style="background-color: rgb(193, 181, 171)">
    <div id="xxx"></div>
     <main class="main">
       <div class="container">
         <div class="store_img">
-          <img src="./圖檔/4.jpeg"  id="img" />
+          <img src=""  id="img" />
         </div>
 
         <div class="store_title">
-          <h1>STAFF ONLY</h1>
+          <h1 id="storeName"></h1>
           <p id="produce"></p>
         </div>
 
         <div class="store_env">
-          <img src="./圖檔/A1557651890.jpeg" id="firstImg" />
-          <img src="./圖檔/A1557651890.jpeg" id="secondImg" />
+          <img src="" id="firstImg" />
+          <img src="" id="secondImg" />
         </div>
 
         <div class="store_meanu">
           <h1>菜單/酒單</h1>
-          <img src="./圖檔/2021082550685809.jpeg" id="meanuImg" />
+          <img src="" id="meanuImg" />
+          <img src="" id="meanuImg2" />
         </div>
 
         <div class="store_product">
           <h1>店家商品</h1>
-          <div class="pro_1">
-            <a href="#"
-              ><img src="./圖檔/2021082550685809.jpeg" class="img_pro" id=""
-            /></a>
-            <p>烏龍茶酒</p>
-          </div>
-
-          <div class="pro_2">
-            <a href="#"
-              ><img src="./圖檔/2021082550685809.jpeg" class="img_pro" id=""
-            /></a>
-            <p>烏龍茶酒</p>
-          </div>
-        </div>
-
+          <ul id="storeProduct"></ul>
         <div class="store_open">
           <h1>營業時間</h1>
-          <p id="work_open">1</p>
-          <p id="work_end">1</p>
+          營業開始<p id="work_open">1</p>
+          營業結束<p id="work_end">1</p>
           <h1>公休日期</h1>
           <p id="dayoff">1</p>
           <h1>地址</h1>
@@ -93,7 +80,9 @@
       </div>
     </footer>
 
-  
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+    integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
     <script>
       function includeHTML() {
         const xxx = document.querySelector("#xxx");
@@ -161,24 +150,73 @@ allthemeid.forEach(function(e){
 		sessionStorage.setItem("themeId",id)
   })
 })
-}
-      
+}      
+
+let sessionStore_id = sessionStorage.getItem("store_id");
+let produce = document.querySelector("#produce");
+let storeName = document.querySelector("#storeName");
+let work_open = document.querySelector("#work_open");
+let work_end = document.querySelector("#work_end");
+let dayoff = document.querySelector("#dayoff");
+let address = document.querySelector("#address");
+let store_product = document.querySelector("#store_product");
+let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id=";
+
 fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        theme_id: themeId
+        store_id: sessionStore_id
+      }),
+    })
+      .then(resp => resp.json())
+      .then(body => {
+    produce.textContent = body[0].produce
+    storeName.textContent = body[0].name
+    work_open.textContent = body[0].work_open
+    work_end.textContent = body[0].work_end
+    dayoff.textContent = body[0].dayoff
+    address.textContent = body[0].address
+    	 
+    //判斷是否有商品
+    if(body[0].product_id){
+    for(var i = 0; i < body['length']; i++){
+			$("ul#storeProduct").append(`<li>
+          <div class="pro_2">
+            <a href="#"
+              ><img src="${url+body[i].product_id}" class="img_pro" id="${body[i].product_id}"
+            /></a>
+            <p>${body[i].product_name}</p>
+          </div>
+        </div>
+      </li>`)
+		}
+  }
+      });
+      const img = document.querySelector("#img");
+      const firstImg = document.querySelector("#firstImg");
+      const secondImg = document.querySelector("#secondImg");
+      const meanuImg = document.querySelector("#meanuImg");
+      const meanuImg2 = document.querySelector("#meanuImg2");
+
+//store圖片
+      fetch("http://localhost:8080/TGA103G1/ShowStorePageImg", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        store_id: sessionStore_id
       }),
     })
       .then(resp => resp.json())
       .then(body => {
 		console.log(body)
+        img.src = body[0].img,
+        firstImg.src = body[1].img,
+        secondImg.src = body[2].img,
+        meanuImg.src = body[3].img,
+        meanuImg2.src = body[4].img
     	 
-
-		
-
       });
-
 
       
     </script>

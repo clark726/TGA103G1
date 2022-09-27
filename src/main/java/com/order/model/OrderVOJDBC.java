@@ -12,20 +12,20 @@ import java.util.List;
 
 
 
-public class OrderVOJDBC implements OrderVODAO{
+public class OrderVOJDBC implements OrderDAO{
 	
 	String url = "jdbc:mysql://localhost:3306/barjarjo?useUnicode=yes&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Taipei";
 	String userid = "root";
 	String passwd = "password";
     @Override
-    public List<OrderVO> getAll() {
+    public List<OrderVO> getAllByStoreAccount(String account) {
         List<OrderVO> orderVOS = new ArrayList<>();
         String sql = "SELECT * FROM `order`;";
         try (Connection conn = DriverManager.getConnection(url, userid, passwd);
              PreparedStatement ppst = conn.prepareStatement(sql)) {
             ResultSet rs = ppst.executeQuery();
             while (rs.next()) {
-                orderVOS.add(new OrderVO(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getObject(5, LocalDateTime.class),rs.getInt(6),rs.getInt(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11)));
+                orderVOS.add(new OrderVO(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getInt(4),rs.getDate(5),rs.getInt(6),rs.getInt(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11)));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class OrderVOJDBC implements OrderVODAO{
     }
 
     @Override
-    public OrderVO get(Integer order_id) {
+    public OrderVO getOrderByOrderId( String account , Integer order_id) {
         OrderVO orderVO = new OrderVO();
         String sql = "select * from `order` where `order_id` = ?;";
         try (Connection conn = DriverManager.getConnection(url, userid, passwd);
@@ -46,7 +46,7 @@ public class OrderVOJDBC implements OrderVODAO{
                 orderVO.setStore_id(rs.getInt(2));
                 orderVO.setMember_id(rs.getInt(3));
                 orderVO.setPrice(rs.getInt(4));
-                orderVO.setDate(rs.getObject(5,LocalDateTime.class));
+                orderVO.setDate(rs.getDate(5));
                 orderVO.setMethod(rs.getInt(6));
                 orderVO.setStatus(rs.getInt(7));
                 orderVO.setName(rs.getString(8));
@@ -61,7 +61,7 @@ public class OrderVOJDBC implements OrderVODAO{
     }
 
     @Override
-    public boolean add(OrderVO obj) {
+    public boolean insert(OrderVO obj) {
         int rows = -1;
         String sql = "INSERT INTO `order` (`store_id`, `member_id`, `price`, `method`, `name`, `address`, `phone`,`note`) VALUES (?, ?, ?, ?, ?, ?, ?,?);";
         try (Connection conn = DriverManager.getConnection(url, userid, passwd);
@@ -118,4 +118,13 @@ public class OrderVOJDBC implements OrderVODAO{
         }
         return rows != 0;
     }
+
+	@Override
+	public List<OrderVO> getOrderBySataus(String account, Integer status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 }

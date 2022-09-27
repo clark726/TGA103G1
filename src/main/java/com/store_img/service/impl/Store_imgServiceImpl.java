@@ -27,7 +27,7 @@ public class Store_imgServiceImpl implements Store_imgService {
 		// 看是否重複
 		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 1) == null && img.getImg() == null) {
 			img.setSuccessful(false);
-			img.setMessage("不得為空值");
+			img.setMessage("初次更新請完整選擇圖片");
 			return img;
 		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 1) != null && img.getImg() != null) {
 			storeimgdao.update(imgmain);
@@ -35,84 +35,90 @@ public class Store_imgServiceImpl implements Store_imgService {
 		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 1) == null && img.getImg() != null) {
 			storeimgdao.insert(imgmain);
 
-		}
+		} 
 
 		Store_imgVO imgfirst = new Store_imgVO();
 		imgfirst.setImg(img.getFirstImg());
 		imgfirst.setStore_id(img.getStore_id());
 		imgfirst.setStatus1(2);
 		// 看是否重複
-		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 2) == null && img.getImg() == null) {
+		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 2) == null && img.getFirstImg() == null) {
 			img.setSuccessful(false);
-			img.setMessage("不得為空值");
+			img.setMessage("初次更新請完整選擇圖片");
 			return img;
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 2) != null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 2) != null && img.getFirstImg() != null) {
 			storeimgdao.update(imgfirst);
 
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 2) == null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 2) == null && img.getFirstImg() != null) {
 			storeimgdao.insert(imgfirst);
 
-		}
+		} 
 
 		Store_imgVO imgsecond = new Store_imgVO();
 		imgsecond.setImg(img.getSecondImg());
 		imgsecond.setStore_id(img.getStore_id());
 		imgsecond.setStatus1(3);
 		// 看是否重複
-		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 3) == null && img.getImg() == null) {
+		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 3) == null && img.getSecondImg() == null) {
 			img.setSuccessful(false);
-			img.setMessage("不得為空值");
+			img.setMessage("初次更新請完整選擇圖片");
 			return img;
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 3) != null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 3) != null && img.getSecondImg() != null) {
 			storeimgdao.update(imgsecond);
 
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 3) == null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 3) == null && img.getSecondImg() != null) {
 			storeimgdao.insert(imgsecond);
 
-		}
+		} 
 
 		Store_imgVO meanu1 = new Store_imgVO();
 		meanu1.setImg(img.getMeanuImg());
 		meanu1.setStore_id(img.getStore_id());
 		meanu1.setStatus1(4);
 		// 看是否重複
-		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 4) == null && img.getImg() == null) {
+		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 4) == null && img.getMeanuImg() == null) {
 			img.setSuccessful(false);
-			img.setMessage("不得為空值");
+			img.setMessage("初次更新請完整選擇圖片");
 			return img;
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 4) != null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 4) != null && img.getMeanuImg() != null) {
 			storeimgdao.update(meanu1);
 
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 4) == null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 4) == null && img.getMeanuImg() != null) {
 			storeimgdao.insert(meanu1);
 
-		}
+		} 
 
 		Store_imgVO meanu2 = new Store_imgVO();
 		meanu2.setImg(img.getMeanuImg2());
 		meanu2.setStore_id(img.getStore_id());
 		meanu2.setStatus1(5);
 		// 看是否重複
-		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 5) == null && img.getImg() == null) {
+		if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 5) == null && img.getMeanuImg2() == null) {
 			img.setSuccessful(false);
-			img.setMessage("不得為空值");
+			img.setMessage("初次更新請完整選擇圖片");
 			return img;
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 5) != null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 5) != null && img.getMeanuImg2() != null) {
 			storeimgdao.update(meanu2);
 
-		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 5) == null && img.getImg() != null) {
+		} else if (storeimgdao.findImgByStoreIdandSratus(img.getStore_id(), 5) == null && img.getMeanuImg2() != null) {
 			storeimgdao.insert(meanu2);
 
-		}
+		} 
 
 		img.setSuccessful(true);
 		return img;
 
 	}
-	
+
 	@Override
 	public List<Store_imgVO> getbackInformation(String account) {
 		return storeimgdao.getbackInformation(account);
+	}
+	
+	@Override
+	public List<Store_imgVO> findStorepageImgByStoreId(Integer store_id) {
+		
+		return storeimgdao.findStorepageImgByStoreId(store_id);
 	}
 
 	@Override
@@ -134,7 +140,6 @@ public class Store_imgServiceImpl implements Store_imgService {
 	public List<Store_imgVO> getAll() {
 		return null;
 	}
-
 
 
 }

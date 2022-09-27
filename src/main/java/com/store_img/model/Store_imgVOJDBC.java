@@ -170,5 +170,11 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		return img;
 	}
 
+	@Override
+	public List<Store_imgVO> findStorepageImgByStoreId(Integer store_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

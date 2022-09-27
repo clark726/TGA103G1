@@ -290,10 +290,10 @@ public class StoreJNDI implements StoreDAO {
 	@Override
 	public List<StoreVO> findStorepageByStoreId(Integer store_id) {
 
-		String sql = "select s.store_id, s.name store_name , s.address, s.dayoff, s.work_open, s.work_end, s.produce, s.name product_name, s.price product_price, s.product_id, i.img , i.img_id  from product_img i\n"
-				+ "	join(SELECT s.store_id, s.name storeName , s.address, s.dayoff, s.work_open, s.work_end, s.produce, p.name, p.price, p.product_id FROM store s\n"
-				+ "			join product p\n" + "			on s.store_id = p.store_id) s\n"
-				+ "	on i.product_id = s.product_id\n" + "where s.store_id = ?;";
+		String sql = "select s.store_id, s.name store_name , s.address, s.dayoff, s.work_open, s.work_end, s.produce, p.name product_name, p.price product_price, p.product_id from store s\n"
+				+ "	left join product p\n"
+				+ "    on s.store_id = p.store_id\n"
+				+ "where s.store_id = ?";
 		List<StoreVO> list = new ArrayList<StoreVO>();
 
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -312,8 +312,6 @@ public class StoreJNDI implements StoreDAO {
 				store.setProduct_name(rs.getString("product_name"));
 				store.setProduct_price(rs.getInt("product_price"));
 				store.setProduct_id(rs.getInt("product_id"));
-				store.setImg(rs.getBytes("img"));
-				store.setImg_id(rs.getInt("img_id"));
 				list.add(store);
 			}
 

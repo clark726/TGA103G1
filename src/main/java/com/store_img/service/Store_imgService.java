@@ -12,4 +12,5 @@ public interface Store_imgService {
 	public Store_imgVO findByPrimaryKey(Integer img_id);
 	public List<Store_imgVO> getAll();
 	public List<Store_imgVO> getbackInformation(String account);
+	public List<Store_imgVO> findStorepageImgByStoreId(Integer store_id);
 }

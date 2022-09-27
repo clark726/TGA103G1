@@ -145,7 +145,7 @@ img {
 
 					<c:forEach var="proVO" items="${Productlist}">
 
-						<tr>
+						<tr> 
 							<td>${proVO.product_id}</td>
 							<td><img
 								src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${proVO.product_id}">

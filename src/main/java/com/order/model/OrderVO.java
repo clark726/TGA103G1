@@ -1,22 +1,23 @@
 package com.order.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Date;
 
 public class OrderVO implements Serializable {
     private Integer order_id;
     private Integer store_id;
     private Integer member_id;
     private Integer price;
-    private LocalDateTime date;
+    private Date date;
     private Integer method;
     private Integer status;
+    private Integer pay_method;
     private String name;
     private String address;
     private String phone;
     private String note;
-
+    private String account;
+    
     public OrderVO() {
     }
 
@@ -37,7 +38,7 @@ public class OrderVO implements Serializable {
                 '}';
     }
 
-    public OrderVO(Integer order_id, Integer store_id, Integer member_id, Integer price, LocalDateTime date, Integer method, Integer status, String name, String address, String phone, String note) {
+    public OrderVO(Integer order_id, Integer store_id, Integer member_id, Integer price, Date date, Integer method, Integer status, String name, String address, String phone, String note) {
         this.order_id = order_id;
         this.store_id = store_id;
         this.member_id = member_id;
@@ -51,7 +52,25 @@ public class OrderVO implements Serializable {
         this.note = note;
     }
 
-    public Integer getOrder_id() {
+    
+    
+    public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public Integer getPay_method() {
+		return pay_method;
+	}
+
+	public void setPay_method(Integer pay_method) {
+		this.pay_method = pay_method;
+	}
+
+	public Integer getOrder_id() {
         return order_id;
     }
 
@@ -83,11 +102,11 @@ public class OrderVO implements Serializable {
         this.price = price;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

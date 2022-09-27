@@ -134,7 +134,7 @@
 						</div>
 					</div>
 
-
+ 
 				</div>
 			</form>
 		</main>
@@ -151,6 +151,7 @@
             xxx.innerHTML = content;
             changelog();
             logout();
+            changeTheme()
             const username = document.querySelector("#account");
             const password = document.querySelector("#password");
             const errMsg = document.querySelector("#errMsg");
@@ -236,7 +237,7 @@
             <img src="${mainImgReader.result}" class="preview_img id="mainImg" >
           `;
           document.querySelector("#preview1").innerHTML = str;
-          console.log(mainImgReader.result)
+          // console.log(mainImgReader.result)
         });
       
         }else{
@@ -348,16 +349,10 @@
     })
       .then(resp => resp.json() )
       .then(body => {
-        
-        errMsg.textContent = "";
         const { successful, message } = body;
          if (!successful) {
           errMsgUpdate.textContent = message;
          }
-
-
-
-
   
 
 const errMsgUpdateImg = document.querySelector("#errMsgUpdateImg");
@@ -378,13 +373,13 @@ const errMsgUpdateImg = document.querySelector("#errMsgUpdateImg");
       .then(body => {
         console.log(body);
         console.log(mainImgReader.result)
-        errMsg.textContent = "";
         const { successful, message } = body;
         console.log(body)
          if (successful) {
-           location = 'http://localhost:8080/TGA103G1/back-end/store/storealter.html';
+          //  location = 'http://localhost:8080/TGA103G1/back-end/store/storealter.html';
+          alert("更新成功");
          } else {
-          errMsgUpdateImg.textContent = message;
+          alert(message);
          }
       });
       });
@@ -392,22 +387,35 @@ const errMsgUpdateImg = document.querySelector("#errMsgUpdateImg");
 })();
       
 
-checkImg()
+
 //登出鈕
 function changelog(){
 			
 			if(sessionStorage.getItem("account")){
             document.querySelector("#login").style.display='none'
             document.querySelector("#logout").style.display='block'
+            document.querySelector("#loginbox").style.display = "none";
+            document.querySelector("#normal").style.display = "block";
           }
 		}
-changelog()
+
 //登出
       function logout(){
         document.querySelector("#logout").addEventListener("click", function(){
             sessionStorage.removeItem("account")
           })
       }
+	//點擊theme_id
+	function changeTheme(){
+let allthemeid =  document.querySelectorAll(".theme_id");
+allthemeid.forEach(function(e){
+  e.addEventListener("click", function(e){
+		let id = e.target.getAttribute("data-themid");
+		sessionStorage.setItem("themeId",id)
+  })
+})
+}
+
     </script>
 
 </body>

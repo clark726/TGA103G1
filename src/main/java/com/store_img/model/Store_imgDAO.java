@@ -11,4 +11,6 @@ public interface Store_imgDAO {
 	public List<Store_imgVO> getAll();
 	public Store_imgVO findImgByStoreIdandSratus(Integer store_id , Integer Status);
 	public List<Store_imgVO> getbackInformation(String account);
+	public List<Store_imgVO> findStorepageImgByStoreId(Integer store_id);
+	
 }
