@@ -95,10 +95,10 @@ img {
 	crossorigin="anonymous"></script>
 
 </head>
-<body style="background-color: rgb(129, 93, 65)">
+<body style="background-color:rgb(216, 208, 208)">
 	<div id="xxx"></div>
 	<div class="contain">
-		<aside class="aside">
+		<aside class="aside" style="background-color:#3f3a38">
 			<p id="p1">廠商後台</p>
 			<div class="div_func">
 				<div>

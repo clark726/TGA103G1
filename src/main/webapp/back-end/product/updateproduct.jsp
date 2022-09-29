@@ -15,7 +15,7 @@ ProductVO productVO = (ProductVO) request.getAttribute("productVO");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/backproduct.css">
+	href="<%=request.getContextPath()%>/css/backproduct1.css">
 
 <style>
 div.div_func div  a {
@@ -39,7 +39,7 @@ img {
 	crossorigin="anonymous"></script>
 
 </head>
-<body style="background-color: rgb(129, 93, 65)">
+<body style="background-color: rgb(216, 208, 208)">
 
 	<div w3-include-html="<%=request.getContextPath()%>/com/header.html"></div>
 

@@ -20,10 +20,10 @@ main.main {
 
 aside.aside {
   /* border: 1px solid rgb(102, 250, 102); */
-  width: 300px;
+  width: 283px;
   height: 100%;
   /* margin-left: 150px; */
-  background-color: #3d1504;
+  background-color: #3f3a38;
   color: antiquewhite;
 }
 
@@ -90,7 +90,7 @@ div.store_produce h2 {
 #textarea{
   font-size: 30px;
 }
-input.time {
+input#dayoff {
   border: 1px solid black;
   font-size: 20px;
   height: 40px;
@@ -99,7 +99,7 @@ input.time {
 }
 
 .preview {
-  border: 1px solid lightgray;
+  border: 1px solid rgb(0, 0, 0);
   display: flex;
   width: 130px;
   min-height: 150px;
@@ -113,7 +113,7 @@ input.time {
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
-  color: lightgray;
+  color: rgb(0, 0, 0);
 }
 div.inner_button {
   display: inline-block;

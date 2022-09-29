@@ -99,8 +99,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 	
 	@Override
-	public StoreVO findStoreId(String account) {
-
+	public StoreVO findStoreAccount(String account) {
 		return storedao.findStoreAccount(account);
 	}
 
@@ -108,6 +107,37 @@ public class StoreServiceImpl implements StoreService {
 	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId) {
 
 		return storedao.findStoreFrontpageBythemeId(themeId);
+	}
+
+	@Override
+	public StoreVO updateStoreInformation(StoreVO vo) {
+		String phone =  vo.getPhone();
+		String email = vo.getEmail();
+		String emailRex = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
+		String phoneRex = "\\d{10}";
+		
+		if ("".equals(phone.trim())) {
+			vo.setMessage("電話請勿空白");
+			vo.setSuccessful(false);
+			return vo;
+		}else if(!phone.trim().matches(phoneRex)) {
+			vo.setMessage("電話請輸入正確");
+			vo.setSuccessful(false);
+			return vo;
+		}
+		if ("".equals(email)) {
+			vo.setMessage("Email請勿空白");
+			vo.setSuccessful(false);
+			return vo;
+		}else if(!email.trim().matches(emailRex)) {
+			vo.setMessage("Email請符合格式");
+			vo.setSuccessful(false);
+			return vo;
+		}
+		
+		storedao.updateStoreInformation(vo);
+		vo.setSuccessful(true);
+		return vo;
 	}
 
 	

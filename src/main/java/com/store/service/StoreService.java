@@ -15,8 +15,8 @@ public interface StoreService {
 	public StoreVO getOneStore(Integer store_id);
 	public List<StoreVO> getAllStore();
 	public StoreVO login(StoreVO vo);
-	public StoreVO findStoreId(String account);
+	public StoreVO findStoreAccount(String account);
 	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId);
 	public List<StoreVO> findStorepageByStoreId(Integer store_id);
-	
+	public StoreVO updateStoreInformation(StoreVO storeVO);
 }

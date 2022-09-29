@@ -291,9 +291,7 @@ public class StoreJNDI implements StoreDAO {
 	public List<StoreVO> findStorepageByStoreId(Integer store_id) {
 
 		String sql = "select s.store_id, s.name store_name , s.address, s.dayoff, s.work_open, s.work_end, s.produce, p.name product_name, p.price product_price, p.product_id from store s\n"
-				+ "	left join product p\n"
-				+ "    on s.store_id = p.store_id\n"
-				+ "where s.store_id = ?";
+				+ "	left join product p\n" + "    on s.store_id = p.store_id\n" + "where s.store_id = ?";
 		List<StoreVO> list = new ArrayList<StoreVO>();
 
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -319,6 +317,23 @@ public class StoreJNDI implements StoreDAO {
 			e.printStackTrace();
 		}
 		return list;
+
+	}
+
+	@Override
+	public void updateStoreInformation(StoreVO storeVo) {
+		String sql = "UPDATE `store` SET `phone` = ?, `email` = ? WHERE (`account` = ?);";
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+
+			ps.setString(1, storeVo.getPhone());
+			ps.setString(2, storeVo.getEmail());
+			ps.setString(3, storeVo.getAccount());
+
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 

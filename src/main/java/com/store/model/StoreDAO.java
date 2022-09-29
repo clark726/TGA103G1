@@ -14,4 +14,5 @@ public interface StoreDAO {
 	public void updateProduce(StoreVO storevo);
 	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId);
 	public List<StoreVO> findStorepageByStoreId(Integer store_id);
+	public void updateStoreInformation(StoreVO storeVO);
 }

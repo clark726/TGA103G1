@@ -16,7 +16,7 @@ StoreVO storevo = (StoreVO) request.getAttribute("StoreVO");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/storesumit.css" />
+	href="<%=request.getContextPath()%>/css/storesumit1.css" />
 <style>
 div.city {
 	display: flex;
@@ -24,7 +24,7 @@ div.city {
 }
 </style>
 </head>
-<body style="background-color: rgb(129, 93, 65)">
+<body style="background-color:rgb(216, 208, 208)">
 	<header class="header">
 		<div class="fl_left">
 			<h1 id="logo_h1">

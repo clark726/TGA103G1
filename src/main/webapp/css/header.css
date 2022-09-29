@@ -10,9 +10,9 @@ header.header {
   /* border: 1px solid red; */
   width: 100%;
   min-width: 1200px;
-  background-color: rgb(54, 26, 21);
+   background-color: rgb(190 188 188);
 }
-.fl_left {
+.fl_left { 
   float: left;
 }
 a#logo {
@@ -20,7 +20,7 @@ a#logo {
   margin-left: 20px;
   display: inline-block;
   margin-top: 5px;
-  color: rgb(177, 123, 56);
+  color: black;
 }
 #logo_h1 {
   margin: 0px;
@@ -44,14 +44,14 @@ ul.nav_ul li:hover ul#store {
 }
 ul.nav_ul li a {
   text-decoration: none;
-  color: rgb(177, 123, 56);
+  color: black;
   width: 200px;
 }
 ul.nav_ul ul {
   visibility: hidden;
   position: absolute;
   display: block;
-  background-color: rgb(54, 26, 21);
+  background-color:  rgb(190 188 188);
   padding: 0px;
   width: 150px;
   padding-right: 20px;
@@ -65,6 +65,7 @@ ul.nav_ul ul li a {
   /* color: rgb(177, 123, 56); */
 }
 ul.nav_ul li a:hover {
+  background-color: rgb(190 188 188);
   color: white;
 }
 ul.nav_ul li a.icon::after {

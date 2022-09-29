@@ -2,9 +2,7 @@
 * {
   box-sizing: border-box;
 }
-html {
-  height: 100vh;
-}
+
 body {
   margin: 0px;
 }
@@ -13,7 +11,7 @@ header.header {
   /* border: 1px solid red; */
   width: 100%;
   min-width: 1200px;
-  background-color: rgb(54, 26, 21);
+  background-color: rgb(190 188 188);
 }
 .fl_left {
   float: left;
@@ -23,7 +21,7 @@ a#logo {
   margin-left: 20px;
   display: inline-block;
   margin-top: 5px;
-  color: rgb(177, 123, 56);
+  color: black;
 }
 #logo_h1 {
   margin: 0px;
@@ -47,14 +45,14 @@ ul.nav_ul li:hover ul#store {
 }
 ul.nav_ul li a {
   text-decoration: none;
-  color: rgb(177, 123, 56);
+  color: black;
   width: 200px;
 }
 ul.nav_ul ul {
   visibility: hidden;
   position: absolute;
   display: block;
-  background-color: rgb(54, 26, 21);
+  background-color:  rgb(190 188 188);
   padding: 0px;
   width: 150px;
   padding-right: 20px;
@@ -68,7 +66,7 @@ ul.nav_ul ul li a {
   /* color: rgb(177, 123, 56); */
 }
 ul.nav_ul li a:hover {
-  color: white;
+  background-color: white;
 }
 ul.nav_ul li a.icon::after {
   content: "";
@@ -105,6 +103,7 @@ margin: 30px;
 width: 90%;
 border-radius: 20px;
 }
+
 
 
 
@@ -174,10 +173,10 @@ footer#footer {
   width: 100%;
   margin: 0 auto;
   text-align: center;
-  min-height: 100%;
+  /* min-height: 100%; */
   height: 100px;
   display: flex;
-  background-color: rgba(54, 26, 21, 1);
+  background-color:  rgb(190 188 188);
   flex-direction: row;
   justify-content: space-around;
   /* margin-bottom: -50px; */
@@ -189,22 +188,22 @@ footer#footer div.div_li {
 }
 footer#footer div.div_li > h2 {
   text-shadow: 3px;
-  color: rgba(177, 123, 6, 1);
+  color: black;
   margin: 10px;
   /* margin-top: 10px; */
 }
 footer#footer div.div_li > ul {
-  /* padding: 5px; */
+  padding: 0px;
 }
 footer#footer div.div_li > ul > li {
   list-style: none;
 }
 footer#footer div.div_li > ul > li > a {
-  color: rgba(177, 123, 6, 1);
+  color:black;
   text-decoration: none;
 }
 footer#footer div.div_li > ul > li > a:hover {
-  background-color: aquamarine;
+  background-color: black;
   color: aliceblue;
 }
 div.div_img img {
@@ -213,6 +212,7 @@ div.div_img img {
   display: block;
   /* margin-right: 75%; */
 }
+
 /*---------------響應式-------------------------------------------------------------- */
 @media (min-width: 576px) and (max-width: 767.98px) {
   header.header,

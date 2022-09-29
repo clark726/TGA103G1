@@ -192,6 +192,13 @@ public class StoreVOJDBC implements StoreDAO {
 		return null;
 	}
 
+	@Override
+	public void updateStoreInformation(StoreVO storeVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 
