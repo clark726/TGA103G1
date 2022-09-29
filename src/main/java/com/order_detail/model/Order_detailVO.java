@@ -1,28 +1,44 @@
 package com.order_detail.model;
 
-import java.io.Serial;
 import java.io.Serializable;
 
-public class Order_detailVO implements Serializable {
+import com.common.Result;
+
+public class Order_detailVO extends Result implements Serializable {
     private Integer order_id;
     private Integer product_id;
     private Integer amount;
-   
+    private String product_name;
+    private Integer status;
   
-    @Override
-	public String toString() {
-		return "Order_detailVO [order_id=" + order_id + ", product_id=" + product_id + ", amount=" + amount + "]";
-	}
-
+   
 	public Order_detailVO() {
     	
     }
     
+	
     public Order_detailVO(Integer order_id, Integer product_id, Integer amount) {
 		super();
 		this.order_id = order_id;
 		this.product_id = product_id;
 		this.amount = amount;
+	}
+
+    
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Integer getOrder_id() {

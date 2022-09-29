@@ -16,7 +16,7 @@ StoreVO storevo = (StoreVO) request.getAttribute("StoreVO");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/storesumit.css" />
+	href="<%=request.getContextPath()%>/css/storesumit1.css" />
 <style>
 div.city {
 	display: flex;
@@ -24,7 +24,7 @@ div.city {
 }
 </style>
 </head>
-<body style="background-color: rgb(129, 93, 65)">
+<body style="background-color:rgb(216, 208, 208)">
 	<header class="header">
 		<div class="fl_left">
 			<h1 id="logo_h1">
@@ -61,7 +61,7 @@ div.city {
 	<div class="div_register">
 		<main class="register_main">
 			<form action="<%=request.getContextPath()%>/StoreServlet"
-				class="register_form" method="post">
+				class="register_form" method="post" style="height: 800px;">
 				<h2>廠商註冊</h2>
 				<div class="register_row">
 					<label for="register_acc">帳號</label>
@@ -138,35 +138,7 @@ div.city {
 					</div>
 				</div>
 
-				<div class="register_row">
-					<label for="register_day">公休日</label>
-					<div>
-						<input type="text" id="register_day" class="register_control"
-							name="dayoff"
-							value="<%=(storevo == null) ? "" : storevo.getDayoff()%>" />
-					</div>
-					<p>${errorMsgs.dayoff}</p>
-				</div>
 
-				<div class="register_row">
-					<label for="register_open">營業開始</label>
-					<div>
-						<input type="text" id="register_open" class="register_control"
-							placeholder="Ex: 18:00" name="open"
-							value="<%=(storevo == null) ? "" : storevo.getWork_open()%>" />
-					</div>
-					<p>${errorMsgs.open}</p>
-				</div>
-
-				<div class="register_row">
-					<label for="register_close">營業結束</label>
-					<div>
-						<input type="text" id="register_close" class="register_control"
-							placeholder="Ex: 24:00" name="end"
-							value="<%=(storevo == null) ? "" : storevo.getWork_end()%>" />
-					</div>
-					<p>${errorMsgs.end}</p>
-				</div>
 
 				<div class="register_btn">
 					<button type="submit" id="register">註冊</button>
@@ -178,5 +150,7 @@ div.city {
 		</main>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 	<script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>

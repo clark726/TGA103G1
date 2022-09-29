@@ -1,8 +1,0 @@
-ManagerServiceImpl=com.manager.model.service.impl.ManagerServiceImpl
-MemberServiceImpl=com.member.service.impl.MemberServiceImpl
-Message_reportServiceImpl=com.message_report.model.service.impl.Message_reportServiceImpl
-Forum_messageService=com.forum_message.model.Forum_messageService
-Forum_reportServiceImpl=com.forum_report.model.service.impl.Forum_reportServiceImpl
-ForumServiceImpl=com.forum.model.service.impl.ForumServiceImpl
-ProductServiceImpl=com.product.service.impl.ProductServiceImpl
-Product_imgService=com.product_img.model.Product_imgService

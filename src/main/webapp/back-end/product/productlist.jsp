@@ -95,21 +95,23 @@ img {
 	crossorigin="anonymous"></script>
 
 </head>
-<body style="background-color: rgb(129, 93, 65)">
-	<div id="xxx" ></div>
+<body style="background-color:rgb(216, 208, 208)">
+	<div id="xxx"></div>
 	<div class="contain">
-		<aside class="aside">
+		<aside class="aside" style="background-color:#3f3a38">
 			<p id="p1">廠商後台</p>
 			<div class="div_func">
 				<div>
-					<a class="edit_store" type="button" href="<%=request.getContextPath()%>/back-end/store/storealter.html">修改店家內容</a>
+					<a class="edit_store" type="button"
+						href="<%=request.getContextPath()%>/back-end/store/storealter.html">修改店家內容</a>
 				</div>
 				<div>
 					<a class="manager_item" type="button"
 						href="<%=request.getContextPath()%>/back-end/product/productlist.jsp">商品管理</a>
 				</div>
 				<div>
-					<a class="edit_item" type="button">修改商家訂單內容</a>
+					<a class="edit_item" type="button"
+					href="<%=request.getContextPath() %>/back-end/store/storeOrder.html">修改商家訂單內容</a>
 				</div>
 
 			</div>
@@ -141,10 +143,10 @@ img {
 						<th>修改</th>
 						<th>刪除</th>
 					</tr>
-				
+
 					<c:forEach var="proVO" items="${Productlist}">
 
-						<tr>
+						<tr> 
 							<td>${proVO.product_id}</td>
 							<td><img
 								src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${proVO.product_id}">
@@ -187,7 +189,8 @@ img {
 					.then(resp => resp.text())
 					.then(content => {
 						xxx.innerHTML = content;
-						
+						changelog()
+						logout()
 						const username = document.querySelector('#account');
 						const password = document.querySelector('#password');
 						const errMsg = document.querySelector('#errMsg');
@@ -208,15 +211,38 @@ img {
 						          const { account, password} = body;
 						          sessionStorage.setItem('account', account);
 						          sessionStorage.setItem('password', password);
-						          location = '/TGA103G1/ShowProduct';
+						          
+								  
+							
+	
 						        } else {
 						          errMsg.textContent = message;
 						        }
 						      });
 						  });			
 					});
+					
 		}
 		includeHTML();
+		
+		 //登出鈕
+        function changelog() {
+    if (sessionStorage.getItem("account")) {
+      document.querySelector("#login").style.display = "none";
+      document.querySelector("#logout").style.display = "block";
+    }
+  }
+		 
+      //登出
+      function logout(){
+        document.querySelector("#logout").addEventListener("click", function(){
+            sessionStorage.removeItem("account")
+          })
+      }
+		
+		
+		
+	
 	</script>
 </body>
 </html>

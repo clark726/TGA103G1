@@ -3,9 +3,7 @@ package com.product.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.mysql.cj.Session;
 import com.product.model.ProductVO;
 import com.product.service.ProductService;
 import com.product.service.impl.ProductServiceImpl;
@@ -237,7 +234,6 @@ public class ProductServlet extends HttpServlet {
 			List<ProductVO> Productlist =  productSvc.ShowStoreProduct(store.getAccount());
 			session.setAttribute("Productlist", Productlist); //存入店家商品session
 			String url = req.getContextPath() + "/back-end/product/productlist.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url);
 			res.sendRedirect(url);
 		}
 

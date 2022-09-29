@@ -117,20 +117,4 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public List<Integer> beforeDelete(Integer messageId) {
-		List<Integer> messageIds = new ArrayList<Integer>();
-		String sql = "select message_id from forum_message where forum_id = (select forum_id from forum_message where message_id = ?);";
-		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
-			ps.setObject(1, messageId);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				messageIds.add(rs.getInt(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return messageIds;
-	}
 }

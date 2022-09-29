@@ -8,29 +8,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_centerChangePsw.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/menber_centerChangePsw.css">
 </head>
 <body>
-   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
                 <h2>會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_center.jsp">修改基本資料</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerChangePsw.jsp">修改密碼</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerMyLove.jsp">我的最愛</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerForum.jsp">討論區</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
                         <button><a href="">聊天室</a></button>
@@ -46,24 +46,20 @@
                     <div class="menCenter_title">修改密碼</div>
                    <br>
                     <div class="change_psw">
-                        <form action="<%=request.getContextPath()%>/member/MemberUpdatePassword" class="change_form" method="post">
+                        <form action="" class="change_form">
                             <div class="change_div">
                                 <label for="">請輸入舊密碼</label>
-                                <input type="password" name="oldpassword">
+                                <input type="password">
                             </div>
-                                <font size="1" color="red" class="font">${errorMsgs.password}</font>
                             <div class="change_div">
                                 <label for="">請輸入新密碼</label>
-                                <input type="password" name="newpassword">
+                                <input type="password">
                             </div>
-                                <font size="1" color="red" class="font">${errorMsgs.password}</font>
                             <div class="change_div">
                                 <label for="">請再輸入新密碼</label>
-                                <input type="password" name="dbpassword">
+                                <input type="password">
                             </div>
-                                <font size="1" color="red" class="font">${errorMsgs.dbpassword}</font>
-							<font size="1" color="red" class="font">${error}</font>
-			
+
                             <button type="submit">確定修改</button>
                         </form>
                     </div>
@@ -72,7 +68,7 @@
             </main>
         </div>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
                     

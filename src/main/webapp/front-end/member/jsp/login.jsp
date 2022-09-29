@@ -9,31 +9,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入</title>
-      <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/log.css">
+      <link rel="stylesheet" href="<%=request.getContextPath()%>/css/login.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
     <div class="div_login" style="background-image: url('/images/12.jpg');">
         <main class="login_main">
             <form method="post" action="<%=request.getContextPath()%>/member/login" class="login_form">
                 <h2>會員登入</h2>
+                <h2 style="text-align:center;">${result}</h2>
                 <div>
                     <label for="login_account">帳號:</label>
-                    <input type="text" id="login_account" name="account"> 
+                    <input type="text" id="login_account" name="account">
+                    <br>
+                    <span id="account_err" class="err_msg" style="color: red; font-size: 10px; display: none;">帳號輸入錯誤</span>
                 </div>
-				 <font size="1" class="account" color="red"></font>
                 <div>
                     <label for="login_password">密碼:</label>
                     <input type="password" id="login_password" name="password"> 
+                    <br>
+                    <span id="psw_err" class="err_psw" style="color: red; font-size: 10px; display: none;">密碼輸入錯誤</span>
                 </div>
-                 <font size="1" class="password" color="red"></font>
                 <div>
                     <label for="login_verify">驗證碼:</label>
                     <input type="text" id="login_verify">
                     <button type="button" id="login_check">
+                        
                 </div>
-                 <font size="1" class="verify" color="red"></font>
-                <font color="red" size="1"style="text-align:center">${result}</font>
                 <div class="two_but">
                 <button type="submit" id="login">登入</button>
                 <button type="button" id="cancel" ><a href="">離開</a> </button>
@@ -46,7 +48,7 @@
             </div>
         </main>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -70,33 +72,23 @@
             }
 
 
-            var equal_code = document.querySelector("#login_verify");
+            var equal_code = document.querySelector("#login_verify")
             var login_account_el = document.querySelector("#login_account");
-            var password_el = document.querySelector("#login_password");
             
             $("#login").on("click",function(e){
-                $("font.account").empty();
-                $("font.password").empty();
-                $("font.verify").empty();
                 //這裡缺少帳號與密碼傳給資料庫必須吻合才能送出
-                if(login_account_el.value == ""){
-                    $("font.account").append(`帳號請勿空白`);
-                    e.preventDefault();
-                }else{
-                }
-                if(password_el.value == ""){
-                    $("font.password").append(`密碼請勿空白`);
-                    e.preventDefault(); 
-                }else{
-                	
-                }
                 if(equal_code.value === login_check.textContent ){
+                    document.getElementById("account_err").style.display="none";
+                    document.getElementById("psw_err").style.display="none";
+                    
                 }else{
-                    $("font.verify").append(`驗證碼空白或不正確`);                 
+                    alert("驗證碼輸入錯誤")
+                    document.getElementById("account_err").style.display="block";
+                    document.getElementById("psw_err").style.display="block";
                     e.preventDefault();
                 }
+        
             })
-            
             function includeHTML() {
               var z, i, elmnt, file, xhttp;
               /* Loop through a collection of all HTML elements: */

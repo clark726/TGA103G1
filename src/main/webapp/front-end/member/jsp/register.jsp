@@ -39,17 +39,13 @@ div.div_register main.register_main form.register_form div.register_row{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: 60px;
     font-size: 18px;
     font-weight: 700;
     position: relative;
 }
-div.div_register main.register_main form.register_form> .font{
-        /* border: 1px solid red; */
-        margin-left: 400px;
-    }
 div.div_register main.register_main form.register_form div.register_row > label{
     padding: 10px;
 }
@@ -108,41 +104,41 @@ div.register_btn #cancel > a:visited{
     </style>
 </head>
 <body>
-       <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
     <div class="div_register">
         <main class="register_main">
-            <form action="<%=request.getContextPath()%>/register" class="register_form" method="post">
+            <form action="<%=request.getContextPath()%>/member/register2" class="register_form" method="post">
                 <h2>會員註冊</h2>
                 <div class="register_row">
                     <label for="register_acc">帳號</label>
                     <div>
-                        <input type="text" id="register_acc" class="register_control" name="account">  
+                        <input type="text" id="register_acc" class="register_control" name="account">
+                        
                     </div>
                 </div>
-                    <font size="1" color="red" class="font">${errorMsgs.account}</font>
 
                 <div class="register_row">
                     <label for="register_psw">密碼</label>
                     <div>
                         <input type="password" id="register_psw" class="register_control" name="password">
+                       
                     </div>
                 </div>
-                    <font size="1" color="red" class="font">${errorMsgs.password}</font>     
+
                 <div class="register_row">
-                    <label for="register_dbpsw" class="font">確認密碼</label>
+                    <label for="register_dbpsw">確認密碼</label>
                     <div>
                         <input type="password" id="register_dbpsw" class="register_control" name="dbpassword">
+                       
                     </div>
                 </div>
-                 <font size="1" color="red" class="font">${errorMsgs.checkpassword}</font>
                 
                 <div class="register_row">
                     <label for="register_birth">生日</label>
                     <div>
-                        <input type="date" id="register_birth" class="register_control" style="font-weight: 700;" name="birthday">
+                        <input type="date" id="register_birth" class="register_control" style="font-weight: 700;" name="birthday"> 
                     </div>
                 </div>
-				 <font size="1" color="red" class="font">${errorMsgs.birthday}</font>
 
                 <div class="register_row">
                     <label for="register_addr">住址</label>
@@ -153,22 +149,21 @@ div.register_btn #cancel > a:visited{
                         <input type="text" id="register_addr" class="register_control" name="address" >
                     </div>
                 </div>
-				 <font size="1" color="red" class="font">${errorMsgs.address}</font>
+
                 <div class="register_row">
                     <label for="">性別</label>
                     <div class="gender">
-                        <input type="radio" name="gender" id="male" class="gender" value="0" checked><label for="male" >男</label> 
+                        <input type="radio" name="gender" id="male" class="gender" value="0"><label for="male" >男</label> 
                         <input type="radio" name="gender" id="famale" class="gender" value="1"><label for="famale">女</label> 
                     </div>
                 </div>
 
                 <div class="register_row">
-                    <label for="register_mail" class="font">Email</label>
+                    <label for="register_mail">Email</label>
                     <div>
                         <input type="text" id="register_mail" class="register_control" name="email">
                     </div>
                 </div>
-                    <font size="1" color="red" class="font">${errorMsgs.email}</font>
                 
                 <div class="register_row">
                     <label for="register_sname">暱稱</label>
@@ -176,14 +171,13 @@ div.register_btn #cancel > a:visited{
                         <input type="text" id="register_sname" class="register_control" name="nickname">
                     </div>
                 </div>
-				 <font size="1" color="red" class="font">${errorMsgs.nickname}</font>
+
                 <div class="register_row">
                     <label for="register_phone">手機</label>
                     <div>
                         <input type="text" id="register_phone" class="register_control" name="phone">
                     </div>
                 </div>
-                    <font size="1" color="red" class="font">${errorMsgs.phone}</font>
 
                 <div class="register_btn">
                     <button type="submit" id="register">註冊</button>
@@ -192,7 +186,7 @@ div.register_btn #cancel > a:visited{
             </form>
         </main>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
 <script>            

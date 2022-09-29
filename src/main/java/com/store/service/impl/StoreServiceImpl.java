@@ -6,6 +6,7 @@ import com.store.model.StoreDAO;
 import com.store.model.StoreJNDI;
 import com.store.model.StoreVO;
 import com.store.service.StoreService;
+import com.store_img.model.Store_imgVO;
 
 public class StoreServiceImpl implements StoreService {
 
@@ -48,23 +49,7 @@ public class StoreServiceImpl implements StoreService {
 			store.setSuccessful(false);
 			return store;
 		}
-		String timeRex = "\\d{2}\\:\\d{2}";
-		if ("".equals(work_open)) {
-			store.setMessage("營業開始請勿空白");
-			store.setSuccessful(false);
-			return store;
-		} else if (!(work_open.trim().matches(timeRex))) {
-			store.setMessage("營業開始請符合格式");
-			return store;
-		}
-		if ("".equals(work_end)) {
-			store.setMessage("營業結束請勿空白");
-			store.setSuccessful(false);
-			return store;
-		} else if (!(work_end.trim().matches(timeRex))) {
-			store.setMessage("營業結束請符合格式");
-			return store;
-		}
+		
 
 		storedao.updateProduce(store);
 		store.setSuccessful(true);
@@ -108,11 +93,55 @@ public class StoreServiceImpl implements StoreService {
 
 		return vo;
 	}
-
+	
+	public List<StoreVO> findStorepageByStoreId(Integer store_id) {
+		return storedao.findStorepageByStoreId(store_id);
+	}
+	
 	@Override
-	public StoreVO findStoreId(String account) {
-
+	public StoreVO findStoreAccount(String account) {
 		return storedao.findStoreAccount(account);
 	}
+
+	@Override
+	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId) {
+
+		return storedao.findStoreFrontpageBythemeId(themeId);
+	}
+
+	@Override
+	public StoreVO updateStoreInformation(StoreVO vo) {
+		String phone =  vo.getPhone();
+		String email = vo.getEmail();
+		String emailRex = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
+		String phoneRex = "\\d{10}";
+		
+		if ("".equals(phone.trim())) {
+			vo.setMessage("電話請勿空白");
+			vo.setSuccessful(false);
+			return vo;
+		}else if(!phone.trim().matches(phoneRex)) {
+			vo.setMessage("電話請輸入正確");
+			vo.setSuccessful(false);
+			return vo;
+		}
+		if ("".equals(email)) {
+			vo.setMessage("Email請勿空白");
+			vo.setSuccessful(false);
+			return vo;
+		}else if(!email.trim().matches(emailRex)) {
+			vo.setMessage("Email請符合格式");
+			vo.setSuccessful(false);
+			return vo;
+		}
+		
+		storedao.updateStoreInformation(vo);
+		vo.setSuccessful(true);
+		return vo;
+	}
+
+	
+
+
 
 }

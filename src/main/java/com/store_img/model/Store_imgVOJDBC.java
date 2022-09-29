@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.store.model.StoreVO;
+
 public class Store_imgVOJDBC implements Store_imgDAO {
 
 	String url = "jdbc:mysql://localhost:3306/barjarjo?useUnicode=yes&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Taipei";
@@ -18,18 +20,19 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 	String passwd = "password";
 
 	@Override
-	public void insert(Store_imgVO img) {
+	public Store_imgVO insert(Store_imgVO img) {
 		String sql = "insert into store_img (store_id , img)\n" + "values(?, ?);";
 
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, img.getStore_id());
-			ps.setBytes(2, img.getImg());
+			ps.setBytes(2, img.getImg().getBytes());
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return img;
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, img.getStore_id());
-			ps.setBytes(2, img.getImg());
+			ps.setBytes(2, img.getImg().getBytes());
 			ps.setInt(3, img.getImg_id());
 			ps.executeUpdate();
 
@@ -77,7 +80,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 				img.setImg_id(rs.getInt("img_id"));
 				img.setStore_id(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
-				img.setImg(rs.getBytes("img"));
+				img.setImg(new String(rs.getBytes("img")));
 			}
 
 		} catch (Exception e) {
@@ -102,7 +105,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 				img.setImg_id(rs.getInt("img_id"));
 				img.setStore_id(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
-				img.setImg(rs.getBytes("img"));
+				img.setImg(new String(rs.getBytes("img")));
 
 				list.add(img);
 			}
@@ -119,14 +122,14 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 
 		Store_imgVOJDBC jdbc = new Store_imgVOJDBC();
 		Store_imgVO img = new Store_imgVO();
-		img.setStore_id(1);
+		String base64 = "";
 
-		FileInputStream in = new FileInputStream("/Users/chenguanlun/Desktop/圖檔/A1557651782.jpeg");
-		byte[] b = new byte[(int) in.available()];
-		in.read(b);
-		img.setImg(b);
-		img.setImg_id(1);
-		in.close();
+//		FileInputStream in = new FileInputStream("/Users/chenguanlun/Desktop/圖檔/A1557651782.jpeg");
+//		byte[] b = new byte[(int) in.available()];
+//		in.read(b);
+//		img.setImg(b);
+//		img.setImg_id(1);
+//		in.close();
 //		jdbc.insert(img);
 //		jdbc.update(img);
 //		jdbc.delete(2);
@@ -139,5 +142,39 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 			System.out.println(vo);
 		}
 	}
+
+	@Override
+	public Store_imgVO findImgByStoreIdandSratus(Integer store_id, Integer Status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Store_imgVO> getbackInformation(String account) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public Store_imgVO insertThemeImg(Store_imgVO img) {
+		String sql = "UPDATE `barjarjo`.`store_theme` SET `img` = ? WHERE (`theme_id` = ?);";
+
+		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setBytes(1, img.getImg().getBytes());
+			ps.setInt(2, 1);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return img;
+	}
+
+	@Override
+	public List<Store_imgVO> findStorepageImgByStoreId(Integer store_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

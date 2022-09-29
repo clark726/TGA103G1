@@ -22,7 +22,17 @@ public class StoreVO extends Result implements Serializable {
 	private String work_end;
 	private String produce;
 	private List<Object> imgs;
-
+	private byte[] img;
+	private String imgstr;
+	private String storetype;
+	
+	private String storeproduce;
+	private String product_name;
+	private Integer product_price;
+	private Integer product_id;
+	private Integer img_id;
+	
+	
 	public StoreVO() {
 	};
 
@@ -48,6 +58,70 @@ public class StoreVO extends Result implements Serializable {
 
 	
 	
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+
+	public Integer getProduct_price() {
+		return product_price;
+	}
+
+	public void setProduct_price(Integer product_price) {
+		this.product_price = product_price;
+	}
+
+	public Integer getProduct_id() {
+		return product_id;
+	}
+
+	public void setProduct_id(Integer product_id) {
+		this.product_id = product_id;
+	}
+
+	public Integer getImg_id() {
+		return img_id;
+	}
+
+	public void setImg_id(Integer img_id) {
+		this.img_id = img_id;
+	}
+
+	public String getStoretype() {
+		return storetype;
+	}
+
+	public void setStoretype(String storetype) {
+		this.storetype = storetype;
+	}
+
+	public String getStoreproduce() {
+		return storeproduce;
+	}
+
+	public void setStoreproduce(String storeproduce) {
+		this.storeproduce = storeproduce;
+	}
+
+	public String getImgstr() {
+		return imgstr;
+	}
+
+	public void setImgstr(String imgstr) {
+		this.imgstr = imgstr;
+	}
+
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] img) {
+		this.img = img;
+	}
+
 	public List<Object> getImgs() {
 		return imgs;
 	}

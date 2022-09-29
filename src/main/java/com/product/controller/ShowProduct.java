@@ -34,7 +34,7 @@ public class ShowProduct extends HttpServlet {
 		HttpSession session = request.getSession();
 		StoreVO store =  (StoreVO) session.getAttribute("store");
 		List<ProductVO> Productlist =  productSvc.ShowStoreProduct(store.getAccount());
-		StoreVO storeId = storeSvc.findStoreId(store.getAccount());
+		StoreVO storeId = storeSvc.findStoreAccount(store.getAccount());
 		
 		session.setAttribute("Productlist", Productlist); 
 		session.setAttribute("storeId", storeId);

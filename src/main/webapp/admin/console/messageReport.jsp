@@ -10,24 +10,23 @@
 <link rel="stylesheet" href="/TGA103G1/admin/css/header.css" />
 <link rel="stylesheet" href="/TGA103G1/admin/css/back.css">
 <style>
-table {
+	table{
 	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-td {
-	border: 1px solid black;
-}
-
-.member_id, .account {
-	max-width: 100px;
-}
-
-form {
-	display: inline-block;
-}
-</style>
+	justify-content: center; 
+	align-items: center; 
+	}
+	td {
+		border: 1px solid black;
+	}
+	
+	.member_id, .account {
+		max-width: 100px;
+	}
+	
+	form {
+		display: inline-block;
+	}
+	</style>
 </head>
 <body>
 	<header class="header">
@@ -68,20 +67,17 @@ form {
 			<p id="p1">管理者後台</p>
 			<div class="div_func">
 				<div>
-					<a class="edit_store"
-						href="<%=request.getContextPath()%>/admin/console/members.jsp?">修改會員資料</a>
+					<a class="edit_store" href="<%=request.getContextPath()%>/admin/console/members.jsp?">修改會員資料</a>
 				</div>
 				<div>
-					<a class="manager_item" type="button"
-						href="<%=request.getContextPath()%>/admin/console/administrators.jsp">管理員們</a>
+					<a class="manager_item" type="button">上下架商品管理</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button">修改商家訂單內容</a>
 				</div>
 				<hr>
 				<div>
-					<a class="front_paga"
-						href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉</a>
+					<a class="front_paga" >留言檢舉</a>
 				</div>
 				<div>
 					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
@@ -114,9 +110,8 @@ form {
 				</tr>
 				<c:forEach var="report" items="${messageReportList}" varStatus="s">
 					<c:if test="${report.status == 0}">
-						<tr>
-							<form action="<%=request.getContextPath()%>/control"
-								method="post">
+						<tr >
+							<form action="<%=request.getContextPath()%>/control" method="post">
 								<td>${report.message_report_id}</td>
 								<td>${report.member_id}</td>
 								<td>${report.message_id }</td>
@@ -127,7 +122,7 @@ form {
 								<td><button type="button" class="seen">已讀</button></td>
 								<td><button type="button" value="${report.message_id}"
 										class="check">查看</button></td>
-								<td><button type=button class="deleteForumMessage">刪除留言</button></td>
+								<td><button type=button class="deleteForumMessage">刪帖封號</button></td>
 							</form>
 						</tr>
 					</c:if>
@@ -136,70 +131,100 @@ form {
 		</main>
 	</div>
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		document.querySelectorAll(".check").forEach(function(el) {
-			el.addEventListener("click", function(e) {
-				btnVal = e.target.value;
-				$.ajax({
-					url : "/TGA103G1/control",
-					type : "post",
-					data : {
-						"action" : "getFroumMessage",
-						"btnVal" : btnVal
-					},
-					dataType : "json",
-					success : function(xhr) {
-						alert(xhr.context);
-					},
-				});
-			})
-		})
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script type="text/javascript">
+	 document.querySelectorAll(".check").forEach(function(el){
+		 el.addEventListener("click",function(e){
+		 	btnVal = e.target.value;
+		 	$.ajax({
+		         url: "/TGA103G1/control",           
+		         type: "post",                  
+		         data: {"action":"getFroumMessage",
+		 		        		"btnVal":btnVal},              
+		         dataType: "json",            
+		         beforeSend: function(){     
+		         },
+		         headers: {},
+		         statusCode: {                
+		           200: function (res) {},
+		           404: function (res) {},
+		           500: function (res) {}
+		         },
+		         success: function(xhr){
+		 			alert(xhr.context);
+		         },
+		         error: function(xhr){
+		 			console.log("error");         
+		             console.log(xhr);
+		         },
+		         complete: function(xhr){}
+		       });
+		 })
+		 })
 
-		document.querySelectorAll(".deleteForumMessage").forEach(function(el) {
-			el.addEventListener("click", function(even) {
-				if (confirm("確定要刪除嗎?")) {
-					var reason = window.prompt("刪除原因");
-					var trEl = el.closest("tr");
-					$.ajax({
-						url : "/TGA103G1/control",
-						type : "post",
-						data : {
-							"action" : "deleteForumMessage",
-							"deleteVal" : trEl.children[3].innerHTML,
-							"btnVal" : trEl.children[1].innerHTML,
-							"memberId" : trEl.children[2].innerHTML,
-							"reason" : reason
-						},
-						success : function(xhr) {
-							console.log("success");
-							trEl.remove();
-						},
-						complete : function(xhr) {
-							window.history.go(0);
-						}
-					});
-				}
-			})
-		});
 
-		document.querySelectorAll(".seen").forEach(function(el) {
-			el.addEventListener("click", function(ev) {
-				var trEl = el.closest("tr");
-				$.ajax({
-					url : "/TGA103G1/control",
-					type : "post",
-					data : {
-						"action" : "updateforumReport",
-						"btnVal" : trEl.children[1].innerHTML
-					},
-					success : function(xhr) {
-						console.log("success");
-						trEl.remove();
-					},
-				});
-			})
-		})
-	</script>
+document.querySelectorAll(".deleteForumMessage").forEach(function(el){
+	el.addEventListener("click",function(even){
+		if(confirm("確定要刪除嗎?")){
+			var reason = window.prompt("刪除原因");
+			 var trEl = el.closest("tr");
+			$.ajax({
+        url: "/TGA103G1/control",           
+        type: "post",                  
+        data: {"action":"deleteForumMessage",
+		        "deleteVal":trEl.children[3].innerHTML,
+				"btnVal":trEl.children[1].innerHTML,
+				"reason":reason},                        
+        beforeSend: function(){     
+        },
+        headers: {},
+        statusCode: {                
+          200: function (res) {},
+          404: function (res) {},
+          500: function (res) {}
+        },
+        success: function(xhr){
+			console.log("success");
+			trEl.remove();
+        },
+        error: function(xhr){
+			console.log("error");         
+            console.log(xhr);
+        },
+        complete: function(xhr){}
+      });
+		}
+	})
+})
+
+document.querySelectorAll(".seen").forEach(function(el){
+	el.addEventListener("click",function(ev){
+		var trEl = el.closest("tr");
+		$.ajax({
+        url: "/TGA103G1/control",           
+        type: "post",                  
+        data: {"action":"updateforumReport",
+		        "btnVal":trEl.children[1].innerHTML},                        
+        beforeSend: function(){     
+        },
+        headers: {},
+        statusCode: {                
+          200: function (res) {},
+          404: function (res) {},
+          500: function (res) {}
+        },
+        success: function(xhr){
+			console.log("success");
+			trEl.remove();
+        },
+        error: function(xhr){
+			console.log("error");         
+            console.log(xhr);
+        },
+        complete: function(xhr){}
+      });
+	})
+})
+</script>
 </body>
 </html>

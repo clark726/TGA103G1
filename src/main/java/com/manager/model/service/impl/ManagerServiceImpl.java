@@ -12,16 +12,13 @@ public class ManagerServiceImpl implements ManagerService {
 	public ManagerServiceImpl() {
 		dao = new ManagerJNDIDAO();
 	}
-
-//	public List<Integer> getMessageReportByMessageId(Integer messageId){
-//		return dao.getMessageReportByMessageId(messageId);
-//	}
+	
 	public List<ManagerVO> getAll() {
 		return dao.getAll();
 	}
 	
-	public boolean delete(Integer id) {
-		 return dao.delete(id);
+	public void delete(Integer id) {
+		dao.delete(id);
 	}
 	
 	public ManagerVO get(Integer id) {
@@ -29,8 +26,10 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	
-	public boolean insert(String account,String password) {
-		return dao.add(new ManagerVO(account,password));
+	public ManagerVO insert(String account,String password) {
+		ManagerVO result = new ManagerVO(account,password);
+		dao.add(result);
+		return result;
 	}
 	
 	public ManagerVO update(Integer member_id, String account, String password) {

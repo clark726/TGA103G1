@@ -113,9 +113,4 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return bytes;
 	}
-
-	@Override
-	public boolean updateStatus(Integer id, Integer status) {
-		return productdao.updateStatus(id,status);
-	}
 }

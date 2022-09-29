@@ -27,7 +27,6 @@ public class StoreUpdate extends HttpServlet {
 		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		request.getSession().getAttribute("");
 		StoreVO store = _gson.fromJson(request.getReader().readLine(), StoreVO.class);
 		//取出存在session的storeId放入前端傳來的store
 		HttpSession session = request.getSession();

@@ -19,10 +19,10 @@ import com.member.vo.MemberVO;
 public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 
-	public MemberServiceImpl()  {
+	public MemberServiceImpl() throws NamingException {
 		dao = new MemberDaoImpl();
 	}
-
+	
 	@Override
 	public boolean register(MemberVO member) {
 
@@ -33,12 +33,13 @@ public class MemberServiceImpl implements MemberService {
 			return false;
 		}
 		final String password = member.getPassword();
+		String checkPs = "^[(a-zA-Z0-9)]{4,15}$";
 		if (password == null || password.isEmpty()) {
 			member.setMessage("密碼未輸入");
 			member.setSuccessful(false);
 			return false;
-		} else if (!(password.trim().matches("^\\w{4,15}$"))) {
-			member.setMessage("請輸入4～15個字");
+		} else if (!(password.trim().matches(checkPs))) {
+			member.setMessage("請輸入4～15個字元");
 			member.setSuccessful(false);
 			return false;
 		}
@@ -67,30 +68,23 @@ public class MemberServiceImpl implements MemberService {
 			return false;
 		}
 
+		final String nickname = member.getNickname();
+		if (nickname == null || nickname.isEmpty()) {
+
+			return false;
+		}
+
 		final String phone = member.getPhone();
+		String checkPhone = "^[0]{1}[9]{1}\\d{8}$";
 		if (phone == null || phone.isEmpty()) {
 			member.setMessage("請輸入電話號碼");
 			member.setSuccessful(false);
 			return false;
-		} else if (!(phone.trim().matches("^09\\d{8}$"))) {
+		} else if (!(phone.trim().matches(checkPhone))) {
 			member.setMessage("請輸入正確手機格式");
 			member.setSuccessful(false);
 			return false;
 		}
-
-//		String phoneString = member.getPhone(), phone = "";
-//		try {
-//			phone = phoneString.trim();
-//		} catch (NullPointerException e) {
-//			member.setMessage("請輸入電話號碼");
-//			member.setSuccessful(false);
-//		}
-//		if (!(phone.matches("^09\\d{8}$"))) {
-//			member.setMessage("請輸入正確手機號碼");
-//			member.setSuccessful(false);
-//			return false;
-//		}
-
 		member.setMessage("註冊成功");
 		member.setSuccessful(true);
 		dao.insert(member);
@@ -98,70 +92,63 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean login(String account, String password) {
+	public MemberVO login(MemberVO member) {
+		final String account = member.getAccount();
 		if (account == null || account.isEmpty()) {
-			return false;
+			member.setMessage("帳號未輸入");
+			member.setSuccessful(false);
 		}
+
+		final String password = member.getPassword();
 		if (password == null || password.isEmpty()) {
-			return false;
+			member.setMessage("密碼未輸入");
+			member.setSuccessful(false);
 		}
-		return dao.login(account, password);
+
+		return dao.login(member);
 	}
 
 	@Override
-	public boolean update(MemberVO member) {
+	public MemberVO update(MemberVO member) {
+		Integer id = member.getMember_id();
+
+		final String account = member.getAccount();
+		if (account == null || account.isEmpty()) {
+
+		}
+
+		final Integer gender = member.getGender();
+		if (gender == null) {
+		}
 		final String email = member.getEmail();
 		if (email == null || email.isEmpty()) {
-			member.setMessage("請輸入電子信箱");
-			member.setSuccessful(false);
-			return false;
+		}
+
+		final String nickname = member.getNickname();
+		if (nickname == null || nickname.isEmpty()) {
 		}
 
 		final String phone = member.getPhone();
+		String checkPhone = "^[0]{1}[9]{1}\\d{8}$";
 		if (phone == null || phone.isEmpty()) {
-			member.setMessage("請輸入電話號碼");
-			member.setSuccessful(false);
-			return false;
-		} else if (!(phone.trim().matches("^09\\d{8}$"))) {
-			member.setMessage("請輸入電話號碼");
-			member.setSuccessful(false);
-			return false;
+		} else if (!(phone.trim().matches(checkPhone))) {
 		}
-		return dao.update(member);
+		dao.update(member);
+		return member;
 	}
 
 	@Override
 	public MemberVO findByPrimaryKey(Integer member_id) {
-		return dao.findByPrimaryKey(member_id);
+		
+		return findByPrimaryKey(member_id);
 	}
 
 	@Override
 	public List<MemberVO> getAll() {
+		
 		return dao.getAll();
 	}
 
-	@Override
-	public boolean updatePermission(Integer id, Integer permission) {
-		if (id < 0 || permission<0 || permission>2) {
-			return false;
-		}else {
-			return dao.updatePermission(id,permission);
-		}
-	}
 
-	@Override
-	public MemberVO selectByUsername(String account) {
-		
-		if(account != null) {
-			return dao.selectByUsername(account);
-		}else {
-			return null;
-		}
-	}
-
-	@Override
-	public boolean updatePassword(MemberVO member) {
-		return dao.updatePassword(member);
-	}
 
 }

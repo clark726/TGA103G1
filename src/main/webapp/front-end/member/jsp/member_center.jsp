@@ -5,39 +5,38 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%session.getAttribute("userid");
-
-%>
-
+<%--  <%
+  MemberVO memberVO = (MemberVO) request.getAttribute("memberVO"); //EmpServlet.java (Concroller) 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
+%>  --%>
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
- 	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_center.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/menber_center.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+  <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
                 <h2>會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
-                        <button><a href="<%=request.getContextPath() %>/member/MemberUpdate">修改基本資料</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
                     </li>
                     <li>
-                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center%EF%BC%ADanegerOrder.jsp">訂單管理</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
                     </li>
                     <li>
-                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
                     </li>
                     <li>
-                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
                         <button><a href="">聊天室</a></button>
@@ -59,98 +58,62 @@
                             </div> --%>
                             <div class="form_div">
                                 <label for="">名稱</label>
-                                <input type="text" placeholder="名稱" id="nickname" name="nickname" value="${userid.nickname}">
+                                <input type="text" placeholder="名稱" name="nickname" value="${memberVO.nickname} ">
                             </div>
-                                <font size="1" class="nickname" color="red"></font>
                             <div class="form_div">
                                 <label for="">信箱</label>
-                                <input type="text" placeholder="信箱" id="email" name="email"  value="${userid.email}">
+                                <input type="text" placeholder="信箱" name="email"  value="${memberVO.email}">
                             </div>
-                                <font size="1" class="email" color="red"></font>
                             <div class="form_div">
                                 <label for="">地址</label>
-                                <input type="text" placeholder="地址" id="address" name="address"  value="${userid.address}">
+                                <input type="text" placeholder="地址" name="address"  value="${memberVO.address} ">
                             </div>
-                                <font size="1" class="address" color="red"></font>
                             <div class="form_div">
                                 <label for="">電話</label>
-                                <input type="text" placeholder="手機" id="phone" name="phone"  value="${userid.phone}">
+                                <input type="text" placeholder="手機" name="phone"  value="${memberVO.phone}">
                             </div>
-                                <font size="1" class="phone" color="red"></font>
                             <div class="div_gender">
                                 <label for="">性別</label>
-                                <input type="radio" id="male" name="gender"  value="0" class="gender" ${userid.gender == 0 ? "checked" : ""}><label for="male">男</label>
-                                <input type="radio" id="famale" name="gender" value="1" class="gender" ${userid.gender  == 0 ? "" : "checked"}><label for="famale">女</label>
+                                <input type="radio" id="male" name="gender"  value="0" class="gender" ${memberVO.gender == 0 ? "checked" : ""}><label for="male">男</label>
+                                <input type="radio" id="famale" name="gender" value="1" class="gender" ${memberVO.gender == 0 ? "" : "checked"}><label for="famale">女</label>
                             </div>
-						
-                            <button type="submit" id="submit">確定修改</button>
+							<input type="hidden" name="action" value="update">
+							<input type="hidden" name="member_id" value="${memberVO.member_id}">
+							<input type="hidden" name="member_id" value="${memberVO.account}">
+                            <button type="submit">確定修改</button>
                         </form>
                     </div>
                 </div>
                 <div class="menCenter_div">
               		<!-- 在這邊做值的判斷 -->
-                    <img src="<%=request.getContextPath()%>/front-end/member/images/man.png" alt="" class="gender_img">
+                    <img src="<%=request.getContextPath()%>/images/man.png" alt="" class="gender_img">
                     
                 </div>
             </main>
         </div>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/menber_center.js"></script>
     <script>
-    let nickname = document.querySelector("#nickname");
-    let email = document.querySelector("#email");
-    let address = document.querySelector("#address");
-    let phone = document.querySelector("#phone");
-    let emailRex = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
-    let phoneRex = "^\\d{10}$";
-    $("#submit").on("click",function(e){
-            $("font.nickname").empty();
-            $("font.email").empty();
-            $("font.address").empty();
-            $("font.phone").empty();
-            
-            if(email.value == ""){
-                $("font.email").append(`信箱請勿空白`);
-                e.preventDefault();
-            }else if(!email.value.match(emailRex)){
-                $("font.email").append(`信箱格式不正確`);
-                e.preventDefault();
-            }
-            if(address.value == ""){
-                $("font.address").append(`地址請勿空白`);
-                e.preventDefault();
-                
-            }
-
-            if(phone.value == ""){
-                $("font.phone").append(`電話請勿空白`);                 
-                e.preventDefault();                       
-            }else if(!phone.value.match(phoneRex)){    
-                $("font.phone").append(`電話格式不正確`);                 
-                e.preventDefault();             
-            }
-        })
-    
     window.onload = function(){
         var arr = new Array();
         document.querySelectorAll(".gender").forEach(function(e){
             arr.push(e);
         })
         if(arr[0].checked){
-        	$(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/man.png")
+        	$(".gender_img").attr("src","<%=request.getContextPath()%>/images/man.png")
         }else{
-        	 $(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/woman.png")
+        	 $(".gender_img").attr("src","<%=request.getContextPath()%>/images/woman.png")
         }
     }
         $(function(){
             $("input.gender").on("click",function(){
                 var gender = $(this).val();
                 if(gender == 0){
-                    $(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/man.png")
+                    $(".gender_img").attr("src","<%=request.getContextPath()%>/images/man.png")
                 }else if(gender == 1){
-                    $(".gender_img").attr("src","<%=request.getContextPath()%>/front-end/member/images/woman.png")
+                    $(".gender_img").attr("src","<%=request.getContextPath()%>/images/woman.png")
                 }
             })
         })

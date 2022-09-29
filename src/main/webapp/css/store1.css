@@ -20,14 +20,14 @@ div.store_title {
   text-align: center;
 }
 
-div.store_env img#img_env1 {
+div.store_env img#firstImg {
   margin: auto;
   margin-bottom: 30px;
   display: block;
   width: 1000px;
   height: 300px;
 }
-div.store_env img#img_env2 {
+div.store_env img {
   display: block;
   margin: auto;
   width: 1000px;
@@ -36,7 +36,7 @@ div.store_env img#img_env2 {
 div.store_meanu h1 {
   text-align: center;
 }
-div.store_meanu img#img_meanu {
+div.store_meanu img {
   display: block;
   margin: auto;
   width: 1000px;
@@ -61,4 +61,13 @@ div.pro_1 {
 
 div.store_open {
   text-align: center;
+}
+/* 商品 */
+ul#storeProduct{
+    list-style: none;
+    display: flex;
+    font-size: 25px;
+}
+p{
+	font-size: 20px;
 }

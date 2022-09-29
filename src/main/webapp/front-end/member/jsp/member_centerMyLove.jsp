@@ -8,29 +8,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_centerMyLove.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/menber_centerMyLove.css">
 </head>
 <body>
-   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
                 <h2>會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_center.jsp">修改基本資料</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerChangePsw.jsp">修改密碼</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerMyLove.jsp">我的最愛</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/front-end/member/jsp/menber_centerForum.jsp">討論區</a></button>
+                        <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
                         <button><a href="">聊天室</a></button>
@@ -48,12 +48,12 @@
                     <ul class="item_list">
                         <li>
                           <div>
-                            <img src="<%=request.getContextPath()%>/front-end/member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                            <img src="<%=request.getContextPath()%>/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                           </div>
                           <a href="#">
                              
                             <div class="img_block">
-                              <img src="<%=request.getContextPath()%>/front-end/member/images/22704186_s.jpeg" style="width: 250px;height:150px">
+                              <img src="<%=request.getContextPath()%>/images/22704186_s.jpeg" style="width: 250px;height:150px">
                             </div>
                             <span class="item_text">店家名稱：</span>
                           </a>
@@ -61,55 +61,55 @@
                         
                         <li>
                           <div>
-                            <img src="<%=request.getContextPath()%>/front-end/member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                            <img src="<%=request.getContextPath()%>/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                           </div>
                             <a href="#">
                               <div class="img_block">
-                                <img src="<%=request.getContextPath()%>/front-end/member/images/23304_s.jpeg" style="width: 250px;height:150px">
+                                <img src="<%=request.getContextPath()%>/images/23304_s.jpeg" style="width: 250px;height:150px">
                               </div>
                               <span class="item_text">店家名稱：</span>
                             </a>
                           </li>
                           <li>
                             <div>
-                              <img src="<%=request.getContextPath()%>/front-end/member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                              <img src="<%=request.getContextPath()%>/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                             </div>
                             <a href="#">
                               <div class="img_block">
-                                <img src="<%=request.getContextPath()%>/front-end/member/images/23529699_s.jpeg" style="width: 250px;height:150px">
+                                <img src="<%=request.getContextPath()%>/images/23529699_s.jpeg" style="width: 250px;height:150px">
                               </div>
                               <span class="item_text">店家名稱：</span>
                             </a>
                           </li>
                           <li>
                             <div>
-                              <img src="<%=request.getContextPath()%>/front-end/member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                              <img src="<%=request.getContextPath()%>/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                             </div>
                             <a href="#">
                               <div class="img_block">
-                                <img src="<%=request.getContextPath()%>/front-end/member/images/381322_s.jpeg" style="width: 250px;height:150px">
+                                <img src="<%=request.getContextPath()%>/images/381322_s.jpeg" style="width: 250px;height:150px">
                               </div>
                               <span class="item_text">店家名稱：</span>
                             </a>
                           </li>
                           <li>
                             <div>
-                              <img src="<%=request.getContextPath()%>/front-end/member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                              <img src="<%=request.getContextPath()%>/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                             </div>
                             <a href="#">
                               <div class="img_block">
-                                <img src="<%=request.getContextPath()%>/front-end/member/images/03.jpg" style="width: 250px;height:150px">
+                                <img src="<%=request.getContextPath()%>/images/03.jpg" style="width: 250px;height:150px">
                               </div>
                               <span class="item_text">店家名稱：</span>
                             </a>
                           </li>
                           <li>
                             <div>
-                              <img src="<%=request.getContextPath()%>/front-end/member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                              <img src="<%=request.getContextPath()%>/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                             </div>
                             <a href="#">
                               <div class="img_block">
-                                <img src="<%=request.getContextPath()%>/front-end/member/images/12.jpg" style="width: 250px;height:150px">
+                                <img src="<%=request.getContextPath()%>/images/12.jpg" style="width: 250px;height:150px">
                               </div>
                               <span class="item_text">店家名稱：</span>
                             </a>
@@ -120,7 +120,7 @@
             </main>
         </div>
     </div>
-      <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+     <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
           $(function(){

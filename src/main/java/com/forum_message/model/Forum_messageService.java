@@ -7,9 +7,6 @@ import java.util.List;
 public class Forum_messageService {
 	private Forum_messageJNDIDAO dao;
 
-	public List<Integer> beforeDelete(Integer id){
-		return dao.beforeDelete(id);
-	}
 	public Forum_messageService(){
 		dao = new Forum_messageJNDIDAO();
 	}
