@@ -22,7 +22,7 @@ aside.aside {
   width: 300px;
   height: 100%;
   /* margin-left: 150px; */
-  background-color: #3d1504;
+  background-color: #3f3a38;
   color: antiquewhite;
 }
 
@@ -92,7 +92,7 @@ span.text {
   display: inline-flex;
 }
 .preview {
-  border: 1px solid lightgray;
+  border: 1px solid black;
   display: flex;
   width: 130px;
   min-height: 150px;
@@ -106,7 +106,7 @@ span.text {
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
-  color: lightgray;
+  color: black;
 }
 .preview img.preview_img {
   width: 100%;

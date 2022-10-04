@@ -5,14 +5,82 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Document</title>
-<link rel="stylesheet" href="../../css/storeType1.css" />
+<link rel="stylesheet" href="../../css/storeType.css" />
 <link rel="stylesheet" href="../../css/header.css" />
 <link rel="stylesheet" href="../../css/footer1.css" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+	crossorigin="anonymous"></script>
 </head>
-<body style="background-color: rgb(224, 215, 208)">
+<body style="background-color: rgb(224, 215, 208)" onload="connectWS()">
 	<div id="xxx"></div>
+	
+	<!-- 推播視窗 -->
+	 <button type="button" class="btn btn-primary" id="liveToastBtn" style="display:none ;"></button>
+
+	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+		<div id="liveToast" class="toast hide" role="alert"
+			aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<strong class="me-auto">BarJarJo</strong> <small>幾秒之前</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body">
+				<p id="toastbody" style="font-size: 20px;"></p>
+				<img src="" id="img" style="width: 200px; height: 200px;">
+			</div>
+		</div>
+	</div> 
+	<!-- 推播視窗結束 -->
+
+	<!-- 跳出聊天視窗 -->
+
+	<div class="modal fade" id="chaticon">
+		<div class="modal-dialog">
+			<div class="modal-content"
+				style="background-color: rgb(198, 176, 152)">
+				<!-- header -->
+				<div class="modal-header">
+					<h3>聊天室</h3>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<!-- body -->
+				<div class="modal-body"></div>
+
+				<!-- 聊天表單 -->
+				<div class="container">
+					<h3 id="statusOutput" class="statusOutput"></h3>
+					<div id="row"></div>
+					<div id="messagesArea" class="panel message-area" style="
+				   margin-top: 0px;
+					margin-left: 200px;
+					height: 304px;
+				"></div>
+					<div class="panel input-area">
+					  <input id="message" class="text-field" type="text" placeholder="Message" onkeydown="if (event.keyCode == 13) sendMessage();" /> 
+					  <input type="submit" id="sendMessage" class="button" value="Send" onclick="sendMessage();" /> 
+					  <input type="button" id="connect" class="button" value="Connect" onclick="connect();" /> 
+					  <input type="button" id="disconnect" class="button" value="Disconnect" onclick="disconnect();" />
+					</div>
+						</div>
+				<!-- Footer -->
+				<div class="modal-footer">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 跳出聊天視窗結束 -->
+
 	<main class="main">
 		<div class="top">
 			<div class="div_produce">
@@ -31,12 +99,17 @@
 			<ul class="item_list"></ul>
 		</div>
 	</main>
-	<div w3-include-html="./commhtml/footer.html"></div>
-</body>
-<script src="https://code.jquery.com/jquery-3.6.1.js"
-	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-	crossorigin="anonymous"></script>
-<script>
+
+	<div class="icon"><svg  data-bs-toggle="modal" 
+		data-bs-target="#chaticon" id="chaticon1" xmlns="http://www.w3.org/2000/svg" width="100" height="80" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+		<path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+		<path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+	  </svg></div>
+
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
+	<script>
 	function includeHTML() {
 		const xxx = document.querySelector('#xxx');
 			fetch('/TGA103G1/com/header.html')
@@ -145,7 +218,8 @@ allthemeid.forEach(function(e){
 		for(var i = 0; i < body['length']; i++){
 			// console.log(body[i])
 			$("ul.item_list").append(`
-			 	<li  ><i class="fa-solid fa-heart"></i> 
+			 	<li><i class="fa-solid fa-heart"></i> 
+					<i class="fa-sharp fa-solid fa-comment-dots clickIcon" id="${body[i].name}" ></i>
 				<a href="http://localhost:8080/TGA103G1/back-end/store/store.html">
 			 			<div class="img_block">
 			 				<img src="${body[i].imgstr}" id="storeId" data-store_id="${body[i].store_id}" />
@@ -158,5 +232,237 @@ allthemeid.forEach(function(e){
 
       });
 
+	  //WS 全體推播
+	let MyPointWS = "/TogetherWS/james";
+	let pathWS = window.location.pathname;
+	let webCtxWS = pathWS.substring(0, pathWS.indexOf('/', 1));
+	let endPointURLWS = "ws://" + window.location.host + webCtxWS + MyPointWS;
+
+	let webSocketWS;
+	
+	let p_name = document.querySelector("#p_name")
+	let toastheader = document.querySelector("#toastheader")
+	let toastbody = document.querySelector("#toastbody")
+	let liveToastBtn = document.querySelector("#liveToastBtn")
+	let img = document.querySelector("#img")
+	function connectWS() {
+		// create a webSocketWS
+		webSocketWS = new WebSocket(endPointURLWS);
+
+		webSocketWS.onopen = function(event) {
+		};
+
+		webSocketWS.onmessage = function(event) {
+			var jsonObj = JSON.parse(event.data);
+			toastbody.innerText = jsonObj.message
+			img.setAttribute("src" , jsonObj.img)
+			liveToastBtn.click();
+		};
+
+	}
+
+
+
+//bootstrap
+$(document).on("click" , "#liveToastBtn", function(){
+	new bootstrap.Toast(document.querySelector('.toast')).show();
+})
+
+
+
+	//聊天室
+	var storeAccount = sessionStorage.getItem("account")
+	var MyPoint = "/FriendWS/user";
+	var host = window.location.host;
+	var path = window.location.pathname;
+	var webCtx = path.substring(0, path.indexOf('/', 1));
+	var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+
+	var statusOutput = document.getElementById("statusOutput");
+	var messagesArea = document.getElementById("messagesArea");
+	var self = 'user';
+	var webSocket;
+
+	function connect() {
+		// create a websocket
+		webSocket = new WebSocket(endPointURL);
+
+		webSocket.onopen = function(event) {
+			console.log("Connect Success!");
+			document.getElementById('sendMessage').disabled = false;
+			document.getElementById('connect').disabled = true;
+			document.getElementById('disconnect').disabled = false;
+		};
+
+		webSocket.onmessage = function(event) {
+			var jsonObj = JSON.parse(event.data);
+			if ("open" === jsonObj.type) {
+				refreshFriendList(jsonObj);
+				
+			} else if ("history" === jsonObj.type) {
+				messagesArea.innerHTML = '';
+				var ul = document.createElement('ul');
+				ul.id = "area";
+				messagesArea.appendChild(ul);
+				// 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
+				var messages = JSON.parse(jsonObj.message);
+				for (var i = 0; i < messages.length; i++) {
+					var historyData = JSON.parse(messages[i]);
+					var showMsg = historyData.message;
+					var li = document.createElement('li');
+					// 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
+					historyData.sender === self ? li.className += 'me' : li.className += 'friend';
+					li.innerHTML = showMsg;
+					ul.appendChild(li);
+				}
+				messagesArea.scrollTop = messagesArea.scrollHeight;
+			} else if ("chat" === jsonObj.type) {
+				//可以留言 創造一個新的ul 
+				if(messagesArea.innerHTML == ""){
+					messagesArea.innerHTML = '';
+					var ul = document.createElement('ul');
+					ul.id = "area";
+					messagesArea.appendChild(ul);
+				}
+				var li = document.createElement('li');
+				jsonObj.sender === self ? li.className += 'me' : li.className += 'friend';
+				li.innerHTML = jsonObj.message;
+				console.log(li);
+				console.log(jsonObj.sender);
+					document.getElementById("area").appendChild(li);
+				messagesArea.scrollTop = messagesArea.scrollHeight;
+			} else if ("close" === jsonObj.type) {
+				offWS(jsonObj);
+			} else if ("onstatus" === jsonObj.type) {
+				onstatus(jsonObj)
+			}
+		};
+
+		webSocket.onclose = function(event) {
+			console.log("Disconnected!");
+		};
+	}
+	
+	function sendMessage() {
+		var inputMessage = document.getElementById("message");
+		var friend = statusOutput.textContent;
+		var message = inputMessage.value.trim();
+
+		if (message === "") {
+			alert("Input a message");
+			inputMessage.focus();
+		} else if (friend === "") {
+			alert("Choose a friend");
+		} else {
+			var jsonObj = {
+				"type" : "chat",
+				"sender" : self,
+				"receiver" : friend,
+				"message" : message
+			};
+			webSocket.send(JSON.stringify(jsonObj));
+			inputMessage.value = "";
+			inputMessage.focus();
+		}
+	}
+
+	//上線狀態
+	function onstatus(jsonObj) {
+		var friends = jsonObj.users;
+		var row = document.getElementById("row");
+		var livefrends = row.children;
+
+		for (var i = 0; i < friends.length; i++) {
+			if (friends[i] === self) { continue;}
+			for(var j = 0; j < livefrends.length; j++){
+				if(livefrends[j].getAttribute("value") == friends[i]){
+				livefrends[j].style['background-color'] = 'green';
+			
+			} 
+			}
+				
+		}
+		addListener();
+	}
+	//離線狀態
+	function offWS(jsonObj) {
+		
+		var row = document.getElementById("row");	
+		var livefrends = row.children;
+		console.log(jsonObj.user)
+		
+	
+		for(var i = 0; i < livefrends.length; i++){
+			if(livefrends[i].getAttribute("value") == jsonObj.user){
+				livefrends[i].style['background-color'] = 'white';
+			
+			} 
+		}
+			
+		
+		addListener();
+	}
+	// 拿取歷史聊過天的人 且有上線的人加綠色
+	function refreshFriendList(jsonObj) {
+		var friends = jsonObj.users;
+		var row = document.getElementById("row");
+		var livefrends = jsonObj.otherNames
+		row.innerHTML = '';
+		for (var i = 0; i < friends.length; i++) {
+			if (friends[i] === self ) { continue; }
+			row.innerHTML +='<div id=' + friends[i] + ' class="column" name="friendName" value=' + friends[i] + ' ><h2>' + friends[i] + '</h2></div>';
+			for(var j = 0; j < livefrends.length; j ++){
+				if(livefrends[j] == friends[i] ){
+					var ans = livefrends[j]
+					document.querySelector("#"+ans).style['background-color'] = 'green'
+				}
+			}
+		}
+		addListener();
+	}
+	// 註冊列表點擊事件並抓取好友名字以取得歷史訊息
+	function addListener() {
+		var container = document.getElementById("row");
+		container.addEventListener("click", function(e) {
+			var friend = e.srcElement.textContent;
+			updateFriendName(friend);
+			var jsonObj = {
+					"type" : "history",
+					"sender" : self,
+					"receiver" : friend,
+					"message" : ""
+				};
+			webSocket.send(JSON.stringify(jsonObj));
+		});
+	}
+
+	function disconnect() {
+		webSocket.close();
+		document.querySelector("#row").innerHTML="";
+		statusOutput.innerHTML = "";
+		
+		document.getElementById('sendMessage').disabled = true;
+		document.getElementById('connect').disabled = false;
+		document.getElementById('disconnect').disabled = true;
+	}
+	
+	function updateFriendName(name) {
+		statusOutput.innerHTML = name;
+	}
+
+	//點擊店家顯示聊天室
+	$(document).on("click" , ".clickIcon" , function(){
+		let id = $(this).attr("id")
+		$("#statusOutput").html(id)
+		if($("#area")){
+			$("#area").html("")
+		}
+		$("#chaticon").modal("show")
+	});
+
+
+
+
   </script>
+</body>
 </html>

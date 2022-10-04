@@ -3,11 +3,11 @@ package com.store.service;
 import java.util.List;
 
 import com.store.model.StoreVO;
-import com.store_img.model.Store_imgVO;
 
 public interface StoreService {
 
 	public boolean addStore(StoreVO storevo);
+	public StoreVO storeSumit(StoreVO storevo);
 	//Spring MVC
 	public void addStore2(StoreVO storevo);
 	public StoreVO updateStore(StoreVO storeVO);

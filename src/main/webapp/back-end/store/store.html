@@ -75,9 +75,7 @@
           </li>
         </ul>
       </div>
-      <div class="div_img">
-        <img src="../../img/Studio.png" alt="" />
-      </div>
+     
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.1.js"
@@ -171,6 +169,7 @@ fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
     })
       .then(resp => resp.json())
       .then(body => {
+        console.log(body)
     produce.textContent = body[0].produce
     storeName.textContent = body[0].name
     work_open.textContent = body[0].work_open
@@ -178,9 +177,10 @@ fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
     dayoff.textContent = body[0].dayoff
     address.textContent = body[0].address
     	 
-    //判斷是否有商品
-    if(body[0].product_id){
+    //判斷是否有商品且上架
+    if(body['length'] != 0){
     for(var i = 0; i < body['length']; i++){
+        if(body[i].productStatus != 0){
 			$("ul#storeProduct").append(`<li>
           <div class="pro_2">
             <a href="#"
@@ -190,6 +190,7 @@ fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
           </div>
         </div>
       </li>`)
+      }
 		}
   }
       });
@@ -209,7 +210,7 @@ fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
     })
       .then(resp => resp.json())
       .then(body => {
-		console.log(body)
+		// console.log(body)
         img.src = body[0].img,
         firstImg.src = body[1].img,
         secondImg.src = body[2].img,

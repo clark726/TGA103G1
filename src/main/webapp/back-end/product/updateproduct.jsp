@@ -15,7 +15,7 @@ ProductVO productVO = (ProductVO) request.getAttribute("productVO");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/backproduct1.css">
+	href="<%=request.getContextPath()%>/css/backproduct.css">
 
 <style>
 div.div_func div  a {
@@ -39,9 +39,9 @@ img {
 	crossorigin="anonymous"></script>
 
 </head>
-<body style="background-color: rgb(216, 208, 208)">
+<body style="background-color: rgb(216, 208, 208)" onload="connect();">
 
-	<div w3-include-html="<%=request.getContextPath()%>/com/header.html"></div>
+	<div id="xxx"></div>
 
 	<div class="contain">
 		<aside class="aside">
@@ -119,7 +119,7 @@ img {
 
 					<div class="comm">
 						<label for="p_type"> 狀態 : </label> <select name="p_status"
-							class="p_type">
+							id="status" class="p_type">
 							<option value="0" ${productVO.status == 0 ? "selected" : ""}>下架</option>
 							<option value="1" ${productVO.status == 1 ? "selected" : ""}>上架</option>
 						</select>
@@ -134,7 +134,7 @@ img {
 								<input type="hidden" name="action" value="update"> <input
 									type="hidden" name="product_id"
 									value="<%=productVO.getProduct_id()%>"> <input
-									type="submit" value="送出修改">
+									type="submit" value="送出修改" onclick="sendMessage()" id="update">
 
 							</div>
 
@@ -150,20 +150,23 @@ img {
 
 
 
-	<script src="../js/jquery-3.6.0.min.js"></script>
-	
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
+
 	<script>
  
      //file_1
+     let filereader;
      document.querySelector("#p_file1").addEventListener("change", function(e){
         if(this.files.length > 0){
           document.querySelector("#preview1").innerHTML="";
-          let reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.addEventListener("load", function(){
+           filereader = new FileReader();
+           filereader.readAsDataURL(this.files[0]);
+           filereader.addEventListener("load", function(){
           
           let str = `
-            <img src="\${reader.result}" class="preview_img" >
+            <img src="\${filereader.result}" class="preview_img" >
           `;
           document.querySelector("#preview1").innerHTML = str;
          
@@ -175,39 +178,116 @@ img {
       });
      
       
-      //header
-      function includeHTML() {
-			var z, i, elmnt, file, xhttp;
-			/* Loop through a collection of all HTML elements: */
-			z = document.getElementsByTagName("*");
-			for (i = 0; i < z.length; i++) {
-				elmnt = z[i];
-				/*search for elements with a certain atrribute:*/
-				file = elmnt.getAttribute("w3-include-html");
-				if (file) {
-					/* Make an HTTP request using the attribute value as the file name: */
-					xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function() {
-						if (this.readyState == 4) {
-							if (this.status == 200) {
-								elmnt.innerHTML = this.responseText;
-							}
-							if (this.status == 404) {
-								elmnt.innerHTML = "Page not found.";
-							}
-							/* Remove the attribute, and call this function once more: */
-							elmnt.removeAttribute("w3-include-html");
-							includeHTML();
-						}
-					};
-					xhttp.open("GET", file, true);
-					xhttp.send();
-					/* Exit the function: */
-					return;
-				}
+     //header
+     function includeHTML() {
+     			const xxx = document.querySelector('#xxx');
+     				fetch('/TGA103G1/com/header.html')
+     					.then(resp => resp.text())
+     					.then(content => {
+     						xxx.innerHTML = content;
+     						changelog()
+     						logout()
+     						const username = document.querySelector('#account');
+     						const password = document.querySelector('#password');
+     						const errMsg = document.querySelector('#errMsg');
+     						document.getElementById('btn1').addEventListener('click', () => {
+     						    fetch('/TGA103G1/StoreLogin', {
+     						      method: 'POST',
+     						      headers: { 'Content-Type': 'application/json' },
+     						      body: JSON.stringify({
+     						        account: username.value,
+     						        password: password.value
+     						      }),
+     						    })
+     						      .then(resp => resp.json() )
+     						      .then(body => {
+     						        errMsg.textContent = "";
+     						        const { successful, message } = body;
+     						        if (successful) {
+     						          const { account, password} = body;
+     						          sessionStorage.setItem('account', account);
+     						          sessionStorage.setItem('password', password);
+     						          
+     								  
+     							
+     	
+     						        } else {
+     						          errMsg.textContent = message;
+     						        }
+     						      });
+     						  });			
+     					});
+     					
+     		}
+     		includeHTML();
+     		
+     		 //登出鈕
+             function changelog() {
+         if (sessionStorage.getItem("account")) {
+           document.querySelector("#login").style.display = "none";
+           document.querySelector("#logout").style.display = "block";
+           document.querySelector("#loginbox").style.display = "none";
+           document.querySelector("#normal").style.display = "block";
+         }
+       }
+     		 
+           //登出
+           function logout(){
+             document.querySelector("#logout").addEventListener("click", function(){
+                 sessionStorage.removeItem("account")
+               })
+           }
+		
+		
+		   //WS
+	    var MyPoint = "/TogetherWS/james";
+		var host = window.location.host;
+		var path = window.location.pathname;
+		var webCtx = path.substring(0, path.indexOf('/', 1));
+		var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
+
+		var webSocket;
+		let img = "/TGA103G1/ProductServlet?action=getImg&product_id=${productVO.product_id}"
+		let p_name = document.querySelector("#p_name")
+		let toastheader = document.querySelector("#toastheader")
+		let toastbody = document.querySelector("#toastbody")
+		let liveToastBtn = document.querySelector("#liveToastBtn")
+		let status = document.querySelector("#status")
+		function connect() {
+			// create a websocket
+			webSocket = new WebSocket(endPointURL);
+
+			webSocket.onopen = function(event) {
+			};
+
+			webSocket.onmessage = function(event) {
+				var jsonObj = JSON.parse(event.data);
+				console.log(event.data)
+				toastbody.innerText = jsonObj.message
+				liveToastBtn.click();
+			};
+
+		}
+
+
+
+		function sendMessage() {
+			
+			if (p_name.value != "" &&  status.value == 1) {
+		
+				var jsonObj = {
+				 	 /* "img":filereader.result,  */
+					"message" : p_name.value+"上架囉",
+					"img" : img
+				};
+				webSocket.send(JSON.stringify(jsonObj)); //送資料出去
 			}
 		}
-		includeHTML();
+
+		function disconnect() {
+			webSocket.close();
+		}
+
     </script>
 </body>
 </html>

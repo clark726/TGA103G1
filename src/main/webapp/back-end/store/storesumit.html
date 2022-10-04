@@ -40,22 +40,26 @@
         </div>
         <div class="row align-items-center justify-content-center">
             <div class="col-6">
-                <input type="password" class="form-control" placeholder="密碼">
+                <input id="password" type="password" class="form-control" placeholder="密碼" >
+                <span id="passworderror" style="color: red;"></span> 
             </div>
         </div>
         <div class="row align-items-center justify-content-center">
             <div class="col-6">
-                <input type="text" class="form-control" placeholder="店家名稱">
+                <input id="storename" type="text" class="form-control" placeholder="店家名稱">
+                <span id="storenameerror" style="color: red;"></span> 
             </div>
         </div>
         <div class="row align-items-center justify-content-center">
             <div class="col-6">
-                <input type="text" class="form-control" placeholder="電話">
+                <input id="phone" type="text" class="form-control" placeholder="電話">
+                <span id="phoneerror" style="color: red;"></span> 
             </div>
         </div>
         <div class="row align-items-center justify-content-center">
             <div class="col-6">
-                <input type="email" class="form-control" placeholder="Email">
+                <input id="email" type="email" class="form-control" name="email" placeholder="Email">
+                <span id="emailerror" style="color: red;"></span> 
             </div>
         </div>
         <div class="row align-items-center justify-content-center">
@@ -63,8 +67,8 @@
                 <input class=" form-control js-demeter-tw-zipcode-selector" data-city="#city" data-dist="#dist" placeholder="請輸入郵遞區號" style="width: 150px; display: inline-block;"/>
                  <select id="city" placeholder="請選擇縣市" name="city" class="form-select" style="width: 150px; display: inline-block;"></select>
 				<select id="dist" placeholder="請選擇鄉鎮區" name="dist" class="form-select" style="width: 150px; display: inline-block;"></select>
-				<input type="text" id="register_addr" class="form-control register_control" name="address" placeholder="請輸入地址
-                "/>
+				<input id="address" type="text" id="register_addr" class="form-control register_control" name="address" placeholder="請輸入地址
+                "/>  <span id="addresserror" style="color: red;"></span> 
             </div>
         </div>
         <div class="row align-items-center justify-content-center">
@@ -79,7 +83,7 @@
 
         <div class="row align-items-center justify-content-center">
             <div class="col-6">
-                <button type="button" class="btn btn-secondary" id="sumit">Secondary</button>
+                <button type="button" class="btn btn-secondary" id="sumit">註冊</button>
             </div>
         </div>
        
@@ -193,6 +197,97 @@ let accounterror = document.querySelector("#accounterror")
       });
     }
  });
+let password = document.querySelector("#password")
+let storename = document.querySelector("#storename")
+let phone = document.querySelector("#phone")
+let email = document.querySelector("#email")
+let city = document.querySelector("#city")
+let dist = document.querySelector("#dist")
+let address = document.querySelector("#address")
+let storeType = document.querySelector("#storeType")
+
+//password
+let passworderror = document.querySelector("#passworderror")
+password.addEventListener("blur", function(){
+    let passworderror = document.querySelector("#passworderror")
+    if(password.value.length < 5){
+        passworderror.innerText = ""
+        passworderror.innerText = "請超過五碼"
+    }else{
+        passworderror.innerText = ""
+    }
+});
+//驗證電話
+let phoneerror = document.querySelector("#phoneerror")
+const rules = /[0-9]{10}/
+phone.addEventListener("blur" , function(){
+    if(phone.value.length < 10 || !rules.test(phone.value)){
+        phoneerror.innerText = ""
+        phoneerror.innerText = "電話長度請超過10個字元且不能是字母"
+    }else{
+        phoneerror.innerText = ""
+    }
+});
+//驗證email
+let emailerror = document.querySelector("#emailerror")
+const rulesemail = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+email.addEventListener("blur" , function(){
+    if( !rulesemail.test(email.value)){
+        emailerror.innerText = ""
+        emailerror.innerText = "請符合email格式"
+    }else{
+        emailerror.innerText = ""
+    }
+});
+//驗證地址
+let addresserror = document.querySelector("#addresserror")
+address.addEventListener("blur" , function(){
+    if(address.value.length == 0){
+        addresserror.innerText = ""
+        addresserror.innerText = "請勿空白"
+    }else{
+        addresserror.innerText = ""
+    }
+});
+//驗證店家名稱
+let storenameerror = document.querySelector("#storenameerror")
+storename.addEventListener("blur" , function(){
+    if(storename.value.length == 0){
+        storenameerror.innerText = ""
+        storenameerror.innerText = "請勿空白"
+    }else{
+        storenameerror.innerText = ""
+    }
+});
+ //送出註冊
+document.querySelector("#sumit").addEventListener("click" , function(){
+
+    if(accounterror.innerText == "" && passworderror.innerText == "" && phoneerror.innerText == "" && emailerror.innerText == "" && addresserror.innerText == "" && storenameerror.innerText == "" && storename.value != ""){
+    fetch('/TGA103G1/StoreSumit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        account:account.value,
+        password:password.value,
+        name:storename.value,
+        phone:phone.value,
+        email:email.value,
+        address:city.value + dist.value + address.value,
+        theme_id: storeType.value
+      }),
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+        if(body.successful){
+            alert("註冊成功"),
+            location = "http://localhost:8080/TGA103G1/main.html";
+        }
+      });
+    }else{
+        alert("請按照格式填寫")
+    }
+})
+
  
      </script>
 </html>

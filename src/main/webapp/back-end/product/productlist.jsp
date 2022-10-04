@@ -113,15 +113,18 @@ img {
 					<a class="edit_item" type="button"
 					href="<%=request.getContextPath() %>/back-end/store/storeOrder.html">修改商家訂單內容</a>
 				</div>
-
+				<div>
+					<a class="edit_item" type="button"
+						href="/TGA103G1/back-end/store/storeChat.html">店家私信</a>
+				</div>
 			</div>
 		</aside>
 		<main class="main">
 
 			<h1>
 				商品列表
-				<button>
-					<a
+				<button class="btn btn-secondary">
+					<a style="color: white"
 						href="<%=request.getContextPath()%>/back-end/product/product.jsp">新增商品</a>
 				</button>
 			</h1>

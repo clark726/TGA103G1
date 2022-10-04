@@ -29,7 +29,7 @@
 			<div class="div_func">
 				<div>
 					<a class="edit_store" type="button"
-          href="/TGA103G1/back-end/store/storealter.html">修改店家內容</a>
+						href="/TGA103G1/back-end/store/storealter.html">修改店家內容</a>
 				</div>
 				<div>
 					<a class="manager_item" type="button"
@@ -37,14 +37,18 @@
 				</div>
 				<div>
 					<a class="edit_item" type="button"
-          href="/TGA103G1/back-end/store/storeOrder.html">修改商家訂單內容</a>
+						href="/TGA103G1/back-end/store/storeOrder.html">修改商家訂單內容</a>
 				</div>
-
+				<div>
+					<a class="edit_item" type="button"
+						href="/TGA103G1/back-end/store/storeChat.html">店家私信</a>
+				</div>
 			</div>
 		</aside>
 		<main class="main">
 
 			<div class="container">
+				<i class="bi bi-chat-dots"></i>
 				<div class="row">
 					<div class="col">
 						<h1 id="h1Text">訂單查詢</h1>
@@ -54,12 +58,13 @@
 							<span class="oderText">訂單編號</span> <input type="text"
 								class="form-control" id="inputorderId">
 						</div>
-						
+
 					</div>
 					<div class="row justify-content-md-center">
 
 						<div class="col" id="btnSelect" style="margin-bottom: 30px;">
-							<button class="btn btn-secondary" id="select" style="background-color: white; color: black;">查詢</button>
+							<button class="btn btn-secondary" id="select"
+								style="background-color: white; color: black;">查詢</button>
 						</div>
 					</div>
 
@@ -93,56 +98,56 @@
 					</thead>
 					<tbody id="tbody"></tbody>
 				</table>
-        <!-- <button id="order_detail" data-orderId="${body[i].order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
+				<!-- <button id="order_detail" data-orderId="${body[i].order_id}" class="btn-xs btn-light" data-bs-toggle="modal" 
         data-bs-target="#orderDetail">
                 訂單明細</button> -->
 
-        <!-- 明細彈窗 -->
-        <div class="modal fade" id="orderDetail">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header" style="height: 53px;">
-                <h3 style="
-                margin-top: 15px;">訂單明細</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              
-              <div class="modal-body">
-                <table class="table table-hover table-borderless table-striped">
-                  <thead>
-                    <tr>
-                      <th>商品編號</th>
-                      <th>商品名稱</th>
-                      <th>商品數量</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tbodyDetail"></tbody>
-                </table>
+				<!-- 明細彈窗 -->
+				<div class="modal fade" id="orderDetail">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header" style="height: 53px;">
+								<h3 style="margin-top: 15px;">訂單明細</h3>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
 
-                <div class="col-3">
-                  <span> <h6>出貨狀態</h6> </span><select id="statusSelect">
-                    <option value="0">準備中</option>
-                    <option value="1">已出貨</option>
-                 </select>
-                </div>
-              </div>
+							<div class="modal-body">
+								<table class="table table-hover table-borderless table-striped">
+									<thead>
+										<tr>
+											<th>商品編號</th>
+											<th>商品名稱</th>
+											<th>商品數量</th>
+										</tr>
+									</thead>
+									<tbody id="tbodyDetail"></tbody>
+								</table>
 
-              <div class="modal-footer">
-                <button id="statusUpdate" type="button" class="btn btn-primary" style="background-color: rgb(129, 93, 65)">更新</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 彈窗結束 -->
+								<div class="col-3">
+									<span>
+										<h6>出貨狀態</h6>
+									</span><select id="statusSelect">
+										<option value="0">準備中</option>
+										<option value="1">已出貨</option>
+									</select>
+								</div>
+							</div>
 
-   
+							<div class="modal-footer">
+								<button id="statusUpdate" type="button" class="btn btn-primary"
+									style="background-color: rgb(129, 93, 65)">更新</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 彈窗結束 -->
 		</main>
 	</div>
 
 	</div>
-  <script src="https://code.jquery.com/jquery-3.6.1.js"
-	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
-	crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.1.js"
+		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+		crossorigin="anonymous"></script>
 	<script>
    
    function includeHTML() {

@@ -31,6 +31,7 @@ public class StoreVO extends Result implements Serializable {
 	private Integer product_price;
 	private Integer product_id;
 	private Integer img_id;
+	private Integer productStatus;
 	
 	
 	public StoreVO() {
@@ -58,6 +59,14 @@ public class StoreVO extends Result implements Serializable {
 
 	
 	
+	public Integer getProductStatus() {
+		return productStatus;
+	}
+
+	public void setProductStatus(Integer productStatus) {
+		this.productStatus = productStatus;
+	}
+
 	public String getProduct_name() {
 		return product_name;
 	}

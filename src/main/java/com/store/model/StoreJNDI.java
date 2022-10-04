@@ -290,7 +290,7 @@ public class StoreJNDI implements StoreDAO {
 	@Override
 	public List<StoreVO> findStorepageByStoreId(Integer store_id) {
 
-		String sql = "select s.store_id, s.name store_name , s.address, s.dayoff, s.work_open, s.work_end, s.produce, p.name product_name, p.price product_price, p.product_id from store s\n"
+		String sql = "select s.store_id, s.name store_name , s.address, s.dayoff, s.work_open, s.work_end, s.produce, p.name product_name, p.price product_price, p.product_id , p.status from store s\n"
 				+ "	left join product p\n" + "    on s.store_id = p.store_id\n" + "where s.store_id = ?";
 		List<StoreVO> list = new ArrayList<StoreVO>();
 
@@ -310,6 +310,7 @@ public class StoreJNDI implements StoreDAO {
 				store.setProduct_name(rs.getString("product_name"));
 				store.setProduct_price(rs.getInt("product_price"));
 				store.setProduct_id(rs.getInt("product_id"));
+				store.setProductStatus(rs.getInt("status"));
 				list.add(store);
 			}
 
