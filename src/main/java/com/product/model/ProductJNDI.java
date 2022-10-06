@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import com.common.HibernateUtil;
 
@@ -52,19 +53,19 @@ public class ProductJNDI implements ProductDAO {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try {
-		Transaction transaction = session.beginTransaction();
-		ProductVO product = session.load(ProductVO.class, newProductVO.getProduct_id());
-		
-		product.setName(newProductVO.getName());
-		product.setPrice(newProductVO.getPrice());
-		product.setStore_id(newProductVO.getStore_id());
-		product.setDescription(newProductVO.getDescription());
-		product.setType_id(newProductVO.getType_id());
-		product.setStock(newProductVO.getStock());
-		product.setStatus(newProductVO.getStatus());
-		transaction.commit();
-		return product.getProduct_id();
-		
+			Transaction transaction = session.beginTransaction();
+			ProductVO product = session.load(ProductVO.class, newProductVO.getProduct_id());
+
+			product.setName(newProductVO.getName());
+			product.setPrice(newProductVO.getPrice());
+			product.setStore_id(newProductVO.getStore_id());
+			product.setDescription(newProductVO.getDescription());
+			product.setType_id(newProductVO.getType_id());
+			product.setStock(newProductVO.getStock());
+			product.setStatus(newProductVO.getStatus());
+			transaction.commit();
+			return product.getProduct_id();
+
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
@@ -79,10 +80,10 @@ public class ProductJNDI implements ProductDAO {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		try {
-		Transaction transaction = session.beginTransaction();
-		ProductVO productVO = session.load(ProductVO.class, product_id);
-		session.remove(productVO);
-		transaction.commit();
+			Transaction transaction = session.beginTransaction();
+			ProductVO productVO = session.load(ProductVO.class, product_id);
+			session.remove(productVO);
+			transaction.commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
@@ -122,33 +123,21 @@ public class ProductJNDI implements ProductDAO {
 
 	@Override
 	public List<ProductVO> ShowStoreProduct(Integer store_id) {
-		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
-				+ "from product\n" + "where  store_id = ?;";
-		List<ProductVO> list = new ArrayList<>();
-		ProductVO product = null;
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, store_id);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				product = new ProductVO();
-				product.setProduct_id(rs.getInt("product_id"));
-				product.setName(rs.getString("name"));
-				product.setPrice(rs.getInt("price"));
-				product.setStore_id(rs.getInt("store_id"));
-				product.setDescription(rs.getString("description"));
-				product.setType_id(rs.getInt("type_id"));
-				product.setStock(rs.getInt("stock"));
-				product.setStatus(rs.getInt("status"));
-				product.setDate(rs.getDate("date"));
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+			Query<ProductVO> query3 = session.createQuery("From ProductVO where store_id = :store_id", ProductVO.class)
+					.setParameter("store_id", store_id);
+			List<ProductVO> list3 = query3.list();
+			transaction.commit();
+			return list3;
 
-				list.add(product);
-			}
-
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return null;
 		}
-
-		return list;
 	}
 
 	@Override
