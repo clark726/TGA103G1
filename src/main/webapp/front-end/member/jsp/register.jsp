@@ -108,7 +108,7 @@ div.register_btn #cancel > a:visited{
     </style>
 </head>
 <body>
-       <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+       <div w3-include-html="<%=request.getContextPath()%>/front-end/member/header.jsp"></div>
     <div class="div_register">
         <main class="register_main">
             <form action="<%=request.getContextPath()%>/register" class="register_form" method="post">
@@ -192,7 +192,7 @@ div.register_btn #cancel > a:visited{
             </form>
         </main>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
 <script>            

@@ -18,20 +18,20 @@ div.div_forgetPsw main.forgetPsw_main{
     margin-top: 50px;
 
 }
-div.div_forgetPsw main.forgetPsw_main form.forgetPsw_form input{
+div.div_forgetPsw main.forgetPsw_main input{
     border-radius: 5px;
     font-size: 18px;
 }
-div.div_forgetPsw main.forgetPsw_main form.forgetPsw_form > h2{
+div.div_forgetPsw main.forgetPsw_main > h2{
     font-size: 30px;
 }
-div.div_forgetPsw main.forgetPsw_main form.forgetPsw_form div{
+div.div_forgetPsw main.forgetPsw_main  > div{
     /* border: 1px solid red; */
     margin-top: 15px;
     font-size: 22px;
     font-weight: 700;
 }
-div.div_forgetPsw main.forgetPsw_main form.forgetPsw_form > font{
+div.div_forgetPsw main.forgetPsw_main > font{
     margin: 20px,0px;
 }
 

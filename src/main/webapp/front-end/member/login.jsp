@@ -12,8 +12,8 @@
      <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/login.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
-    <div class="div_login" style="background-image: url('/images/12.jpg');">
+    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/header.jsp"></div>
+    <div class="div_login">
         <main class="login_main">
             <form method="post" action="<%=request.getContextPath()%>/member/login" class="login_form">
                 <h2>會員登入</h2>
@@ -46,7 +46,7 @@
             </div>
         </main>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {

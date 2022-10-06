@@ -49,5 +49,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/slider.js"></script>
+    <script>
+          //登出
+      document.querySelector("#logout").addEventListener("click", function(){
+          sessionStorage.removeItem("account")
+        })
+    </script>
   </body>
 </html>

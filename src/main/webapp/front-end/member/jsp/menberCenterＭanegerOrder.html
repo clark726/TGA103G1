@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>會員中心</title>
-    <link rel="stylesheet" href="../member/css/menber_centerManegerOrder.css">
+    <link rel="stylesheet" href="/TGA103G1/front-end/member/css/menber_centerManegerOrder.css">
   </head>
   <body>
-     <div w3-include-html="../member/jsp/header.jsp"></div>
+     <div w3-include-html="/TGA103G1/front-end/member/header.jsp"></div>
     <div class="div_menCenter">
       <div class="menCenter_contain">
         <aside class="menCenter_aside">
@@ -24,7 +24,7 @@
             </li>
             <li>
               <button>
-                <a href="http://localhost:8080/TGA103G1/front-end/member/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a>
+                <a href="http://localhost:8080/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a>
               </button>
             </li>
             <li>
@@ -37,7 +37,7 @@
               <button><a href="">聊天室</a></button>
             </li>
             <li>
-              <button><a href="">登出</a></button>
+              <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="logout">登出</a></button>
             </li>
           </ul>
         </aside>
@@ -50,7 +50,7 @@
               <label for="">搜尋訂單編號</label>
               <input type="search" />
               <img
-                src="./images/loupe.png"
+                src="/TGA103G1/front-end/member/images/loupe.png"
                 alt=""
                 style="height: 20px; width: 20px"
               />
@@ -76,13 +76,18 @@
         </main>
       </div>
     </div>
-    <div w3-include-html="../member/jsp/footer.jsp"></div>
+    <div w3-include-html="/TGA103G1/front-end/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
 
     let OrderData = [];
 
      (()=>{
+    	    //登出
+    	    document.querySelector("#logout").addEventListener("click", function(){
+    	        sessionStorage.removeItem("account")
+    	      }) 
+    	
       const tbody = document.querySelector("tbody.tbody");
       const member_id = sessionStorage.getItem("userid");
       let list = "";
@@ -100,17 +105,25 @@
             OrderData = body
             console.log(body)
             for(let i = 0;i < body.length;i++){
-              console.log(body[i].order_id)
-               list +=  "<tr>"+
-               "<td id='td' >"+body[i].order_id+"</td>"+
-               "<td >"+body[i].total+"</td>"+
-               "<td >"+body[i].storeName +"</td>"+
-               "<td >"+body[i].status+"</td>"+
-               "<td >"+body[i].date +"</td>"+
-               "<td >"+
-              '<a href="#"><img data-id="'+body[i].order_id+'"class="page_img" src="./images/page.png" alt="" style="height: 20px; width: 20px"/></a>' +
-              "</td></tr>" 
+              var status = "";
+              console.log(body[i].status);
+              if(body[i].status == 0){
+                status = "準備中";  
+              }else{
+                status = "已出貨"
+              }
+              
+              list +=  "<tr>"+
+                "<td id='td' >"+body[i].order_id+"</td>"+
+                "<td >"+body[i].total+"</td>"+
+                "<td >"+body[i].storeName +"</td>"+
+                "<td id='status'>"+status+"</td>"+
+                "<td >"+body[i].date +"</td>"+
+                "<td >"+
+                  '<a href="#"><img data-id="'+body[i].order_id+'"class="page_img" src="/TGA103G1/front-end/member/images/page.png" alt="" style="height: 20px; width: 20px"/></a>' +
+                  "</td></tr>" 
                 }
+                
             $("tbody.tbody").prepend(list); 
             document.querySelectorAll('.page_img').forEach((e,i)=>{
               e.onclick=()=>{
@@ -119,6 +132,7 @@
                 location.href="./memberOrderDetail.html"
               }
             })
+
           });
 
        function includeHTML() {

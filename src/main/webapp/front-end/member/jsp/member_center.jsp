@@ -18,7 +18,7 @@
  	<link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/menber_center.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/header.html"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
@@ -31,7 +31,7 @@
                         <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></button>
                     </li>
                     <li>
                         <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></button>
@@ -43,7 +43,7 @@
                         <button><a href="">聊天室</a></button>
                     </li>
                     <li>
-                        <button><a href="">登出</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="logout">登出</a></button>
                     </li>
                 </ul>
             </aside>
@@ -95,10 +95,14 @@
             </main>
         </div>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
+     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="<%=request.getContextPath()%>/js/menber_center.js"></script>
     <script>
+    //登出
+    document.querySelector("#logout").addEventListener("click", function(){
+        sessionStorage.removeItem("account")
+      })
+    
     let nickname = document.querySelector("#nickname");
     let email = document.querySelector("#email");
     let address = document.querySelector("#address");
