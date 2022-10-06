@@ -64,6 +64,7 @@ public class StoreServiceImpl implements StoreService {
 			vo.setMessage("重複帳號");
 			return vo;
 		}
+		
 		storedao.insert(vo);
 		vo.setSuccessful(true);
 		return vo;

@@ -261,12 +261,32 @@ storename.addEventListener("blur" , function(){
 });
  //送出註冊
 document.querySelector("#sumit").addEventListener("click" , function(){
+    let correctAddress = city.value + dist.value + address.value;
 
     if(accounterror.innerText == "" && passworderror.innerText == "" && phoneerror.innerText == "" && emailerror.innerText == "" && addresserror.innerText == "" && storenameerror.innerText == "" && storename.value != ""){
-    fetch('/TGA103G1/StoreSumit', {
+
+        //轉換經緯度
+    let cros = 'https://cors-anywhere.herokuapp.com/'
+    fetch(cros+'https://maps.googleapis.com/maps/api/geocode/json?address='+correctAddress+'&key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' ,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods':'POST, GET, PUT, DELETE'
+               },
+    })
+      .then(resp => resp.json() )
+      .then(body => {
+        console.log(body)
+      let lat = body.results[0].geometry.location.lat
+      let lng = body.results[0].geometry.location.lng
+
+      fetch('/TGA103G1/StoreSumit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+
+        lat:lat,
+        lng:lng,
         account:account.value,
         password:password.value,
         name:storename.value,
@@ -279,13 +299,19 @@ document.querySelector("#sumit").addEventListener("click" , function(){
       .then(resp => resp.json() )
       .then(body => {
         if(body.successful){
-            alert("註冊成功"),
-            location = "http://localhost:8080/TGA103G1/main.html";
+            alert("註冊成功")
+            // location = "http://localhost:8080/TGA103G1/main.html";
         }
       });
+    })
+   
     }else{
         alert("請按照格式填寫")
     }
+    
+    
+    
+    
 })
 
  

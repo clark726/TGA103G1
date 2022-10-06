@@ -28,7 +28,7 @@ public class StoreSumit extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		StoreVO store = _gson.fromJson(request.getReader().readLine(), StoreVO.class);
 		service.storeSumit(store);
-		System.out.println(store.getTheme_id());
+		System.out.println(store.getLat());
 		response.setContentType("application/json");
 		try (PrintWriter pw = response.getWriter()) {
 			pw.print(new GsonBuilder().create().toJson(store));

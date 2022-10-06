@@ -27,8 +27,8 @@ public class StoreJNDI implements StoreDAO {
 
 	@Override
 	public boolean insert(StoreVO storeVo) {
-		String sql = "insert into store( account , name , password , phone , email , address  , theme_id )\n"
-				+ "values( ? , ? , ?, ?, ? ,? ,? );";
+		String sql = "insert into store( account , name , password , phone , email , address  , theme_id , lat , lng)\n"
+				+ "values( ? , ? , ?, ?, ? ,? ,? ,? ,?);";
 		int i = 0;
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
 
@@ -39,6 +39,8 @@ public class StoreJNDI implements StoreDAO {
 			ps.setString(5, storeVo.getEmail());
 			ps.setString(6, storeVo.getAddress());
 			ps.setInt(7, storeVo.getTheme_id());
+			ps.setString(8, storeVo.getLat());
+			ps.setString(9, storeVo.getLng());
 
 			i = ps.executeUpdate();
 
