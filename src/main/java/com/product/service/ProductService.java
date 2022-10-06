@@ -12,7 +12,8 @@ public interface ProductService {
 	public void addProduct(ProductVO productvo);
 	public ProductVO updatProduct(ProductVO productvo ,List<Product_imgVO> imgList );
 	public void delete(Integer product_id);
-	public List<ProductVO> getAll();
 	public ProductVO getOneProduct(Integer product_id);
 	public List<ProductVO> ShowStoreProduct(String account);
+	public List<ProductVO> getAll();
+	public boolean updateStatus(Integer id,Integer status);
 }

@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
+import com.common.HibernateUtil;
+
 public class ProductVOJDBC implements ProductDAO{
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/barjarjo?useUnicode=yes&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Taipei";
@@ -119,7 +123,6 @@ public class ProductVOJDBC implements ProductDAO{
 		return product;
 	}
 
-	@Override
 	public List<ProductVO> getAll() {
 
 		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
@@ -151,35 +154,22 @@ public class ProductVOJDBC implements ProductDAO{
 		return list;
 	}
 
-	public static void main(String[] args) {
-		
-		ProductVOJDBC jdbc = new ProductVOJDBC();
-		ProductVO p1 = new ProductVO();
-		p1.setProduct_id(10);
-		p1.setName("茶調酒");
-		p1.setPrice(800);
-		p1.setStore_id(2);
-		p1.setDescription("超好喝2");
-		p1.setType_id(1);
-		p1.setStock(20);
-//		p1.setStatus(1);
-		
-//		jdbc.insert(p1);
-//		jdbc.update(p1);
-		ProductVO p = jdbc.findByPrimaryKey(1);
-		System.out.println(p);
-//	
-//		List<ProductVO> list = new ArrayList<>();
-//		list = jdbc.getAll();
-//		
-//		for(ProductVO product : list) {
-//			System.out.println(product);
-//		}
-	}
+		public static void main(String[] args) {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			ProductVO vo = session.get(ProductVO.class,125);
+			System.out.println(vo.getName());
+			HibernateUtil.shutdown();
+		}
 
 	@Override
 	public List<ProductVO> ShowStoreProduct(Integer store_id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean updateStatus(Integer id, Integer status) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

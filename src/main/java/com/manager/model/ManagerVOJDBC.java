@@ -1,6 +1,8 @@
 package com.manager.model;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class ManagerVOJDBC implements ManagerDAO{
@@ -15,7 +17,14 @@ public class ManagerVOJDBC implements ManagerDAO{
             PreparedStatement ppst = conn.prepareStatement(sql)){
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
-                managerVOS.add(new ManagerVO(rs.getInt(1),rs.getString(2),rs.getString(3)));
+            	ManagerVO vo = new ManagerVO();
+				vo.setManager_id(rs.getInt(1));
+				vo.setAccount(rs.getString(2));
+				vo.setPassword(rs.getString(3));
+				vo.setLastLoginTime(rs.getObject(4, LocalDateTime.class));
+				vo.setBirthday(rs.getObject(5, LocalDate.class));
+				vo.setStatus(rs.getInt(6));
+				managerVOS.add(vo);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -86,4 +95,17 @@ public class ManagerVOJDBC implements ManagerDAO{
         }
         return rows != 0;
     }
+
+
+//	@Override
+//	public ManagerVO login(String account, String password) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public ManagerVO forgetPassword(String account, LocalDate birthday) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

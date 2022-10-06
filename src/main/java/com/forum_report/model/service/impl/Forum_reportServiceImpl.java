@@ -17,4 +17,11 @@ public class Forum_reportServiceImpl implements Forum_reportService{
 	public List<Forum_reportVO> getAll(){
 		return this.dao.getAll();
 	}
+	public List<Integer> getForunIds(Integer id){
+		return this.dao.getFourmIds(id);
+	}
+	public Integer findForumId(Integer id) {
+		return this.dao.findForumId(id);
+	}
+
 }

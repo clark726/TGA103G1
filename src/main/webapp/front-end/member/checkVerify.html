@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驗證</title>
+    <link rel="stylesheet" href="./css/checkVerify.css">
+</head>
+<body>
+  <div w3-include-html="./jsp/header.jsp"></div>
+    <div class="div_verify">
+        <main class="verify_main">
+            <form method="post" action="" class="verify_form">
+                <h2>驗證碼</h2>
+                <div>
+                    <label for="verify">輸入驗證碼:</label>
+                    <input type="text" id="verify">
+                </div>
+                <font size="1" class="verify" color="red"></font>
+
+                <div class="two_but">
+                <button type="submit" id="submit">確認</button>
+                <button type="button" id="cancel" ><a href="">離開</a> </button>
+            </div>
+            </form>
+        </main>
+    </div>
+    <div w3-include-html="./jsp/footer.jsp"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+      (()=>{
+        const verify = document.querySelector("#verify");
+        const btn = document.querySelector("#submit");
+        btn.addEventListener("click",(e)=>{
+          $("font.verify").empty();
+          if(verify.value == ""){
+            $("font.verify").append("請勿空白");
+            e.preventDefault();
+          }else{
+            $("font.verify").empty();
+            fetch('/TGA103G1/memberCheckCode', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              inputCode: verify.value
+            }),
+          })
+            .then(resp => resp.json())
+            .then(body => {
+              const { successful } = body;
+             if(successful){
+              location = "http://localhost:8080/TGA103G1/front-end/member/forgetPsw.html";            	        	   
+             }else{
+               $(emailMsg).append(message);
+             }
+              
+            });
+          }
+        })
+
+      })();
+        function includeHTML() {
+              var z, i, elmnt, file, xhttp;
+              /* Loop through a collection of all HTML elements: */
+              z = document.getElementsByTagName("*");
+              for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                /*search for elements with a certain atrribute:*/
+                file = elmnt.getAttribute("w3-include-html");
+                if (file) {
+                  /* Make an HTTP request using the attribute value as the file name: */
+                  xhttp = new XMLHttpRequest();
+                  xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                      if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                      if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                      /* Remove the attribute, and call this function once more: */
+                      elmnt.removeAttribute("w3-include-html");
+                      includeHTML();
+                    }
+                  }
+                  xhttp.open("GET", file, true);
+                  xhttp.send();
+                  /* Exit the function: */
+                  return;
+                }
+              }
+            }
+            includeHTML();
+        
+    </script>
+</body>
+</html>

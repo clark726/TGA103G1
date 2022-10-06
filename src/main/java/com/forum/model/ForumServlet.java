@@ -24,6 +24,30 @@ public class ForumServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		ForumJNDI jndi = new ForumJNDI();
 		List<ForumVO> list = jndi.getAll();
-		res.getWriter().print(list);
+		if(action != null) {
+			switch (action) {
+			case "watchOneForum": 
+				doPostOne(req, res);
+				break;
+			default:
+				System.out.println("action "+action);
+			}
+		}else {
+			res.sendRedirect("/TGA103G1/fornt-end/forum/forum.jsp");
+		}
 	}
+	
+	public void doPostOne(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
+		Integer page = Integer.parseInt(req.getParameter("page"));
+		ForumJNDI jndi = new ForumJNDI();
+		ForumVO content = jndi.get(page);
+//		System.out.println(content.getContent());
+		
+		req.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
+		req.setAttribute("vo", content);
+		req.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
+		req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
+	}
+	
 }

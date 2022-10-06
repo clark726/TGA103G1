@@ -9,26 +9,6 @@ public class FavoriteJDBCDAO implements FavoriteDAO {
 	String userid = "root";
 	String passwd = "password";
 
-	@Override
-	public List<FavoriteVO> getAll() {
-		List<FavoriteVO> favorite = new ArrayList<FavoriteVO>();
-		String sql = "select * from favorite;";
-		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)) {
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				Integer favorite_id = rs.getInt(1);
-				Integer store_id = rs.getInt(2);
-				Integer member_id = rs.getInt(3);
-
-				FavoriteVO m = new FavoriteVO(favorite_id, store_id, member_id);
-				favorite.add(m);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return favorite;
-	}
 
 	@Override
 	public FavoriteVO findByPrimaryKey(Integer id) {
@@ -52,7 +32,7 @@ public class FavoriteJDBCDAO implements FavoriteDAO {
 	}
 
 	@Override
-	public void insert(FavoriteVO obj) {
+	public boolean insert(FavoriteVO obj) {
 		int rowCount = 0;
 		String sql = "Insert into favorite(store_id,member_id) " + "values(?,?);";
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
@@ -64,26 +44,12 @@ public class FavoriteJDBCDAO implements FavoriteDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		return rowCount == 1;
 	}
 
-	@Override
-	public void update(FavoriteVO obj) {
-		int rowCount = 0;
-		String sql = "Update favorite set store_id = ?, member_id = ? where favorite_id = ?;";
-		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, obj.getStore_id());
-			ps.setInt(2, obj.getMember_id());
-			ps.setInt(3, obj.getFavorite_id());
-			rowCount = ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
-	public void delete(Integer id) {
+	public boolean delete(Integer id) {
 		int rowCount = 0;
 		String sql = "Delete from favorite where favorite_id = ?;";
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
@@ -93,5 +59,31 @@ public class FavoriteJDBCDAO implements FavoriteDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return rowCount == 1;
+	}
+
+	@Override
+	public List<FavoriteVO> getAll(Integer member_id) {
+		
+		return null;
+	}
+
+
+	@Override
+	public FavoriteVO getStoreImgByStoreId(Integer member_id, Integer store_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<FavoriteVO> getAllM(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteF(FavoriteVO obj) {
+		// TODO Auto-generated method stub
+		
 	}
 }

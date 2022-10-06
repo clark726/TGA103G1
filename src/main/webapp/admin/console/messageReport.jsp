@@ -1,136 +1,204 @@
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.*"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Document</title>
-<link rel="stylesheet" href="/TGA103G1/admin/css/header.css" />
-<link rel="stylesheet" href="/TGA103G1/admin/css/back.css">
-<style>
-	table{
-	display: flex;
-	justify-content: center; 
-	align-items: center; 
-	}
-	td {
-		border: 1px solid black;
-	}
-	
-	.member_id, .account {
-		max-width: 100px;
-	}
-	
-	form {
-		display: inline-block;
-	}
-	</style>
+<meta charset="UTF-8">
+    <title>BarJarJo</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="<%=request.getContextPath()%>/admin/css/admin.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
 </head>
 <body>
-	<header class="header">
-		<div class="fl_left">
-			<h1 id="logo_h1">
-				<a href="＃" id="logo">Bar.Jar.Jo</a>
-			</h1>
-		</div>
-
-		<nav class="fl_right">
-			<ul class="nav_ul">
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">地圖</a></li>
-				<li><a href="#">討論區</a></li>
-				<li><a href="#">廠商專區</a></li>
-				<li><a href="#" class="icon">店家主題</a>
-					<ul id="store">
-						<li><a href="#">Bistro</a></li>
-						<li><a href="#">Cocktail bar</a></li>
-						<li><a href="#">Whisky bar</a></li>
-					</ul></li>
-				<li><a href="#" class="icon">會員專區</a>
-					<ul id="store">
-						<li><a href="#">我的最愛</a></li>
-						<li><a href="#">修改會員資料</a></li>
-						<li><a href="#">修改密碼</a></li>
-						<li><a href="#">訂單管理</a></li>
-					</ul></li>
-
-				<li><a href="#">購物商城</a></li>
-				<li><a href="/TGA103G1/control">登出</a></li>
-			</ul>
-		</nav>
-	</header>
-
-	<div class="contain">
-		<aside class="aside">
-			<p id="p1">管理者後台</p>
-			<div class="div_func">
-				<div>
-					<a class="edit_store" href="<%=request.getContextPath()%>/admin/console/members.jsp?">修改會員資料</a>
-				</div>
-				<div>
-					<a class="manager_item" type="button">上下架商品管理</a>
-				</div>
-				<div>
-					<a class="edit_item" type="button">修改商家訂單內容</a>
-				</div>
-				<hr>
-				<div>
-					<a class="front_paga" >留言檢舉</a>
-				</div>
-				<div>
-					<a class="forum" href="/TGA103G1/admin/console/forumReport.html">文章檢舉</a>
-				</div>
-				<div>
-					<a class="audit" type="button">審核上架</a>
-				</div>
-				<div>
-					<a class="change_state" type="button">改變帳號狀態</a>
-				</div>
-				<div>
-					<a class="manager" type="submit">..</a>
-				</div>
-			</div>
-		</aside>
-
-		<main class="main">
-			<h2>Hi ${admin}</h2>
-			<table>
-				<tr>
-					<td>report</td>
-					<td>member</td>
-					<td>message</td>
-					<td>reason</td>
-					<td>hyperlink</td>
-					<td>date</td>
-					<td>update</td>
-					<td>check</td>
-					<td>delete</td>
-				</tr>
-				<c:forEach var="report" items="${messageReportList}" varStatus="s">
-					<c:if test="${report.status == 0}">
-						<tr >
-							<form action="<%=request.getContextPath()%>/control" method="post">
-								<td>${report.message_report_id}</td>
-								<td>${report.member_id}</td>
-								<td>${report.message_id }</td>
-								<td>${report.reason }</td>
-								<td><a href="">文章連結</a></td>
-								<td>${report.date }</td> <input type="hidden" name="action"
-									value="updateMessageReport">
-								<td><button type="button" class="seen">已讀</button></td>
-								<td><button type="button" value="${report.message_id}"
-										class="check">查看</button></td>
-								<td><button type=button class="deleteForumMessage">刪帖封號</button></td>
-							</form>
-						</tr>
-					</c:if>
-				</c:forEach>
-			</table>
-		</main>
-	</div>
-	<script
+<div class="d-flex" id="wrapper">
+      <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">BarJarJo</div>
+        <div class="list-group list-group-flush">
+          <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料<span
+					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("members")).size()%>
+				</span></a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
+					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
+				</span></a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉<span
+					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("messageReportList")).size()%>
+				</span></a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="/TGA103G1/admin/console/forumReport.jsp">文章檢舉<span
+					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("forumReport")).size()%>
+				</span></a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="/TGA103G1/admin/console/onTheShelf.jsp">審核商品上架<span
+					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("products")).size()%>
+				</span></a> <a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="/TGA103G1/admin/console/barjarjoFrontPage.jsp">修改首頁</a>
+        </div>
+      </div>
+      <!-- Page content wrapper-->
+      <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <nav
+          class="navbar navbar-expand-lg navbar-light bg-light border-bottom"
+        >
+          <div class="container-fluid">
+            <button class="btn btn-primary" id="sidebarToggle">Menu</button>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#!">Home</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#!">地圖</a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#!">討論區</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#!">購物商城</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    id="navbarDropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    >店家主題</a
+                  >
+                  <div
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <a class="dropdown-item" href="#!">Bistro</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#!">Cocktail Bar</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#!">Whicky Bar</a>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    id="navbarDropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    >會員專區</a
+                  >
+                  <div
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <a class="dropdown-item" href="#!">我的最愛</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#!">修改密碼</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#!">訂單管理</a>
+                  </div>
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    id="navbarDropdown"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    >帳號</a
+                  >
+                  <div
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <a class="dropdown-item" href="#!">修改資料</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/TGA103G1/control">登出</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- Page content-->
+        <h2>Hi ${admin.account}</h2>
+        <!--------------->
+        <div class="container-fluid">
+          <table class="table table-hover">
+            <caption>
+<!--               悬停表格布局 -->
+            </caption>
+            <thead>
+              <tr>
+                <td>report</td>
+                <td>member</td>
+                <td>message</td>
+                <td>reason</td>
+                <td>hyperlink</td>
+                <td>date</td>
+                <td>update</td>
+                <td>check</td>
+                <td>delete</td>
+              </tr>
+            </thead>
+            <tbody>
+              <c:forEach var="report" items="${messageReportList}" varStatus="s">
+<%--                 <c:if test="${report.status == 0}"> --%>
+                    <tr >
+                        <form action="<%=request.getContextPath()%>/control" method="post">
+                            <td>${report.message_report_id}</td>
+                            <td>${report.member_id}</td>
+                            <td>${report.message_id }</td>
+                            <td>${report.reason }</td>
+                            <td><a href="">文章連結</a></td>
+                            <td>${report.date }</td> <input type="hidden" name="action"
+                                value="updateMessageReport">
+                            <td><button type="button" class="seen">已讀</button></td>
+                            <td><button type="button" value="${report.message_id}"
+                                    class="check">查看</button></td>
+                            <td><button type=button class="deleteForumMessage">刪帖封號</button></td>
+                        </form>
+                    </tr>
+<%--                 </c:if> --%>
+            </c:forEach>
+            </tbody>
+          </table>
+<!------------------------------------------------------->
+          
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="<%=request.getContextPath()%>/admin/js/admin.js"></script>
+    <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
 	 document.querySelectorAll(".check").forEach(function(el){
@@ -142,20 +210,8 @@
 		         data: {"action":"getFroumMessage",
 		 		        		"btnVal":btnVal},              
 		         dataType: "json",            
-		         beforeSend: function(){     
-		         },
-		         headers: {},
-		         statusCode: {                
-		           200: function (res) {},
-		           404: function (res) {},
-		           500: function (res) {}
-		         },
 		         success: function(xhr){
 		 			alert(xhr.context);
-		         },
-		         error: function(xhr){
-		 			console.log("error");         
-		             console.log(xhr);
 		         },
 		         complete: function(xhr){}
 		       });
@@ -170,28 +226,20 @@ document.querySelectorAll(".deleteForumMessage").forEach(function(el){
 			 var trEl = el.closest("tr");
 			$.ajax({
         url: "/TGA103G1/control",           
-        type: "post",                  
+        type: "post",
+        dataType:"text",
         data: {"action":"deleteForumMessage",
 		        "deleteVal":trEl.children[3].innerHTML,
 				"btnVal":trEl.children[1].innerHTML,
 				"reason":reason},                        
-        beforeSend: function(){     
-        },
-        headers: {},
-        statusCode: {                
-          200: function (res) {},
-          404: function (res) {},
-          500: function (res) {}
-        },
         success: function(xhr){
 			console.log("success");
 			trEl.remove();
-        },
-        error: function(xhr){
-			console.log("error");         
-            console.log(xhr);
-        },
-        complete: function(xhr){}
+			location.reload();
+        },error:function(xhr){
+        	console.log("error");
+        	console.log(xhr);
+        }
       });
 		}
 	})
@@ -205,23 +253,13 @@ document.querySelectorAll(".seen").forEach(function(el){
         type: "post",                  
         data: {"action":"updateforumReport",
 		        "btnVal":trEl.children[1].innerHTML},                        
-        beforeSend: function(){     
-        },
-        headers: {},
-        statusCode: {                
-          200: function (res) {},
-          404: function (res) {},
-          500: function (res) {}
-        },
         success: function(xhr){
 			console.log("success");
 			trEl.remove();
-        },
-        error: function(xhr){
-			console.log("error");         
+        },error:function(xhr){
+            console.log("error");
             console.log(xhr);
-        },
-        complete: function(xhr){}
+          }
       });
 	})
 })

@@ -15,4 +15,7 @@ public interface StoreDAO {
 	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId);
 	public List<StoreVO> findStorepageByStoreId(Integer store_id);
 	public void updateStoreInformation(StoreVO storeVO);
+	//MAP
+	public List<StoreVO> getAllTheme();
+	public List<StoreVO> getByTheme(Integer theme_id);
 }

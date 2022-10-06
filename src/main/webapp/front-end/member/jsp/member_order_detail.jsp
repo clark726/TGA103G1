@@ -8,44 +8,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/member_order_detail.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/member_order_detail.css">
   </head>
   <body>
-    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
+   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
     <div class="div_menCenter">
       <div class="menCenter_contain">
-        <aside class="menCenter_aside">
-          <p>會員中心</p>
-          <ul class="menCenter_ul">
-            <li>
-              <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
-            </li>
-            <li>
-              <button>
-                <a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a>
-              </button>
-            </li>
-            <li>
-              <button>
-                <a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a>
-              </button>
-            </li>
-            <li>
-              <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
-            </li>
-            <li>
-              <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
-            </li>
-            <li>
-              <button><a href="">聊天室</a></button>
-            </li>
-            <li>
-              <button><a href="">登出</a></button>
-            </li>
-          </ul>
-        </aside>
-
-        <main class="menCenter_main">
+            <aside class="menCenter_aside">
+                <h2>會員中心</h2>
+                <ul class="menCenter_ul">
+                    <li>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改基本資料</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></button>
+                    </li>
+                    <li>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
+                    </li>
+                    <li>
+                        <button><a href="">聊天室</a></button>
+                    </li>
+                    <li>
+                        <button><a href="">登出</a></button>
+                    </li>
+                </ul>
+            </aside><main class="menCenter_main">
           <div class="menCenter_div">
             <div class="maneger_title">訂單明細</div>
             <table class="maneger_orderDetail">
@@ -104,7 +98,7 @@
         </main>
       </div>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
+   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
                   

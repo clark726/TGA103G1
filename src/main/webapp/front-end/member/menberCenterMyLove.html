@@ -43,7 +43,7 @@
                     <div class="menCenter_title">我的最愛</div>
                     <br>
                     <ul class="item_list">
-                        <li>
+                    <!--     <li>
                           <div>
                             <img src="../member/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
                           </div>
@@ -110,7 +110,7 @@
                               </div>
                               <span class="item_text">店家名稱：</span>
                             </a>
-                          </li>              
+                          </li>   -->            
                       </ul>
                 </div>
 
@@ -120,6 +120,37 @@
     <div w3-include-html="../member/jsp/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
+      function init(){
+    $.ajax({
+        url: "/TGA103G1/favorite",           // 資料請求的網址
+        type: "GET",                  // GET | POST | PUT | DELETE | PATCH
+        data: {"member_id": member_id,"store_id":store_id,"favorite_id":favorite_id },             // 將物件資料(不用雙引號) 傳送到指定的 url
+        dataType: "json",             // 預期會接收到回傳資料的格式： json | xml | html
+        success: function(data){      // request 成功取得回應後執行
+          console.log(data);
+          let list_html = '';
+          $.each(data, function(index,item){
+            console.log(item);
+            list_html += `<li>
+                          <div>
+                            <img src="/images/heart.png" alt="" style="width: 30px;height:30px" id="img_heart">
+                          </div>
+                          <a href="#">
+                             
+                            <div class="img_block">
+                              <img src="/images/22704186_s.jpeg" style="width: 250px;height:150px">
+                            </div>
+                            <span class="item_text">店家名稱：${store_id}</span>
+                          </a>
+                        </li>`
+          })
+          $("ul.item_list").html(list_html);
+        }
+      })
+  }
+    
+    
+    
           $(function(){
             $("ul.item_list").on("click","img#img_heart",function(e){
               let r = confirm("確定刪除？")

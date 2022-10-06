@@ -1,7 +1,6 @@
 package com.product.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +12,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.product_img.model.Product_imgVO;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import com.common.HibernateUtil;
 
 public class ProductJNDI implements ProductDAO {
 
@@ -28,69 +31,60 @@ public class ProductJNDI implements ProductDAO {
 	}
 
 	@Override
-	public Integer insert(ProductVO product) {
-		String sql = "insert into product (name , price , store_id , description , type_id , stock )\n"
-				+ "values(?,?,?,?,?,?);";
-
-		try (Connection connection = ds.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "product_id" })) {
-
-			ps.setString(1, product.getName());
-			ps.setInt(2, product.getPrice());
-			ps.setInt(3, product.getStore_id());
-			ps.setString(4, product.getDescription());
-			ps.setInt(5, product.getType_id());
-			ps.setInt(6, product.getStock());
-			ps.executeUpdate();
-
-			// 自動取編號
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				return rs.getInt(1);
-			}
-
-		} catch (SQLException e) {
+	public Integer insert(ProductVO productVO) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+			session.persist(productVO);
+			transaction.commit();
+			return productVO.getProduct_id();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 
 	}
 
 	@Override
-	public Integer update(ProductVO product) {
-		String sql = "update product set name = ? , price = ? , store_id = ? , description = ? , type_id = ? , stock = ? , status = ?\n"
-				+ "where product_id = ?;";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setString(1, product.getName());
-			ps.setInt(2, product.getPrice());
-			ps.setInt(3, product.getStore_id());
-			ps.setString(4, product.getDescription());
-			ps.setInt(5, product.getType_id());
-			ps.setInt(6, product.getStock());
-			ps.setInt(7, product.getStatus());
-			ps.setInt(8, product.getProduct_id());
-
-			ps.executeUpdate();
-			return product.getProduct_id();
-
-		} catch (SQLException e) {
+	public Integer update(ProductVO newProductVO) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+		Transaction transaction = session.beginTransaction();
+		ProductVO product = session.load(ProductVO.class, newProductVO.getProduct_id());
+		
+		product.setName(newProductVO.getName());
+		product.setPrice(newProductVO.getPrice());
+		product.setStore_id(newProductVO.getStore_id());
+		product.setDescription(newProductVO.getDescription());
+		product.setType_id(newProductVO.getType_id());
+		product.setStock(newProductVO.getStock());
+		product.setStatus(newProductVO.getStatus());
+		transaction.commit();
+		return product.getProduct_id();
+		
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 
 	}
 
 	@Override
 	public void delete(Integer product_id) {
 
-		String sql = "delete from product where product_id = ? ";
-
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-
-			ps.setInt(1, product_id);
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+		Transaction transaction = session.beginTransaction();
+		ProductVO productVO = session.load(ProductVO.class, product_id);
+		session.remove(productVO);
+		transaction.commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
 		}
 	}
@@ -127,8 +121,38 @@ public class ProductJNDI implements ProductDAO {
 	}
 
 	@Override
-	public List<ProductVO> getAll() {
+	public List<ProductVO> ShowStoreProduct(Integer store_id) {
+		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
+				+ "from product\n" + "where  store_id = ?;";
+		List<ProductVO> list = new ArrayList<>();
+		ProductVO product = null;
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, store_id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				product = new ProductVO();
+				product.setProduct_id(rs.getInt("product_id"));
+				product.setName(rs.getString("name"));
+				product.setPrice(rs.getInt("price"));
+				product.setStore_id(rs.getInt("store_id"));
+				product.setDescription(rs.getString("description"));
+				product.setType_id(rs.getInt("type_id"));
+				product.setStock(rs.getInt("stock"));
+				product.setStatus(rs.getInt("status"));
+				product.setDate(rs.getDate("date"));
 
+				list.add(product);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<ProductVO> getAll() {
 		String sql = "select p.product_id , p.name , price, store_id ,description, type_id , stock , status, p.date , img \n"
 				+ "from product p\n" + "	left join product_img m\n" + "    on p.product_id = m.product_id;";
 		List<ProductVO> list = new ArrayList<>();
@@ -161,94 +185,17 @@ public class ProductJNDI implements ProductDAO {
 		return list;
 	}
 
-	public ProductVO findProductid(Integer product_id) {
-
-		String sql = "select p.product_id , p.name , price, store_id ,description, type_id , stock , status, p.date , img \n"
-				+ "from product p\n" + "	left join product_img m\n" + "    on p.product_id = m.product_id;";
-		ProductVO img = null;
-
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql);) {
-
-			ps.setInt(1, product_id);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-				img = new ProductVO();
-				List<Object> listobj = new ArrayList<Object>();
-				listobj.add(rs.getObject("img"));
-				// 取照片
-				img.setImgs(listobj);
-
-				img.setProduct_id(rs.getInt("product_id"));
-
-			}
+	@Override
+	public boolean updateStatus(Integer id, Integer status) {
+		int row = 0;
+		String sql = "UPDATE `product` SET `status` = ? WHERE (`product_id` = ?);";
+		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql);) {
+			ps.setObject(1, status);
+			ps.setObject(2, id);
+			row = ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return img;
-	}
-
-	
-
-	@Override
-	public List<ProductVO> ShowStoreProduct(Integer store_id) {
-		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
-				+ "from product\n"
-				+ "where  store_id = ?;";
-		List<ProductVO> list = new ArrayList<>();
-		ProductVO product = null;
-		try(Connection connection = ds.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql)){
-			ps.setInt(1,store_id );
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				product = new ProductVO();
-				product.setProduct_id(rs.getInt("product_id"));
-				product.setName(rs.getString("name"));
-				product.setPrice(rs.getInt("price"));
-				product.setStore_id(rs.getInt("store_id"));
-				product.setDescription(rs.getString("description"));
-				product.setType_id(rs.getInt("type_id"));
-				product.setStock(rs.getInt("stock"));
-				product.setStatus(rs.getInt("status"));
-				product.setDate(rs.getDate("date"));
-				
-				
-				list.add(product);
-			}
-			
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	
-	public static void main(String[] args) {
-
-		ProductVOJDBC jdbc = new ProductVOJDBC();
-		ProductVO p1 = new ProductVO();
-		p1.setProduct_id(10);
-		p1.setName("茶調酒");
-		p1.setPrice(800);
-		p1.setStore_id(2);
-		p1.setDescription("超好喝2");
-		p1.setType_id(1);
-		p1.setStock(20);
-//		p1.setStatus(1);
-
-//		jdbc.insert(p1);
-//		jdbc.update(p1);
-		ProductVO p = jdbc.findByPrimaryKey(1);
-		System.out.println(p);
-//	
-//		List<ProductVO> list = new ArrayList<>();
-//		list = jdbc.getAll();
-//		
-//		for(ProductVO product : list) {
-//			System.out.println(product);
-//		}
+		return row == 1;
 	}
 }

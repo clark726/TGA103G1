@@ -10,7 +10,11 @@ public class Forum_messageService {
 	public Forum_messageService(){
 		dao = new Forum_messageJNDIDAO();
 	}
-
+	
+	public List<Integer> beforeDelete(Integer id){
+		return dao.beforeDelete(id);
+	}
+	
 	public List<Forum_messageVO> getAll() {
 		return dao.getAll();
 	}

@@ -17,4 +17,8 @@ public interface Order_detailService {
 	public List<Order_detailVO> getAllByOrderId(Integer order_id);
 	
 	public Order_detailVO updateStatus(Order_detailVO vo);
+
+	public List<Order_detailVO>getAllBymember(Integer integer);
+	
+	public List<Order_detailVO>getOneOrderDetail(Integer order_id);
 }

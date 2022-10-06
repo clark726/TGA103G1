@@ -338,4 +338,66 @@ public class StoreJNDI implements StoreDAO {
 
 	}
 
+	@Override
+	public List<StoreVO> getAllTheme() {
+		
+		List<StoreVO> list = new ArrayList<>();
+		StoreVO store = null;
+		String sql = "select store_id  , name , phone , email , address , theme_id , dayoff , work_open , work_end , produce "
+				+ "from store where theme_id=?";
+		
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				store = new StoreVO();
+				store.setStore_id(rs.getInt("store_id"));
+				store.setName(rs.getString("name"));
+				store.setPhone(rs.getString("phone"));
+				store.setEmail(rs.getString("email"));
+				store.setAddress(rs.getString("address"));
+				store.setTheme_id(rs.getInt("theme_id"));
+				store.setDayoff(rs.getString("dayoff"));
+				store.setWork_open(rs.getString("work_open"));
+				store.setWork_end(rs.getString("work_end"));
+				store.setProduce(rs.getString("produce"));
+				list.add(store);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<StoreVO> getByTheme(Integer theme_id) {
+		List<StoreVO> list = new ArrayList<>();
+		StoreVO store = null;
+		String sql = "select store_id  , name , phone , email , address , theme_id , dayoff , work_open , work_end , produce "
+				+ "from store where theme_id=?";
+		
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, theme_id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				store = new StoreVO();
+				store.setStore_id(rs.getInt("store_id"));
+				store.setName(rs.getString("name"));
+				store.setPhone(rs.getString("phone"));
+				store.setEmail(rs.getString("email"));
+				store.setAddress(rs.getString("address"));
+				store.setTheme_id(rs.getInt("theme_id"));
+				store.setDayoff(rs.getString("dayoff"));
+				store.setWork_open(rs.getString("work_open"));
+				store.setWork_end(rs.getString("work_end"));
+				store.setProduce(rs.getString("produce"));
+				list.add(store);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

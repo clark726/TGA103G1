@@ -19,4 +19,8 @@ public interface StoreService {
 	public List<StoreVO> findStoreFrontpageBythemeId(Integer themeId);
 	public List<StoreVO> findStorepageByStoreId(Integer store_id);
 	public StoreVO updateStoreInformation(StoreVO storeVO);
+	//MAP
+	public List<StoreVO> getAllTheme();
+	public List<StoreVO> getTheme(Integer theme_id);
+	
 }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更改密碼</title>
+    <link rel="stylesheet" href="./css/forgetPsw.css">
+</head>
+<body>
+    <div w3-include-html="./jsp/header.jsp"></div>
+    <div class="div_forgetPsw" >
+        <main class="forgetPsw_main">
+            <!-- <form method="post" action="" class="forgetPsw_form"> -->
+                <h2>更改密碼</h2>
+                <div>
+                    <label for="newPsw">輸入新密碼:</label>
+                    <input type="password" id="newPsw" name="newPsw">
+                </div>
+                <font size="1" class="Psw" color="red"></font>
+                <div>
+                    <label for="checkForgetPsw">確認新密碼:</label>
+                    <input type="password" id="checkPsw" name="checkPsw"> 
+                </div>
+                <font size="1" class="checkPsw" color="red"></font>
+                <div class="two_but">
+                  <font size="1" class="msg" color="red"></font>
+                <button type="submit" id="submit">確認</button>
+                <button type="button" id="cancel" ><a href="">離開</a> </button>
+                </div>
+            <!-- </form> -->
+        </main>
+    </div>
+    <div w3-include-html="./jsp/footer.jsp"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+      (()=>{
+        const newPass = document.querySelector("#newPsw")
+        console.log(newPass);
+        const checkPass = document.querySelector("#checkPsw");
+        const submit = document.querySelector("#submit");
+        const errPass = document.querySelector(".Psw");
+        const errCheck = document.querySelector(".checkPsw");
+        const msg = document.querySelector(".msg");
+        const psRex = "^[a-zA-z0-9]{4,20}$"; 
+        newPass.addEventListener("input",()=>{
+          console.log(newPass.value);
+          if(newPass.value == ""){
+            errPass.textContent = "請勿空白";
+            return;
+          }else if(!newPass.value.match(psRex)){
+            errPass.textContent = "請輸入4~20個英文或數字";
+          }else{
+            errPass.textContent = "";
+          }
+        })
+        if(checkPass.value != newPass.value){
+          $(errCheck).append("兩次密碼不一致");
+        }else{
+          $(errCheck).empty();
+        }
+        
+        submit.addEventListener("click",(e)=>{
+          fetch('/TGA103G1/memberForgetPass', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            	newPassword: newPass.value
+            }),
+          })
+            .then(resp => resp.json())
+            .then(body => {
+              const { successful } = body;
+             if(successful){
+              location = "./member/jsp/login.jsp";            	        	   
+             }else{
+            	 msg.textContent = message;
+             }
+              
+            }); 
+
+        })
+
+
+        function includeHTML() {
+          var z, i, elmnt, file, xhttp;
+          /* Loop through a collection of all HTML elements: */
+          z = document.getElementsByTagName("*");
+          for (i = 0; i < z.length; i++) {
+            elmnt = z[i];
+            /*search for elements with a certain atrribute:*/
+            file = elmnt.getAttribute("w3-include-html");
+            if (file) {
+              /* Make an HTTP request using the attribute value as the file name: */
+              xhttp = new XMLHttpRequest();
+              xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                  if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                  if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                  /* Remove the attribute, and call this function once more: */
+                  elmnt.removeAttribute("w3-include-html");
+                  includeHTML();
+                }
+              }
+              xhttp.open("GET", file, true);
+              xhttp.send();
+              /* Exit the function: */
+              return;
+            }
+          }
+        }
+        includeHTML();
+      })();
+        
+    </script>
+</body>
+</html>

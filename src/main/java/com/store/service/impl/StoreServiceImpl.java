@@ -181,5 +181,13 @@ public class StoreServiceImpl implements StoreService {
 		vo.setSuccessful(true);
 		return vo;
 	}
+	
+	//MAP
+	public List<StoreVO> getAllTheme() {
+		return storedao.getAll();
+	}
+	public List<StoreVO> getTheme(Integer theme_id) {
+		return storedao.getByTheme(theme_id);
+	}
 
 }

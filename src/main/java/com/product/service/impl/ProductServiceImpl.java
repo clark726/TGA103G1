@@ -1,6 +1,5 @@
 package com.product.service.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -14,7 +13,6 @@ import com.product.service.ProductService;
 import com.product_img.model.Product_imgDAO;
 import com.product_img.model.Product_imgJNDI;
 import com.product_img.model.Product_imgVO;
-import com.product_img.model.Product_imgVOJDBC;
 import com.store.model.StoreDAO;
 import com.store.model.StoreJNDI;
 import com.store.model.StoreVO;
@@ -30,11 +28,6 @@ public class ProductServiceImpl implements ProductService {
 		storedao = new StoreJNDI();
 	}
 
-	/**
-	 * @param productVO
-	 * @param imgList
-	 * @return
-	 */
 	public ProductVO addProduct(ProductVO productVO, List<Product_imgVO> imgList) {
 
 		Integer product_id = productdao.insert(productVO);
@@ -52,15 +45,6 @@ public class ProductServiceImpl implements ProductService {
 
 	public ProductVO updatProduct(ProductVO productvo ,List<Product_imgVO> imgList ) {
 
-//		ProductVO vo = new ProductVO();
-//		vo.setProduct_id(product_id);
-//		vo.setName(name);
-//		vo.setPrice(price);
-//		vo.setStore_id(store_id);
-//		vo.setDescription(description);
-//		vo.setType_id(type_id);
-//		vo.setStock(stock);
-//		vo.setStatus(status);
 	
 		Integer product_id = productdao.update(productvo);
 		for (Product_imgVO imgVO : imgList) {
@@ -75,15 +59,6 @@ public class ProductServiceImpl implements ProductService {
 		productdao.delete(product_id);
 	}
 
-	public List<ProductVO> getAll() {
-		List<ProductVO> list = productdao.getAll();
-		for (ProductVO vo : list) {
-			String base64Str = Base64.getEncoder().encodeToString(toByteArray(vo.getImg()));
-			vo.setImg((String)base64Str);
-		}
-
-		return list;
-	}
 
 	public ProductVO getOneProduct(Integer product_id) {
 		return productdao.findByPrimaryKey(product_id);
@@ -112,5 +87,21 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 		return bytes;
+	}
+
+	@Override
+	public List<ProductVO> getAll() {
+		List<ProductVO> list = productdao.getAll();
+		for (ProductVO vo : list) {
+			String base64Str = Base64.getEncoder().encodeToString(toByteArray(vo.getImg()));
+			vo.setImg((String)base64Str);
+		}
+
+		return list;
+	}
+
+	@Override
+	public boolean updateStatus(Integer id, Integer status) {
+		return productdao.updateStatus(id,status);
 	}
 }

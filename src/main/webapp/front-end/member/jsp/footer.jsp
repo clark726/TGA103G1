@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/footer.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/footer.css" />
   </head>
   <body>
     <footer id="footer" class="">
@@ -31,5 +31,6 @@
         <img src="<%=request.getContextPath()%>/front-end/member/images/Studio.png" alt="" />
       </div>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   </body>
 </html>

@@ -108,8 +108,6 @@ public class ProductServlet extends HttpServlet {
 			InputStream in = part.getInputStream();
 			if (part.getSubmittedFileName() != null && part.getSize() != 0) {
 				Product_imgVO img = new Product_imgVO();
-//				byte[] b = new byte[(int)in.available()];
-//				in.read(b);
 				img.setImg(in.readAllBytes());
 				imgList.add(img);
 

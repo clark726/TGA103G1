@@ -210,7 +210,7 @@ div.register_btn #cancel > a:visited{
 		}
 
 		const pwdLength = password.value.length;
-		if (pwdLength < 6 || pwdLength > 12) {
+		if (pwdLength < 4 || pwdLength > 20) {
 			msg.textContent = '密碼長度須介於6~12字元';
 			return;
 		}

@@ -64,7 +64,7 @@ public class Forum_messageJDBCDAO implements Forum_messageDAO{
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, obj.getMember_id());
 			ps.setInt(2, obj.getForum_id());
-			ps.setString(3, obj.getContext());
+			ps.setString(3, obj.getContent());
 
 			rowCount = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -81,7 +81,7 @@ public class Forum_messageJDBCDAO implements Forum_messageDAO{
 				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, obj.getMember_id());
 			ps.setInt(2, obj.getForum_id());
-			ps.setString(3, obj.getContext());
+			ps.setString(3, obj.getContent());
 			ps.setObject(2, obj.getDate());
 			ps.setInt(3, obj.getMessage_id());
 			rowCount = ps.executeUpdate();
@@ -101,5 +101,11 @@ public class Forum_messageJDBCDAO implements Forum_messageDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Integer> beforeDelete(Integer messageId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

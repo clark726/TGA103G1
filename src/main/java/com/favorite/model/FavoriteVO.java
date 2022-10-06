@@ -2,12 +2,25 @@ package com.favorite.model;
 
 import java.io.Serializable;
 
-public class FavoriteVO {
+import com.common.Result;
+
+public class FavoriteVO extends Result{
 
     private Integer favorite_id;
     private Integer store_id;
     private Integer member_id;
-    public FavoriteVO() {}
+    private byte[] img;
+    private String name;
+    
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public FavoriteVO() {}
     
     public FavoriteVO(Integer store_id,Integer member_id) {
 		super();
@@ -43,4 +56,12 @@ public class FavoriteVO {
     public String toString() {
         return "FavoriteVO [favorite_id=" + favorite_id + ", store_id=" + store_id + ", member_id=" + member_id + "]";
     }
+
+	public byte[] getImg() {
+		return img;
+	}
+
+	public void setImg(byte[] bs) {
+		this.img = bs;
+	}
 }

@@ -160,4 +160,16 @@ public class Order_detailJDBC implements Order_detailDAO{
 		
 	}
 
+	@Override
+	public List<Order_detailVO> getAllBymember(Integer member_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Order_detailVO> getOneOrderDetail(Integer order_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

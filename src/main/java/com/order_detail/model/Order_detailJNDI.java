@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,5 +132,75 @@ public class Order_detailJNDI implements Order_detailDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	//新增訂單明細
+	
+	@Override
+	public List<Order_detailVO> getAllBymember(Integer member_id) {
+		String sql ="SELECT o.order_id,o.status status,o.price total,s.name stordName,o.`date` date FROM `order` o "
+				+ "	join member m "
+				+ " on m.member_id = o.member_id "
+				+ " join store s  "
+				+ " on s.store_id = o.store_id "
+				+ " where m.member_id = ?;";
+		List<Order_detailVO> list = new ArrayList<Order_detailVO>();
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, member_id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Order_detailVO od = new Order_detailVO();
+				od.setOrder_id(rs.getInt("order_id"));
+				od.setStoreName(rs.getString("stordName"));
+				od.setTotal(rs.getInt("total"));
+				od.setStatus(rs.getInt("status"));;
+				od.setDate(rs.getObject("date",LocalDate.class));
+				list.add(od);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return list;
+	}
+	
+	@Override
+	public List<Order_detailVO> getOneOrderDetail(Integer order_id) {
+		String sql = "SELECT o.order_id orderId,s.name storeName,o.`name` orderName,o.address address,o.phone phone,p.`name` productName, "
+				+ " p.price onePrice,od.amount amount,o.price Total,o.method method,o.status `status`,o.`date` `date` FROM `order` o "
+				+ " join store s  "
+				+ " on s.store_id = o.store_id "
+				+ " join order_detail od "
+				+ " on o.order_id = od.order_id "
+				+ " join product p "
+				+ "	on p.product_id = od.product_id "
+				+ "	where o.order_id = ?;";
+		List<Order_detailVO> list = new ArrayList<Order_detailVO>();
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)){
+			ps.setInt(1, order_id);
+			ResultSet rs = ps.executeQuery(); 
+			while(rs.next()) {
+				Order_detailVO od = new Order_detailVO();
+				od.setOrder_id(rs.getInt("orderId"));
+				od.setStoreName(rs.getString("storeName"));
+				od.setOrderName(rs.getString("orderName"));
+				od.setAddress(rs.getString("address"));
+				od.setPhone(rs.getString("phone"));
+				od.setProduct_name(rs.getString("productName"));
+				od.setOnePrice(rs.getInt("onePrice"));
+				od.setAmount(rs.getInt("amount"));
+				od.setTotal(rs.getInt("total"));
+				od.setMethod(rs.getInt("method"));
+				od.setStatus(rs.getInt("status"));
+				od.setDate(rs.getObject("date",LocalDate.class));
+				list.add(od);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

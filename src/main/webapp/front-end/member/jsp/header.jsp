@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/header.css" />
   </head>
   <body style="background-color: rgb(129, 93, 65)">
     <header class="header">
@@ -47,7 +47,7 @@
     </header>
 
 
-    <script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/slider.js"></script>
   </body>
 </html>

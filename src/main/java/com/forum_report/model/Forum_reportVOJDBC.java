@@ -153,5 +153,23 @@ public class Forum_reportVOJDBC implements Forum_reportDAO{
 			System.out.println(vo1);
 		}
 	}
+
+	@Override
+	public int findForumId(Integer id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean update(Integer forum_report_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Integer> getFourmIds(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

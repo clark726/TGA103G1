@@ -1,12 +1,11 @@
-<%@page import="com.forum.model.ForumService,java.util.*"%>
+<%@page import="com.forum.model.service.impl.ForumServiceImpl,java.util.*"%>
 <%@page import="com.forum.model.ForumVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.product.model.*"%>
 <%
 ForumVO forumVO = (ForumVO) request.getAttribute("forumVO");
-ForumService forumService = new ForumService();
+ForumServiceImpl forumService = new ForumServiceImpl();
 List<ForumVO> list = forumService.getAll();
 pageContext.setAttribute("list", list);
 %>
@@ -16,7 +15,7 @@ pageContext.setAttribute("list", list);
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Product</title>
+<title>Fourm</title>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
@@ -61,10 +60,11 @@ pageContext.setAttribute("list", list);
 	<h1 align="center">bar jar jo 討論區</h1>
 	<div
 		style="background-color: #FFD382; padding: 10px; margin-bottom: 5px;">
+		<p style="color: black;">hi,${userid.account}</p>
 		<input id="searchforum" type="search"
 			style="TRANSFORM: TRANSLATEX(560%);">
 		<button style="TRANSFORM: TRANSLATEX(2230%);">搜尋</button>
-		<button style="TRANSFORM: TRANSLATEX(-110%);">發表文章</button>
+		<button id="IWantToInsertContent" style="TRANSFORM: TRANSLATEX(-220%);" class="button">發表文章</button>
 
 
 		<table border="1" align="center">
@@ -86,47 +86,26 @@ pageContext.setAttribute("list", list);
 				<tr>
 					<td>${forumvo.forum_id}</td>
 					<td>${forumvo.member_id}</td>
-					<td>${forumvo.date}</td>
-					<td><a href="TGA103G1//ForumServlet/page=${forumvo.forum_id}">${forumvo.title}</a></td>
+					<td>${forumvo.date.year}/${forumvo.date.monthValue}/${forumvo.date.dayOfMonth}  ${forumvo.date.hour}時${forumvo.date.minute}分</td>
+					<td><a href="/TGA103G1/ForumServlet?action=watchOneForum&page=${forumvo.forum_id}">${forumvo.title}</a></td>
 					<td>${forumvo.like}</td>
 					<td>${forumvo.look}</td>
 					<td>${forumvo.message}</td>
 					<td>${forumvo.status}</td>
-<!-- 					<td> -->
-<!-- 						<FORM METHOD="post" -->
-<%-- 							ACTION="<%=request.getContextPath()%>/forum/forum.do" --%>
-<!-- 							style="margin-bottom: 0px;"> -->
-<!-- 							<input type="submit" value="修改"> <input type="hidden" -->
-<%-- 								name="empno" value="${forumVO.empno}"> <input --%>
-<!-- 								type="hidden" name="action" value="getOne_For_Update"> -->
-<!-- 						</FORM> -->
-<!-- 					</td> -->
-<!-- 					<td> -->
-<!-- 						<FORM METHOD="post" -->
-<%-- 							ACTION="<%=request.getContextPath()%>/emp/emp.do" --%>
-<!-- 							style="margin-bottom: 0px;"> -->
-<!-- 							<input type="submit" value="刪除"> <input type="hidden" -->
-<%-- 								name="empno" value="${empVO.empno}"> <input --%>
-<!-- 								type="hidden" name="action" value="delete"> -->
-<!-- 						</FORM> -->
-<!-- 					</td> -->
 				</tr>
 			</c:forEach>
 			</div>
 		</table>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
-        window.onload = function () {
-            $.ajax({
-                url: "/TGA103G1/ForumServlet",          
-                type: "post",                  
-                data: { "action": "getAllForum" },             
-                dataType: "text",
-                success: function (data) {      
-                    console.log(data);
-                }
-            });
-        }
+			var IWantToInsertContent = document.getElementById('IWantToInsertContent');
+			IWantToInsertContent.addEventListener('click',function(){
+
+				console.log();
+			})
+			$(".button").click(function(){
+				location.href="/TGA103G1/PostForumContent?action=AreYouLogin";
+			})
 		</script>
 </body>
 </html>

@@ -9,4 +9,8 @@ public interface Forum_reportDAO  {
 	public void delete(Integer report_id);
 	public Forum_reportVO findByPrimaryKey(Integer report_id);
 	public List<Forum_reportVO>getAll();
+	
+	public int findForumId(Integer id);
+	public boolean update(Integer forum_report_id);
+	public List<Integer> getFourmIds(Integer id);
 }

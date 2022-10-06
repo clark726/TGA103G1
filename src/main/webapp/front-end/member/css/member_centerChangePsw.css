@@ -56,29 +56,33 @@ div.menCenter_contain main.menCenter_main{
     width: 100%;
 }
 div.menCenter_contain main.menCenter_main div.menCenter_div{
-    /* border: 1px solid lightblue; */
+ 
     width: 75%;
 }
 div.menCenter_contain main.menCenter_main div.menCenter_div div.menCenter_title{
-    /* border: 1px solid lawngreen; */
+    
     margin-top: 5px;
     font-size: 20px;
     margin-left: 55%;
 }
 div.menCenter_contain main.menCenter_main div.menCenter_div div.change_psw {
     display: flex;
-    /* border: 1px solid red; */
+
     margin-left: 10%;
 }
+div.menCenter_contain main.menCenter_main div.menCenter_div div.change_psw form.change_form > font{
+    
+    margin-left: 500px;
+}
 div.menCenter_contain main.menCenter_main div.menCenter_div div.change_psw form.change_form > button{
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 20px;
     text-shadow: 5px;
     border-radius: 3px;
     margin-left: 57%;
 }
 div.menCenter_contain main.menCenter_main div.menCenter_div div.change_psw form.change_form div.change_div{
-    margin: 20px;
+    margin-top: 10px;
     margin-left: 140px;
 }
 div.menCenter_contain main.menCenter_main div.menCenter_div div.change_psw form.change_form div.change_div > input{

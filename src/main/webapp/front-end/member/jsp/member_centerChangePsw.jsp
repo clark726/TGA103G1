@@ -8,29 +8,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/menber_centerChangePsw.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/member_centerChangePsw.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/member/header.jsp"></div>
+   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/header.jsp"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
                 <h2>會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_center.jsp">修改基本資料</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改基本資料</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerChangePsw.jsp">修改密碼</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerＭanegerOrder.jsp">訂單管理</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerMyLove.jsp">我的最愛</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></button>
                     </li>
                     <li>
-                        <button><a href="<%=request.getContextPath()%>/member/menber_centerForum.jsp">討論區</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
                         <button><a href="">聊天室</a></button>
@@ -46,21 +46,26 @@
                     <div class="menCenter_title">修改密碼</div>
                    <br>
                     <div class="change_psw">
-                        <form action="" class="change_form">
+                        <form action="<%=request.getContextPath()%>/member/MemberUpdatePassword" class="change_form" method="post">
                             <div class="change_div">
                                 <label for="">請輸入舊密碼</label>
-                                <input type="password">
+                                <input type="password" name="oldpassword" id="oldpassword">
                             </div>
+                                <font size="1" color="red" class="oldpassword"></font>
                             <div class="change_div">
                                 <label for="">請輸入新密碼</label>
-                                <input type="password">
+                                <input type="password" name="newpassword" id="newpassword">
                             </div>
+                                <font size="1" color="red" class="newpassword"></font>
                             <div class="change_div">
                                 <label for="">請再輸入新密碼</label>
-                                <input type="password">
+                                <input type="password" name="dbpassword" id="dbpassword">
                             </div>
-
-                            <button type="submit">確定修改</button>
+                                <font size="1" color="red" class="dbpassword"></font>
+                                <br>
+								<font size="1" color="red" class="font">${error}</font>
+                                <br>
+                            <button type="submit" id="submit">確定修改</button>
                         </form>
                     </div>
                 </div>
@@ -68,11 +73,43 @@
             </main>
         </div>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/member/footer.jsp"></div>
+     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/jsp/footer.jsp"></div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-                    
-                    function includeHTML() {
+    let userid = ${userid.password};
+    let oldPas = document.querySelector("#oldpassword");
+    let newPas = document.querySelector("#newpassword");
+    let dbPas = document.querySelector("#dbpassword");
+    let psRex = "^[a-zA-z0-9]{4,20}$";
+    $(function(){
+        $("#submit").on("click",function(e){
+            $("font.oldpassword").empty();
+            $("font.newpassword").empty();
+            $("font.dbpassword").empty();
+            
+        if(oldPas.value != userid){
+        	$("font.oldpassword").append("密碼錯誤");
+            e.preventDefault();
+        }else if(oldPas.value == ""){  
+            $("font.oldpassword").append("舊密碼不能為空");
+            e.preventDefault();
+        }else{
+        }
+        if(!newPas.value.match(psRex)){
+            $("font.newpassword").append("請輸入4-20個英文或數字");
+            e.preventDefault();
+        }else{
+        }
+        if(dbPas.value != newPas.value){
+            $("font.dbpassword").append("兩次密碼不一致");
+            e.preventDefault();
+        }else{
+        }
+
+        })
+    })
+    
+  function includeHTML() {
           var z, i, elmnt, file, xhttp;
           /* Loop through a collection of all HTML elements: */
           z = document.getElementsByTagName("*");

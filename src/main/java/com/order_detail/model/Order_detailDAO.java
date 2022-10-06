@@ -16,4 +16,7 @@ public interface Order_detailDAO {
 	
 	public void updateStatus(Integer order_id , Integer status);
 
+	public List<Order_detailVO>getAllBymember(Integer member_id);
+	
+	public List<Order_detailVO> getOneOrderDetail(Integer order_id);
 }

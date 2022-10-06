@@ -1,5 +1,6 @@
 package com.manager.model.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.manager.model.ManagerJNDIDAO;
@@ -12,13 +13,12 @@ public class ManagerServiceImpl implements ManagerService {
 	public ManagerServiceImpl() {
 		dao = new ManagerJNDIDAO();
 	}
-	
 	public List<ManagerVO> getAll() {
 		return dao.getAll();
 	}
 	
-	public void delete(Integer id) {
-		dao.delete(id);
+	public boolean delete(Integer id) {
+		 return dao.delete(id);
 	}
 	
 	public ManagerVO get(Integer id) {
@@ -26,18 +26,37 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	
 	
-	public ManagerVO insert(String account,String password) {
-		ManagerVO result = new ManagerVO(account,password);
-		dao.add(result);
-		return result;
+	public boolean insert(String account,String password,LocalDate birthday) {
+		ManagerVO vo=new ManagerVO();
+		vo.setAccount(account);
+		vo.setPassword(password);
+		vo.setBirthday(birthday);
+		return dao.add(vo);
 	}
 	
-	public ManagerVO update(Integer member_id, String account, String password) {
-		ManagerVO result = new ManagerVO(member_id,account,password);
-		dao.update(result);
-		return result;
+	public boolean update(Integer member_id, String password, Integer status) {
+		ManagerVO vo = new ManagerVO();
+		vo.setPassword(password);
+		vo.setManager_id(member_id);
+		vo.setStatus(status);
+		return dao.update(vo);
 	}
-	public boolean check(String account,String password) {
-		return dao.check(account, password);
+	public ManagerVO login(String account,String password) {
+		return dao.login(account, password);
 	}
+
+	@Override
+	public ManagerVO forgetPassword(String account, LocalDate birthday) {
+		return dao.forgetPassword(account, birthday);
+	}
+	@Override
+	public boolean update(ManagerVO obj) {
+		return false;
+	}
+	@Override
+	public void updateLoginTime(Integer id) {
+		dao.updateLoginTime(id);
+	}
+	
+
 }

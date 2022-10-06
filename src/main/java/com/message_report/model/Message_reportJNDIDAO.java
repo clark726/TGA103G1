@@ -26,9 +26,25 @@ public class Message_reportJNDIDAO {
 		}
 	}
 	
+	public List<Integer> getMessageReportByMessageId(Integer messageId) {
+	       List<Integer> ids = new ArrayList<>();
+	        String sql = "select message_report_id from message_report where message_id = ?;";
+	        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+	        	ppst.setObject(1, messageId);
+	            ResultSet rs = ppst.executeQuery();
+	            while (rs.next()){
+	                ids.add(rs.getInt(1));
+	            }
+	        }catch (Exception e){
+	            e.printStackTrace();
+	        }
+	        return ids;
+	}
+	
+	
 	public List<Message_reportVO> getAll() {
 		List <Message_reportVO> Message_reportVO = new ArrayList<Message_reportVO>();
-		String sql = "SELECT * FROM message_report;";
+		String sql = "SELECT * FROM message_report where status = 0;";
 		try(Connection connection = ds.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql)){
 			ResultSet rs = ps.executeQuery();

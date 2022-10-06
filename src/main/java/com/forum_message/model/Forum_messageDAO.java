@@ -13,4 +13,6 @@ public interface Forum_messageDAO {
 	public Forum_messageVO findByPrimaryKey(Integer id);
 
 	public List<Forum_messageVO> getAll();
+	
+	public List<Integer> beforeDelete(Integer messageId);
 }

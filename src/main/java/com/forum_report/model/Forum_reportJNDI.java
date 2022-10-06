@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 
-public class Forum_reportJNDI {
+public class Forum_reportJNDI implements Forum_reportDAO{
 	private static DataSource ds = null;
 	static {
 		try {
@@ -22,9 +22,23 @@ public class Forum_reportJNDI {
 			e.printStackTrace();
 		}
 	}
+	public int findForumId(Integer id) {
+		int forumId = 0;
+		try(PreparedStatement ppst = ds.getConnection().prepareStatement("select forum_id from forum_report where forum_report_id = ?;")){
+			ppst.setObject(1, id);
+			ResultSet rs = ppst.executeQuery();
+			if(rs.next()) {
+				forumId = rs.getInt(1);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return forumId;
+	}
+	
 	public List<Forum_reportVO> getAll(){
 		List<Forum_reportVO> list = new ArrayList<>();
-		String sql = "SELECT * FROM forum_report;";
+		String sql = "SELECT * FROM forum_report where status = 0;";
 		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql);
 				ResultSet rsResultset = ppst.executeQuery();){
 			while(rsResultset.next()) {
@@ -44,14 +58,53 @@ public class Forum_reportJNDI {
 	}
 	public boolean update(Integer forum_report_id) {
 		int row = 0;
-		try(PreparedStatement ppst = ds.getConnection().prepareStatement("UPDATE `forum_report` SET `status` = '1' WHERE (`forum_report_id` = ?);")){
+		String sql="UPDATE `forum_report` SET status = 1 WHERE (`forum_report_id` = ?);";
+		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
 			ppst.setObject(1, forum_report_id);
 			row = ppst.executeUpdate();
-			System.out.println(row);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return row ==1;
+	}
+	
+	public List<Integer> getFourmIds(Integer id){
+		List<Integer> list = new ArrayList<>();
+		String sql = "select forum_report_id from forum_report where forum_id = ?;";
+		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql);){
+				ppst.setObject(1, id);
+				ResultSet rsResultset = ppst.executeQuery();
+			while(rsResultset.next()) {
+				list.add(rsResultset.getInt(1));
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void insert(Forum_reportVO report) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Forum_reportVO report) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Integer report_id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Forum_reportVO findByPrimaryKey(Integer report_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -53,5 +53,16 @@ public class Order_detailServiceImpl implements Order_detailService{
 		}
 		return vo;
 	}
+	//新增會員訂單明細
+	@Override
+	public List<Order_detailVO> getAllBymember(Integer member_id) {
+		
+		return orderDetailDao.getAllBymember(member_id);
+	}
+	@Override
+	public List<Order_detailVO>  getOneOrderDetail(Integer order_id) {
+		
+		return orderDetailDao.getOneOrderDetail(order_id);
+	}
 
 }

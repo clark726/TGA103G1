@@ -198,6 +198,18 @@ public class StoreVOJDBC implements StoreDAO {
 		
 	}
 
+	@Override
+	public List<StoreVO> getAllTheme() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StoreVO> getByTheme(Integer theme_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

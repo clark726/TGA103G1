@@ -20,6 +20,7 @@ public class Store_imgVO extends Result implements Serializable {
 	private String imgstr;
 	private Integer status1;
 	private byte[] ingbyte;
+	
 	private String account;
 	private String dayoff;
 	private String work_open;

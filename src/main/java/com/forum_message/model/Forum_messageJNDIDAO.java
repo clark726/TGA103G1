@@ -34,10 +34,10 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 				Integer message_id = rs.getInt(1);
 				Integer member_id = rs.getInt(2);
 				Integer forum_id = rs.getInt(3);
-				String context = rs.getString(4);
+				String content = rs.getString(4);
 				LocalDateTime date = rs.getObject(5,LocalDateTime.class);
 
-				Forum_messageVO m = new Forum_messageVO(message_id, member_id, forum_id, context, date);
+				Forum_messageVO m = new Forum_messageVO(message_id, member_id, forum_id, content, date);
 				forum_message.add(m);
 			}
 		} catch (SQLException e) {
@@ -71,11 +71,11 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	@Override
 	public void insert(Forum_messageVO obj) {
 		int rowCount = 0;
-		String sql = "Insert into forum_message(member_id,forum_id,context) " + "values(?,?,?);";
+		String sql = "Insert into forum_message(member_id,forum_id,content) " + "values(?,?,?);";
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, obj.getMember_id());
 			ps.setInt(2, obj.getForum_id());
-			ps.setString(3, obj.getContext());
+			ps.setString(3, obj.getContent());
 			rowCount = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,11 +86,11 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	@Override
 	public void update(Forum_messageVO obj) {
 		int rowCount = 0;
-		String sql = "Update forum_message set member_id = ?, forum_id = ?,context = ?,date = ? where message_id = ?;";
+		String sql = "Update forum_message set member_id = ?, forum_id = ?,content = ?,date = ? where message_id = ?;";
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, obj.getMember_id());
 			ps.setInt(2, obj.getForum_id());
-			ps.setString(3, obj.getContext());
+			ps.setString(3, obj.getContent());
 			ps.setObject(2, obj.getDate());
 			ps.setInt(3, obj.getMessage_id());
 			rowCount = ps.executeUpdate();
@@ -116,5 +116,21 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<Integer> beforeDelete(Integer messageId) {
+		List<Integer> messageIds = new ArrayList<Integer>();
+		String sql = "select message_id from forum_message where forum_id = (select forum_id from forum_message where message_id = ?);";
+		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
+			ps.setObject(1, messageId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				messageIds.add(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return messageIds;
 	}
 }

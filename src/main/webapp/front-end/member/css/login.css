@@ -27,9 +27,12 @@ div.div_login main.login_main form.login_form > h2{
 }
 div.div_login main.login_main form.login_form div{
     /* border: 1px solid red; */
-    margin: 20px;
+    margin-top: 10px;
     font-size: 22px;
     font-weight: 700;
+}
+div.div_login main.login_main form.login_form > font{
+    margin: 20px,0px;
 }
 #login_verify{
     width: 100px;
@@ -90,4 +93,5 @@ div.div_login main.login_main form.login_form div{
 .div_a > a:hover{
     background-color: #3D1504;
     color: #E2E5AC;
+    
 }

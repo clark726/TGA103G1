@@ -22,9 +22,41 @@ public class MemberVO extends Result{
 	private String phone;
 	private LocalDate register;
 	private Integer permission;
+	private String verifyAccount;
+	private String newPassword;
+	private String inputCode;
 	
 	
-	
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+
+	public String getInputCode() {
+		return inputCode;
+	}
+
+
+	public void setInputCode(String inputCode) {
+		this.inputCode = inputCode;
+	}
+
+
+	public String getVerifyAccount() {
+		return verifyAccount;
+	}
+
+
+	public void setVerifyAccount(String verifyAccount) {
+		this.verifyAccount = verifyAccount;
+	}
+
+
 	public MemberVO() {
 		
 	}
@@ -114,5 +146,8 @@ public class MemberVO extends Result{
 	public void setPermission(Integer permission) {
 		this.permission = permission;
 	}
+
+
+
 
 }

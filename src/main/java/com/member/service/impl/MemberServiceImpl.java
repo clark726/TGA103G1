@@ -11,6 +11,8 @@ import java.util.List;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.common.MailThread;
+import com.common.Ramdon;
 import com.member.dao.MemberDao;
 import com.member.dao.impl.MemberDaoImpl;
 import com.member.service.MemberService;
@@ -19,10 +21,10 @@ import com.member.vo.MemberVO;
 public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 
-	public MemberServiceImpl() throws NamingException {
+	public MemberServiceImpl()  {
 		dao = new MemberDaoImpl();
 	}
-	
+
 	@Override
 	public boolean register(MemberVO member) {
 
@@ -33,13 +35,12 @@ public class MemberServiceImpl implements MemberService {
 			return false;
 		}
 		final String password = member.getPassword();
-		String checkPs = "^[(a-zA-Z0-9)]{4,15}$";
 		if (password == null || password.isEmpty()) {
 			member.setMessage("密碼未輸入");
 			member.setSuccessful(false);
 			return false;
-		} else if (!(password.trim().matches(checkPs))) {
-			member.setMessage("請輸入4～15個字元");
+		} else if (!(password.trim().matches("^\\w{4,15}$"))) {
+			member.setMessage("請輸入4～15個字");
 			member.setSuccessful(false);
 			return false;
 		}
@@ -68,23 +69,30 @@ public class MemberServiceImpl implements MemberService {
 			return false;
 		}
 
-		final String nickname = member.getNickname();
-		if (nickname == null || nickname.isEmpty()) {
-
-			return false;
-		}
-
 		final String phone = member.getPhone();
-		String checkPhone = "^[0]{1}[9]{1}\\d{8}$";
 		if (phone == null || phone.isEmpty()) {
 			member.setMessage("請輸入電話號碼");
 			member.setSuccessful(false);
 			return false;
-		} else if (!(phone.trim().matches(checkPhone))) {
+		} else if (!(phone.trim().matches("^09\\d{8}$"))) {
 			member.setMessage("請輸入正確手機格式");
 			member.setSuccessful(false);
 			return false;
 		}
+
+//		String phoneString = member.getPhone(), phone = "";
+//		try {
+//			phone = phoneString.trim();
+//		} catch (NullPointerException e) {
+//			member.setMessage("請輸入電話號碼");
+//			member.setSuccessful(false);
+//		}
+//		if (!(phone.matches("^09\\d{8}$"))) {
+//			member.setMessage("請輸入正確手機號碼");
+//			member.setSuccessful(false);
+//			return false;
+//		}
+
 		member.setMessage("註冊成功");
 		member.setSuccessful(true);
 		dao.insert(member);
@@ -92,63 +100,161 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO login(MemberVO member) {
-		final String account = member.getAccount();
+	public boolean login(String account, String password) {
 		if (account == null || account.isEmpty()) {
-			member.setMessage("帳號未輸入");
-			member.setSuccessful(false);
+			return false;
 		}
-
-		final String password = member.getPassword();
 		if (password == null || password.isEmpty()) {
-			member.setMessage("密碼未輸入");
-			member.setSuccessful(false);
+			return false;
 		}
-
-		return dao.login(member);
+		return dao.login(account, password);
 	}
 
 	@Override
-	public MemberVO update(MemberVO member) {
-		Integer id = member.getMember_id();
-
-		final String account = member.getAccount();
-		if (account == null || account.isEmpty()) {
-
-		}
-
-		final Integer gender = member.getGender();
-		if (gender == null) {
-		}
+	public boolean update(MemberVO member) {
 		final String email = member.getEmail();
 		if (email == null || email.isEmpty()) {
-		}
-
-		final String nickname = member.getNickname();
-		if (nickname == null || nickname.isEmpty()) {
+			member.setMessage("請輸入電子信箱");
+			member.setSuccessful(false);
+			return false;
 		}
 
 		final String phone = member.getPhone();
-		String checkPhone = "^[0]{1}[9]{1}\\d{8}$";
 		if (phone == null || phone.isEmpty()) {
-		} else if (!(phone.trim().matches(checkPhone))) {
+			member.setMessage("請輸入電話號碼");
+			member.setSuccessful(false);
+			return false;
+		} else if (!(phone.trim().matches("^09\\d{8}$"))) {
+			member.setMessage("請輸入電話號碼");
+			member.setSuccessful(false);
+			return false;
 		}
-		dao.update(member);
-		return member;
+		return dao.update(member);
 	}
 
 	@Override
 	public MemberVO findByPrimaryKey(Integer member_id) {
-		
-		return findByPrimaryKey(member_id);
+		return dao.findByPrimaryKey(member_id);
 	}
 
 	@Override
 	public List<MemberVO> getAll() {
-		
 		return dao.getAll();
 	}
 
+	@Override
+	public boolean updatePermission(Integer id, Integer permission) {
+		if (id < 0 || permission<0 || permission>2) {
+			return false;
+		}else {
+			return dao.updatePermission(id,permission);
+		}
+	}
 
+	@Override
+	public MemberVO selectByUsername(String account) {
+		
+		if(account != null) {
+			return dao.selectByUsername(account);
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean updatePassword(MemberVO member) {
+		return dao.updatePassword(member);
+	}
+
+	@Override
+	public MemberVO selectForPass(String account, String email) {
+		MemberVO member = new MemberVO();
+		if(account.equals("")) {
+			member.setMessage("請輸入帳號");
+			member.setSuccessful(false);
+			return member;
+		}
+		if(email.equals("")) {
+			member.setMessage("請輸入信箱");
+			member.setSuccessful(false);
+			return member;
+		}
+		return selectForPass(account, email);
+	}
+	public MemberVO checkCode(MemberVO member) {
+		final String input = member.getInputCode();
+		final String verification = member.getVerifyAccount();
+		
+		System.out.println(input);
+		System.out.println(verification);
+		
+		if ("".equals(input)) {
+			member.setMessage("驗證碼未輸入");
+			member.setSuccessful(false);
+			return member;
+		}
+		if (!input.equals(verification)) {
+			member.setMessage("驗證碼輸入錯誤");
+			member.setSuccessful(false);
+			return member;
+		}
+		
+		member.setSuccessful(true);
+		return member;
+	}
+	
+	public MemberVO forgetPassChange(MemberVO member) {
+		final String newPass = member.getNewPassword();
+		
+		System.out.println(newPass);
+		
+		member.setPassword(newPass);
+		
+		if (dao.updatePassByUsername(member) == false) {
+			member.setSuccessful(false);
+			member.setMessage("密碼更改出現錯誤，請聯絡管理員!");
+			return member;
+		}
+		
+		member.setMessage("資料更改成功");
+		member.setSuccessful(true);
+		return member;
+	}
+
+	public MemberVO forgetPass(MemberVO member) {
+		final String account = member.getAccount();
+		final String email = member.getEmail();
+		
+		if ("".equals(account)) {
+			member.setMessage("帳號未輸入");
+			member.setSuccessful(false);
+			return member;
+		}
+		if ("".equals(email)) {
+			member.setMessage("信箱未輸入");
+			member.setSuccessful(false);
+			return member;
+		}
+		if (dao.selectForPass(account, email) == null) {
+			member.setSuccessful(false);
+			member.setMessage("帳號或信箱錯誤！");
+			return member;
+		}
+		
+		// 讓信件可以抓到名字
+		member.setAccount(dao.selectForPass(account, email).getAccount());
+		// JavaMail執行緒
+		MailThread.to = member.getEmail();
+		MailThread.ch_name = member.getAccount();
+		Ramdon code = new Ramdon();
+		MailThread.passRandom = code.getRandom();
+		member.setVerifyAccount(MailThread.passRandom);
+		MailThread.messageText = "Hello! 會員帳號：" + MailThread.ch_name + " 您的驗證碼為: " + MailThread.passRandom + "\n" + "(30分鐘後過期)";
+		MailThread jmt = new MailThread();
+		jmt.start();
+		
+		member.setSuccessful(true);
+		return member;
+	}
 
 }

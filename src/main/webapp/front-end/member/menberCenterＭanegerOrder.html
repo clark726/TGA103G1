@@ -15,23 +15,23 @@
           <p>會員中心</p>
           <ul class="menCenter_ul">
             <li>
-              <button><a href="/menber_center.html">修改基本資料</a></button>
+              <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改基本資料</a></button>
             </li>
             <li>
               <button>
-                <a href="/menber_centerChangePsw.html">修改密碼</a>
+                <a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a>
               </button>
             </li>
             <li>
               <button>
-                <a href="/menber_centerＭanegerOrder.html">訂單管理</a>
+                <a href="http://localhost:8080/TGA103G1/front-end/member/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a>
               </button>
             </li>
             <li>
-              <button><a href="/menber_centerMyLove.html">我的最愛</a></button>
+              <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></button>
             </li>
             <li>
-              <button><a href="/menber_centerForum.html">討論區</a></button>
+              <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
             </li>
             <li>
               <button><a href="">聊天室</a></button>
@@ -50,7 +50,7 @@
               <label for="">搜尋訂單編號</label>
               <input type="search" />
               <img
-                src="../member/images/loupe.png"
+                src="./images/loupe.png"
                 alt=""
                 style="height: 20px; width: 20px"
               />
@@ -60,31 +60,15 @@
                 <thead class="thead">
                   <tr >
                     <th >訂單編號</th>
-                    <th>出貨狀態</th>
                     <th >總金額</th>
                     <th >出貨店家</th>
+                    <th>出貨狀態</th>
                     <th >交易日期</th>
                     <th >訂單明細</th>
                   </tr>
                 </thead>
                 <tbody class="tbody">
-                  <tr>
-                    <td >A1234567</td>
-                    <td >待出貨</td>
-                    <td >1220</td>
-                    <td >Gym Bar</td>
-                    <td >2022/08/09</td>
-                    <td >
-                      <a href="/member_order_detail.html">
-                      <img
-                        class="page_img"
-                        src="../member/images/page.png"
-                        alt=""
-                        style="height: 20px; width: 20px"
-                      />
-                      </a>
-                    </td>
-                  </tr>
+                 
                 </tbody>
               </table>
             </div>
@@ -95,61 +79,77 @@
     <div w3-include-html="../member/jsp/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-                  
-                  function includeHTML() {
-          var z, i, elmnt, file, xhttp;
-          /* Loop through a collection of all HTML elements: */
-          z = document.getElementsByTagName("*");
-          for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            /*search for elements with a certain atrribute:*/
-            file = elmnt.getAttribute("w3-include-html");
-            if (file) {
-              /* Make an HTTP request using the attribute value as the file name: */
-              xhttp = new XMLHttpRequest();
-              xhttp.onreadystatechange = function() {
-                if (this.readyState == 4) {
-                  if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                  if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-                  /* Remove the attribute, and call this function once more: */
-                  elmnt.removeAttribute("w3-include-html");
-                  includeHTML();
+
+    let OrderData = [];
+
+     (()=>{
+      const tbody = document.querySelector("tbody.tbody");
+      const member_id = sessionStorage.getItem("userid");
+      let list = "";
+      fetch('/TGA103G1/memberOrder', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            member_id: member_id
+          }),
+        })
+          .then(resp => resp.json())
+          .then(body => {
+            OrderData = body
+            console.log(body)
+            for(let i = 0;i < body.length;i++){
+              console.log(body[i].order_id)
+               list +=  "<tr>"+
+               "<td id='td' >"+body[i].order_id+"</td>"+
+               "<td >"+body[i].total+"</td>"+
+               "<td >"+body[i].storeName +"</td>"+
+               "<td >"+body[i].status+"</td>"+
+               "<td >"+body[i].date +"</td>"+
+               "<td >"+
+              '<a href="#"><img data-id="'+body[i].order_id+'"class="page_img" src="./images/page.png" alt="" style="height: 20px; width: 20px"/></a>' +
+              "</td></tr>" 
                 }
+            $("tbody.tbody").prepend(list); 
+            document.querySelectorAll('.page_img').forEach((e,i)=>{
+              e.onclick=()=>{
+                console.log(OrderData[i].order_id);
+                const id = sessionStorage.setItem("orderId", OrderData[i].order_id);
+                location.href="./memberOrderDetail.html"
               }
-              xhttp.open("GET", file, true);
-              xhttp.send();
-              /* Exit the function: */
-              return;
-            }
-          }
-        }
-        includeHTML();
-    //   const data = [
-    //     {
-    //       id: 1,
-    //       status: "已出貨",
-    //       name: "eason",
-    //       price: 123,
-    //       date: 2022 / 04 / 06
-    //     },
-    //     { id: 2 },
-    //   ];
+            })
+          });
 
-    //   const menberTemplete = (id) => {
-    //     return `<tr class="col-12 row">
-    //                 <td class="col-2">${id}</td>
-    //                 <td class="col-2">${status}</td>
-    //                 <td class="col-2">${name}</td>
-    //                 <td class="col-2">${price}</td>
-    //                 <td class="col-2">${date}</td>
-    //                 <td class="col-2"></td>
-    //               </tr>`;
-    //   };
-
-    //   document.querySelector("#menberTalbe").innerHTML = data
-    //     .map((e) => menberTemplete(e.id, e.status, e.name, e.price,e.date))
-    //     .toString()
-    //     .replaceAll(",", "");
+       function includeHTML() {
+         var z, i, elmnt, file, xhttp;
+         /* Loop through a collection of all HTML elements: */
+         z = document.getElementsByTagName("*");
+         for (i = 0; i < z.length; i++) {
+           elmnt = z[i];
+           /*search for elements with a certain atrribute:*/
+           file = elmnt.getAttribute("w3-include-html");
+           if (file) {
+             /* Make an HTTP request using the attribute value as the file name: */
+             xhttp = new XMLHttpRequest();
+             xhttp.onreadystatechange = function() {
+               if (this.readyState == 4) {
+                 if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                 if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                 /* Remove the attribute, and call this function once more: */
+                 elmnt.removeAttribute("w3-include-html");
+                 includeHTML();
+               }
+             }
+             xhttp.open("GET", file, true);
+             xhttp.send();
+             /* Exit the function: */
+             return;
+           }
+         }
+       }
+       includeHTML();
+     })();          
     </script>
   </body>
 </html>

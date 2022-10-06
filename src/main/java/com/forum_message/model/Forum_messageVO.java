@@ -8,30 +8,31 @@ public class Forum_messageVO implements Serializable {
 	private Integer message_id;
 	private Integer member_id;
 	private Integer forum_id;
-	private String context;
+	private String content;
 	private LocalDateTime date;
 
-	public Forum_messageVO(Integer member_id,Integer forum_id,String context) {
+	public Forum_messageVO() {}
+	public Forum_messageVO(Integer member_id,Integer forum_id,String content) {
 		super();
 		this.member_id = member_id;
 		this.forum_id = forum_id;
-		this.context = context;
+		this.content = content;
 
 	}
-	public Forum_messageVO(Integer member_id,Integer forum_id,String context,LocalDateTime date) {
+	public Forum_messageVO(Integer member_id,Integer forum_id,String content,LocalDateTime date) {
 		super();
 		this.member_id = member_id;
 		this.forum_id = forum_id;
-		this.context = context;
+		this.content = content;
 		this.date = date;
 	}
 	
-	public Forum_messageVO(Integer message_id, Integer member_id,Integer forum_id,String context,LocalDateTime date) {
+	public Forum_messageVO(Integer message_id, Integer member_id,Integer forum_id,String content,LocalDateTime date) {
         super();
         this.message_id = message_id;
         this.member_id = member_id;
 		this.forum_id = forum_id;
-		this.context = context;
+		this.content = content;
 		this.date = date;
     }
 	public Integer getMessage_id() {
@@ -58,12 +59,12 @@ public class Forum_messageVO implements Serializable {
 		this.forum_id = forum_id;
 	}
 
-	public String getContext() {
-		return context;
+	public String getContent() {
+		return content;
 	}
 
-	public void setContext(String context) {
-		this.context = context;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public LocalDateTime getDate() {
@@ -76,6 +77,6 @@ public class Forum_messageVO implements Serializable {
 	
 	@Override
     public String toString() {
-        return "Forum_messageVO [message_id=" + message_id + ", member_id=" + member_id + ",forum_id=" + forum_id +",context=" + context +",date=" + date+ "]";
+        return "Forum_messageVO [message_id=" + message_id + ", member_id=" + member_id + ",forum_id=" + forum_id +",content=" + content +",date=" + date+ "]";
     }
 }

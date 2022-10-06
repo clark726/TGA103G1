@@ -46,22 +46,12 @@
           <div class="menCenter_div">
             <div class="maneger_title">訂單明細</div>
             <table class="maneger_orderDetail">
-            <tbody>
-                <tr>
-                    <td>購買人姓名:林ＸＸ</td>
-                    <td>訂單編號:Ａ12345</td>
-                    <td>訂單日期:2022/08/03</td>
-                </tr>
-                <tr>
-                    <td>出貨方式:宅配</td>
-                    <td>付款金額:3000</td>
-                    <td>交易狀態:已付款</td>
-                </tr>
+            <tbody class="detail">
+
             </tbody>
         </table>
-        <div>
-            <p>聯絡電話:0963125826</p>
-            <p>收貨地址:新北市汐止去大同路二段200號</p>
+        <div class="info">
+            
         </div>
 
             <div class="table_orderDetail">
@@ -74,27 +64,15 @@
                             <th>小計</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>綠茶調酒</td>
-                            <td>450</td>
-                            <td>2</td>
-                            <td>900</td>
-                        </tr>
-                        <tr>
-                            <td>萬壽菊風味</td>
-                            <td>450</td>
-                            <td>1</td>
-                            <td>450</td>
-                        </tr>
+                    <tbody class="product">
+
                     </tbody>
 
                     
                 </table>
-                <p>
-                    運費：120元<br>
-                    總計：1470元
-                </p>
+                <div class="total">
+
+                </div>
                 
             </div>
             </div>
@@ -104,61 +82,83 @@
    <div w3-include-html="../member/jsp/footer.jsp"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-                  
-        function includeHTML() {
-          var z, i, elmnt, file, xhttp;
-          /* Loop through a collection of all HTML elements: */
-          z = document.getElementsByTagName("*");
-          for (i = 0; i < z.length; i++) {
-            elmnt = z[i];
-            /*search for elements with a certain atrribute:*/
-            file = elmnt.getAttribute("w3-include-html");
-            if (file) {
-              /* Make an HTTP request using the attribute value as the file name: */
-              xhttp = new XMLHttpRequest();
-              xhttp.onreadystatechange = function() {
-                if (this.readyState == 4) {
-                  if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-                  if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-                  /* Remove the attribute, and call this function once more: */
-                  elmnt.removeAttribute("w3-include-html");
-                  includeHTML();
-                }
-              }
-              xhttp.open("GET", file, true);
-              xhttp.send();
-              /* Exit the function: */
-              return;
+    (()=>{
+      const member_id = sessionStorage.getItem("userid");
+      const order_id = sessionStorage.getItem("orderId");
+      let lits = "";
+      let list2 = "";
+      let info = "";
+      let total = "";
+      fetch('/TGA103G1/memberOrderDetail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            member_id: member_id,
+            order_id:order_id
+          }),
+        })
+          .then(resp => resp.json())
+          .then(body => {
+            console.log(body)
+            console.log(body[0].orderName)
+            lits += "<tr><td>購買人姓名:"+ body[0].orderName+"</td>"+
+                    "<td>訂單編號:"+body[0].order_id+"</td>"+
+                    "<td>訂單日期:"+body[0].date+"</td></tr>"+
+                    "<tr><td>出貨方式:"+body[0].method+"</td>"+
+                    "<td>付款金額:"+body[0].total+"</td>"+
+                    "<td>交易狀態:"+body[0].status+"</td></tr>"
+       	     $("tbody.detail").prepend(lits)  
+            for(let i = 0; i < body.length;i++){
+          
+                list2 += "<tr>"+
+                          "<td>"+body[i].product_name+"</td>"+
+                          "<td>"+body[i].onePrice+"</td>"+
+                          "<td>"+body[i].amount+"</td>"+
+                          "<td>"+body[i].onePrice * body[i].amount +"</td>"+
+                           "</tr>"
+           
             }
+              $("tbody.product").prepend(list2)
+              info += "<p>聯絡電話:"+body[0].phone+"</p>"+"<p>收貨地址:"+body[0].address+"</p>"
+              $("div.info").prepend(info);
+              total += "<label>運費："+ +"</label>"+
+                        "<label>總計："+body[0].total+"</label>"
+              $("div.total").prepend(total);
+
+          });
+
+      function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        /* Loop through a collection of all HTML elements: */
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+          elmnt = z[i];
+          /*search for elements with a certain atrribute:*/
+          file = elmnt.getAttribute("w3-include-html");
+          if (file) {
+            /* Make an HTTP request using the attribute value as the file name: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4) {
+                if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                /* Remove the attribute, and call this function once more: */
+                elmnt.removeAttribute("w3-include-html");
+                includeHTML();
+              }
+            }
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Exit the function: */
+            return;
           }
         }
-        includeHTML();
-    //   const data = [
-    //     {
-    //       id: 1,
-    //       status: "已出貨",
-    //       name: "eason",
-    //       price: 123,
-    //       date: 2022 / 04 / 06
-    //     },
-    //     { id: 2 },
-    //   ];
+      }
+      includeHTML();
+    })();            
 
-    //   const menberTemplete = (id) => {
-    //     return `<tr class="col-12 row">
-    //                 <td class="col-2">${id}</td>
-    //                 <td class="col-2">${status}</td>
-    //                 <td class="col-2">${name}</td>
-    //                 <td class="col-2">${price}</td>
-    //                 <td class="col-2">${date}</td>
-    //                 <td class="col-2"></td>
-    //               </tr>`;
-    //   };
-
-    //   document.querySelector("#menberTalbe").innerHTML = data
-    //     .map((e) => menberTemplete(e.id, e.status, e.name, e.price,e.date))
-    //     .toString()
-    //     .replaceAll(",", "");
     </script>
   </body>
 </html>

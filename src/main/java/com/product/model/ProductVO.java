@@ -4,8 +4,28 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class ProductVO implements Serializable {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="product" , catalog = "barjarjo")
+public class ProductVO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer product_id;
 	private String name;
 	private Integer price;
@@ -13,140 +33,15 @@ public class ProductVO implements Serializable {
 	private String description;
 	private Integer type_id;
 	private Integer stock;
+	@Column(insertable= false)
 	private Integer status;
+	@Column(insertable= false)
 	private Date date;
+	@Transient
 	private List<Object> imgs;
+	@Transient
 	private Object img;
 	
-	public ProductVO() {};
-	
-	
-	public ProductVO(Integer product_id, String name, Integer price, Integer store_id, String description,
-			Integer type_id, Integer stock, Integer status, Date date) {
-		super();
-		this.product_id = product_id;
-		this.name = name;
-		this.price = price;
-		this.store_id = store_id;
-		this.description = description;
-		this.type_id = type_id;
-		this.stock = stock;
-		this.status = status;
-		this.date = date;
-	}
-	
-	public ProductVO(Integer product_id, String name, Integer price, Integer store_id, String description,
-			Integer type_id, Integer stock, Integer status, Date date, List<Object> imgs) {
-		super();
-		this.product_id = product_id;
-		this.name = name;
-		this.price = price;
-		this.store_id = store_id;
-		this.description = description;
-		this.type_id = type_id;
-		this.stock = stock;
-		this.status = status;
-		this.date = date;
-		this.imgs = imgs;
-	}
-	public ProductVO(Integer product_id, String name, Integer price, Integer store_id, String description,
-			Integer type_id, Integer stock, Integer status, Date date, Object img) {
-		super();
-		this.product_id = product_id;
-		this.name = name;
-		this.price = price;
-		this.store_id = store_id;
-		this.description = description;
-		this.type_id = type_id;
-		this.stock = stock;
-		this.status = status;
-		this.date = date;
-		this.img = img;
-	}
-	
-	public ProductVO(Integer product_id , List<Object> imgs) {
-		this.product_id = product_id;
-		this.imgs = imgs;
-	}
-
-	
-	
-	public Object getImg() {
-		return img;
-	}
-	public void setImg(Object img) {
-		this.img = img;
-	}
-	public List<Object> getImgs() {
-		return imgs;
-	}
-	public void setImgs(List<Object> imgs) {
-		this.imgs = imgs;
-	}
-	public Integer getProduct_id(){
-		return product_id;
-	}
-	public void setProduct_id(Integer product_id) {
-		this.product_id = product_id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Integer getPrice() {
-		return price;
-	}
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-	public Integer getStore_id() {
-		return store_id;
-	}
-	public void setStore_id(Integer store_id) {
-		this.store_id = store_id;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public Integer getType_id() {
-		return type_id;
-	}
-	public void setType_id(Integer type_id) {
-		this.type_id = type_id;
-	}
-	public Integer getStock() {
-		return stock;
-	}
-	public void setStock(Integer stock) {
-		this.stock = stock;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "ProductVO [product_id=" + product_id + ", name=" + name + ", price=" + price + ", store_id=" + store_id
-				+ ", description=" + description + ", type_id=" + type_id + ", stock=" + stock + ", status=" + status
-				+ ", date=" + date + "]";
-	}
 
 	
 }

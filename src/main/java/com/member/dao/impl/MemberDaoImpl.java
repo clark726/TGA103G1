@@ -18,6 +18,7 @@ import com.member.vo.MemberVO;
 public class MemberDaoImpl implements MemberDao {
 	private DataSource dataSource;
 
+
 	public MemberDaoImpl() {
 		try {
 			dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/barjarjo");
@@ -26,6 +27,18 @@ public class MemberDaoImpl implements MemberDao {
 		}
 	}
 
+	public boolean updatePermission(Integer id,Integer permission) {
+		String sql = "UPDATE `member` SET `permission` = ? WHERE (`member_id` = ?);";
+		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+			ps.setObject(1,permission);
+			ps.setObject(2, id);
+			return ps.executeUpdate() == 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	@Override
 	public Integer insert(MemberVO member) {
 		final String sql = "insert into member(account,password,birthday,address,gender,email,nickname,phone) "
@@ -57,35 +70,20 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public MemberVO login(MemberVO member) {
-		final String sql = "select * from member where account = ? and password = ?;";
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql, new String[] { "ID" })) {
-			ps.setString(1, member.getAccount());
-			ps.setString(2, member.getPassword());
-			try (ResultSet rs = ps.executeQuery()) {
-				if (rs.next()) {
-					MemberVO member1 = new MemberVO();
-					member1.setMember_id(rs.getInt("member_id"));
-					member1.setAccount(rs.getString("account"));
-					member1.setPassword(rs.getString("password"));
-					member1.setBirthday(rs.getObject("birthday", LocalDate.class));
-					member1.setAddress(rs.getString("address"));
-					member1.setGender(rs.getInt("gender"));
-					member1.setEmail(rs.getString("email"));
-					member1.setNickname(rs.getString("nickname"));
-					member1.setPhone(rs.getString("phone"));
-
-					return member1;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+	public boolean login(String account,String password) {
+		final String sql = "select 1 from member where account = ? and password = ?;";
+		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+			ps.setString(1,account);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+		
+				return rs.getInt(1) == 1;
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	@Override
@@ -109,22 +107,22 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public MemberVO selectByUsername(String username) {
-		final String sql = "select * from member where account = ?;";
+		final String sql = "select member_id,account,password,birthday,address,gender,email,nickname,phone from member where account = ?;";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, username);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					MemberVO member1 = new MemberVO();
-					member1.setMember_id(rs.getInt("member_id"));
-					member1.setAccount(rs.getString("account"));
-					member1.setPassword(rs.getString("password"));
-					member1.setBirthday(rs.getObject("birthday", LocalDate.class));
-					member1.setAddress(rs.getString("address"));
-					member1.setGender(rs.getInt("gender"));
-					member1.setEmail(rs.getString("email"));
-					member1.setNickname(rs.getString("nickname"));
-					member1.setPhone(rs.getString("phone"));
-
+					member1.setMember_id(rs.getInt(1));
+					member1.setAccount(rs.getString(2));
+					member1.setPassword(rs.getString(3));
+					member1.setBirthday(rs.getObject(4, LocalDate.class));
+					member1.setAddress(rs.getString(5));
+					member1.setGender(rs.getInt(6));
+					member1.setEmail(rs.getString(7));
+					member1.setNickname(rs.getString(8));
+					member1.setPhone(rs.getString(9));
+					
 					return member1;
 				}
 			}
@@ -166,8 +164,7 @@ public class MemberDaoImpl implements MemberDao {
 		public List<MemberVO> getAll() {
 			List <MemberVO> member = new ArrayList<MemberVO>();
 			String sql = "select * from member;";
-			try(Connection connection = dataSource.getConnection();
-				PreparedStatement ps = connection.prepareStatement(sql)){
+			try(PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)){
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					Integer member_id = rs.getInt(1);
@@ -190,4 +187,70 @@ public class MemberDaoImpl implements MemberDao {
 			return member;
 		}
 
+		@Override
+		public boolean updatePassword(MemberVO member) {
+			String sql = "UPDATE member set  password = ? where member_id = ?;";
+			int rowCount = 0;
+			try (Connection conn = dataSource.getConnection(); 
+					PreparedStatement ps = conn.prepareStatement(sql)) {
+				ps.setString(1, member.getPassword());
+				ps.setInt(2, member.getMember_id());
+
+				rowCount = ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return rowCount == 1;
+			
+		}
+
+		@Override
+		public MemberVO selectForPass(String account, String email) {
+			final String sql = "select member_id,account,password,birthday,address,gender,email,nickname,phone "
+					+ "from member where account = ? and email = ?;";
+			try (Connection conn = dataSource.getConnection(); 
+					PreparedStatement ps = conn.prepareStatement(sql)){
+				ps.setString(1, account);
+				ps.setString(2, email);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					MemberVO member1 = new MemberVO();
+					member1.setMember_id(rs.getInt(1));
+					member1.setAccount(rs.getString(2));
+					member1.setPassword(rs.getString(3));
+					member1.setBirthday(rs.getObject(4, LocalDate.class));
+					member1.setAddress(rs.getString(5));
+					member1.setGender(rs.getInt(6));
+					member1.setEmail(rs.getString(7));
+					member1.setNickname(rs.getString(8));
+					member1.setPhone(rs.getString(9));
+					
+					return member1;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		@Override
+		public boolean updatePassByUsername(MemberVO member) {
+			String sql = "Update `member` set `password` = ? where `account` = ?;";
+		
+			int rowCount = 0;
+			
+			try (Connection con = dataSource.getConnection(); 
+					PreparedStatement pstmt = con.prepareStatement(sql)) {
+				
+				System.out.println("連線成功");
+				
+				pstmt.setString(1, member.getPassword());
+				pstmt.setString(2, member.getAccount());
+				
+				rowCount = pstmt.executeUpdate();	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return rowCount == 1;
+		}
+		
 }

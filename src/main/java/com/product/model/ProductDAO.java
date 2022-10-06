@@ -2,6 +2,8 @@ package com.product.model;
 
 import java.util.List;
 
+import javax.mail.search.IntegerComparisonTerm;
+
 
 public interface ProductDAO {
 
@@ -11,4 +13,5 @@ public interface ProductDAO {
 	public ProductVO findByPrimaryKey(Integer product_id);
 	public List<ProductVO> getAll();
 	public List<ProductVO> ShowStoreProduct(Integer store_id);
+	public boolean updateStatus(Integer id,Integer status);
 }

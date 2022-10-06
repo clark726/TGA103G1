@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+<head>
+	<meta charset="utf-8">
+<title>BarJarJo</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script type="module" src="js/json.js"></script>
+</head>
+<meta charset="UTF-8">
+<body style="background-color: rgb(129, 93, 65)">
+	<header class="header">
+		<div class="fl_left">
+			<h1 id="logo_h1">
+				<a href="＃" id="logo">Bar.Jar.Jo</a>
+			</h1>
+		</div>
+
+		<nav class="fl_right">
+			<ul class="nav_ul">
+				<li><a href="#">HOME</a></li>
+				<li><a href="#">地圖</a></li>
+				<li><a href="#">討論區</a></li>
+				<li><a href="#">廠商專區</a></li>
+				<li><a href="#" class="icon">店家主題</a>
+					<ul id="store">
+						<li><a href="#">Bistro</a></li>
+						<li><a href="#">Cocktail bar</a></li>
+						<li><a href="#">Whisky bar</a></li>
+					</ul></li>
+				<li><a href="#" class="icon">會員專區</a>
+					<ul id="store">
+						<li><a href="#">我的最愛</a></li>
+						<li><a href="#">修改會員資料</a></li>
+						<li><a href="#">修改密碼</a></li>
+						<li><a href="#">訂單管理</a></li>
+					</ul></li>
+
+				<li><a href="#">購物商城</a></li>
+				<li><a href="#">登入註冊</a></li>
+			</ul>
+		</nav>
+	</header>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<button id="btn5" class="btnn">現在位置</button>
+	<div id="map"></div>
+	<br>
+	<button id="btn" data-id="4" class="btn selected">全部</button>
+	<button id="btn" data-id="1" class="btn">Bistro</button>
+	<button id="btn" data-id="2" class="btn">Whisky bar</button>
+	<button id="btn" data-id="3" class="btn">Cocktail bar</button>
+	<button id="btnf" class="btnf">我的最愛</button>
+	<div class="store">
+		
+	</div>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ&callback=initMap&v=weekly"
+		defer></script>
+</body>
+</html>
