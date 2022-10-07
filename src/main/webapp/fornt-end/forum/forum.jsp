@@ -65,6 +65,7 @@ pageContext.setAttribute("list", list);
 			style="TRANSFORM: TRANSLATEX(560%);">
 		<button style="TRANSFORM: TRANSLATEX(2230%);">搜尋</button>
 		<button id="IWantToInsertContent" style="TRANSFORM: TRANSLATEX(-220%);" class="button">發表文章</button>
+		<button id="MyContent" style="TRANSFORM: TRANSLATEX(-220%);" class="myButton">我的文章</button>
 
 
 		<table border="1" align="center">

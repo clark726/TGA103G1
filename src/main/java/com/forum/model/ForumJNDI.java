@@ -29,7 +29,7 @@ public class ForumJNDI {
 	}
 	public List<ForumVO> getAll() {
         List<ForumVO> forumVOs = new ArrayList<>();
-        String sql = "SELECT * FROM forum;";
+        String sql = "SELECT * FROM barjarjo.forum order by `date` desc;";
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
