@@ -5,7 +5,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.*;
-@WebFilter(urlPatterns = {"/admin/console/*"},
+@WebFilter(urlPatterns = {"/admin/console/*"},filterName = "CCC",
 dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR})
 public class ConsoleFilter extends HttpFilter{
 

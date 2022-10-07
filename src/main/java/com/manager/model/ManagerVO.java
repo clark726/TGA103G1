@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import lombok.ToString;
+
 public class ManagerVO implements Serializable {
     private Integer manager_id;
     private String account;
@@ -45,6 +47,11 @@ public class ManagerVO implements Serializable {
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	@Override
+	public String toString() {
+		return "ManagerVO [manager_id=" + manager_id + ", account=" + account + ", password=" + password
+				+ ", lastLoginTime=" + lastLoginTime + ", birthday=" + birthday + ", status=" + status + "]";
 	}
 
     

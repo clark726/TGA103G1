@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +42,7 @@ import com.product.model.ProductVO;
 import com.product.service.impl.ProductServiceImpl;
 import com.product_img.model.Product_imgService;
 import com.util.BeansFactory;
+import com.util.JsonUtil;
 import com.util.Apadter;
 
 @WebServlet(value = "/control", loadOnStartup = 1)
@@ -556,14 +558,17 @@ public class ManagerControler extends HttpServlet {
 				String user = req.getParameter("user");
 				String password = req.getParameter("password");
 				ManagerVO vo = this.managerService.login(user, password);
+//				System.out.println("control.login.vo: "+vo);
 				if (vo != null) {
 					session.setAttribute("admin", vo);
 					sessionSetAttribute(session);
-//					String remeberMe=req.getParameter("remeberMe");
-//					if("on".equals(remeberMe)) {
-//						Cookie cookie = new Cookie("barjarjo",Base64.getEncoder().encodeToString(JsonUtil.managerToString(vo).getBytes()));
-//						resp.addCookie(cookie);
-//					}
+					String remeberMe=req.getParameter("remeberMe");
+					if("on".equals(remeberMe)) {
+						System.out.println("remeber: "+remeberMe);
+						Cookie cookie = new Cookie("barjarjo",Base64.getEncoder().encodeToString(JsonUtil.managerToString(vo).getBytes()));
+						cookie.setMaxAge(604800);
+						resp.addCookie(cookie);
+					}
 					resp.sendRedirect(req.getContextPath() + "/admin/console/admin.jsp?page=0");
 					return;
 				} else {

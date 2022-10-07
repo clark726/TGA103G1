@@ -10,7 +10,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = {"/admin/login.jsp"},
+@WebFilter(urlPatterns = {"/admin/login.jsp"},filterName = "BBB",
 dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR})
 public class AdminLoginFilter extends HttpFilter{
 	@Override
@@ -19,7 +19,7 @@ public class AdminLoginFilter extends HttpFilter{
 		if(req.getSession().getAttribute("admin") == null) {
 			chain.doFilter(req, res);
 		}else {
-			res.sendRedirect(req.getContextPath()+"/admin/console/members.jsp");
+			res.sendRedirect(req.getContextPath()+"/admin/console/admin.jsp");
 			return;
 		}
 	}
