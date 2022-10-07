@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import com.forum.model.ForumVO;
 
 public interface ForumService {
+	public List<ForumVO> getAllByMemberId(Integer id);
 	public List<ForumVO> getAll();
 	public ForumVO get(Integer forum_id);
 	public boolean add(ForumVO obj);
@@ -17,4 +18,5 @@ public interface ForumService {
 	public boolean delete(Integer id);
 	 public boolean activation(Integer forumId,Integer status);
 	 public boolean blockade(Integer forumId);
+	 public boolean addViewCount(Integer forumId);
 }

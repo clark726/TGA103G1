@@ -186,7 +186,7 @@
 								<% Object userId = session.getAttribute("userid");
 									out.print(userId == null);%>
 								) {
-									alert("你沒登入")
+									alert("您尚未登入")
 									location.href = "/TGA103G1/PostForumContentMessage?action=AreYouLogin";
 								} else {
 									console.log($('textarea[name=editorContentMessage]').val());
@@ -224,6 +224,20 @@
 								$('#reportContent').on("click", function () {
 									reportContentFuntion()
 								})
+							</script>
+							<script>
+								window.onload = function(){
+									$.ajax({
+										url:"/TGA103G1/AddViewCount",
+										data:{"action":"addView",
+											"forumId":<%=request.getParameter("page")%>},
+											type:"post",
+											dataType:"text",
+											success:function(xhr){
+												console.log(xhr);
+											}
+									})
+								}
 							</script>
 						</body>
 

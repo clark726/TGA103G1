@@ -13,6 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.swing.plaf.basic.BasicLookAndFeel;
 
 import com.forum_message.model.Forum_messageVO;
 import com.member.vo.MemberVO;
@@ -27,10 +28,41 @@ public class ForumJNDI {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean addViewCount(Integer forumId) {
+		int row = 0;
+        String sql = "update forum set look = look+1 where forum_id =?;";
+		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        	ppst.setObject(1,forumId);
+            row = ppst.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return row>0;
+	}
+	
 	public List<ForumVO> getAll() {
         List<ForumVO> forumVOs = new ArrayList<>();
         String sql = "SELECT * FROM barjarjo.forum order by `date` desc;";
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+            ResultSet rs = ppst.executeQuery();
+            while (rs.next()){
+                forumVOs.add(new ForumVO(rs.getInt(1), rs.getInt(2),
+                        rs.getString(3), rs.getObject(4, LocalDateTime.class)
+                        ,rs.getString(5), rs.getInt(6),rs.getInt(7),
+                        rs.getInt(8), rs.getInt(9)));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return forumVOs;
+    }
+	
+	public List<ForumVO> getAllByMenberId(Integer memberId) {
+        List<ForumVO> forumVOs = new ArrayList<>();
+        String sql = "SELECT * FROM barjarjo.forum where member_id = ?;";
+        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        	ppst.setObject(1,memberId);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
                 forumVOs.add(new ForumVO(rs.getInt(1), rs.getInt(2),
