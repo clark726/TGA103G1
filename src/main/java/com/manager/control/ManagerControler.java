@@ -78,15 +78,13 @@ public class ManagerControler extends HttpServlet {
 		String action = req.getParameter("action");
 		if (action != null) {
 			switch (action) {
-//			case "watchimage":
-//				watchimage(req, resp);
-//				break;
+
 			default:
-				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
+				this.logout(req, resp);
 				System.out.println("doGet.action " + action);
 			}
 		} else {
-			req.getSession().invalidate();
+			this.logout(req, resp);
 			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 		}
 	}
@@ -105,9 +103,9 @@ public class ManagerControler extends HttpServlet {
 				update(req, resp);
 				break;
 			// 管理員登出
-			case "logout":
-				logout(req, resp);
-				break;
+//			case "logout":
+//				logout(req, resp);
+//				break;
 			case "search":
 				search(req, resp);
 				break;
@@ -165,6 +163,9 @@ public class ManagerControler extends HttpServlet {
 			case "changeFrontImg":
 				changeFrontImg(req, resp);
 				break;
+			case "updateAdmin":
+				updateAdmin(req,resp);
+				break;
 			default:
 				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 				System.out.println("action " + action);
@@ -173,6 +174,29 @@ public class ManagerControler extends HttpServlet {
 			req.getSession().invalidate();
 			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 		}
+	}
+	
+	private void updateAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		String adminId = req.getParameter("adminId");
+		String adminStatus = req.getParameter("adminStatus");
+		System.out.println("control.updateAdminStatus id:"+adminId+" status:"+adminStatus);
+		PrintWriter out = resp.getWriter();
+		try {
+			Integer id= Integer.parseInt(adminId);
+			Integer status = Integer.parseInt(adminStatus);
+			if(this.managerService.updateStatus(id,status)) {
+				out.print(true);
+			}
+		} catch (Exception e) {
+			out.print(false);
+			e.printStackTrace();
+		} finally {
+			if(out!=null) {
+				out.close();
+			}
+		}
+
+		
 	}
 
 	private void changeFrontImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -288,6 +312,7 @@ public class ManagerControler extends HttpServlet {
 		try (PrintWriter out = resp.getWriter()) {
 			Integer id = Integer.parseInt(req.getParameter("adminId"));
 			if (this.managerService.delete(id)) {
+				req.getSession().setAttribute("admins", this.managerService.getAll());
 				out.print("成功刪除");
 			} else {
 				out.print("刪除失敗");
@@ -533,6 +558,9 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Cookie cookie = new Cookie("barjarjo", null);
+		cookie.setMaxAge(0);
+		resp.addCookie(cookie);
 		req.getSession().invalidate();
 		resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 	}
@@ -564,7 +592,6 @@ public class ManagerControler extends HttpServlet {
 					sessionSetAttribute(session);
 					String remeberMe=req.getParameter("remeberMe");
 					if("on".equals(remeberMe)) {
-						System.out.println("remeber: "+remeberMe);
 						Cookie cookie = new Cookie("barjarjo",Base64.getEncoder().encodeToString(JsonUtil.managerToString(vo).getBytes()));
 						cookie.setMaxAge(604800);
 						resp.addCookie(cookie);

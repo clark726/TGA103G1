@@ -57,6 +57,13 @@ public class ManagerServiceImpl implements ManagerService {
 	public void updateLoginTime(Integer id) {
 		dao.updateLoginTime(id);
 	}
+	@Override
+	public boolean updateStatus(Integer id, Integer status) {
+		ManagerVO vo = new ManagerVO();
+		vo.setStatus(status);
+		vo.setManager_id(id);
+		return dao.updateStatus(vo);
+	}
 	
 
 }

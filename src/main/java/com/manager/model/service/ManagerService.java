@@ -21,4 +21,5 @@ public interface ManagerService {
     ManagerVO forgetPassword(String account,LocalDate birthday);
     
     void updateLoginTime(Integer id);
+    public boolean updateStatus(Integer id,Integer status);
 }

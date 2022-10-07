@@ -85,7 +85,20 @@ public class ManagerJNDIDAO {
 		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
 			ppst.setObject(1, obj.getAccount());
 			ppst.setObject(2, obj.getPassword());
-			ppst.setObject(3, obj.getBirthday());
+			ppst.setObject(3, obj.getBirthday().toString());
+			rows = ppst.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rows > 0;
+	}
+	
+	public boolean updateStatus(ManagerVO obj) {
+		int rows = 0;
+		String sql = "UPDATE `barjarjo`.`manager` SET  `status` = ? WHERE (`manager_id` = ?);";
+		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+			ppst.setObject(1, obj.getStatus());
+			ppst.setObject(2, obj.getManager_id());
 			rows = ppst.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -28,7 +28,7 @@
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("members")).size()%>
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
+					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span id="adminSpan"
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -142,9 +142,9 @@
 									<td>${admins.birthday }</td>
 									<td>
 										<c:if test="${admin.status>1}">
-											<select>
-												<option ${admins.status==2?"selected":""}>最高權限</option>
-												<option ${admins.status==1?"selected":""}>管理員</option>
+											<select id="status">
+												<option value="2" ${admins.status==2?"selected":""}>最高權限</option>
+												<option value="1" ${admins.status==1?"selected":""}>管理員</option>
 											</select>
 										</c:if>
 										<c:if test="${admin.status!=2}">
@@ -153,12 +153,12 @@
 									</td>
 									<c:if test="${admin.status>1}">
 										<td>
-											<button type="button" class="update ${admin.manager_id}">update</button>
+											<button type="button" class="update ">update</button>
 										</td>
 									</c:if>
 									<c:if test="${admin.status>1}">
 										<td>
-											<button type="button" class="delete ${admin.manager_id}">delete</button>
+											<button type="button" class="delete">delete</button>
 										</td>
 									</c:if>
 								</tr>
@@ -177,31 +177,57 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
-		document.querySelectorAll(".delete").forEach(function(el) {
-			el.addEventListener("click", function(ev) {
-				var trEl = el.closest("tr");
-				var adminId = trEl.children[0].innerText;
-				if (window.confirm("確定要刪除嗎?")) {
-					$.ajax({
-						url : "/TGA103G1/control",
-						type : "post",
-						data : {
-							action : "deleteAdmin",
-							adminId : adminId
-						},
-						dataType : "text",
-						success : function(xhr) {
-							alert(xhr);
-							trEl.remove();
-						},
-						error : function(xhr) {
-							console.log("error");
-							console.log(xhr);
-						},
-					});
-				}
+document.querySelectorAll(".delete").forEach(function(el) {
+	el.addEventListener("click", function(ev) {
+		var trEl = el.closest("tr");
+		var adminId = trEl.children[0].innerText;
+		if (window.confirm("確定要刪除嗎?")) {
+			$.ajax({
+				url : "/TGA103G1/control",
+				type : "post",
+				data : {
+					action : "deleteAdmin",
+					"adminId" : adminId
+				},
+				dataType : "text",
+				success : function(xhr) {
+					alert(xhr);
+					trEl.remove();
+					var adminspan = document.querySelector("#adminSpan").innerHTML;
+					document.querySelector("#adminSpan").innerHTML = --adminspan;
+				},
+				error : function(xhr) {
+					console.log("error");
+					console.log(xhr);
+				},
 			});
-		});
+		}
+	});
+});
+		
+document.querySelectorAll(".update").forEach(function(el) {
+	el.addEventListener("click", function(ev) {
+		var trEl = el.closest("tr");
+		var adminId = trEl.children[0].innerText;
+			$.ajax({
+				url : "/TGA103G1/control",
+				type : "post",
+				data : {
+					"action" : "updateAdmin",
+					"adminId" : adminId,
+					"adminStatus":document.querySelector("#status").value
+				},
+				dataType : "text",
+				success : function(xhr) {
+					
+				},
+				error : function(xhr) {
+					console.log("error");
+					console.log(xhr);
+				},
+			});
+	});
+});
 	</script>
 </body>
 </html>

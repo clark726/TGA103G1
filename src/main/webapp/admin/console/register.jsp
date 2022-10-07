@@ -145,7 +145,7 @@
 					<input type="hidden" name="action" value="register">
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button class="btn btn-primary submit" type="button">註冊</button>
+							<button class="btn btn-primary submit" type="submit">註冊</button>
 						</div>
 					</div>
 				</form>
