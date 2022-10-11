@@ -18,7 +18,7 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 import com.forum_message.model.Forum_messageVO;
 import com.member.vo.MemberVO;
 
-public class ForumJNDI {
+public class ForumJNDI implements ForumDAO{
 	private static DataSource ds = null;
 	static {
 		try {

@@ -16,7 +16,7 @@ public interface ForumService {
 	public boolean add(ForumVO obj);
 	public boolean update(ForumVO obj);
 	public boolean delete(Integer id);
-	 public boolean activation(Integer forumId,Integer status);
-	 public boolean blockade(Integer forumId);
-	 public boolean addViewCount(Integer forumId);
+	public boolean activation(Integer forumId,Integer status);
+	public boolean blockade(Integer forumId);
+	public boolean addViewCount(Integer forumId);
 }

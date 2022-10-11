@@ -20,11 +20,15 @@
 								rel="stylesheet"
 								integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
 								crossorigin="anonymous">
-								<style>
-									p{
-									 color: black !important
-									}
-								</style>
+							<style>
+								p {
+									color: black !important
+								}
+
+								#likely {
+									display: none;
+								}
+							</style>
 						</head>
 
 						<body style="background-color: rgb(129, 93, 65)">
@@ -68,6 +72,10 @@
 							<h1 align="center">bar jar jo 討論區</h1>
 							<h2 align="center">${vo.title}</h2>
 							<button id="reportContent" style="TRANSFORM: TRANSLATEX(1200%);">檢舉文章</button>
+							<button style="TRANSFORM: TRANSLATEX(500%);" id="like">我覺得這篇文章讚</button>
+
+							<button style="transform: translateX(500%);display:none; margin-left: 480px;"
+								id="like2">已按讚</button>
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-2" align="center">
@@ -92,7 +100,6 @@
 											<div
 												style="border: 1px solid black; height: 502px; margin: 10px; margin: 10px">
 												${vo.content}</div>
-											<button>我覺得這篇文章讚</button>
 										</div>
 									</div>
 
@@ -165,7 +172,7 @@
 												</div>
 											</div>
 											<hr>
-											
+
 										</div>
 									</div>
 
@@ -196,20 +203,20 @@
 											type: "post",
 											data: {
 												"memberId": "${userid.member_id}",
-												"forumId": <%=request.getParameter("page")%>,
-												"content":$('textarea[name=editorContentMessage]').val()
+												"forumId": <%=request.getParameter("page") %>,
+												"content": $('textarea[name=editorContentMessage]').val()
 											},
 											dataType: "text",
 											success: function (xhr) {
-												$('textarea[name=editorContentMessage]').val()="";
+												$('textarea[name=editorContentMessage]').val() = "";
 												console.log(xhr);
 											},
-											complete:function(xhr){
+											complete: function (xhr) {
 												location.reload(true);
 											}
 										});
 									}
-									window.location.reload(); 
+									window.location.reload();
 								}
 								  })
 							</script>
@@ -226,18 +233,57 @@
 								})
 							</script>
 							<script>
-								window.onload = function(){
+								window.onload = function () {
 									$.ajax({
-										url:"/TGA103G1/AddViewCount",
-										data:{"action":"addView",
-											"forumId":<%=request.getParameter("page")%>},
-											type:"post",
-											dataType:"text",
-											success:function(xhr){
-												console.log(xhr);
-											}
+										url: "/TGA103G1/AddViewCount",
+										data: {
+											"action": "addView",
+											"forumId":<%=request.getParameter("page") %>},
+										type: "post",
+										dataType: "text",
+										success: function (xhr) {
+											console.log(xhr);
+										}
 									})
 								}
+							</script>
+							<script>
+								document.querySelector("#like").addEventListener("click", function () {
+									if (
+								<% Object userId2 = session.getAttribute("userid");
+									out.print(userId2 == null);%>
+									) {
+									alert("您尚未登入")
+									location.href = "/TGA103G1/PostForumContentMessage?action=AreYouLogin";
+								}else {
+									// 									console.log("A")
+									document.getElementById("like").style.display = "none"
+									document.getElementById("like2").style.display = "inline-block"
+
+
+									fetch('/TGA103G1/StoreSumit', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({
+											forum_id = <%=request.getParameter("page") %>,
+											member_id = <%=session.getAttribute("userid")%>
+										}),
+									})
+										.then(resp => resp.json())
+										.then(body => {
+											
+										});
+
+								}
+								});
+
+								document.querySelector("#like2").addEventListener("click", function () {
+
+									document.getElementById("like").style.display = "inline-block"
+									document.getElementById("like2").style.display = "none"
+
+								});
+
 							</script>
 						</body>
 
