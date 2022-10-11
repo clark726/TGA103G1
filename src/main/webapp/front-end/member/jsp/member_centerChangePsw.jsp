@@ -9,9 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員中心</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/member_centerChangePsw.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/footer1.css">
 </head>
 <body>
-   <div w3-include-html="<%=request.getContextPath()%>/front-end/member/header.jsp"></div>
+   <div w3-include-html="/TGA103G1/com/header.html"></div>
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
@@ -73,7 +75,7 @@
             </main>
         </div>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/footer.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/footer.html"></div>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
     //登出

@@ -1,73 +1,57 @@
-* {
-    box-sizing: border-box;
-  }
-  div.menCenter_contain {
-    display: flex;
-    min-height: 550px;
-    margin-top: 20px;
-    margin-left: 10%;
-  }
-  div.menCenter_contain aside.menCenter_aside {
-    min-width: 200px;
-    display: block;
-    background-color: #e2e5ac;
-  }
-  div.menCenter_contain aside.menCenter_aside > p {
-    font-size: 28px;
-    text-align: center;
-    margin: 23px auto;
-    text-shadow: 5px;
-    font-weight: 700;
-  }
-  div.menCenter_contain aside.menCenter_aside ul.menCenter_ul {
-    list-style: none;
-    padding: 0px;
-  }
-  div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li {
-    width: 100%;
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-  div.menCenter_contain
-    aside.menCenter_aside
-    ul.menCenter_ul
-    > li
-    > button {
-    width: 100%;
-    border-radius: 5px;
-  }
-  div.menCenter_contain
-    aside.menCenter_aside
-    ul.menCenter_ul
-    > li
-    > button
-    > a {
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 5px;
-    padding-left: 43px;
-    padding-right: 43px;
-    display: block;
-  }
-  div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:hover{
-background-color: #DD774e;
+*{
+  box-sizing: border-box;
 }
-  div.menCenter_contain
-    aside.menCenter_aside
-    ul.menCenter_ul
-    > li
-    > button
-    > a:link {
-    color: black;
-  }
-  div.menCenter_contain
-    aside.menCenter_aside
-    ul.menCenter_ul
-    > li
-    > button
-    > a:visited {
-    color: black;
-  }
+div.menCenter_contain{
+  display: flex;
+  min-height: 550px;
+  margin: 20px;
+  margin-left: 10%;
+}
+div.menCenter_contain aside.menCenter_aside{
+  min-width: 200px;
+  display:block;
+  background-color: #e2e5ac;
+}
+div.menCenter_contain aside.menCenter_aside > h2{
+  font-size: 28px;
+  text-align: center;
+  margin-top: 23px;
+  margin-bottom: 23px;
+  text-shadow: 5px;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul{
+  list-style: none;
+  padding: 0px;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li{
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button {
+  width: 100%;
+  border-radius: 5px;
+  
+  
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a{
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 44px;
+  padding-right: 44px;
+  display: block;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:hover{
+  background-color: #DD774e;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:link{
+  color: black;
+}
+div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:visited{
+  color: black;
+}
   div.menCenter_contain main.menCenter_main {
     display: flex;
     width: 100%;
@@ -114,7 +98,7 @@ div.menCenter_contain main.menCenter_main div.menCenter_div div.table_orderDetai
   border: 1px solid black;
   text-align: center;
 }
-div.menCenter_contain main.menCenter_main div.menCenter_div div.table_orderDetail > p{
+div.menCenter_contain main.menCenter_main div.menCenter_div div.table_orderDetail  div.total > label{
   margin-top: 10px;
   margin-left: 70%;
 }

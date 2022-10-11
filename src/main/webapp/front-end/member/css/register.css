@@ -9,15 +9,16 @@ div.div_register{
     height: 100%;
     background-repeat: no-repeat;
     background-size: 100%;
+    background-color: rgba(226, 229, 172,0.8);
 }
 div.div_register main.register_main{
     width: 600px;
     height: 100%;   
-    background-color: rgba(226, 229, 172,0.8);
     border-radius: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
-
+	border: 1px solid black;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0,0.8);
 }
 div.div_register main.register_main form.register_form{
     margin: 0px;

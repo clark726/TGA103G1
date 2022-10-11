@@ -10,9 +10,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入</title>
      <link rel="stylesheet" href="<%=request.getContextPath()%>/front-end/member/css/login.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/footer1.css">
 </head>
 <body>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/header.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/header.html"></div>
     <div class="div_login">
         <main class="login_main">
             <form method="post" action="<%=request.getContextPath()%>/member/login" class="login_form">
@@ -46,7 +48,7 @@
             </div>
         </main>
     </div>
-    <div w3-include-html="<%=request.getContextPath()%>/front-end/member/footer.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/footer.html"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {

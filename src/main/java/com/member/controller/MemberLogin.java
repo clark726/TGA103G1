@@ -64,7 +64,13 @@ public class MemberLogin extends HttpServlet{
 			session.setAttribute("userid", member);
 			String id = session.getId();
 			System.out.println("登入成功");
-			resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");
+			if(req.getSession().getAttribute("url")!=null) {
+				resp.sendRedirect((String)req.getSession().getAttribute("url"));
+				return;
+			}else {
+				resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");
+				return;
+			}
 //			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
 		}else {
 			

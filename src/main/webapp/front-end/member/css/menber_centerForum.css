@@ -8,7 +8,6 @@ div.menCenter_contain{
     margin-left: 10%;
 }
 div.menCenter_contain aside.menCenter_aside{
-    
     min-width: 200px;
     display:block;
     background-color: #e2e5ac;
@@ -16,7 +15,8 @@ div.menCenter_contain aside.menCenter_aside{
 div.menCenter_contain aside.menCenter_aside > h2{
     font-size: 28px;
     text-align: center;
-    
+    margin-top: 23px;
+    margin-bottom: 23px;
     text-shadow: 5px;
 }
 div.menCenter_contain aside.menCenter_aside ul.menCenter_ul{
@@ -33,13 +33,14 @@ div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button {
     width: 100%;
     border-radius: 5px;
     
+    
 }
 div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a{
     text-decoration: none;
     font-size: 16px;
     border-radius: 5px;
-    padding-left: 43px;
-    padding-right: 43px;
+    padding-left: 44px;
+    padding-right: 44px;
     display: block;
 }
 div.menCenter_contain aside.menCenter_aside ul.menCenter_ul > li > button > a:hover{

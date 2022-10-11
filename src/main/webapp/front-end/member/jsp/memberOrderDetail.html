@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>會員中心</title>
     <link rel="stylesheet" href="/TGA103G1/front-end/member/css/member_order_detail.css">
+    <link rel="stylesheet" href="/TGA103G1/css/header.css">
+    <link rel="stylesheet" href="/TGA103G1/css/footer1.css">
   </head>
   <body>
-    <div w3-include-html="/TGA103G1/front-end/member/header.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/header.html"></div>
     <div class="div_menCenter">
       <div class="menCenter_contain">
         <aside class="menCenter_aside">
@@ -79,7 +81,7 @@
         </main>
       </div>
     </div>
-   <div w3-include-html="/TGA103G1/front-end/member/footer.jsp"></div>
+  <div w3-include-html="/TGA103G1/com/footer.html"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
     (()=>{
@@ -146,6 +148,7 @@
                         $("div.total").prepend(total);
                }else if(body[0].method == 1){   
                 total += "<label>運費："+120+"</label>"+
+                        "<br>"+
                        "<label>總計："+ Number(120 +body[0].total) +"</label>"
                        $("div.total").prepend(total);
               }

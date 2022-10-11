@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>註冊</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/footer1.css">
     <style>
         *{
     box-sizing: border-box;
@@ -192,7 +194,7 @@ div.register_btn #cancel > a:visited{
             </form>
         </main>
     </div>
-     <div w3-include-html="<%=request.getContextPath()%>/front-end/member/footer.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/footer.html"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
 <script>            
