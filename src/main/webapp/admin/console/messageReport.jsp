@@ -24,9 +24,7 @@
         <div class="list-group list-group-flush">
           <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("members")).size()%>
-				</span></a> <a
+					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
@@ -41,7 +39,7 @@
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/onTheShelf.jsp">審核商品上架<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("products")).size()%>
+					class="badge" style="background-color: rgb(50, 100, 82);">${listing }
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/barjarjoFrontPage.jsp">修改首頁</a>
@@ -176,7 +174,7 @@
                             <td>${report.member_id}</td>
                             <td>${report.message_id }</td>
                             <td>${report.reason }</td>
-                            <td><a href="">文章連結</a></td>
+                            <td><a target="_blank" href="<%=request.getContextPath() %>/ForumServlet?action=watchOneForum&page=${report.forum_id}">文章連結</a></td>
                             <td>${report.date }</td> <input type="hidden" name="action"
                                 value="updateMessageReport">
                             <td><button type="button" class="seen">已讀</button></td>
@@ -212,8 +210,7 @@
 		         dataType: "json",            
 		         success: function(xhr){
 		 			alert(xhr.context);
-		         },
-		         complete: function(xhr){}
+		         }
 		       });
 		 })
 		 })
@@ -233,12 +230,11 @@ document.querySelectorAll(".deleteForumMessage").forEach(function(el){
 				"btnVal":trEl.children[1].innerHTML,
 				"reason":reason},                        
         success: function(xhr){
-			console.log("success");
 			trEl.remove();
 			location.reload();
         },error:function(xhr){
-        	console.log("error");
-        	console.log(xhr);
+//         	console.log("error");
+//         	console.log(xhr);
         }
       });
 		}
@@ -254,15 +250,30 @@ document.querySelectorAll(".seen").forEach(function(el){
         data: {"action":"updateforumReport",
 		        "btnVal":trEl.children[1].innerHTML},                        
         success: function(xhr){
-			console.log("success");
 			trEl.remove();
         },error:function(xhr){
-            console.log("error");
-            console.log(xhr);
+//             console.log("error");
+//             console.log(xhr);
           }
       });
 	})
 })
+
+//         window.onload - function(){
+//             $.ajax({
+//         url: "/TGA103G1/control",           
+//         type: "post",                  
+//         data: {"action":"getFroumId"},              
+//         dataType: "json",            
+//         success: function(xhr){
+//             console.log("success")
+// 			console.log(xhr);
+//         },
+//         error: function(xhr){
+// 			console.log("error");         
+//             console.log(xhr);
+//         }});
+//         }
 </script>
 </body>
 </html>

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSessionBindingEvent;
 
 import com.manager.model.ManagerVO;
 import com.manager.model.service.impl.ManagerServiceImpl;
-import com.util.BeansFactory;
+import com.util.SingletonBeans;
 
 @WebListener
 public class LastLoginTimeListener implements HttpSessionAttributeListener{
@@ -14,7 +14,7 @@ public class LastLoginTimeListener implements HttpSessionAttributeListener{
 	public void attributeAdded(HttpSessionBindingEvent event) {
 		if("admin".equals(event.getName())) {
 			ManagerVO vo = (ManagerVO)event.getSession().getAttribute("admin");
-			BeansFactory.getInstance("ManagerServiceImpl", ManagerServiceImpl.class).updateLoginTime(vo.getManager_id());
+			SingletonBeans.getInstance("ManagerService", ManagerServiceImpl.class).updateLoginTime(vo.getManager_id());
 		}
 	}
 }

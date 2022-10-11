@@ -8,4 +8,6 @@ public interface Message_reportService {
 	public List<Message_reportVO> getAll();
 	public boolean update(Integer id);
 	List<Integer> getMessageReportByMessageId(Integer messageId);
+	public List<Integer> getForumIdByStatus(Integer id);
+	public List<Object[]> getAllAndForumId();
 }

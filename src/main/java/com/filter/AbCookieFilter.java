@@ -2,7 +2,9 @@ package com.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterChain;
@@ -22,12 +24,12 @@ import com.member.vo.MemberVO;
 import com.message_report.model.service.impl.Message_reportServiceImpl;
 import com.product.model.ProductVO;
 import com.product.service.impl.ProductServiceImpl;
-import com.util.BeansFactory;
+import com.util.SingletonBeans;
 import com.util.JsonUtil;
 
 
 
-@WebFilter(urlPatterns = {"/*"},filterName = "AAA",
+@WebFilter(urlPatterns = {"/*"},
 dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR})
 public class AbCookieFilter extends HttpFilter{
 
@@ -44,16 +46,34 @@ public class AbCookieFilter extends HttpFilter{
 					if("barjarjo".equals(name)) {
 						session.setAttribute("admin", JsonUtil.base64ToManager(value));
 						int datas = 5;
-						List<MemberVO> memberList = BeansFactory.getInstance("MemberServiceImpl", MemberServiceImpl.class).getAll();
+						List<MemberVO> memberList = SingletonBeans.getInstance("MemberServiceImpl", MemberServiceImpl.class).getAll();
 						session.setAttribute("members", memberList);
 						session.setAttribute("memberPages",
 								memberList.size() % datas == 0 ? memberList.size() / datas : memberList.size() / datas + 1);
-						session.setAttribute("messageReportList", BeansFactory.getInstance("Message_reportServiceImpl",
-								Message_reportServiceImpl.class).getAll());
+						
+						
+						List<Object[]> objlist = SingletonBeans.getInstance("Message_reportServiceImpl",
+								Message_reportServiceImpl.class).getAllAndForumId();
+						List<Map<String,Object>> messageReportList = new ArrayList<>();
+						for(int x=0;x<objlist.size();x++) {
+							Map<String,Object> map = new HashMap<String, Object>();
+							map.put("message_report_id",objlist.get(x)[0]);
+							map.put("member_id",objlist.get(x)[1]);
+							map.put("message_id",objlist.get(x)[2]);
+							map.put("reason",objlist.get(x)[3]);
+							map.put("date",objlist.get(x)[4]);
+							map.put("status",objlist.get(x)[5]);
+							map.put("forum_id",objlist.get(x)[6]);
+							messageReportList.add(map);
+						}
+						session.setAttribute("messageReportList", messageReportList);
+						
+						session.setAttribute("messageReportList", messageReportList);
+						
 						session.setAttribute("datas", datas);
-						List<ManagerVO> list = BeansFactory.getInstance("ManagerServiceImpl", ManagerServiceImpl.class).getAll();
+						List<ManagerVO> list = SingletonBeans.getInstance("ManagerService", ManagerServiceImpl.class).getAll();
 						session.setAttribute("admins", list);
-						ArrayList<ProductVO> products = (ArrayList<ProductVO>) BeansFactory.getInstance("ProductServiceImpl", ProductServiceImpl.class).getAll();
+						ArrayList<ProductVO> products = (ArrayList<ProductVO>) SingletonBeans.getInstance("ProductServiceImpl", ProductServiceImpl.class).getAll();
 						int listing = 0;
 						for (int x = 0; x < products.size(); x++) {
 							if (products.get(x).getStatus() == 1) {
@@ -63,7 +83,7 @@ public class AbCookieFilter extends HttpFilter{
 						session.setAttribute("products", products);
 						session.setAttribute("listing", listing);
 						session.setAttribute("productStatus", 3);
-						session.setAttribute("forumReport", BeansFactory.getInstance("Forum_reportServiceImpl", Forum_reportServiceImpl.class).getAll());
+						session.setAttribute("forumReport", SingletonBeans.getInstance("Forum_reportServiceImpl", Forum_reportServiceImpl.class).getAll());
 					}
 				}
 			}

@@ -24,9 +24,7 @@
 			<div class="list-group list-group-flush">
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/members.jsp">修改會員資料<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("members")).size()%>
-				</span></a> <a
+					href="<%=request.getContextPath()%>/admin/console/members.jsp">修改會員資料</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
@@ -41,7 +39,7 @@
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/onTheShelf.jsp">審核商品上架<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("products")).size()%>
+					class="badge" style="background-color: rgb(50, 100, 82);">${listing }
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/barjarjoFrontPage.jsp">修改首頁</a>
@@ -118,7 +116,7 @@
 						<label for="firstname" class="col-sm-2 control-label">帳號</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control account" id="firstname"
-								placeholder="帳號" name="account"/>
+								placeholder="abcdefgh@gmail.com" name="account"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -165,6 +163,7 @@
 	      var password = document.querySelector(".password1").value;
 	      var again = document.querySelector(".password2").value;
 	      var birthday = document.querySelector(".birthday").value;
+	      ///^\w+@\w{2,5}\.\w{2,5}(\.w{2,5})?$/.test
 	      if(account.length <8 ||account.length>15){
 	        e.preventDefault();
 	        alert("帳號8~15字");

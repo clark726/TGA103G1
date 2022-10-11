@@ -2,9 +2,9 @@ package com.forum_report.model.service.impl;
 
 import java.util.List;
 
-import com.forum_report.model.Forum_reportJNDI;
-import com.forum_report.model.Forum_reportVO;
+import com.forum_report.model.*;
 import com.forum_report.model.service.Forum_reportService;
+import com.member.vo.MemberVO;
 
 public class Forum_reportServiceImpl implements Forum_reportService{
 	private Forum_reportJNDI dao;
@@ -22,6 +22,10 @@ public class Forum_reportServiceImpl implements Forum_reportService{
 	}
 	public Integer findForumId(Integer id) {
 		return this.dao.findForumId(id);
+	}
+	@Override
+	public MemberVO findMemberByForumId(Integer id) {
+		return this.dao.findMemberByForumId(id);
 	}
 
 }

@@ -3,7 +3,7 @@ package com.util;
 import java.io.FileInputStream;
 import java.util.*;
 
-public class BeansFactory {
+public class SingletonBeans {
 	private static final Map<String, Object> BEANS_POOL_MAP = new HashMap<String, Object>();
 	static {
 		String path = Thread.currentThread().getContextClassLoader().getResource("").getPath()+"com/util/ModelBeans"; 

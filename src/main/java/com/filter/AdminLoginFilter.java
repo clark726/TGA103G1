@@ -10,7 +10,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = {"/admin/login.jsp"},filterName = "BBB",
+@WebFilter(urlPatterns = {"/admin/login.jsp"},
 dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR})
 public class AdminLoginFilter extends HttpFilter{
 	@Override

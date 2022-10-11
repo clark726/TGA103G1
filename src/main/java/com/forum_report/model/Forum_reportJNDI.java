@@ -2,6 +2,7 @@ package com.forum_report.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.member.vo.MemberVO;
 
 
 public class Forum_reportJNDI implements Forum_reportDAO{
@@ -22,6 +25,33 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public MemberVO findMemberByForumId(Integer id) {
+		MemberVO vo = null;
+		String sql = "select * from member where member.member_id = (select member_id from forum where forum_id = ?);";
+		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+			ppst.setObject(1, id);
+			ResultSet rs = ppst.executeQuery();
+			if(rs.next()) {
+				vo = new MemberVO();
+				vo.setMember_id(rs.getInt(1));
+				vo.setAccount(rs.getString(2));
+				vo.setPassword(rs.getString(3));
+				vo.setBirthday(rs.getObject(4,LocalDate.class));
+				vo.setAddress(rs.getString(5));
+				vo.setGender(rs.getInt(6));
+				vo.setEmail(rs.getString(7));
+				vo.setNickname(rs.getString(8));
+				vo.setPhone(rs.getString(9));
+				vo.setRegister(rs.getObject(10,LocalDate.class));
+				vo.setPermission(rs.getInt(11));
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vo;
+	}
+	
 	public int findForumId(Integer id) {
 		int forumId = 0;
 		try(PreparedStatement ppst = ds.getConnection().prepareStatement("select forum_id from forum_report where forum_report_id = ?;")){
@@ -106,5 +136,7 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 	
 }

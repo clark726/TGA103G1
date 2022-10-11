@@ -1,4 +1,4 @@
-ManagerServiceImpl=com.manager.model.service.impl.ManagerServiceImpl
+ManagerService=com.manager.model.service.impl.ManagerServiceImpl
 MemberServiceImpl=com.member.service.impl.MemberServiceImpl
 Message_reportServiceImpl=com.message_report.model.service.impl.Message_reportServiceImpl
 Forum_messageService=com.forum_message.model.Forum_messageService

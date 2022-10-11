@@ -39,9 +39,7 @@ form {
 			<div class="list-group list-group-flush">
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("members")).size()%>
-				</span></a> <a
+					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
@@ -56,7 +54,7 @@ form {
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/onTheShelf.jsp">審核商品上架<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("products")).size()%>
+					class="badge" style="background-color: rgb(50, 100, 82);">${listing }
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/barjarjoFrontPage.jsp">修改首頁</a>

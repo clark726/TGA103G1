@@ -24,9 +24,7 @@
 			<div class="list-group list-group-flush">
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/members.jsp">修改會員資料<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("members")).size()%>
-				</span></a> <a
+					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
@@ -36,12 +34,12 @@
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("messageReportList")).size()%>
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="/TGA103G1/admin/console/forumReport.html">文章檢舉<span
+					href="/TGA103G1/admin/console/forumReport.jsp">文章檢舉<span
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("forumReport")).size()%>
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/onTheShelf.jsp">審核商品上架<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("products")).size()%>
+					class="badge" style="background-color: rgb(50, 100, 82);">${listing }
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="/TGA103G1/admin/console/barjarjoFrontPage.jsp">修改首頁</a>
@@ -109,7 +107,7 @@
 			<!-- Page content-->
 			<div class="container-fluid">
 				<table class="table table-hover">
-					<caption>悬停表格布局</caption>
+					<caption></caption>
 					<thead>
 						<tr>
 							<th>會員</th>
@@ -123,7 +121,7 @@
 						<c:forEach items="${forumReport}" var="report">
 							<tr>
 								<td>${report.member_id }</td>
-								<td><a href="">看文章</a></td>
+								<td><a target="_blank" href="<%=request.getContextPath()%>/ForumServlet?action=watchOneForum&page=${report.forum_report_id}">看文章</a></td>
 								<td>${report.date.year}/${report.date.monthValue}/${report.date.dayOfMonth}
 									${report.date.hour}:${report.date.minute}:${report.date.second}</td>
 								<td>

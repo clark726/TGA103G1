@@ -21,4 +21,13 @@ public class Message_reportServiceImpl implements Message_reportService{
 	public List<Integer> getMessageReportByMessageId(Integer messageId) {
 		return jndi.getMessageReportByMessageId(messageId);
 	}
+	@Override
+	public List<Integer> getForumIdByStatus(Integer id) {
+		return jndi.getForumIdByStatus(id);
+	}
+	@Override
+	public List<Object[]> getAllAndForumId() {
+		return jndi.getAllAndForumId();
+	}
+	
 }
