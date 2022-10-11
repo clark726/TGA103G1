@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.store.model.StoreVO;
+import com.store.service.StoreService;
 import com.store.service.impl.StoreServiceImpl;
 
 @WebServlet("/AllTheme")
@@ -26,7 +27,7 @@ public class AllTheme extends HttpServlet {
 		StoreVO storeVO = gson.fromJson(req.getReader().readLine(), StoreVO.class);
 
 		
-		StoreServiceImpl svc = new StoreServiceImpl();
+		StoreService svc = new StoreServiceImpl();
 		List<StoreVO> list = svc.getAllTheme();
 	
 		

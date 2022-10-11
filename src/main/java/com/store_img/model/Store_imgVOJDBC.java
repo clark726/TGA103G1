@@ -25,7 +25,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, img.getStore_id());
+			ps.setInt(1, img.getStoreId());
 			ps.setBytes(2, img.getImg().getBytes());
 			ps.executeUpdate();
 
@@ -40,7 +40,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		String sql = "update store_img set store_id = ? , img = ?\n" + "where img_id = ?";
 		try (Connection connection = DriverManager.getConnection(url, userid, passwd);
 				PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, img.getStore_id());
+			ps.setInt(1, img.getStoreId());
 			ps.setBytes(2, img.getImg().getBytes());
 			ps.setInt(3, img.getImg_id());
 			ps.executeUpdate();
@@ -51,7 +51,6 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 
 	}
 
-	@Override
 	public void delete(Integer img_id) {
 		String sql = "delete from store_img where img_id = ?;";
 
@@ -65,7 +64,6 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		}
 	}
 
-	@Override
 	public Store_imgVO findByPrimaryKey(Integer img_id) {
 		String sql = "select img_id , store_id , date , img from store_img\n" + "where img_id = ?;";
 		Store_imgVO img = null;
@@ -78,7 +76,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 			while (rs.next()) {
 				img = new Store_imgVO();
 				img.setImg_id(rs.getInt("img_id"));
-				img.setStore_id(rs.getInt("store_id"));
+				img.setStoreId(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
 				img.setImg(new String(rs.getBytes("img")));
 			}
@@ -90,7 +88,6 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		return img;
 	}
 
-	@Override
 	public List<Store_imgVO> getAll() {
 		String sql = "select img_id , store_id , date , img from store_img";
 		List<Store_imgVO> list = new ArrayList<Store_imgVO>();
@@ -103,7 +100,7 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 			while (rs.next()) {
 				img = new Store_imgVO();
 				img.setImg_id(rs.getInt("img_id"));
-				img.setStore_id(rs.getInt("store_id"));
+				img.setStoreId(rs.getInt("store_id"));
 				img.setDate(rs.getDate("date"));
 				img.setImg(new String(rs.getBytes("img")));
 

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
 import com.product.model.ProductVO;
 import com.product.service.ProductService;
 import com.product.service.impl.ProductServiceImpl;
@@ -22,7 +21,6 @@ import com.store.service.impl.StoreServiceImpl;
 @WebServlet("/ShowProduct")
 public class ShowProduct extends HttpServlet {
 
-	private Gson _gson = new Gson();
 	private ProductService productSvc = new ProductServiceImpl();
 	private StoreService storeSvc = new StoreServiceImpl();
 	@Override

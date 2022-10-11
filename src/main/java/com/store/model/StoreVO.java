@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.common.Result;
-
 public class StoreVO extends Result implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 	private Integer store_id;
 	private String account;
 	private String name;
@@ -33,9 +32,7 @@ public class StoreVO extends Result implements Serializable {
 	private Integer img_id;
 	private Integer productStatus;
 	
-	
-	public StoreVO() {
-	};
+	public StoreVO() {}
 
 	public StoreVO(Integer store_id, String account, String name, String password, String phone, String email,
 			String address, String lng, String lat, Integer theme_id, String dayoff, String work_open, String work_end,

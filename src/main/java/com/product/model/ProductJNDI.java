@@ -1,16 +1,6 @@
 package com.product.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,15 +11,6 @@ import com.common.HibernateUtil;
 
 public class ProductJNDI implements ProductDAO {
 
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/barjarjo");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public Integer insert(ProductVO productVO) {
@@ -93,32 +74,22 @@ public class ProductJNDI implements ProductDAO {
 	@Override
 	public ProductVO findByPrimaryKey(Integer product_id) {
 
-		String sql = "select product_id , name , price, store_id ,description, type_id , stock , status, date \n"
-				+ "from product\n" + "where product_id = ?;";
-		ProductVO product = null;
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+			Query<ProductVO> query3 = session
+					.createQuery("From ProductVO where product_id = :product_id", ProductVO.class)
+					.setParameter("product_id", product_id);
+			ProductVO vo = query3.uniqueResult();
+			transaction.commit();
+			return vo;
 
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, product_id);
-
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				product = new ProductVO();
-				product.setProduct_id(rs.getInt("product_id"));
-				product.setName(rs.getString("name"));
-				product.setPrice(rs.getInt("price"));
-				product.setStore_id(rs.getInt("store_id"));
-				product.setDescription(rs.getString("description"));
-				product.setType_id(rs.getInt("type_id"));
-				product.setStock(rs.getInt("stock"));
-				product.setStatus(rs.getInt("status"));
-				product.setDate(rs.getDate("date"));
-
-			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return null;
 		}
-
-		return product;
 	}
 
 	@Override
@@ -142,49 +113,59 @@ public class ProductJNDI implements ProductDAO {
 
 	@Override
 	public List<ProductVO> getAll() {
-		String sql = "select p.product_id , p.name , price, store_id ,description, type_id , stock , status, p.date , img \n"
-				+ "from product p\n" + "	left join product_img m\n" + "    on p.product_id = m.product_id;";
-		List<ProductVO> list = new ArrayList<>();
-		ProductVO product = null;
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				product = new ProductVO();
-				product.setProduct_id(rs.getInt("product_id"));
-				product.setName(rs.getString("name"));
-				product.setPrice(rs.getInt("price"));
-				product.setStore_id(rs.getInt("store_id"));
-				product.setDescription(rs.getString("description"));
-				product.setType_id(rs.getInt("type_id"));
-				product.setStock(rs.getInt("stock"));
-				product.setStatus(rs.getInt("status"));
-				product.setDate(rs.getDate("date"));
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+			Query<ProductVO> query = session.createQuery("From ProductVO", ProductVO.class);
+			List<ProductVO> productVO = query.list();
+			transaction.commit();
 
-//				List<Object> img = new ArrayList<Object>();
-//				img.add(rs.getObject("img"));
-				product.setImg(rs.getBytes("img"));
-
-				list.add(product);
-			}
-
-		} catch (SQLException e) {
+			return productVO;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return null;
 		}
-
-		return list;
 	}
 
 	@Override
 	public boolean updateStatus(Integer id, Integer status) {
 		int row = 0;
-		String sql = "UPDATE `product` SET `status` = ? WHERE (`product_id` = ?);";
-		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql);) {
-			ps.setObject(1, status);
-			ps.setObject(2, id);
-			row = ps.executeUpdate();
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+		 row = session.createQuery("Update ProductVO set status = :status where product_id = :product_id")
+					.setParameter("status", status)
+					.setParameter("product_id",id)
+					.executeUpdate();
+			transaction.commit();
+			return row != 0;
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return false;
 		}
-		return row == 1;
+	
+	}
+
+	@Override
+	public List<ProductVO> getProductBytypeId(Integer type_id) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+			Query<ProductVO> query = session.createQuery("From ProductVO where type_id = :type_id", ProductVO.class)
+					.setParameter("type_id", type_id);
+			List<ProductVO> list = query.list();
+			transaction.commit();
+			return list;
+
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
