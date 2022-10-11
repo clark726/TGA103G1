@@ -128,6 +128,10 @@
             }
             includeHTML();
         })
+        $("#login").on("click" , function(){
+            var account = document.querySelector("#login_account").value
+            sessionStorage.setItem("memberAccount", account)
+        });
     </script>
 </body>
 </html>
