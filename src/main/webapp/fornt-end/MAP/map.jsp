@@ -17,7 +17,6 @@ body {
 
 header.header {
 	font-size: 16px;
-	/* border: 1px solid red; */
 	width: 100%;
 	min-width: 1200px;
 	background-color: rgb(54, 26, 21);
@@ -99,7 +98,6 @@ ul.nav_ul li a.icon::after {
 #map {
 	position: relative;
 	z-index: 1;
-	/* border: solid 5px; */
 	margin-right: 10px;
 	margin-top: 10px;
 	height: 720px;
@@ -154,7 +152,6 @@ ul.nav_ul li a.icon::after {
 .storeitem {
 	padding: 8px 16px 6px;
 	border-bottom: 1px solid #d8d8d8;
-	/* 	position: relative; */
 	display: block;
 	height: 200px;
 }
@@ -192,27 +189,17 @@ a#mapp:hover {
 	color: #009393
 }
 
-img.b {
-	/* display:block; */
-	/* width:32px; */
-	/* height:32px; */
-	
-}
 
 div.f {
 	align-items: center;
 	display: inline-block;
-	/*     position:relative; */
 }
 
 div.nf {
 	align-items: center;
 	display: inline-block;
-	/*     position:relative; */
 }
 </style>
-<!-- <link rel="stylesheet" type="text/css" href="css/style.css" /> -->
-<!-- <script type="module" src="js/json.js"></script> -->
 </head>
 <meta charset="UTF-8">
 <body style="background-color: rgb(129, 93, 65)">
@@ -258,9 +245,8 @@ div.nf {
 	<button id="btn" data-id="1" class="btn">Bistro</button>
 	<button id="btn" data-id="2" class="btn">Whisky bar</button>
 	<button id="btn" data-id="3" class="btn">Cocktail bar</button>
-	<button id="btnf" >我的最愛</button>
-	<div class="store">
-	</div>
+	<button id="btnf">我的最愛</button>
+	<div class="store"></div>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ&callback=initMap&v=weekly"
 		defer></script>
@@ -416,9 +402,9 @@ div.nf {
 				      .then(resp => resp.json())
 				      .then(result => {
 				        for (var i = 0; i < result.length; i++){
-				        	let d=result[i].store_id;
-				        	$("div#"+d+".nf").children().attr("src","./heart.png");
-				        	$("div#"+d+".nf").attr("class","f");
+				        	let id=result[i].store_id;
+				        	$("div#"+id+".nf").children().attr("src","./heart.png");
+				        	$("div#"+id+".nf").attr("class","f");
 				        }
 				      });		
 		      });
@@ -438,8 +424,8 @@ div.nf {
 			      }),
 			    })
 			      .then(resp => resp.json())
-			      .then(body => {
-			        console.log(body)
+			      .then(result => {
+			        console.log(result)
 			      });
 		 }
 		
@@ -458,8 +444,8 @@ div.nf {
 			      }),
 			    })
 			      .then(resp => resp.json())
-			      .then(body => {
-			        console.log(body)
+			      .then(result => {
+			        console.log(result)
 			      });
 		 }
 	  });
@@ -560,8 +546,8 @@ div.nf {
 	  infoWindow.setPosition(pos);
 	  infoWindow.setContent(
 	    browserHasGeolocation
-	      ? "Error: The Geolocation service failed."
-	      : "Error: Your browser doesn't support geolocation."
+	      ? "Error: 定位失敗"
+	      : "Error: 瀏覽器不支援定位."
 	  );
 	  infoWindow.open(map);
 	}
