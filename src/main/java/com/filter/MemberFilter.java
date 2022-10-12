@@ -15,6 +15,7 @@ public class MemberFilter extends HttpFilter{
 		if(req.getSession().getAttribute("userid") != null) {
 			chain.doFilter(req, res);
 		}else {
+			req.getSession().setAttribute("url", req.getHeader("referer"));
 			res.sendRedirect(req.getContextPath()+"/front-end/member/login.jsp");
 			return;
 		}

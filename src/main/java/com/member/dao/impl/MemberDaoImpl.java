@@ -12,6 +12,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import com.common.HibernateUtil;
 import com.member.dao.MemberDao;
 import com.member.vo.MemberVO;
 
@@ -41,32 +46,42 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public Integer insert(MemberVO member) {
-		final String sql = "insert into member(account,password,birthday,address,gender,email,nickname,phone) "
-				+ "values(?,?,?,?,?,?,?,?);";
-		try (Connection conn = dataSource.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql, new String[] { "member_id" })) {
-			ps.setString(1, member.getAccount());
-			ps.setString(2, member.getPassword());
-			ps.setObject(3, member.getBirthday());
-			ps.setString(4, member.getAddress());
-			ps.setInt(5, member.getGender());
-			ps.setString(6, member.getEmail());
-			ps.setString(7, member.getNickname());
-			ps.setString(8, member.getPhone());
-			ps.executeUpdate();
-
-			try (ResultSet rs = ps.getGeneratedKeys()) {
-				if (rs.next()) {
-					Integer id = rs.getInt(1);
-					return id;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+//		final String sql = "insert into member(account,password,birthday,address,gender,email,nickname,phone) "
+//				+ "values(?,?,?,?,?,?,?,?);";
+			
+//			(Connection conn = dataSource.getConnection();
+//					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "member_id" }))
+			try{
+				Transaction transaction = session.beginTransaction();
+				System.out.println(member);
+				System.out.println("1111");
+				session.persist(member);
+				transaction.commit();
+				return 1;
+//					ps.setString(1, member.getAccount());
+//					ps.setString(2, member.getPassword());
+//					ps.setObject(3, member.getBirthday());
+//					ps.setString(4, member.getAddress());
+//					ps.setInt(5, member.getGender());
+//					ps.setString(6, member.getEmail());
+//					ps.setString(7, member.getNickname());
+//					ps.setString(8, member.getPhone());
+//					ps.executeUpdate();
+//			try (ResultSet rs = ps.getGeneratedKeys()) {
+//				if (rs.next()) {
+//					Integer id = rs.getInt(1);
+//					return id;
+//					}
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					}
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return 0;
 		}
-		return null;
 	}
 
 	@Override
@@ -88,21 +103,27 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public boolean update(MemberVO member) {
-		String sql = "UPDATE member set  address=?, gender=?, email=?, nickname=?, phone=?" + "where member_id = ?;";
-		int rowCount = 0;
-		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-			ps.setString(1, member.getAddress());
-			ps.setInt(2, member.getGender());
-			ps.setString(3, member.getEmail());
-			ps.setString(4, member.getNickname());
-			ps.setString(5, member.getPhone());
-			ps.setInt(6, member.getMember_id());
-
-			rowCount = ps.executeUpdate();
-		} catch (SQLException e) {
+//		String sql = "UPDATE member set  address=?, gender=?, email=?, nickname=?, phone=?" + "where member_id = ?;";
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		
+		try 
+//		(Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql))
+		{
+			Transaction transaction = session.beginTransaction();
+			final MemberVO oldMember = session.load(MemberVO.class, member.getMember_id());
+			oldMember.setAddress(member.getAddress());
+			oldMember.setGender(member.getGender());
+			oldMember.setEmail(member.getEmail());
+			oldMember.setNickname(member.getNickname());
+			oldMember.setPhone(member.getPhone());
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
 			e.printStackTrace();
+			return false;
 		}
-		return rowCount == 1;
 	}
 
 	@Override
@@ -189,18 +210,25 @@ public class MemberDaoImpl implements MemberDao {
 
 		@Override
 		public boolean updatePassword(MemberVO member) {
-			String sql = "UPDATE member set  password = ? where member_id = ?;";
-			int rowCount = 0;
-			try (Connection conn = dataSource.getConnection(); 
-					PreparedStatement ps = conn.prepareStatement(sql)) {
-				ps.setString(1, member.getPassword());
-				ps.setInt(2, member.getMember_id());
-
-				rowCount = ps.executeUpdate();
-			} catch (SQLException e) {
+//			String sql = "UPDATE member set  password = ? where member_id = ?;";
+			SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+			Session session = sessionFactory.openSession();
+			try 
+//			(Connection conn = dataSource.getConnection(); 
+//					PreparedStatement ps = conn.prepareStatement(sql)) 
+			{
+				Transaction transaction = session.beginTransaction();
+				final MemberVO oldMember = session.load(MemberVO.class, member.getMember_id());
+				
+				oldMember.setPassword(member.getPassword());
+				oldMember.setMember_id(member.getMember_id());
+				transaction.commit();
+				return true;
+			} catch (Exception e) {
+				session.getTransaction().rollback();
 				e.printStackTrace();
+				return false;
 			}
-			return rowCount == 1;
 			
 		}
 

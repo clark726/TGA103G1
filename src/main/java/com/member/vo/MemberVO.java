@@ -2,15 +2,32 @@ package com.member.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.common.Result;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-
-public class MemberVO extends Result{
-
+@Entity
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "member",catalog = "barjarjo")
+public class MemberVO extends Result implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer member_id;
 	private String account;
 	private String password;
@@ -20,48 +37,17 @@ public class MemberVO extends Result{
 	private String email;
 	private String nickname;
 	private String phone;
+	@Column(insertable = false)
 	private LocalDate register;
+	@Column(insertable = false)
 	private Integer permission;
+	@Transient
 	private String verifyAccount;
+	@Transient
 	private String newPassword;
+	@Transient
 	private String inputCode;
-	
-	
-	public String getNewPassword() {
-		return newPassword;
-	}
 
-
-	public void setNewPassword(String newPassword) {
-		this.newPassword = newPassword;
-	}
-
-
-	public String getInputCode() {
-		return inputCode;
-	}
-
-
-	public void setInputCode(String inputCode) {
-		this.inputCode = inputCode;
-	}
-
-
-	public String getVerifyAccount() {
-		return verifyAccount;
-	}
-
-
-	public void setVerifyAccount(String verifyAccount) {
-		this.verifyAccount = verifyAccount;
-	}
-
-
-	public MemberVO() {
-		
-	}
-	
-	
 	public MemberVO(Integer member_id, String account, String password, LocalDate birthday, String address, Integer gender,
 			String email, String nickname, String phone, LocalDate register, Integer permission) {
 		super();
@@ -77,77 +63,5 @@ public class MemberVO extends Result{
 		this.register = register;
 		this.permission = permission;
 	}
-	
-	
-	
-	public Integer getMember_id() {
-		return member_id;
-	}
-	public void setMember_id(Integer member_id) {
-		this.member_id = member_id;
-	}
-	public String getAccount() {
-		return account;
-	}
-	public void setAccount(String account) {
-		this.account = account;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public LocalDate getBirthday() {
-		return birthday;
-	}
-	public void setBirthday(LocalDate birthday) {
-		this.birthday = birthday;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public Integer getGender() {
-		return gender;
-	}
-	public void setGender(Integer gender) {
-		this.gender = gender;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getNickname() {
-		return nickname;
-	}
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	public LocalDate getRegister() {
-		return register;
-	}
-	public void setRegister(LocalDate register) {
-		this.register = register;
-	}
-	public Integer getPermission() {
-		return permission;
-	}
-	public void setPermission(Integer permission) {
-		this.permission = permission;
-	}
-
-
-
 
 }

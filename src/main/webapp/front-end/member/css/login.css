@@ -9,13 +9,15 @@ div.div_login{
     height: 500px;
     background-repeat: no-repeat;
     background-size: 100%;
+    background-color: rgba(226, 229, 172,0.8);
 }
 div.div_login main.login_main{
     width: 400px;
     height: 400px;
-    background-color: rgba(226, 229, 172,0.8);
     border-radius: 20px;
     margin-top: 30px;
+    border: 1px solid black;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0,0.8);
 
 }
 div.div_login main.login_main form.login_form input{
@@ -24,6 +26,7 @@ div.div_login main.login_main form.login_form input{
 }
 div.div_login main.login_main form.login_form > h2{
     font-size: 30px;
+    margin-top: 10px;
 }
 div.div_login main.login_main form.login_form div{
     /* border: 1px solid red; */
@@ -53,6 +56,7 @@ div.div_login main.login_main form.login_form > font{
     /* border: 1px solid red; */
     display: flex;
     justify-content: space-evenly;
+    margin-top: 15px;
 }
 .two_but :hover{
     background-color: #DD774E;
@@ -77,6 +81,7 @@ div.div_login main.login_main form.login_form > font{
     color: black;
 }
 .div_a{
+    margin-top: 15px;
     display: flex;
     justify-content: flex-end;
     
@@ -91,7 +96,7 @@ div.div_login main.login_main form.login_form > font{
     
 }
 .div_a > a:hover{
-    background-color: #3D1504;
-    color: #E2E5AC;
+    background-color:rgba(190, 188, 188,0.8);
+    color: #000000;
     
 }
