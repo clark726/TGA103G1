@@ -178,7 +178,10 @@ a#mapp:hover {
 .pro {
 	color: #009393
 }
-
+div.name{
+  display: flex;
+  justify-content: space-between;
+}
 
 div.f {
 	align-items: center;

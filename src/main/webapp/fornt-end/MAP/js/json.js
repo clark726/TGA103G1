@@ -136,7 +136,7 @@ let map, infoWindow;
 		        	let pro = " 電話: " + result[i].phone+"<br>"+result[i].produce;
 		        	let work = "營業時間："+result[i].work_open+"~"+result[i].work_end;
 		        	let f = "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
-		        	$(".store").append("<div class='storeitem'>" + name+f+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        	$(".store").append("<div class='storeitem'>" + "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
 		        }
 		        fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
 				      method: "POST",
@@ -215,7 +215,7 @@ let map, infoWindow;
 		        	let pro = " 電話: " + result[i].phone+"<br>"+result[i].produce;
 		        	let work = "營業時間："+result[i].work_open+"~"+result[i].work_end;
 		        	let f =  "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
-		        	$(".store").append("<div class='storeitem'>" + name+f+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        	$(".store").append("<div class='storeitem'>" + "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
 		        }
 		        fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
 				      method: "POST",

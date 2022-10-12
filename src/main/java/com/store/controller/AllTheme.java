@@ -18,12 +18,12 @@ import com.store.service.impl.StoreServiceImpl;
 @WebServlet("/AllTheme")
 public class AllTheme extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	Gson gson = new Gson();
+//	Gson gson = new Gson();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		res.setCharacterEncoding("UTF-8");
-		StoreVO storeVO = gson.fromJson(req.getReader().readLine(), StoreVO.class);
+//		StoreVO storeVO = gson.fromJsson(req.getReader().readLine(), StoreVO.class);
 
 		
 		StoreServiceImpl svc = new StoreServiceImpl();
