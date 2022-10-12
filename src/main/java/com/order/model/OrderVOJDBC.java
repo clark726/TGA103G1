@@ -60,26 +60,7 @@ public class OrderVOJDBC implements OrderDAO{
         return orderVO;
     }
 
-    @Override
-    public boolean insert(OrderVO obj) {
-        int rows = -1;
-        String sql = "INSERT INTO `order` (`store_id`, `member_id`, `price`, `method`, `name`, `address`, `phone`,`note`) VALUES (?, ?, ?, ?, ?, ?, ?,?);";
-        try (Connection conn = DriverManager.getConnection(url, userid, passwd);
-            PreparedStatement ppst = conn.prepareStatement(sql)){
-            ppst.setObject(1,obj.getStore_id());
-            ppst.setObject(2,obj.getMember_id());
-            ppst.setObject(3,obj.getPrice());
-            ppst.setObject(4,obj.getMethod());
-            ppst.setObject(5,obj.getName());
-            ppst.setObject(6,obj.getAddress());
-            ppst.setObject(7,obj.getPhone());
-            ppst.setObject(8,obj.getNote());
-            rows = ppst.executeUpdate();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return rows != -1;
-    }
+
 
     @Override
     public boolean update(OrderVO obj) {
@@ -122,6 +103,31 @@ public class OrderVOJDBC implements OrderDAO{
 	@Override
 	public List<OrderVO> getOrderBySataus(String account, Integer status) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer insert(OrderVO obj) {
+		int rows = -1;
+		String sql = "INSERT INTO `order` (`store_id`, `member_id`, `price`, `method`, `name`, `address`, `phone`,`note`) VALUES (?, ?, ?, ?, ?, ?, ?,?);";
+		try (Connection conn = DriverManager.getConnection(url, userid, passwd); PreparedStatement ppst = conn.prepareStatement(sql , new String[] {"order_id"})) {
+			ppst.setObject(1, obj.getStore_id());
+			ppst.setObject(2, obj.getMember_id());
+			ppst.setObject(3, obj.getPrice());
+			ppst.setObject(4, obj.getMethod());
+			ppst.setObject(5, obj.getName());
+			ppst.setObject(6, obj.getAddress());
+			ppst.setObject(7, obj.getPhone());
+			ppst.setObject(8, obj.getNote());
+			rows = ppst.executeUpdate();
+			
+			ResultSet rs = ppst.getGeneratedKeys();
+			if(rs.next()) {
+				return  rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

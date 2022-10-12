@@ -35,7 +35,7 @@ public class StoreImgUpdate extends HttpServlet {
 			HttpSession session = request.getSession();
 			StoreVO storevoId = (StoreVO) session.getAttribute("storeId");
 			Integer storeId = storevoId.getStore_id();
-			storeimg.setStore_id(storeId);
+			storeimg.setStoreId(storeId);
 
 			storeImgSvc.insert(storeimg);
 		

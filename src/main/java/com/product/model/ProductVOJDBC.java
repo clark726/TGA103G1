@@ -172,4 +172,10 @@ public class ProductVOJDBC implements ProductDAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public List<ProductVO> getProductBytypeId(Integer type_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

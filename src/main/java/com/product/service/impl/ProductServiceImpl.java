@@ -104,4 +104,9 @@ public class ProductServiceImpl implements ProductService {
 	public boolean updateStatus(Integer id, Integer status) {
 		return productdao.updateStatus(id,status);
 	}
+
+	@Override
+	public List<ProductVO> getProductBytypeId(Integer type_id) {
+		return productdao.getProductBytypeId(type_id);
+	}
 }

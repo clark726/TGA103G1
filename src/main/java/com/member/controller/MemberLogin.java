@@ -64,12 +64,17 @@ public class MemberLogin extends HttpServlet{
 			session.setAttribute("userid", member);
 			String id = session.getId();
 			System.out.println("登入成功");
-			resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");
-//			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
+			if(req.getSession().getAttribute("url")!=null) {
+				resp.sendRedirect((String)req.getSession().getAttribute("url"));
+				return;
+			}else {
+				resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");				
+				return;
+			}
 		}else {
 			
 			req.setAttribute("result", "帳號或密碼錯誤");
-			req.getRequestDispatcher("/front-end/member/jsp/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/front-end/member/login.jsp").forward(req, resp);
 		}
 	}
 

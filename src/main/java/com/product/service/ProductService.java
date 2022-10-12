@@ -16,4 +16,5 @@ public interface ProductService {
 	public List<ProductVO> ShowStoreProduct(String account);
 	public List<ProductVO> getAll();
 	public boolean updateStatus(Integer id,Integer status);
+	public List<ProductVO> getProductBytypeId(Integer type_id);
 }
