@@ -66,6 +66,7 @@ public class MemberLogin extends HttpServlet{
 			System.out.println("登入成功");
 			if(req.getSession().getAttribute("url")!=null) {
 				resp.sendRedirect((String)req.getSession().getAttribute("url"));
+				session.removeAttribute("url");
 				return;
 			}else {
 				resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");				
