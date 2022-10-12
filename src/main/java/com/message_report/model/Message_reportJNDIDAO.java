@@ -28,7 +28,7 @@ public class Message_reportJNDIDAO {
 	
 	public List<Object[]> getAllAndForumId(){
 		List <Object[]> list = new ArrayList<Object[]>();
-		String sql = "SELECT message_report_id,m.member_id,m.message_id,reason,m.date,status,forum_id FROM barjarjo.message_report m join forum_message f on m.message_id = f.member_id where status = 0;";
+		String sql = "SELECT message_report_id,m.member_id,m.message_id,reason,m.date,status,forum_id FROM barjarjo.message_report m join forum_message f on m.message_id = f.message_id where status = 0;";
 		try(PreparedStatement ps = ds.getConnection().prepareStatement(sql)){
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {

@@ -327,6 +327,8 @@ public class ManagerControler extends HttpServlet {
 
 	private void deleteForum(HttpServletRequest req, HttpServletResponse resp) {
 		String report = req.getParameter("reportId");
+		String reason = req.getParameter("reason");
+		String memberId = req.getParameter("memberId");
 		try {
 			Integer forumId = Integer.parseInt(report);
 			this.forum.blockade(forumId);
@@ -340,8 +342,10 @@ public class ManagerControler extends HttpServlet {
 					}
 				}
 			}
+			Integer member = Integer.parseInt(memberId);
+			MemberVO member1 = this.memberService.findByPrimaryKey(member);
 			req.getSession().setAttribute("forumReport", list);
-			new Thread(new MailService("jgkj243@gmail.com", "屏蔽文章", "帳號,", "屏蔽原因")).start();
+			new Thread(new MailService(member1.getEmail(), "屏蔽文章", member1.getNickname()+",",reason)).start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

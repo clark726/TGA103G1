@@ -112,6 +112,7 @@
 						<tr>
 							<th>會員</th>
 							<th>文章</th>
+							<td>原因</td>
 							<th>日期</th>
 							<td>沒關係</td>
 							<td>屏蔽文章</td>
@@ -122,6 +123,7 @@
 							<tr>
 								<td>${report.member_id }</td>
 								<td><a target="_blank" href="<%=request.getContextPath()%>/ForumServlet?action=watchOneForum&page=${report.forum_report_id}">看文章</a></td>
+								<td>${report.reason}</td>
 								<td>${report.date.year}/${report.date.monthValue}/${report.date.dayOfMonth}
 									${report.date.hour}:${report.date.minute}:${report.date.second}</td>
 								<td>
@@ -133,8 +135,9 @@
 								</td>
 								<td>
 									<form action="<%=request.getContextPath()%>/control" method="post">
+										<input type="hidden" name="reason" value="${report.reason}">
+										<input type="hidden" name="memberId" value="${report.member_id}">
 										<input type="hidden" name="action" value="deleteForum">
-<%-- 										 <input type="hidden" name="forumId" value="${report.forum_id }"> --%>
 										<input type="hidden" name="reportId" value="${report.forum_report_id }">
 										<button>屏蔽</button>
 									</form>

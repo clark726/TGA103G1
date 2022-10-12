@@ -167,7 +167,6 @@
             </thead>
             <tbody>
               <c:forEach var="report" items="${messageReportList}" varStatus="s">
-<%--                 <c:if test="${report.status == 0}"> --%>
                     <tr >
                         <form action="<%=request.getContextPath()%>/control" method="post">
                             <td>${report.message_report_id}</td>
@@ -183,7 +182,6 @@
                             <td><button type=button class="deleteForumMessage">刪帖封號</button></td>
                         </form>
                     </tr>
-<%--                 </c:if> --%>
             </c:forEach>
             </tbody>
           </table>
