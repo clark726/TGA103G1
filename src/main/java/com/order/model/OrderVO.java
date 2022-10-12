@@ -2,6 +2,7 @@ package com.order.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import com.common.Result;
 
@@ -20,10 +21,12 @@ public class OrderVO extends Result implements Serializable {
     private String note;
     private String account;
     
+    private List<OrderSmallVO> orderSmallVO;
     
     public OrderVO() {
     }
 
+    
     @Override
     public String toString() {
         return "OrderVO{" +
@@ -57,7 +60,15 @@ public class OrderVO extends Result implements Serializable {
 
     
     
-    public String getAccount() {
+    public List<OrderSmallVO> getOrderSmallVO() {
+		return orderSmallVO;
+	}
+
+	public void setOrderSmallVO(List<OrderSmallVO> orderSmallVO) {
+		this.orderSmallVO = orderSmallVO;
+	}
+
+	public String getAccount() {
 		return account;
 	}
 

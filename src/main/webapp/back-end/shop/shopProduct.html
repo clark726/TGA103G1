@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Insert title here</title>
+    <title>shopProduct</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -90,7 +90,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary">前往結帳</button>
+        <button type="button" class="btn btn-secondary"> <a style="text-decoration: none; color: white;" href="http://localhost:8080/TGA103G1/back-end/shop/shopCheck.html">前往結帳</a> </button>
       </div>
     </div>
   </div>
@@ -206,7 +206,7 @@
                             <option value="9">9</option>
                             <option value="10">10</option>
                           </select>
-                          <a  class="btn btn-secondary shopOrder" data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
+                          <a  class="btn btn-secondary shopOrder" data-storeId = ${body[i].store_id} data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
                         </div>
                       </div>
                     </div>
@@ -256,7 +256,7 @@
                             <option value="9">9</option>
                             <option value="10">10</option>
                           </select>
-                          <a  class="btn btn-secondary shopOrder" data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
+                          <a  class="btn btn-secondary shopOrder" data-storeId = ${body[i].store_id} data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
                         </div>
                       </div>
                     </div>
@@ -274,6 +274,7 @@
      let price = $(this).closest("div").find("#price").text()
      let name = $(this).closest("div").find("#name").text()
      let id = $(this).attr("data-id")
+     let storeId = $(this).attr("data-storeId")
       
     
      if(!sessionStorage.getItem("product")){
@@ -281,7 +282,9 @@
         product = {
             name:name,
             price:price,
-            count:count
+            count:count,
+            productId:id,
+            storeId:storeId
         }
       productArray.push(product)
       sessionStorage.setItem("product" , JSON.stringify(productArray));
@@ -316,7 +319,9 @@
          product = {
                 name:name,
                 price:price,
-                count:count
+                count:count,
+                productId:id,
+                storeId:storeId
             }
           productArray.push(product)
           sessionStorage.setItem("product" , JSON.stringify(productArray));
@@ -328,7 +333,9 @@
             product = {
                 name:name,
                 price:price,
-                count:count
+                count:count,
+                productId:id,
+                storeId:storeId
             }
             productArray.push(product)
           sessionStorage.setItem("product" , JSON.stringify(productArray));

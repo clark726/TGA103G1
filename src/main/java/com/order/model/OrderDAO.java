@@ -9,7 +9,7 @@ public interface OrderDAO {
 	
 	public List<OrderVO> getOrderBySataus(String account ,Integer status);
 		
-	public boolean insert(OrderVO obj);
+	public Integer insert(OrderVO obj);
 
 	public boolean update(OrderVO obj);
 
