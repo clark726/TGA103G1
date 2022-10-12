@@ -10,7 +10,6 @@ let map, infoWindow;
 	  const locationButton = document.getElementById("btn5");
 	  locationButton.textContent = "現在位置";
 	  locationButton.classList.add("custom-map-control-button");
-	  // map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
 	  locationButton.addEventListener("click", () => {
 	    if (navigator.geolocation) {
 	      navigator.geolocation.getCurrentPosition(
@@ -34,7 +33,7 @@ let map, infoWindow;
 	    }
 	  });
 	  const script = document.createElement("script");
-	  script.src = "http://localhost:8081/TGA103G1/front-end/MAP/json.jsp";
+	  script.src = "http://localhost:8080/TGA103G1/fornt-end/MAP/json.jsp";
 	  document.getElementsByTagName("head")[0].appendChild(script);
 	}
 
@@ -46,25 +45,7 @@ let map, infoWindow;
 	  a = this.dataset.id;
 	  initMap();
 	});
-	$(".btnf").click(function () {
-		
-		fetch("http://localhost:8081/TGA103G11/AllFavoriteM", {
-		      method: "POST",
-		      headers: { "Content-Type": "application/json" },
-		      body: JSON.stringify({
-		    	  member_id:"1"
-		      }),
-		    })
-		      .then(resp => resp.json())
-		      .then(result => {
-		        for (var i = 0; i < result.length; i++){
-		        	arr[i]=result[i].store_id;
-		        }
-		  	  a = 5;
-			  initMap();
-		      });	
-
-	});
+	
 	const eqfeed_callback = function (e) {
 	  for (let i = 0; i < e.features.length; i++) {
 	    const coords = e.features[i].geometry.coordinates;
@@ -73,7 +54,6 @@ let map, infoWindow;
 	    const id = e.features[i].properties.storeId;
 	    const theme = e.features[i].properties.theme;
 	    const address = e.features[i].properties.address;
-	    const produce = e.features[i].properties.produce;
 	    const content =
 	    '<div id="content">' +
 	      "主題:" +
@@ -141,7 +121,7 @@ let map, infoWindow;
 	};
 
 	 $(function(){
-		    fetch("http://localhost:8081/TGA103G11/AllTheme", {
+		    fetch("http://localhost:8080/TGA103G1/AllTheme", {
 		      method: "POST",
 		      headers: { "Content-Type": "application/json" },
 		      body: JSON.stringify({
@@ -156,9 +136,9 @@ let map, infoWindow;
 		        	let pro = " 電話: " + result[i].phone+"<br>"+result[i].produce;
 		        	let work = "營業時間："+result[i].work_open+"~"+result[i].work_end;
 		        	let f = "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
-		        	$(".store").append("<div class='storeitem'>" + name+f+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        	$(".store").append("<div class='storeitem'>" + "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
 		        }
-		        fetch("http://localhost:8081/TGA103G11/AllFavoriteM", {
+		        fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
 				      method: "POST",
 				      headers: { "Content-Type": "application/json" },
 				      body: JSON.stringify({
@@ -181,7 +161,7 @@ let map, infoWindow;
 			 $(this).children().attr("src","./nheart.png");
 				$(this).attr("class","nf");
 			    let storeId =  this.id
-			    fetch("http://localhost:8081/TGA103G11/DeleteFavorite", {
+			    fetch("http://localhost:8080/TGA103G1/DeleteFavorite", {
 			      method: "POST",
 			      headers: { "Content-Type": "application/json" },
 			      body: JSON.stringify({
@@ -201,7 +181,7 @@ let map, infoWindow;
 			 $(this).children().attr("src","./heart.png");
 				$(this).attr("class","f");
 			    let storeId =  this.id
-			    fetch("http://localhost:8081/TGA103G11/AddFavorite", {
+			    fetch("http://localhost:8080/TGA103G1/AddFavorite", {
 			      method: "POST",
 			      headers: { "Content-Type": "application/json" },
 			      body: JSON.stringify({
@@ -218,7 +198,7 @@ let map, infoWindow;
 	
 	 $(document).on("click", "button#btn", function(){
 		    let themeId =  this.dataset.id;
-		    fetch("http://localhost:8081/TGA103G11/ChangeTheme", {
+		    fetch("http://localhost:8080/TGA103G1/ChangeTheme", {
 		      method: "POST",
 		      headers: { "Content-Type": "application/json" },
 		      body: JSON.stringify({
@@ -235,9 +215,9 @@ let map, infoWindow;
 		        	let pro = " 電話: " + result[i].phone+"<br>"+result[i].produce;
 		        	let work = "營業時間："+result[i].work_open+"~"+result[i].work_end;
 		        	let f =  "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
-		        	$(".store").append("<div class='storeitem'>" + name+f+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        	$(".store").append("<div class='storeitem'>" + "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
 		        }
-		        fetch("http://localhost:8081/TGA103G11/AllFavoriteM", {
+		        fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
 				      method: "POST",
 				      headers: { "Content-Type": "application/json" },
 				      body: JSON.stringify({
@@ -256,7 +236,7 @@ let map, infoWindow;
 		  });
 
 	 $(document).on("click", "button#btnf", function(){
-		 fetch("http://localhost:8081/TGA103G11/AllFavoriteM", {
+		 fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
 		      method: "POST",
 		      headers: { "Content-Type": "application/json" },
 		      body: JSON.stringify({
@@ -266,10 +246,10 @@ let map, infoWindow;
 		      .then(resp => resp.json())
 		      .then(result => {
 		    	$(".store").empty();
-				  var g =1;
+		        var g =1;
 		        for (var i = 0; i < result.length; i++){
 		        	let d=result[i].store_id;
-		            fetch("http://localhost:8081/TGA103G11/AllTheme", {
+		            fetch("http://localhost:8080/TGA103G1/AllTheme", {
 		  		      method: "POST",
 		  		      headers: { "Content-Type": "application/json" },
 		  		      body: JSON.stringify({
@@ -277,7 +257,6 @@ let map, infoWindow;
 		  		    })
 		  		      .then(resp => resp.json())
 		  		      .then(result => {
-		  		    	
 		  		        for (var i = 0; i < result.length; i++){
 		  		        	let id =result[i].store_id;
 		  		        	let pro = " 電話: " + result[i].phone+"<br>"+result[i].produce;
@@ -288,7 +267,21 @@ let map, infoWindow;
 								g=g+1;
 		  		        	}
 		  		        }
-		  		       
+		  		      fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
+		  			      method: "POST",
+		  			      headers: { "Content-Type": "application/json" },
+		  			      body: JSON.stringify({
+		  			    	  member_id:"1"
+		  			      }),
+		  			    })
+		  			      .then(resp => resp.json())
+		  			      .then(result => {
+		  			        for (var i = 0; i < result.length; i++){
+		  			        	arr[i]=result[i].store_id;
+		  			        }
+		  			  	  a = 5;
+		  				  initMap();
+		  			      });	
 		  		      });
 		        }
 		      });

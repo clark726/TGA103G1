@@ -8,7 +8,6 @@ body {
 
 header.header {
 	font-size: 16px;
-	/* border: 1px solid red; */
 	width: 100%;
 	min-width: 1200px;
 	background-color: rgb(54, 26, 21);
@@ -90,7 +89,6 @@ ul.nav_ul li a.icon::after {
 #map {
 	position: relative;
 	z-index: 1;
-	/* border: solid 5px; */
 	margin-right: 10px;
 	margin-top: 10px;
 	height: 720px;
@@ -105,7 +103,6 @@ ul.nav_ul li a.icon::after {
 	color: rgb(255, 157, 0);
 	text-align: center;
 	background-color: rgb(255, 255, 255);
-	/* border: 5px solid SaddleBrown; */
 	border-radius: 15px;
 	cursor: pointer;
 	margin-inline: 10px;
@@ -136,7 +133,7 @@ ul.nav_ul li a.icon::after {
 	border: 2px solid black;
 	display: block;
 	width: 49%;
-	height: 83vh;
+	height: 83%;
 	overflow: auto;
 	float: left;
 	position: relative;
@@ -145,7 +142,6 @@ ul.nav_ul li a.icon::after {
 .storeitem {
 	padding: 8px 16px 6px;
 	border-bottom: 1px solid #d8d8d8;
-	/* 	position: relative; */
 	display: block;
 	height: 200px;
 }
@@ -182,16 +178,17 @@ a#mapp:hover {
 .pro {
 	color: #009393
 }
-
+div.name{
+  display: flex;
+  justify-content: space-between;
+}
 
 div.f {
 	align-items: center;
 	display: inline-block;
-	/*     position:relative; */
 }
 
 div.nf {
 	align-items: center;
 	display: inline-block;
-	/*     position:relative; */
 }
