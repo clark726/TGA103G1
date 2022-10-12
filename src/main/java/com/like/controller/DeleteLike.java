@@ -15,12 +15,12 @@ import com.like.model.LikeVO;
 import com.like.model.service.AddLikeService;
 import com.like.model.service.impl.AddLikeServiceImpl;
 
-@WebServlet("/AddLike")
-public class AddLike extends HttpServlet {
+@WebServlet("/DeleteLike")
+public class DeleteLike extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Gson gson = new Gson();
     private AddLikeService addLike = new AddLikeServiceImpl();
-  
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -28,7 +28,7 @@ public class AddLike extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         
         LikeVO likeVO = gson.fromJson(request.getReader().readLine(), LikeVO.class);
-        LikeVO result =  addLike.add(likeVO);
+        LikeVO result =  addLike.delete(likeVO);
         
         response.setContentType("application/json");
         try (PrintWriter pw = response.getWriter()) {
@@ -38,5 +38,4 @@ public class AddLike extends HttpServlet {
             e.printStackTrace();
         }
     }
-
 }

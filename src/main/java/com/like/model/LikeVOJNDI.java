@@ -1,7 +1,5 @@
 package com.like.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -82,12 +80,36 @@ public class LikeVOJNDI implements LikeDAO {
         return rowCount != 0;
     }
 
-    public boolean delete(Integer forum_id,Integer member_id) {
+    public boolean delete(LikeVO obj) {
         int rowCount = 0;
         String sql = "delete from `like` where forum_id = ? and member_id = ?;";
         try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
-            ps.setObject(1,forum_id);
-            ps.setObject(2,member_id);
+            ps.setObject(1,obj.getForum_id());
+            ps.setObject(2,obj.getMember_id());
+            rowCount = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowCount != 0;
+    }
+    
+    public boolean addFourmLike(LikeVO obj) {
+        int rowCount = 0;
+        String sql = " Update forum set `like`=`like`+1 where forum_id= ?;";
+        try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
+            ps.setObject(1,obj.getForum_id());
+            rowCount = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowCount != 0;
+    }
+    
+    public boolean deleteFourmLike(LikeVO obj) {
+        int rowCount = 0;
+        String sql = " Update forum set `like`=`like`-1 where forum_id= ?;";
+        try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
+            ps.setObject(1,obj.getForum_id());
             rowCount = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

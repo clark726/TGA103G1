@@ -12,5 +12,5 @@ public interface LikeDAO {
 
     boolean update(LikeVO oldObj,LikeVO newObj);
 
-    boolean delete(Integer forum_id,Integer member_id);
+    boolean delete(LikeVO obj);
 }

@@ -185,6 +185,8 @@
 
 							</script>
 							<script>
+
+
 								var ContentMessage = CKEDITOR.replace('editorContentMessage');
 
 								document.querySelector("#alertContentMessage").addEventListener("click", function () {
@@ -233,6 +235,9 @@
 								})
 							</script>
 							<script>
+								let forum_id = "${param.page}";
+								let member_id = "${userid.member_id}";
+
 								window.onload = function () {
 									$.ajax({
 										url: "/TGA103G1/AddViewCount",
@@ -248,6 +253,8 @@
 								}
 							</script>
 							<script>
+
+
 								document.querySelector("#like").addEventListener("click", function () {
 									if (
 								<% Object userId2 = session.getAttribute("userid");
@@ -257,21 +264,23 @@
 									location.href = "/TGA103G1/PostForumContentMessage?action=AreYouLogin";
 								}else {
 									// 									console.log("A")
-									document.getElementById("like").style.display = "none"
-									document.getElementById("like2").style.display = "inline-block"
 
-
-									fetch('/TGA103G1/StoreSumit', {
+									console.log("forum" + forum_id);
+									console.log("member" + member_id);
+									fetch('/TGA103G1/AddLike', {
 										method: 'POST',
 										headers: { 'Content-Type': 'application/json' },
 										body: JSON.stringify({
-											forum_id = <%=request.getParameter("page") %>,
-											member_id = <%=session.getAttribute("userid")%>
+											forum_id: forum_id,
+											member_id: member_id
 										}),
 									})
 										.then(resp => resp.json())
 										.then(body => {
-											
+											document.getElementById("like").style.display = "none"
+											document.getElementById("like2").style.display = "inline-block"
+											console.log(body)
+
 										});
 
 								}
@@ -279,8 +288,23 @@
 
 								document.querySelector("#like2").addEventListener("click", function () {
 
-									document.getElementById("like").style.display = "inline-block"
-									document.getElementById("like2").style.display = "none"
+
+
+									fetch('/TGA103G1/DeleteLike', {
+										method: 'POST',
+										headers: { 'Content-Type': 'application/json' },
+										body: JSON.stringify({
+											forum_id: forum_id,
+											member_id: member_id
+										}),
+									})
+										.then(resp => resp.json())
+										.then(body => {
+											document.getElementById("like").style.display = "inline-block"
+											document.getElementById("like2").style.display = "none"
+											console.log(body)
+
+										});
 
 								});
 
