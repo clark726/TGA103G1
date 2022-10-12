@@ -43,7 +43,7 @@
             </form>
 
             <div class="div_a">
-                <a href="http://localhost:8080/TGA103G1/front-end/member/jsp/register.jsp">會員註冊</a>
+                <a href="http://localhost:8080/TGA103G1/front-end/member/register.jsp">會員註冊</a>
                 <a href="http://localhost:8080/TGA103G1/front-end/member/checkAcco.html">忘記密碼</a>
             </div>
         </main>

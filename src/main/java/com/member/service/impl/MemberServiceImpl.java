@@ -95,6 +95,7 @@ public class MemberServiceImpl implements MemberService {
 
 		member.setMessage("註冊成功");
 		member.setSuccessful(true);
+		System.out.println(member);
 		dao.insert(member);
 		return true;
 	}

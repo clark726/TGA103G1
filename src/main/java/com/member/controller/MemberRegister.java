@@ -107,23 +107,24 @@ public class MemberRegister extends HttpServlet{
 		member.setPhone(phone);
 		
 		
-		List<MemberVO> list =  service.getAll();
-		for(MemberVO e : list) {
-			System.out.println(e.getAccount());
-			if(account.equals(e.getAccount())) {
-				errorMsgs.put("account", "重複帳號");
-			}else {
-				service.register(member);
-			}
+//		List<MemberVO> list =  service.getAll();
+//		for(MemberVO e : list) {
+//			System.out.println(e.getAccount());
+//			if(account.equals(e.getAccount())) {
+//				errorMsgs.put("account", "重複帳號");
+//			}else {
+//			}
+//	}
+		boolean result = service.register(member);
 			
-		}
 		if (!errorMsgs.isEmpty()) {
-			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/jsp/register.jsp");
+			System.err.println("註冊失敗");
+			RequestDispatcher failureView = req.getRequestDispatcher("/front-end/member/register.jsp");
 			failureView.forward(req, resp);
 			return; // 程式中斷
 		}
-		
-		RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/jsp/login.jsp");
+		System.err.println("註冊成功");
+		RequestDispatcher successView = req.getRequestDispatcher("/front-end/member/login.jsp");
 		successView.forward(req, resp);
 	}
 }

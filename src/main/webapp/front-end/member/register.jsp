@@ -110,7 +110,7 @@ div.register_btn #cancel > a:visited{
     </style>
 </head>
 <body>
-       <div w3-include-html="<%=request.getContextPath()%>/front-end/member/header.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/header.html"></div>
     <div class="div_register">
         <main class="register_main">
             <form action="<%=request.getContextPath()%>/register" class="register_form" method="post">
@@ -150,8 +150,8 @@ div.register_btn #cancel > a:visited{
                     <label for="register_addr">住址</label>
                     <div class="city">
                             <input class="js-demeter-tw-zipcode-selector" data-city="#city" data-dist="#dist" placeholder="請輸入郵遞區號" style="margin-left: 70px;"/>
-                          <select id="city" placeholder="請選擇縣市" style="margin-left: 70px ;height: 25px;"name="city"></select>
-                            <select id="dist" placeholder="請選擇鄉鎮區" style="height: 25px;"name="dist"></select>
+                          <select id="city" placeholder="請選擇縣市" style="margin-left: 70px;height: 25px;"name="city"></select>
+                            <select id="dist" placeholder="請選擇鄉鎮區" style="height: 25px;margin-left: 70px"name="dist"></select>
                         <input type="text" id="register_addr" class="register_control" name="address" >
                     </div>
                 </div>

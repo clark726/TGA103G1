@@ -68,14 +68,13 @@ public class MemberLogin extends HttpServlet{
 				resp.sendRedirect((String)req.getSession().getAttribute("url"));
 				return;
 			}else {
-				resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");
+				resp.sendRedirect(cp +"/front-end/member/jsp/member_center.jsp");				
 				return;
 			}
-//			req.getRequestDispatcher("/front-end/member/jsp/member_center.jsp").forward(req, resp);
 		}else {
 			
 			req.setAttribute("result", "帳號或密碼錯誤");
-			req.getRequestDispatcher("/front-end/member/jsp/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/front-end/member/login.jsp").forward(req, resp);
 		}
 	}
 

@@ -12,12 +12,10 @@ div.menCenter_contain aside.menCenter_aside{
   display:block;
   background-color: #e2e5ac;
 }
-div.menCenter_contain aside.menCenter_aside > h2{
+div.div_menCenter div.menCenter_contain aside.menCenter_aside h2{
   font-size: 28px;
   text-align: center;
   margin-top: 23px;
-  margin-bottom: 23px;
-  text-shadow: 5px;
 }
 div.menCenter_contain aside.menCenter_aside ul.menCenter_ul{
   list-style: none;

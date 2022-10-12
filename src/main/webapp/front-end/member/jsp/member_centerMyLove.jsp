@@ -33,7 +33,7 @@
     <div class="div_menCenter">
         <div class="menCenter_contain">
             <aside class="menCenter_aside">
-                <h2>會員中心</h2>
+                <h2 style="margin-top:23px">會員中心</h2>
                 <ul class="menCenter_ul">
                     <li>
                         <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改基本資料</a></button>

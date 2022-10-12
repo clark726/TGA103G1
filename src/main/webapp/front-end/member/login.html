@@ -6,47 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入</title>
-      <link rel="stylesheet" href="../member/css/login.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="/TGA103G1/css/header.css">
+    <link rel="stylesheet" href="/TGA103G1/css/footer1.css">
 </head>
 <body>
-    <div w3-include-html="../member/jsp/header.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/header.html"></div>
     <div class="div_login">
         <main class="login_main">
-            <form method="post" action="/member/login" class="login_form">
+            <!-- <form method="post" action="/member/login" class="login_form"> -->
                 <h2>會員登入</h2>
                 <div>
-                    <label for="login_account">帳號:</label>
-                    <input type="text" id="login_account" name="account">
-                    <br>
-                    <span id="account_err" class="err_msg" style="color: red; font-size: 10px; display: none;">帳號輸入錯誤</span>
-                </div>
-                <div>
-                    <label for="login_password">密碼:</label>
-                    <input type="password" id="login_password" name="password"> 
-                    <br>
-                    <span id="psw_err" class="err_psw" style="color: red; font-size: 10px; display: none;">密碼輸入錯誤</span>
-                </div>
-                <div>
-                    <label for="login_verify">驗證碼:</label>
-                    <input type="text" id="login_verify">
-                    <button type="button" id="login_check">
-                        
-                </div>
-                <div class="two_but">
-                <button type="submit" id="login">登入</button>
-                <button type="button" id="cancel" ><a href="">離開</a> </button>
-            </div>
-            </form>
+                  <label for="login_account">帳號:</label>
+                  <input type="text" id="login_account" name="account"> 
+              </div>
+             <font size="1" class="account" color="red"></font>
+              <div>
+                  <label for="login_password">密碼:</label>
+                  <input type="password" id="login_password" name="password"> 
+              </div>
+               <font size="1" class="password" color="red"></font>
+              <div>
+                  <label for="login_verify">驗證碼:</label>
+                  <input type="text" id="login_verify">
+                  <button type="button" id="login_check">
+              </div>
+               <font size="1" class="verify" color="red"></font>
+              <div class="two_but">
+              <button type="submit" id="login">登入</button>
+              <button type="button" id="cancel" ><a href="">離開</a> </button>
+          </div>
+            <!-- </form> -->
 
             <div class="div_a">
-                <a href="">會員註冊</a>
-                <a href="">忘記密碼</a>
+                <a href="http://localhost:8080/TGA103G1/front-end/member/register.jsp">會員註冊</a>
+                <a href="http://localhost:8080/TGA103G1/front-end/member/checkAcco.html">忘記密碼</a>
             </div>
         </main>
     </div>
-    <div w3-include-html="../member/jsp/footer.jsp"></div>
+    <div w3-include-html="/TGA103G1/com/footer.html"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
+
         $(document).ready(function() {
   
             var arr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -66,24 +67,53 @@
             var n = arr[code] + arr[code1] + arr[code2] + arr[code3];
             login_check.textContent = n
             }
-
-
-            var equal_code = document.querySelector("#login_verify")
+            var equal_code = document.querySelector("#login_verify");
             var login_account_el = document.querySelector("#login_account");
-            
+            var password_el = document.querySelector("#login_password");
+
             $("#login").on("click",function(e){
+                $("font.account").empty();
+                $("font.password").empty();
+                $("font.verify").empty();
                 //這裡缺少帳號與密碼傳給資料庫必須吻合才能送出
-                if(equal_code.value === login_check.textContent ){
-                    document.getElementById("account_err").style.display="none";
-                    document.getElementById("psw_err").style.display="none";
-                    
+                if(login_account_el.value == ""){
+                    $("font.account").append(`帳號請勿空白`);
+                    e.preventDefault();
                 }else{
-                    alert("驗證碼輸入錯誤")
-                    document.getElementById("account_err").style.display="block";
-                    document.getElementById("psw_err").style.display="block";
+                }
+                if(password_el.value == ""){
+                    $("font.password").append(`密碼請勿空白`);
+                    e.preventDefault(); 
+                }else{
+                	
+                }
+                if(equal_code.value === login_check.textContent ){
+                }else{
+                    $("font.verify").append(`驗證碼空白或不正確`);                 
                     e.preventDefault();
                 }
-        
+            fetch('/TGA103G1/member/login2', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              account: login_account_el.value,
+              password: password_el.value
+            }),
+          })
+            .then(resp => resp.json())
+            .then(body => {
+              const { account,password } = body;
+             if(body){
+              location = "http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp"          	        	   
+             }else{
+              $("font.verify").append(message);
+             }
+              
+            });
+            })
+            
             })
             function includeHTML() {
               var z, i, elmnt, file, xhttp;
@@ -113,7 +143,7 @@
               }
             }
             includeHTML();
-        })
+        
     </script>
 </body>
 </html>
