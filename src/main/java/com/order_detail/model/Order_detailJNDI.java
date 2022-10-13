@@ -25,21 +25,7 @@ public class Order_detailJNDI implements Order_detailDAO {
 		}
 	}
 
-	@Override
-	public boolean insert(Order_detailVO obj) {
-		int rowCount = 0;
-		String sql = "insert into order_detail(order_id, product_id, amount) values(? ,? ,?);";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, obj.getOrder_id());
-			ps.setInt(2, obj.getProduct_id());
-			ps.setInt(3, obj.getAmount());
 
-			rowCount = ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rowCount == 1;
-	}
 
 	@Override
 	public boolean update(Order_detailVO obj) {
@@ -202,5 +188,21 @@ public class Order_detailJNDI implements Order_detailDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public boolean insert(Integer order_id, Integer product_id, Integer amount) {
+		int rowCount = 0;
+		String sql = "insert into order_detail(order_id, product_id, amount) values(? ,? ,?);";
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1,order_id);
+			ps.setInt(2,product_id);
+			ps.setInt(3,amount);
+
+			rowCount = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rowCount == 1;
 	}
 }

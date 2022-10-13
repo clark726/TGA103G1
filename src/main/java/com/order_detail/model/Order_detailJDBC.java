@@ -17,23 +17,7 @@ public class Order_detailJDBC implements Order_detailDAO{
 	String userid = "root";
 	String passwd = "password";
 	
-	@Override
-	public boolean insert(Order_detailVO obj) {
-		int rowCount = 0;
-		String sql = "insert into order_detail(order_id, product_id, amount) values(? ,? ,?);";
-		try(Connection connection = DriverManager.getConnection(url, userid, passwd);
-				PreparedStatement ps = connection.prepareStatement(sql)){
-				ps.setInt(1, obj.getOrder_id());
-				ps.setInt(2, obj.getProduct_id());
-				ps.setInt(3, obj.getAmount());
-				
-				rowCount =  ps.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return rowCount == 1;
-	}
+	
 
 	@Override
 	public boolean update(Order_detailVO obj) {
@@ -170,6 +154,12 @@ public class Order_detailJDBC implements Order_detailDAO{
 	public List<Order_detailVO> getOneOrderDetail(Integer order_id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean insert(Integer order_id, Integer product_id, Integer amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

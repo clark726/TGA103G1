@@ -10,14 +10,17 @@ import com.order.model.OrderJNDI;
 import com.order.model.OrderSmallVO;
 import com.order.model.OrderVO;
 import com.order.service.OrderService;
+import com.order_detail.model.Order_detailDAO;
+import com.order_detail.model.Order_detailJNDI;
 
 public class OrderServiceImpl implements OrderService {
 
 	private OrderDAO orderDao;
-
+	private Order_detailDAO order_detailDAO;
 	public OrderServiceImpl() {
 
 		orderDao = new OrderJNDI();
+		order_detailDAO = new Order_detailJNDI();
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 				map.put(orderSmallVO.getStoreId(), newlist);
 			}
 		}
-
+		//算出商品總和放到第一個商品的allprice
 		for (Map.Entry<Integer, List<OrderSmallVO>> entry : map.entrySet()) {
 			int total = 0;
 			for (int x = 0; x < entry.getValue().size(); x++) {
@@ -75,25 +78,27 @@ public class OrderServiceImpl implements OrderService {
 				}
 			}
 		}
-
+		Integer orderId = null;
 		for (Map.Entry<Integer, List<OrderSmallVO>> entry : map.entrySet()) {
 			obj.setStore_id(entry.getKey());
 			obj.setPrice(entry.getValue().get(0).getAllPrice());
-
+			 orderId =  orderDao.insert(obj);
+			for(int i = 0; i < entry.getValue().size(); i++) {
+			Integer amount = entry.getValue().get(i).getCount();
+			Integer productId = entry.getValue().get(i).getProductId();
+				order_detailDAO.insert(orderId , productId , amount);
+			}
 		}
-
-		return false;
+		return orderId != 0;
 	}
 
 	@Override
 	public boolean update(OrderVO obj) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean delete(Integer order_id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

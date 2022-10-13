@@ -122,7 +122,7 @@ public class OrderJNDI implements OrderDAO {
 	@Override
 	public Integer insert(OrderVO obj) {
 		int rows = -1;
-		String sql = "INSERT INTO `order` (`store_id`, `member_id`, `price`, `method`, `name`, `address`, `phone`,`note`) VALUES (?, ?, ?, ?, ?, ?, ?,?);";
+		String sql = "INSERT INTO `order` (`store_id`, `member_id`, `price`, `method`, `name`, `address`, `phone`,`note` , pay_method) VALUES (?, ?, ?, ?, ?, ?, ?,?,?);";
 		try (Connection conn = ds.getConnection(); PreparedStatement ppst = conn.prepareStatement(sql , new String[] {"order_id"})) {
 			ppst.setObject(1, obj.getStore_id());
 			ppst.setObject(2, obj.getMember_id());
@@ -132,6 +132,7 @@ public class OrderJNDI implements OrderDAO {
 			ppst.setObject(6, obj.getAddress());
 			ppst.setObject(7, obj.getPhone());
 			ppst.setObject(8, obj.getNote());
+			ppst.setObject(9, obj.getPay_method());
 			rows = ppst.executeUpdate();
 			
 			ResultSet rs = ppst.getGeneratedKeys();

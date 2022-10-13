@@ -56,19 +56,31 @@ crossorigin="anonymous"
           <div class="col-12" style="margin-left:65px; margin-top: 15px;">
             <h1>收貨人資訊</h1>
         </div>
-          <form class="row g-3 " style="margin-left:60px ; margin-right: 60px; margin-top: 15px;" >
+        <div class="form-check" style="display:inline-block ;">
+            <input class="form-check-input postName" type="radio" name="postMethod" value="1" id="post" style="margin-left:50px ;" checked>
+            <label class="form-check-label" for="post">
+             郵寄
+            </label>
+        </div>
+        <div class="form-check" style="display:inline-block ;">
+            <input class="form-check-input postName" type="radio" name="postMethod" value="0" id="flexCheck" style="margin-left:50px ;">
+            <label class="form-check-label" for="flexCheck">
+             自取
+            </label>
+        </div>
+          <form class="row g-3 " style="margin-left:60px ; margin-right: 60px; margin-top: 15px; margin-top: 0px;" >
             <div class="col-md-6">
-              <input type="email" class="form-control" id="name" placeholder="姓名">
+              <input type="email" class="form-control errorAll" id="name" placeholder="姓名">
             </div>
             <div class="col-md-6">
-              <input type="text" class="form-control" id="phone" placeholder="手機號碼">
+              <input type="text" class="form-control errorAll" id="phone" placeholder="手機號碼">
             </div>
             
             <div class="col-6">
-                <input class=" form-control js-demeter-tw-zipcode-selector" data-city="#city" data-dist="#dist" placeholder="請輸入郵遞區號" style="width: 150px; display: inline-block;"/>
+                <input class=" form-control js-demeter-tw-zipcode-selector" id="postalCode" data-city="#city" data-dist="#dist" placeholder="請輸入郵遞區號" style="width: 150px; display: inline-block;"/>
                  <select id="city" placeholder="請選擇縣市" name="city" class="form-select" style="width: 150px; display: inline-block;"></select>
 				<select id="dist" placeholder="請選擇鄉鎮區" name="dist" class="form-select" style="width: 150px; display: inline-block;"></select>
-				<input id="address" type="text" id="register_addr" class="form-control register_control" name="address" placeholder="請輸入地址
+				<input id="address" type="text"  class="form-control register_control errorAll" name="address" placeholder="請輸入地址
                 "/>  
             </div>
           </form>
@@ -211,17 +223,47 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
     $("#allprice").text(SumDataforEach(arrayprice))
  
 
+    //錯誤處理
+    $(document).on("blur" , "#name", function(){
+        let name = $("#name").val()
+        
+        if(name.length == 0){
+            alert("名字請勿空白")
+        }
+    });
+    //驗證電話
+    let phone = document.querySelector("#phone")
+    const rules = /[0-9]{10}/
+    phone.addEventListener("blur" , function(){
+    if(phone.value.length < 10 || !rules.test(phone.value)){
+        alert("電話長度請超過10個字元且不能是字母")
+    }
+    });
+    //錯誤處理地址
+    $(document).on("blur" , "#address", function(){
+        let address = $("#address").val()
+        if(address.length == 0){
+            alert("地址請勿空白")
+        }
+    });
+  
+       
     //新增訂單
     document.querySelector("#sumit").addEventListener("click" , function(){
-
     let pay_method = $('input[name=flexRadio]:checked').val()
     let name = document.querySelector("#name").value
     let phone = document.querySelector("#phone").value
     let address = document.querySelector("#city").value +  document.querySelector("#dist").value +  document.querySelector("#address").value
     let note = document.querySelector("#note").value
     let product =  JSON.parse(sessionStorage.getItem("product")) 
+    let postMethod= $('input[name=postMethod]:checked').val()
     let array = new Array();
-    
+        console.log(postMethod)
+    //錯誤處理
+    if(name == null || name.length == 0){
+        alert("名字請勿空白")
+    }
+
     //直接計算總和傳入後端
    for(var i = 0; i < product.length; i++){
         product2={
@@ -239,21 +281,44 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
         method:'POST',
         headers:{'Content-type':'application/json'},
         body: JSON.stringify({
-            method:'0',
+            method:postMethod,
+            member_id:'1',
             pay_method:pay_method,
             name:name,
             phone:phone,
             address:address,
             note:note,
             orderSmallVO:array,
-
         }),
     })
       .then(resp => resp.json())
       .then(body =>{
-
+            if(body.successful == true){
+                sessionStorage.removeItem("product");
+                alert("購買成功！");
+                location ="/TGA103G1/back-end/shop/shopProduct.html"
+            }else{
+                alert(body.message)
+                location ="/TGA103G1/back-end/shop/shopProduct.html"
+            }
       })
     })
+
+    //自取
+    $(document).on("click" , ".postName", function(){
+        if($("#flexCheck").prop("checked")){
+            $("#address").attr('disabled', true)
+            $("#city").attr('disabled', true)
+            $("#dist").attr('disabled', true)
+            $("#postalCode").attr('disabled', true)
+        }else{
+            $("#address").attr('disabled', false)
+            $("#city").attr('disabled', false)
+            $("#dist").attr('disabled', false)
+            $("#postalCode").attr('disabled', false)
+        }
+    })
+  
 
   </script>
 </body>

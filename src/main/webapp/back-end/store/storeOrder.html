@@ -391,7 +391,7 @@ document.querySelector("#ShippingBtn").addEventListener("click" , function(){
         order_id: order_id
       }),
     })
-      .then(resp => resp.json() )
+      .then(resp => resp.json())
       .then(body => {
         console.log(body)
         tbodyDetail.innerHTML="";

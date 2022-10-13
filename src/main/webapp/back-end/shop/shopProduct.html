@@ -20,10 +20,17 @@
       .allproduct{
         text-align: center;
       }
-      #shopicon{
+      #shopicon {
         position: fixed;
 	      right: 50px;
 	      bottom: 80px;
+      }
+      #iconcount{
+        background-color: rgb(99, 73, 73);
+        position: fixed;
+	      right: 50px;
+	      bottom: 140px;
+        font-size: 100%;
       }
     </style>
   </head>
@@ -57,6 +64,7 @@
 			<div class="container">
 				<div class="row row-cols-1 row-cols-md-4 g-5" id="row"></div>
 <!-- 購物車按鈕 -->
+<span class="badge" id="iconcount"></span>
       <svg xmlns="http://www.w3.org/2000/svg"  data-bs-toggle="modal" data-bs-target="#exampleModal" id="shopicon" width="70" height="70" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
         <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708z"/>
       </svg>
@@ -301,7 +309,7 @@
           if(productArray.length != 0){
             productArray[i].count = newcount
               sessionStorage.setItem("product" , JSON.stringify(productArray));
-
+              iconChange()
             return
           }else{
             var productJSON = JSON.parse(sessionStorage.getItem("product")) 
@@ -310,6 +318,7 @@
             }
             productArray[i].count = newcount
             sessionStorage.setItem("product" , JSON.stringify(productArray));
+            iconChange()
             return
           }
         }
@@ -341,8 +350,18 @@
           sessionStorage.setItem("product" , JSON.stringify(productArray));
        }
     } 
-  
+    iconChange()
     });
+
+      //icon顯示
+    function iconChange(){
+      let iconcount = $("#iconcount");
+      let size = JSON.parse(sessionStorage.getItem("product")).length;
+      iconcount.text("");
+      iconcount.text(size)
+    }
+    //重新整理也要呼叫
+    iconChange()
 
     //點擊訂單明細
     $(document).on("click" , "#shopicon" , function(){
@@ -387,6 +406,7 @@
       	//更新舊的陣列
           productArray = productArray2
           sessionStorage.setItem("product", JSON.stringify(productArray2))
+          iconChange()
       $(this).closest("div").fadeOut()
 
     });
