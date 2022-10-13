@@ -12,11 +12,10 @@ import javax.servlet.http.HttpSession;
 public class MemberLogout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public MemberLogout() {
-    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		System.out.println("登出成功");
 		session.invalidate();
 		
 		String url = request.getContextPath() + "/main.html";

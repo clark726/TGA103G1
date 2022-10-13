@@ -118,11 +118,10 @@ div.register_btn #cancel > a:visited{
                 <div class="register_row">
                     <label for="register_acc">帳號</label>
                     <div>
-                        <input type="text" id="register_acc" class="register_control" name="account">  
+                     <input type="text" id="register_acc" class="register_control" name="account">  
                     </div>
                 </div>
                     <font size="1" color="red" class="font">${errorMsgs.account}${errorMsgs.accoun}</font>
-
                 <div class="register_row">
                     <label for="register_psw">密碼</label>
                     <div>

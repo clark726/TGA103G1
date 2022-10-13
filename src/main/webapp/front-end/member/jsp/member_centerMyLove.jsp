@@ -54,7 +54,7 @@
                         <button><a href="">聊天室</a></button>
                     </li>
                     <li>
-                        <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="logout">登出</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="innerLogout">登出</a></button>
                     </li>
                 </ul>
             </aside>
@@ -88,12 +88,25 @@
      <div w3-include-html="/TGA103G1/com/footer.html"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
+
+      function changelog() {
+        if (sessionStorage.getItem("account")){
+          document.querySelector("#login").style.display = "none";
+          document.querySelector("#logout").style.display = "block";
+          document.querySelector("#loginbox").style.display = "none";
+          document.querySelector("#normal").style.display = "block";
+        }else if(sessionStorage.getItem("memberAccount")){
+         $("#login").css("display", "none")
+          $("#memberlogout").css("display", "block")
+        }
+      }
     //登出
-    document.querySelector("#logout").addEventListener("click", function(){
-        sessionStorage.removeItem("account")
+    document.querySelector("#innerLogout").addEventListener("click", function(){
+        sessionStorage.removeItem("memberAccount")
       })
       
-      $(function(){
+      $(function(){;
+        changelog()
             $("ul.item_list").on("click","img#img_heart",function(e){
              let favorite_id =  e.target.getAttribute("data-favorite_id")
               console.log(favorite_id)
