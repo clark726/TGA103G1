@@ -35,10 +35,7 @@
                         <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
-                        <button><a href="">聊天室</a></button>
-                    </li>
-                    <li>
-                        <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="logout">登出</a></button>
+                        <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="innerLogout">登出</a></button>
                     </li>
                 </ul>
             </aside>
@@ -54,10 +51,22 @@
    <div w3-include-html="/TGA103G1/com/footer.html"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-    //登出
-    document.querySelector("#logout").addEventListener("click", function(){
-        sessionStorage.removeItem("account")
-      })   
+    function changelog() {
+        if(sessionStorage.getItem("memberAccount")){
+        $("#login").css("display", "none")
+         $("#memberlogout").css("display", "block")
+       }
+     }
+    function logouut(){
+   //登出
+       document.querySelector("#innerLogout").addEventListener("click", function(){
+       sessionStorage.removeItem("memberAccount")
+     })
+   	document.querySelector("#memberlogout").addEventListener("click", function(){
+   	sessionStorage.removeItem("memberAccount")
+     })
+
+    }
     
 	 function includeHTML() {
           var z, i, elmnt, file, xhttp;
@@ -77,6 +86,8 @@
                   /* Remove the attribute, and call this function once more: */
                   elmnt.removeAttribute("w3-include-html");
                   includeHTML();
+                  changelog();
+                  logouut();
                 }
               }
               xhttp.open("GET", file, true);
