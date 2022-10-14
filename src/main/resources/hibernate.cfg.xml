@@ -21,5 +21,6 @@
 		<mapping class="com.product.model.ProductVO"/>
 		<mapping class="com.product_img.model.Product_imgVO"/>
 		<mapping class="com.store_img.model.Store_imgVO"/>
+		<mapping class="com.member.vo.MemberVO"/>
 	</session-factory>
 </hibernate-configuration>

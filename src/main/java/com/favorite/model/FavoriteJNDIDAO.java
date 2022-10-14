@@ -74,7 +74,7 @@ public class FavoriteJNDIDAO implements FavoriteDAO {
 	@Override
 	public List<FavoriteVO> getAll(Integer member_id) {
 		List<FavoriteVO> list = new ArrayList<FavoriteVO>();
-		String sql = "select f.favorite_id,f.store_id,f.member_id,ss.`name` from favorite f "
+		String sql = "select distinct f.favorite_id,f.store_id,f.member_id,ss.`name` from favorite f "
 				+ "join store_img s on " + "f.store_id = s.store_id " + "join store  ss on  "
 				+ "f.store_id = ss.store_id " + "where f.member_id = ?; ";
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -157,6 +157,26 @@ public class FavoriteJNDIDAO implements FavoriteDAO {
 				e.printStackTrace();
 			}
 		}
+
+	@Override
+	public Store_imgVO getStoreImgByMemberId(Integer member_id) {
+		String sql = "select img from favorite f\n"
+				+ "	join store_img i\n"
+				+ "    on f.store_id = i.store_id\n"
+				+ "where status = 1 and member_id = ?;";
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, member_id);
+			ResultSet rs = ps.executeQuery();
+			Store_imgVO store_imgVO = new Store_imgVO();
+			while (rs.next()) {
+				store_imgVO.setImg(new String(rs.getBytes("img")));
+				return store_imgVO;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 }

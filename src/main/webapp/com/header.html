@@ -49,16 +49,24 @@
 					</ul></li>
 				<li><a href="#" class="icon">會員專區</a>
 					<ul id="store" class="dropdown-menu">
-						<li><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改會員資料</a></li>
-						<li><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></li>
-						<li><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></li>
-						<li><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></li>
+						<li><a
+							href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改會員資料</a></li>
+						<li><a
+							href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></li>
+						<li><a
+							href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></li>
+						<li><a
+							href="http://localhost:8080/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></li>
 					</ul></li>
 
 				<li><a href="#">購物商城</a></li>
-				<li><a href="http://localhost:8080/TGA103G1/front-end/member/login.jsp" id="login">登入註冊</a><a
+				<li><a
+					href="http://localhost:8080/TGA103G1/front-end/member/login.jsp"
+					id="login">登入註冊</a><a
 					href="http://localhost:8080/TGA103G1/StoreLogout" id="logout"
-					style="display: none; width: 40px;">登出</a></li>
+					style="display: none; width: 40px;">登出</a> <a
+					href="http://localhost:8080/TGA103G1/MemberLogout"
+					id="memberlogout" style="display: none; width: 40px;">登出</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -111,20 +119,20 @@
 		</div>
 	</div>
 	<!-- 推播視窗 -->
-<!-- 	  <button type="button" class="btn btn-primary" id="liveToastBtn" ></button> -->
+	<!-- 	  <button type="button" class="btn btn-primary" id="liveToastBtn" ></button> -->
 
-<!-- 	  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5"> -->
-<!-- 		<div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true"> -->
-<!-- 		  <div class="toast-header"> -->
-<!-- 			<strong class="me-auto">Bootstrap</strong> -->
-<!-- 			<small>11 mins ago</small> -->
-<!-- 			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
-<!-- 		  </div> -->
-<!-- 		  <div class="toast-body"> -->
-<!-- 			<p id="toastbody"></p> -->
-<!-- 		  </div> -->
-<!-- 		</div> -->
-<!-- 	  </div> -->
+	<!-- 	  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5"> -->
+	<!-- 		<div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true"> -->
+	<!-- 		  <div class="toast-header"> -->
+	<!-- 			<strong class="me-auto">Bootstrap</strong> -->
+	<!-- 			<small>11 mins ago</small> -->
+	<!-- 			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+	<!-- 		  </div> -->
+	<!-- 		  <div class="toast-body"> -->
+	<!-- 			<p id="toastbody"></p> -->
+	<!-- 		  </div> -->
+	<!-- 		</div> -->
+	<!-- 	  </div> -->
 	<!-- 推播視窗結束 -->
 	<script>
 
@@ -162,14 +170,19 @@
       document.querySelector("#logout").addEventListener("click", function(){
           sessionStorage.removeItem("account")
         })
-      
+       document.querySelector("#memberlogout").addEventListener("click", function(){
+          sessionStorage.removeItem("memberAccount")
+        })
       //換登出鈕
       function changelog() {
-        if (sessionStorage.getItem("account")) {
+        if (sessionStorage.getItem("account")){
           document.querySelector("#login").style.display = "none";
           document.querySelector("#logout").style.display = "block";
           document.querySelector("#loginbox").style.display = "none";
           document.querySelector("#normal").style.display = "block";
+        }else if(sessionStorage.getItem("memberAccount")){
+        	 document.querySelector("#login").style.display = "none";
+        	 document.querySelector("#memberlogout").style.display = "block";
         }
       }
       changelog();

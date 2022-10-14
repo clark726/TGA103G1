@@ -221,7 +221,7 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
     return sum;
     }
     $("#allprice").text(SumDataforEach(arrayprice))
- 
+    
 
     //錯誤處理
     $(document).on("blur" , "#name", function(){
@@ -258,12 +258,16 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
     let product =  JSON.parse(sessionStorage.getItem("product")) 
     let postMethod= $('input[name=postMethod]:checked').val()
     let array = new Array();
-        console.log(postMethod)
+    let allPrice = SumDataforEach(arrayprice);
+    if(address == ""){
+        address = '自取'
+    }
+    console.log(address)
     //錯誤處理
     if(name == null || name.length == 0){
         alert("名字請勿空白")
     }
-
+    
     //直接計算總和傳入後端
    for(var i = 0; i < product.length; i++){
         product2={
@@ -276,32 +280,55 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
         }
         array.push(product2)
    }
-   console.log(array)
-    fetch('/TGA103G1/AddOrder',{
-        method:'POST',
-        headers:{'Content-type':'application/json'},
-        body: JSON.stringify({
-            method:postMethod,
-            member_id:'1',
-            pay_method:pay_method,
-            name:name,
-            phone:phone,
-            address:address,
-            note:note,
-            orderSmallVO:array,
-        }),
-    })
-      .then(resp => resp.json())
-      .then(body =>{
-            if(body.successful == true){
-                sessionStorage.removeItem("product");
-                alert("購買成功！");
-                location ="/TGA103G1/back-end/shop/shopProduct.html"
-            }else{
-                alert(body.message)
-                location ="/TGA103G1/back-end/shop/shopProduct.html"
-            }
+  //綠界
+  if(postMethod == 1){
+    fetch('https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',{
+      method:'POST',
+      headers:{'Content-type':'application/x-www-form-urlencoded'},
+      body: JSON.stringify({
+        MerchantID:'3002599',
+        MerchantTradeNo:'abc123',
+        MerchantTradeDate:'2022/10/14 10:33:33',
+        PaymentType:'aio',
+        TotalAmount:allPrice,
+        TradeDesc:"基本交易",
+        ItemName:product[0].name,
+        ReturnURL:'/TGA103G1/back-end/shop/shopProduct.html',
+        ChoosePayment:'Credit',
+        CheckMacValue:'CFA9BDE377361FBDD8F160274930E815D1A8A2E3E80CE7D404C45FC9A0A1E407',
+        EncryptType:'1,'
+  
+  
       })
+    })
+  }
+
+    // fetch('/TGA103G1/AddOrder',{
+    //     method:'POST',
+    //     headers:{'Content-type':'application/json'},
+    //     body: JSON.stringify({
+    //         method:postMethod,
+    //         member_id:'1',
+    //         pay_method:pay_method,
+    //         name:name,
+    //         phone:phone,
+    //         address:address,
+    //         note:note,
+    //         orderSmallVO:array,
+    //     }),
+    // })
+    //   .then(resp => resp.json())
+    //   .then(body =>{
+    //         if(body.successful == true){
+    //             sessionStorage.removeItem("product");
+    //             alert("購買成功！");
+    //             location ="/TGA103G1/back-end/shop/shopProduct.html"
+
+    //         }else{
+    //             alert(body.message)
+    //             location ="/TGA103G1/back-end/shop/shopProduct.html"
+    //         }
+    //   })
     })
 
     //自取

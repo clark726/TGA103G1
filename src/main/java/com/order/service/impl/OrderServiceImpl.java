@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.order.model.OrderDAO;
 import com.order.model.OrderJNDI;
@@ -57,17 +59,20 @@ public class OrderServiceImpl implements OrderService {
 
 		// 以storeId當成key做分類
 		Map<Integer, List<OrderSmallVO>> map = new HashMap();
-		for (int x = 0; x < list.size(); x++) {
-			OrderSmallVO orderSmallVO = list.get(x);
-			if (map.containsKey(orderSmallVO.getStoreId())) {
-				ArrayList<OrderSmallVO> newlist2 = (ArrayList<OrderSmallVO>) map.get(orderSmallVO.getStoreId());
-				newlist2.add(orderSmallVO);
-			} else {
-				List<OrderSmallVO> newlist = new ArrayList<>();
-				newlist.add(orderSmallVO);
-				map.put(orderSmallVO.getStoreId(), newlist);
-			}
-		}
+//		for (int x = 0; x < list.size(); x++) {
+//			OrderSmallVO orderSmallVO = list.get(x);
+//			if (map.containsKey(orderSmallVO.getStoreId())) {
+//				ArrayList<OrderSmallVO> newlist2 = (ArrayList<OrderSmallVO>) map.get(orderSmallVO.getStoreId());
+//				newlist2.add(orderSmallVO);
+//			} else {
+//				List<OrderSmallVO> newlist = new ArrayList<>();
+//				newlist.add(orderSmallVO);
+//				map.put(orderSmallVO.getStoreId(), newlist);
+//			}
+//		}
+		//以stream API方式
+		map = list.stream().collect(Collectors.groupingBy(OrderSmallVO :: getStoreId ));
+		
 		//算出商品總和放到第一個商品的allprice
 		for (Map.Entry<Integer, List<OrderSmallVO>> entry : map.entrySet()) {
 			int total = 0;

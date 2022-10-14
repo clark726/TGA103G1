@@ -78,27 +78,9 @@
         <h5 class="modal-title" id="exampleModalLabel">購物車</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <div class="col-12">
-          <select name="amount" id="shopCount">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
-          <span id="shopName">產品名字</span>
-          <button style="float: right;  margin-left: 30px;" id="closebtn" type="button" class="btn-close" aria-label="Close"></button>
-          <span style="float: right;" id="shopPrice">總金額</span>
-        </div>
-      </div>
+      <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"> <a style="text-decoration: none; color: white;" href="http://localhost:8080/TGA103G1/back-end/shop/shopCheck.html">前往結帳</a> </button>
+        <button type="button" class="btn btn-secondary"> <a id="checkBtn" style="text-decoration: none; color: white;" href="http://localhost:8080/TGA103G1/back-end/shop/shopCheck.html">前往結帳</a> </button>
       </div>
     </div>
   </div>
@@ -150,12 +132,15 @@
       includeHTML();
 
       //登出鈕
-      function changelog() {
-        if (sessionStorage.getItem("account")) {
+        function changelog() {
+        if (sessionStorage.getItem("account")){
           document.querySelector("#login").style.display = "none";
           document.querySelector("#logout").style.display = "block";
           document.querySelector("#loginbox").style.display = "none";
           document.querySelector("#normal").style.display = "block";
+        }else if(sessionStorage.getItem("memberAccount")){
+        	$("#login").css("display", "none")
+        	 $("#memberlogout").css("display", "block")
         }
       }
 
@@ -356,41 +341,50 @@
       //icon顯示
     function iconChange(){
       let iconcount = $("#iconcount");
-      let size = JSON.parse(sessionStorage.getItem("product")).length;
-      iconcount.text("");
-      iconcount.text(size)
+      let size = JSON.parse(sessionStorage.getItem("product"));
+      if(size != null){
+        iconcount.text("");
+        iconcount.text(size.length)
+      }else{
+        iconcount.text("0")
+      }
+
+    
     }
     //重新整理也要呼叫
     iconChange()
 
     //點擊訂單明細
     $(document).on("click" , "#shopicon" , function(){
+      
       let sessionProduct = JSON.parse( sessionStorage.getItem("product"))
-    $(".modal-body").html("")
-    for(var i = 0; i < sessionProduct.length; i++){
-  
-      $(".modal-body").append(`
-      <div class="col-12" id="${i}">
-          <select name="amount" class="shopCount">
-            <option value="1" ${sessionProduct[i].count == 1? "selected" : ""}>1</option>
-            <option value="2" ${sessionProduct[i].count == 2? "selected" : ""}>2</option>
-            <option value="3" ${sessionProduct[i].count == 3? "selected" : ""}>3</option>
-            <option value="4" ${sessionProduct[i].count == 4? "selected" : ""}>4</option>
-            <option value="5" ${sessionProduct[i].count == 5? "selected" : ""}>5</option>
-            <option value="6" ${sessionProduct[i].count == 6? "selected" : ""}>6</option>
-            <option value="7" ${sessionProduct[i].count == 7? "selected" : ""}>7</option>
-            <option value="8" ${sessionProduct[i].count == 8? "selected" : ""}>8</option>
-            <option value="9" ${sessionProduct[i].count == 9? "selected" : ""}>9</option>
-            <option value="10" ${sessionProduct[i].count == 10? "selected" : ""}>10</option>
-          </select>
-          <span id="shopName">${sessionProduct[i].name}</span>
-          <span id="price" style="
-    font-size: 10px;">$${sessionProduct[i].price}</span>
-          <button style="float: right;  margin-left: 30px;" id="closebtn" type="button" class="btn-close" aria-label="Close"></button>
-          <span style="float: right;" id="shopPrice"> ${Number(sessionProduct[i].count) * Number(sessionProduct[i].price)}</span>
-        </div>
-      `)
-    }
+      if(sessionProduct != null){
+        $(".modal-body").html("")
+        for(var i = 0; i < sessionProduct.length; i++){
+      
+          $(".modal-body").append(`
+          <div class="col-12" id="${i}">
+              <select name="amount" class="shopCount">
+                <option value="1" ${sessionProduct[i].count == 1? "selected" : ""}>1</option>
+                <option value="2" ${sessionProduct[i].count == 2? "selected" : ""}>2</option>
+                <option value="3" ${sessionProduct[i].count == 3? "selected" : ""}>3</option>
+                <option value="4" ${sessionProduct[i].count == 4? "selected" : ""}>4</option>
+                <option value="5" ${sessionProduct[i].count == 5? "selected" : ""}>5</option>
+                <option value="6" ${sessionProduct[i].count == 6? "selected" : ""}>6</option>
+                <option value="7" ${sessionProduct[i].count == 7? "selected" : ""}>7</option>
+                <option value="8" ${sessionProduct[i].count == 8? "selected" : ""}>8</option>
+                <option value="9" ${sessionProduct[i].count == 9? "selected" : ""}>9</option>
+                <option value="10" ${sessionProduct[i].count == 10? "selected" : ""}>10</option>
+              </select>
+              <span id="shopName">${sessionProduct[i].name}</span>
+              <span id="price" style="
+        font-size: 10px;">$${sessionProduct[i].price}</span>
+              <button style="float: right;  margin-left: 30px;" id="closebtn" type="button" class="btn-close" aria-label="Close"></button>
+              <span style="float: right;" id="shopPrice"> ${Number(sessionProduct[i].count) * Number(sessionProduct[i].price)}</span>
+            </div>
+          `)
+        }
+      }
     });
 
     //移除單個
@@ -427,10 +421,16 @@
             }
             array[order].count = newcount
             sessionStorage.setItem("product" , JSON.stringify(array));
-
-
     });
 
+    //結帳按鈕
+    $("#checkBtn").click(function(e){
+      if(sessionStorage.getItem("product") == null){
+        alert("請選擇商品")
+        e.preventDefault();
+      }
+    });
+ 
     </script>
   </body>
 </html>

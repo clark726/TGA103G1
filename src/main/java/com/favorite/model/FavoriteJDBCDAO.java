@@ -4,6 +4,8 @@ import java.sql.*;
 import java.time.*;
 import java.util.*;
 
+import com.store_img.model.Store_imgVO;
+
 public class FavoriteJDBCDAO implements FavoriteDAO {
 	String url = "jdbc:mysql://localhost:3306/barjarjo?serverTimezone=Asia/Taipei";
 	String userid = "root";
@@ -85,5 +87,11 @@ public class FavoriteJDBCDAO implements FavoriteDAO {
 	public void deleteF(FavoriteVO obj) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Store_imgVO getStoreImgByMemberId(Integer member_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
