@@ -41,9 +41,6 @@
                         <button><a href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a></button>
                     </li>
                     <li>
-                        <button><a href="">聊天室</a></button>
-                    </li>
-                    <li>
                         <button><a href="http://localhost:8080/TGA103G1/memberLogout" id="innerLogout">登出</a></button>
                     </li>
                 </ul>
@@ -99,23 +96,22 @@
     <div w3-include-html="/TGA103G1/com/footer.html"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script>
-    
      function changelog() {
-        if (sessionStorage.getItem("account")){
-          document.querySelector("#login").style.display = "none";
-          document.querySelector("#logout").style.display = "block";
-          document.querySelector("#loginbox").style.display = "none";
-          document.querySelector("#normal").style.display = "block";
-        }else if(sessionStorage.getItem("memberAccount")){
+         if(sessionStorage.getItem("memberAccount")){
          $("#login").css("display", "none")
           $("#memberlogout").css("display", "block")
         }
       }
-
+     function logouut(){
     //登出
-    document.querySelector("#innerLogout").addEventListener("click", function(){
+        document.querySelector("#innerLogout").addEventListener("click", function(){
         sessionStorage.removeItem("memberAccount")
       })
+    	document.querySelector("#memberlogout").addEventListener("click", function(){
+    	sessionStorage.removeItem("memberAccount")
+      })
+
+     }
     
     let nickname = document.querySelector("#nickname");
     let email = document.querySelector("#email");
@@ -191,6 +187,8 @@
                   /* Remove the attribute, and call this function once more: */
                   elmnt.removeAttribute("w3-include-html");
                   includeHTML();
+                  changelog();
+                  logouut();
                 }
               }
               xhttp.open("GET", file, true);
