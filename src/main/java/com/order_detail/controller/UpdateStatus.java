@@ -2,6 +2,7 @@ package com.order_detail.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.common.LocalDateAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.order_detail.model.Order_detailVO;
@@ -19,7 +21,7 @@ import com.order_detail.service.impl.Order_detailServiceImpl;
 public class UpdateStatus extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Order_detailService OrderDetailSvc = new Order_detailServiceImpl();
-	Gson _gson = new Gson();
+	private Gson _gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -32,7 +34,7 @@ public class UpdateStatus extends HttpServlet {
 		
 		response.setContentType("application/json");
 		try(PrintWriter pw = response.getWriter()){
-			pw.print(new GsonBuilder().create().toJson(vo));
+			pw.print(_gson.toJson(vo));
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

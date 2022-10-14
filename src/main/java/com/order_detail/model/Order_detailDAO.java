@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface Order_detailDAO {
 
-	public boolean insert(Order_detailVO obj);
+	public boolean insert(Integer order_id , Integer product_id , Integer amount);
 
 	public boolean update(Order_detailVO obj);
 

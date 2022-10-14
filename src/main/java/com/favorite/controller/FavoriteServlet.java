@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.member.service.MemberService;
 import com.member.service.impl.MemberServiceImpl;
 import com.member.vo.MemberVO;
+import com.store_img.model.Store_imgVO;
 
 @WebServlet("/favorite")
 public class FavoriteServlet extends HttpServlet {
@@ -31,22 +32,33 @@ public class FavoriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String action = request.getParameter("action");
-		String memId = request.getParameter("member_id");
-		String stoId = request.getParameter("store_id");
-		if ("getImg".equals(action)) {
-			if (memId != null) {
-				Integer member_id = Integer.parseInt(memId);
-				Integer store_id = Integer.parseInt(stoId);
+//		String action = request.getParameter("action");
+//		String memId = request.getParameter("member_id");
+//		String stoId = request.getParameter("store_id");
+//		if ("getImg".equals(action)) {
+//			if (memId != null) {
+//				Integer member_id = Integer.parseInt(memId);
+//				Integer store_id = Integer.parseInt(stoId);
+//
+//				FavoriteVO vo = service.getStoreImgByStoreId(member_id, store_id);
+//
+//				ServletOutputStream out = response.getOutputStream();
+//				System.out.println(vo.getImg());
+//				byte[] img = vo.getImg();
+//				out.write(img);
+//				out.close();
+//			}
+//		}
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 
-				FavoriteVO vo = service.getStoreImgByStoreId(member_id, store_id);
+		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("userid");
+		Store_imgVO store_imgVO = service.getStoreImgByMemberId(memberVO.getMember_id());
 
-				ServletOutputStream out = response.getOutputStream();
-				System.out.println(vo.getImg());
-				byte[] img = vo.getImg();
-				out.write(img);
-				out.close();
-			}
+		try (PrintWriter pw = response.getWriter()) {
+			pw.print(new GsonBuilder().create().toJson(store_imgVO));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

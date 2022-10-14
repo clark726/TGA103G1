@@ -2,24 +2,27 @@ package com.order.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.order.model.OrderDAO;
 import com.order.model.OrderJNDI;
 import com.order.model.OrderSmallVO;
 import com.order.model.OrderVO;
 import com.order.service.OrderService;
+import com.order_detail.model.Order_detailDAO;
+import com.order_detail.model.Order_detailJNDI;
 
 public class OrderServiceImpl implements OrderService {
 
 	private OrderDAO orderDao;
-
+	private Order_detailDAO order_detailDAO;
 	public OrderServiceImpl() {
 
 		orderDao = new OrderJNDI();
+		order_detailDAO = new Order_detailJNDI();
 	}
 
 	@Override
@@ -31,9 +34,9 @@ public class OrderServiceImpl implements OrderService {
 	public OrderVO getOrderByOrderId(OrderVO orderVO) {
 		String account = orderVO.getAccount();
 		Integer order_id = orderVO.getOrder_id();
-//搜尋沒有值		
+		//搜尋沒有值		
 		OrderVO backOrderVO = orderDao.getOrderByOrderId(account, order_id);
-		
+
 		if (backOrderVO.getMember_id() == null) {
 			orderVO.setSuccessful(false);
 			orderVO.setMessage("沒有此訂單");
@@ -42,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
 			backOrderVO.setSuccessful(true);
 			return backOrderVO;
 		}
-		
+
 	}
 
 	@Override
@@ -53,55 +56,54 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public boolean insert(OrderVO obj) {
 		List<OrderSmallVO> list = obj.getOrderSmallVO();
-		
-		
-		//以storeId當成key做分類 
-		Map<Integer,List<OrderSmallVO>> map = new HashMap();
-		for(int x=0;x<list.size();x++) {
-			OrderSmallVO orderSmallVO = list.get(x);
-			if(map.containsKey(orderSmallVO.getStoreId())){
-				ArrayList<OrderSmallVO> newlist2 = (ArrayList<OrderSmallVO>) map.get(orderSmallVO.getStoreId());
-				newlist2.add(orderSmallVO);
-			}else {
-				List<OrderSmallVO> newlist = new ArrayList<>();
-				newlist.add(orderSmallVO);
-				map.put(orderSmallVO.getStoreId(), newlist);
-			}
-		}
-		
-		//計算價錢加總
-		Map<Integer, Integer> mapPrice = new HashMap<Integer, Integer>();
-			Iterator<Integer> iter = map.keySet().iterator();
-			while(iter.hasNext()) {
-				Integer key = iter.next();
-				List<OrderSmallVO> vo = map.get(key);
-				for(int j = 0; j < vo.size(); j++) {
-					if(mapPrice.containsKey(j)) {
 
-					}else {
-						mapPrice.put(j, vo.get(j).getAllPrice());
-					}
+		// 以storeId當成key做分類
+		Map<Integer, List<OrderSmallVO>> map = new HashMap();
+//		for (int x = 0; x < list.size(); x++) {
+//			OrderSmallVO orderSmallVO = list.get(x);
+//			if (map.containsKey(orderSmallVO.getStoreId())) {
+//				ArrayList<OrderSmallVO> newlist2 = (ArrayList<OrderSmallVO>) map.get(orderSmallVO.getStoreId());
+//				newlist2.add(orderSmallVO);
+//			} else {
+//				List<OrderSmallVO> newlist = new ArrayList<>();
+//				newlist.add(orderSmallVO);
+//				map.put(orderSmallVO.getStoreId(), newlist);
+//			}
+//		}
+		//以stream API方式
+		map = list.stream().collect(Collectors.groupingBy(OrderSmallVO :: getStoreId ));
+		
+		//算出商品總和放到第一個商品的allprice
+		for (Map.Entry<Integer, List<OrderSmallVO>> entry : map.entrySet()) {
+			int total = 0;
+			for (int x = 0; x < entry.getValue().size(); x++) {
+				total += entry.getValue().get(x).getAllPrice();
+				if (x == entry.getValue().size() - 1) {
+					entry.getValue().get(0).setAllPrice(total);
 				}
 			}
-			
-		for(Integer key : map.keySet()) {
-			obj.setStore_id(key);
-//			obj.setPrice(key);
-//			orderDao.insert(obj);
 		}
-		
-		return false;
+		Integer orderId = null;
+		for (Map.Entry<Integer, List<OrderSmallVO>> entry : map.entrySet()) {
+			obj.setStore_id(entry.getKey());
+			obj.setPrice(entry.getValue().get(0).getAllPrice());
+			 orderId =  orderDao.insert(obj);
+			for(int i = 0; i < entry.getValue().size(); i++) {
+			Integer amount = entry.getValue().get(i).getCount();
+			Integer productId = entry.getValue().get(i).getProductId();
+				order_detailDAO.insert(orderId , productId , amount);
+			}
+		}
+		return orderId != 0;
 	}
 
 	@Override
 	public boolean update(OrderVO obj) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean delete(Integer order_id) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
