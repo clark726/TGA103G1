@@ -159,23 +159,30 @@ public class FavoriteJNDIDAO implements FavoriteDAO {
 		}
 
 	@Override
-	public Store_imgVO getStoreImgByMemberId(Integer member_id) {
-		String sql = "select img from favorite f\n"
-				+ "	join store_img i\n"
-				+ "    on f.store_id = i.store_id\n"
-				+ "where status = 1 and member_id = ?;";
+	public List<Store_imgVO> getStoreImgByMemberId(Integer member_id) {
+		String sql = "select s.name , f.favorite_id , f.img  from store s\n"
+				+ "	join(select f.favorite_id , i.img , f.store_id, f.member_id from favorite f\n"
+				+ "			join store_img i\n"
+				+ "			on f.store_id = i.store_id\n"
+				+ "	where status = 1 and member_id = ?) f\n"
+				+ "where s.store_id = f.store_id;";
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, member_id);
 			ResultSet rs = ps.executeQuery();
-			Store_imgVO store_imgVO = new Store_imgVO();
+			List<Store_imgVO> list = new ArrayList<Store_imgVO>();
 			while (rs.next()) {
+				Store_imgVO store_imgVO = new Store_imgVO();
 				store_imgVO.setImg(new String(rs.getBytes("img")));
-				return store_imgVO;
+				store_imgVO.setName(rs.getString("name"));
+				store_imgVO.setStatus1(rs.getInt("favorite_id"));
+				list.add(store_imgVO);
 			}
+			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return null;
+		
 	}
 	
 

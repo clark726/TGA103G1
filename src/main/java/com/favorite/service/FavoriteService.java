@@ -17,7 +17,7 @@ public interface FavoriteService {
 
 	FavoriteVO getStoreImgByStoreId(Integer member_id, Integer store_id);
 
-	Store_imgVO getStoreImgByMemberId(Integer member_id);
+	List<Store_imgVO> getStoreImgByMemberId(Integer member_id);
 
 	// MAP
 	public List<FavoriteVO> getAllM(Integer id);

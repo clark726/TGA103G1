@@ -73,7 +73,7 @@ public class FavoritServiceIpml implements FavoriteService {
 	}
 
 	@Override
-	public Store_imgVO getStoreImgByMemberId(Integer member_id) {
+	public List<Store_imgVO> getStoreImgByMemberId(Integer member_id) {
 		return dao.getStoreImgByMemberId(member_id);
 	}
 
