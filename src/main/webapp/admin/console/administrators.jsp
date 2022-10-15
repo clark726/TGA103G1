@@ -24,10 +24,12 @@
 			<div class="list-group list-group-flush">
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料</a> <a
+					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料</a>
+				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span id="adminSpan"
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
+					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
+					id="adminSpan" class="badge"
+					style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
 				</span></a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉<span
@@ -105,15 +107,16 @@
 				</div>
 			</nav>
 			<!-- Page content-->
-			
+
 			<!-- ----- -->
 			<div class="container-fluid">
 				<table class="table table-hover">
 					<caption>
 						<c:if test="${admin.status>1}">
-							<a class="front_paga" 
-							href="<%=request.getContextPath()%>/admin/console/register.jsp">註冊新管理員</a>
+							<a class="front_paga"
+								href="<%=request.getContextPath()%>/admin/console/register.jsp">註冊新管理員</a>
 						</c:if>
+						<a class="front_paga" href="updatePassword.jsp">修改密碼</a>
 					</caption>
 					<thead>
 						<tr>
@@ -136,19 +139,18 @@
 								<tr>
 									<td class="adminId">${admins.manager_id}</td>
 									<td>${admins.account }</td>
-									<td>${admins.lastLoginTime }</td>
+									<td><c:if test="${not empty admins.lastLoginTime}">
+									${admins.lastLoginTime.year}/${admins.lastLoginTime.monthValue}/${admins.lastLoginTime.dayOfMonth}
+										${admins.lastLoginTime.hour}:${admins.lastLoginTime.minute}:${admins.lastLoginTime.second}</c:if></td>
 									<td>${admins.birthday }</td>
-									<td>
-										<c:if test="${admin.status>1}">
+									<td><c:if test="${admin.status>1}">
 											<select id="status">
 												<option value="2" ${admins.status==2?"selected":""}>最高權限</option>
 												<option value="1" ${admins.status==1?"selected":""}>管理員</option>
 											</select>
-										</c:if>
-										<c:if test="${admin.status!=2}">
+										</c:if> <c:if test="${admin.status!=2}">
 											管理員
-										</c:if>
-									</td>
+										</c:if></td>
 									<c:if test="${admin.status>1}">
 										<td>
 											<button type="button" class="update ">update</button>
@@ -175,57 +177,71 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 	<script>
-document.querySelectorAll(".delete").forEach(function(el) {
-	el.addEventListener("click", function(ev) {
-		var trEl = el.closest("tr");
-		var adminId = trEl.children[0].innerText;
-		if (window.confirm("確定要刪除嗎?")) {
-			$.ajax({
-				url : "/TGA103G1/control",
-				type : "post",
-				data : {
-					action : "deleteAdmin",
-					"adminId" : adminId
-				},
-				dataType : "text",
-				success : function(xhr) {
-					alert(xhr);
-					trEl.remove();
-					var adminspan = document.querySelector("#adminSpan").innerHTML;
-					document.querySelector("#adminSpan").innerHTML = --adminspan;
-				},
-				error : function(xhr) {
-					console.log("error");
-					console.log(xhr);
-				},
+		document
+				.querySelectorAll(".delete")
+				.forEach(
+						function(el) {
+							el
+									.addEventListener(
+											"click",
+											function(ev) {
+												var trEl = el.closest("tr");
+												var adminId = trEl.children[0].innerText;
+												if (window.confirm("確定要刪除嗎?")) {
+													$
+															.ajax({
+																url : "/TGA103G1/control",
+																type : "post",
+																data : {
+																	action : "deleteAdmin",
+																	"adminId" : adminId
+																},
+																dataType : "text",
+																success : function(
+																		xhr) {
+																	alert(xhr);
+																	trEl
+																			.remove();
+																	var adminspan = document
+																			.querySelector("#adminSpan").innerHTML;
+																	document
+																			.querySelector("#adminSpan").innerHTML = --adminspan;
+																},
+																error : function(
+																		xhr) {
+																	console
+																			.log("error");
+																	console
+																			.log(xhr);
+																},
+															});
+												}
+											});
+						});
+
+		document.querySelectorAll(".update").forEach(function(el) {
+			el.addEventListener("click", function(ev) {
+				var trEl = el.closest("tr");
+				var adminId = trEl.children[0].innerText;
+				$.ajax({
+					url : "/TGA103G1/control",
+					type : "post",
+					data : {
+						"action" : "updateAdmin",
+						"adminId" : adminId,
+						"adminStatus" : document.querySelector("#status").value
+					},
+					dataType : "text",
+					success : function(xhr) {
+
+					},
+					error : function(xhr) {
+						console.log("error");
+						console.log(xhr);
+					},
+				});
 			});
-		}
-	});
-});
-		
-document.querySelectorAll(".update").forEach(function(el) {
-	el.addEventListener("click", function(ev) {
-		var trEl = el.closest("tr");
-		var adminId = trEl.children[0].innerText;
-			$.ajax({
-				url : "/TGA103G1/control",
-				type : "post",
-				data : {
-					"action" : "updateAdmin",
-					"adminId" : adminId,
-					"adminStatus":document.querySelector("#status").value
-				},
-				dataType : "text",
-				success : function(xhr) {
-					
-				},
-				error : function(xhr) {
-					console.log("error");
-					console.log(xhr);
-				},
-			});
-	});
-});
+		});
 	</script>
 </body>
 </html>

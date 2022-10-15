@@ -13,6 +13,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import com.member.vo.MemberVO;
 public class Message_reportJNDIDAO {
 
 	
@@ -24,6 +26,30 @@ public class Message_reportJNDIDAO {
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
+	}
+	public MemberVO getMemberByMessageReportId(Integer id) {
+		final String sql = "select m.member_id,m.account,m.password,m.birthday,m.address,m.gender,m.email,m.nickname,m.phone,m.register,m.permission from message_report r join member m on r.member_id = m.member_id where r.message_report_id = ?; ";
+		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
+			ps.setObject(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					MemberVO member1 = new MemberVO();
+					member1.setMember_id(rs.getInt(1));
+					member1.setAccount(rs.getString(2));
+					member1.setPassword(rs.getString(3));
+					member1.setBirthday(rs.getObject(4, LocalDate.class));
+					member1.setAddress(rs.getString(5));
+					member1.setGender(rs.getInt(6));
+					member1.setEmail(rs.getString(7));
+					member1.setNickname(rs.getString(8));
+					member1.setPhone(rs.getString(9));
+					return member1;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public List<Object[]> getAllAndForumId(){
