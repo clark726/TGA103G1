@@ -25,6 +25,19 @@ public class ManagerJNDIDAO {
 		}
 	}
 	
+	public boolean updatePassword(Integer id,String password) {
+		int row = 0;
+		String sql = "UPDATE `manager` SET `password` = ? WHERE (`manager_id` = ?);";
+		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+			ppst.setObject(1, password);
+			ppst.setObject(2, id);
+			row = ppst.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return row > 0 ;
+	}
+	
 	public void updateLoginTime(Integer id) {
 		String sql = "UPDATE `manager` SET `last_login_time` = ? WHERE (`manager_id` = ?);";
 		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {

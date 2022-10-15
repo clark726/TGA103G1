@@ -2,6 +2,7 @@ package com.message_report.model.service.impl;
 
 import java.util.List;
 
+import com.member.vo.MemberVO;
 import com.message_report.model.Message_reportJNDIDAO;
 import com.message_report.model.Message_reportVO;
 import com.message_report.model.service.Message_reportService;
@@ -28,6 +29,10 @@ public class Message_reportServiceImpl implements Message_reportService{
 	@Override
 	public List<Object[]> getAllAndForumId() {
 		return jndi.getAllAndForumId();
+	}
+	@Override
+	public MemberVO getMemberByMessageReportId(Integer id) {
+		return jndi.getMemberByMessageReportId(id);
 	}
 	
 }

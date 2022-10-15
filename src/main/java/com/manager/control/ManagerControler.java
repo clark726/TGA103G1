@@ -72,16 +72,8 @@ public class ManagerControler extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String action = req.getParameter("action");
-		if (action != null) {
-			switch (action) {
-			default:
-				this.logout(req, resp);
-				System.out.println("doGet.action " + action);
-			}
-		} else {
-			this.logout(req, resp);
-		}
+		System.out.println("doGet.action " + req.getParameter("action"));
+		this.logout(req, resp);
 	}
 
 	@Override
@@ -98,9 +90,6 @@ public class ManagerControler extends HttpServlet {
 				update(req, resp);
 				break;
 			// 管理員登出
-//			case "logout":
-//				logout(req, resp);
-//				break;
 			case "search":
 				search(req, resp);
 				break;
@@ -116,12 +105,6 @@ public class ManagerControler extends HttpServlet {
 			case "updateforumReport":
 				updateforumReport(req, resp);
 				break;
-//			case "getAllforumReport":
-//				getAllforumReport(req, resp);
-//				break;
-//			case "readForum":
-//				readForum(req, resp);
-//				break;
 			case "seenForum":
 				seenForum(req, resp);
 				break;
@@ -140,9 +123,6 @@ public class ManagerControler extends HttpServlet {
 			case "roductStatusSelect":
 				roductStatusSelect(req, resp);
 				break;
-//			case "getAllProduct":
-//				getAllProduct(req, resp);
-//				break;
 			case "updateProdcut":
 				updateProdcut(req, resp);
 				break;
@@ -161,9 +141,9 @@ public class ManagerControler extends HttpServlet {
 			case "updateAdmin":
 				updateAdmin(req, resp);
 				break;
-				case "getFroumId":
-					getFroumId(req,resp);
-					break;
+			case "updateAdminPassword":
+				updateAdminPassword(req, resp);
+				break;
 			default:
 				resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 				System.out.println("action " + action);
@@ -175,15 +155,20 @@ public class ManagerControler extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/admin/login.jsp");
 		}
 	}
-	
-	private void getFroumId(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-//		this.message_reportService.getForumIdByStatus(1);
+
+	private void updateAdminPassword(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
+		String newPassword = req.getParameter("newPassword");
+		ManagerVO vo = (ManagerVO) req.getSession().getAttribute("admin");
+		if (this.managerService.updatePassword(vo.getManager_id(), newPassword)) {
+			resp.sendRedirect(req.getContextPath() + "/admin/console/administrators.jsp");
+			return;
+		}
 	}
 
 	private void updateAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		String adminId = req.getParameter("adminId");
 		String adminStatus = req.getParameter("adminStatus");
-//		System.out.println("control.updateAdminStatus id:" + adminId + " status:" + adminStatus);
 		PrintWriter out = resp.getWriter();
 		try {
 			Integer id = Integer.parseInt(adminId);
@@ -203,28 +188,22 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	private void changeFrontImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		Collection<Part> parts = req.getParts();
-		for (Part part : parts) {
-			if ("img".equals(part.getName()) && part.getContentType() != null) {
-				try (InputStream in = part.getInputStream();
-						FileOutputStream out = new FileOutputStream(super.getServletContext().getRealPath("/") + "img\\"
-								+ req.getParameter("filename") + ".jpeg");) {
-					in.transferTo(out);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		Part part = req.getPart("img");
+		if (part.getContentType() != null) {
+			try (InputStream in = part.getInputStream();
+					FileOutputStream out = new FileOutputStream(super.getServletContext().getRealPath("/") + "img\\"
+							+ req.getParameter("filename") + ".jpeg");) {
+				in.transferTo(out);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-//		File file = new File(super.getServletContext().getRealPath("/")+"img/"+req.getParameter("filename")+".jpeg");
-//		System.out.println("file path: "+super.getServletContext().getRealPath("/")+"img/"+req.getParameter("filename")+".jpeg");
-//		System.out.println("file exists: "+file.exists());
-//		resp.sendRedirect(req.getHeader("referer"));
 	}
 
 	private void forgetPassword(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		String user = req.getParameter("user");
 		String birthday = req.getParameter("birthday");
-		try (PrintWriter out = resp.getWriter();){
+		try (PrintWriter out = resp.getWriter();) {
 			LocalDate localDate = Apadter.stringToLocalDate(birthday);
 			ManagerVO vo = this.managerService.forgetPassword(user, localDate);
 			if (vo == null) {
@@ -249,7 +228,8 @@ public class ManagerControler extends HttpServlet {
 		}
 	}
 
-	public void getImageByProductId(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+	public void getImageByProductId(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
 		String productId = req.getParameter("productId");
 		try (PrintWriter out = resp.getWriter();) {
 			Integer id = Integer.parseInt(productId);
@@ -261,7 +241,7 @@ public class ManagerControler extends HttpServlet {
 		}
 	}
 
-	private void updateProdcut(HttpServletRequest req, HttpServletResponse resp)  {
+	private void updateProdcut(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			Integer status = Integer.parseInt(req.getParameter("status"));
 			Integer id = Integer.parseInt(req.getParameter("productId"));
@@ -281,18 +261,11 @@ public class ManagerControler extends HttpServlet {
 		}
 	}
 
-//	private void getAllProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-//		List<ProductVO> list = this.productService.getAll();
-//		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-//		resp.getWriter().print(gson.toJson(list));
-//	}
-
 	private void roductStatusSelect(HttpServletRequest req, HttpServletResponse resp) {
 		String productStatus = req.getParameter("productStatus");
 		Integer status = Integer.parseInt(productStatus);
 		req.getSession().removeAttribute(productStatus);
 		req.getSession().setAttribute("productStatus", status);
-//		resp.getWriter().print(productStatus);
 
 	}
 
@@ -320,7 +293,6 @@ public class ManagerControler extends HttpServlet {
 			resp.sendRedirect("/TGA103G1/admin/console/administrators.jsp");
 		} else {
 			System.out.println("control.register fail");
-//			resp.sendRedirect(req.getHeader("referer"));
 		}
 
 	}
@@ -345,14 +317,14 @@ public class ManagerControler extends HttpServlet {
 			Integer member = Integer.parseInt(memberId);
 			MemberVO member1 = this.memberService.findByPrimaryKey(member);
 			req.getSession().setAttribute("forumReport", list);
-			new Thread(new MailService(member1.getEmail(), "屏蔽文章", member1.getNickname()+",",reason)).start();
+			new Thread(new MailService(member1.getEmail(), "屏蔽文章", member1.getNickname() + ",", reason)).start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 //		resp.sendRedirect(req.getHeader("referer"));
 	}
 
-	private void seenForum(HttpServletRequest req, HttpServletResponse resp){
+	private void seenForum(HttpServletRequest req, HttpServletResponse resp) {
 		String forumReport = req.getParameter("forumReport");
 		try {
 			ArrayList<Forum_reportVO> list = (ArrayList<Forum_reportVO>) req.getSession().getAttribute("forumReport");
@@ -367,50 +339,21 @@ public class ManagerControler extends HttpServlet {
 				System.out.println("control.seenforum fail");
 			}
 			req.getSession().setAttribute("forumReport", list);
-//			resp.sendRedirect(req.getHeader("referer"));
 		} catch (Exception e) {
 			System.out.println("control.seenforum numberformat fail");
-//			resp.sendRedirect(req.getHeader("referer"));
 		}
 
 	}
-
-//	private void readForum(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//		String forumId = req.getParameter("forumId");
-//		Integer id = Integer.parseInt(forumId);
-//		ForumVO forum = this.forum.get(id);
-//		resp.getWriter().print(forum.getContent());
-//	}
-
-	// 做過修改但未測試
-//	private void getAllforumReport(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-//		Gson gson = new Gson();
-//		List<Forum_reportVO> reports = this.forumReport.getAll();
-//		for (int x = 0; x < reports.size(); x++) {
-//			Map<String, Object> map = new HashMap<String, Object>();
-//			map.put("forum_report_id", reports.get(x).getForum_report_id());
-//			map.put("member_id", reports.get(x).getMember_id());
-//			map.put("forum_id", reports.get(x).getForum_id());
-//			map.put("reason", reports.get(x).getReason());
-//			map.put("date", reports.get(x).getDate().toString());
-//			map.put("status", reports.get(x).getStatus());
-//			list.add(map);
-//		}
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("admin", req.getSession().getAttribute("admin"));
-//		list.add(map);
-//		resp.getWriter().print(gson.toJson(list));
-//	}
 
 	private void updateforumReport(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			Integer btnVal = Integer.parseInt(req.getParameter("btnVal"));
 			this.message_reportService.update(btnVal);
 			HttpSession session = req.getSession();
-			ArrayList<Message_reportVO> list = (ArrayList<Message_reportVO>) session.getAttribute("messageReportList");
+			ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>) session
+					.getAttribute("messageReportList");
 			for (int x = 0; x < list.size(); x++) {
-				if (list.get(x).getMessage_id().equals(btnVal)) {
+				if (list.get(x).get("message_id").equals(btnVal)) {
 					list.remove(x);
 					session.setAttribute("messageReportList", list);
 					break;
@@ -433,43 +376,29 @@ public class ManagerControler extends HttpServlet {
 			Integer forumMessageId = Integer.parseInt(deleteVal);
 			Integer reportId = Integer.parseInt(btnVal);
 			List<Integer> list = this.message_reportService.getMessageReportByMessageId(forumMessageId);
-			List<Message_reportVO> messageReports = (List<Message_reportVO>) req.getSession()
+			List<HashMap<String, Object>> messageReports = (List<HashMap<String, Object>>) req.getSession()
 					.getAttribute("messageReportList");
-
 			for (int x = 0; x < list.size(); x++) {
 				for (int y = 0; y < messageReports.size(); y++) {
-					if (list.get(x).equals(messageReports.get(y).getMessage_report_id())) {
+					if (list.get(x).equals(messageReports.get(y).get("message_report_id"))) {
 						messageReports.remove(y);
 						break;
 					}
 				}
 			}
+			MemberVO vo = this.message_reportService.getMemberByMessageReportId(reportId);
+			new Thread(new MailService(vo.getEmail(), "留言遭檢舉刪除", ", " + vo.getNickname(), reason)).start();
 			req.getSession().setAttribute("messageReportList", messageReports);
 			out.print(123);
+			return;
 		} catch (Exception e) {
 			out.print(123);
 			e.printStackTrace();
+			return;
 		} finally {
 			if (out != null)
 				out.close();
 		}
-
-//		new Thread(new MailService(vo.getEmail(), "留言遭刪除", vo.getAccount(), "刪除原因:" + req.getParameter("reason")))
-//				.start();
-
-//		req.getSession().setAttribute("messageReportList", this.message_reportService.getAll());
-//		sessionSetAttribute(req.getSession());
-//		resp.getWriter().print("true");
-//		AsyncContext asyncContext = req.startAsync();
-//		asyncContext.start(new MailService(asyncContext));
-
-//		req.setAttribute("account", accountString);
-//		if(req.isAsyncSupported()) {
-//			AsyncContext asyncContext = req.getAsyncContext();
-//			asyncContext.start(new MailService(asyncContext));
-//		}else {
-//			System.out.println("not asyncContext support cant send mail");
-//		}
 	}
 
 	private void getFroumMessage(HttpServletRequest req, HttpServletResponse resp)
@@ -485,6 +414,7 @@ public class ManagerControler extends HttpServlet {
 			map.put("context", msg.getContent());
 			map.put("date", Apadter.localDateTimeToDate(msg.getDate()).getTime());
 			out.print(new Gson().toJson(map));
+//			return;
 		} catch (Exception e) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("context", "找不到文章");
@@ -585,33 +515,32 @@ public class ManagerControler extends HttpServlet {
 		session.setAttribute("members", memberList);
 		session.setAttribute("memberPages",
 				memberList.size() % datas == 0 ? memberList.size() / datas : memberList.size() / datas + 1);
-		
-		
+
 		List<Object[]> objlist = this.message_reportService.getAllAndForumId();
-		List<Map<String,Object>> messageReportList = new ArrayList<>();
-		for(int x=0;x<objlist.size();x++) {
-			Map<String,Object> map = new HashMap<String, Object>();
-			map.put("message_report_id",objlist.get(x)[0]);
-			map.put("member_id",objlist.get(x)[1]);
-			map.put("message_id",objlist.get(x)[2]);
-			map.put("reason",objlist.get(x)[3]);
-			map.put("date",objlist.get(x)[4]);
-			map.put("status",objlist.get(x)[5]);
-			map.put("forum_id",objlist.get(x)[6]);
+		List<Map<String, Object>> messageReportList = new ArrayList<>();
+		for (int x = 0; x < objlist.size(); x++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("message_report_id", objlist.get(x)[0]);
+			map.put("member_id", objlist.get(x)[1]);
+			map.put("message_id", objlist.get(x)[2]);
+			map.put("reason", objlist.get(x)[3]);
+			map.put("date", objlist.get(x)[4]);
+			map.put("status", objlist.get(x)[5]);
+			map.put("forum_id", objlist.get(x)[6]);
 			messageReportList.add(map);
 		}
-		
-		
+
 		session.setAttribute("messageReportList", messageReportList);
 		session.setAttribute("datas", datas);
 		List<ManagerVO> list = this.managerService.getAll();
 		session.setAttribute("admins", list);
 		ArrayList<ProductVO> products = (ArrayList<ProductVO>) this.productService.getAll();
 		int listing = 0;
-		for(ProductVO tmp:products) {
-			if(tmp.getStatus().equals(1)) ++listing;
+		for (ProductVO tmp : products) {
+			if (tmp.getStatus().equals(1))
+				++listing;
 		}
-		session.setAttribute("listing",listing);
+		session.setAttribute("listing", listing);
 		session.setAttribute("products", products);
 		session.setAttribute("productStatus", 3);
 		session.setAttribute("forumReport", this.forumReport.getAll());

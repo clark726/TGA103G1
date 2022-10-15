@@ -64,6 +64,10 @@ public class ManagerServiceImpl implements ManagerService {
 		vo.setManager_id(id);
 		return dao.updateStatus(vo);
 	}
+	@Override
+	public boolean updatePassword(Integer id, String password) {
+		return dao.updatePassword(id,password);
+	}
 	
 
 }

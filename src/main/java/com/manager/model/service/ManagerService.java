@@ -22,4 +22,5 @@ public interface ManagerService {
     
     void updateLoginTime(Integer id);
     public boolean updateStatus(Integer id,Integer status);
+    public boolean updatePassword(Integer id,String password);
 }

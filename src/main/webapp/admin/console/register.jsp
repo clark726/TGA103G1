@@ -107,9 +107,6 @@
 			<!-- Page content-->
 			<div class="container-fluid">
 			
-			
-			
-			
 			<!-- --------------------------------------------- -->
 				<form class="form-horizontal" role="form" action="<%=request.getContextPath()%>/control" method="post">
 					<div class="form-group">
@@ -158,43 +155,43 @@
 	<!-- Core theme JS-->
 	<script src="<%=request.getContextPath()%>/admin/js/admin.js"></script>
 	<script>
-	document.querySelector(".submit").addEventListener("click",function(e){
-	      var account = document.querySelector(".account").value;
-	      var password = document.querySelector(".password1").value;
-	      var again = document.querySelector(".password2").value;
-	      var birthday = document.querySelector(".birthday").value;
-	      ///^\w+@\w{2,5}\.\w{2,5}(\.w{2,5})?$/.test
-	      if(account.length <8 ||account.length>15){
-	        e.preventDefault();
-	        alert("帳號8~15字");
-	        return;
-	      }
-	      if(!(/^\w+$/.test(account))){
-	        e.preventDefault();
-	        alert("不要有特殊符號");
-	        return;
-	      }
-	      if(birthday == ""){
-	        e.preventDefault();
-	        alert("輸入生日");
-	        return;
-	      }
-	      if(password.length<8 || password.length>15){
-	        e.preventDefault();
-	        alert("密碼8~15字");
-	        return;
-	      }
-	      if(!(/^\w+$/.test(password))){
-	        e.preventDefault();
-	        alert("不要有特殊符號");
-	        return;
-	      }
-	      if(password != again){
-	        e.preventDefault();
-	        alert("與再次輸入密碼有誤");
-	        return;
-	      }
-	    })
+document.querySelector(".submit").addEventListener("click",function(e){
+      var account = document.querySelector(".account").value;
+      var password = document.querySelector(".password1").value;
+      var again = document.querySelector(".password2").value;
+      var birthday = document.querySelector(".birthday").value;
+      var accountLen = account.substring(0,account.indexOf("@")).length;
+     if(accountLen<6 || accountLen>30){
+         e.preventDefault();
+        alert("帳號6~30字");
+        return;
+     }
+      if(!/^\w+@\w{2,5}\.\w{2,5}(\.w{2,5})?$/.test(account)){
+        e.preventDefault();
+        alert("不要含有特殊符號");
+        return;
+      }
+      if(birthday == ""){
+        e.preventDefault();
+        alert("輸入生日");
+        return;
+      }
+      if(password.length<8 || password.length>15){
+        e.preventDefault();
+        alert("密碼8~15字");
+        return;
+      }
+      if(!(/^\w+$/.test(password))){
+        e.preventDefault();
+        alert("不要有特殊符號");
+        return;
+      }
+      if(password != again){
+        e.preventDefault();
+        alert("與再次輸入密碼有誤");
+        return;
+      }
+    })
 	</script>
 </body>
 </html>
