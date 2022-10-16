@@ -6,16 +6,16 @@ div.div_login{
     display: grid;
     justify-content: center;
     text-align: center;
-    height: 500px;
+    height: 600px;
     background-repeat: no-repeat;
     background-size: 100%;
-    background-color: rgba(226, 229, 172,0.8);
+    background: linear-gradient(90deg, rgba(190,188,188,0.6754901789817489) 10%, rgb(122, 253, 255) 50%, rgba(190,188,188,0.6586834562926733) 90%); 
 }
 div.div_login main.login_main{
     width: 400px;
     height: 400px;
     border-radius: 20px;
-    margin-top: 30px;
+    margin-top: 80px;
     border: 1px solid black;
     box-shadow: 10px 10px 10px rgba(0, 0, 0,0.8);
 
@@ -26,16 +26,14 @@ div.div_login main.login_main form.login_form input{
 }
 div.div_login main.login_main form.login_form > h2{
     font-size: 30px;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 div.div_login main.login_main form.login_form div{
     /* border: 1px solid red; */
-    margin-top: 10px;
+    margin-top: 15px;
     font-size: 22px;
     font-weight: 700;
-}
-div.div_login main.login_main form.login_form > font{
-    margin: 20px,0px;
 }
 #login_verify{
     width: 100px;

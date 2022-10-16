@@ -55,8 +55,6 @@ public class MemberDaoImpl implements MemberDao {
 //					PreparedStatement ps = conn.prepareStatement(sql, new String[] { "member_id" }))
 			try{
 				Transaction transaction = session.beginTransaction();
-				System.out.println(member);
-				System.out.println("1111");
 				session.persist(member);
 				transaction.commit();
 				return 1;

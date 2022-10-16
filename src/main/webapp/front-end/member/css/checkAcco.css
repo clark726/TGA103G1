@@ -6,14 +6,14 @@ div.div_checkAcco{
     display: grid;
     justify-content: center;
     text-align: center;
-    height: 500px;
+    height: 600px;
     background-repeat: no-repeat;
     background-size: 100%;
-    background-color: rgba(226, 229, 172,0.8);
+    background: linear-gradient(90deg, rgba(190,188,188,0.6754901789817489) 10%, rgb(122, 253, 255) 50%, rgba(190,188,188,0.6586834562926733) 90%); 
 }
 div.div_checkAcco main.checkAcco_main{
     width: 400px;
-    height: 300px;
+    height: 400px;
     border-radius: 20px;
     margin-top: 50px;
 	border: 1px solid black;
@@ -25,7 +25,8 @@ div.div_checkAcco main.checkAcco_main input{
 }
 div.div_checkAcco main.checkAcco_main  > h2{
     font-size: 30px;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 div.div_checkAcco main.checkAcco_main div{
     /* border: 1px solid red; */
