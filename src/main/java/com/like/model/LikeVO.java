@@ -2,7 +2,9 @@ package com.like.model;
 
 import java.io.Serializable;
 
-public class LikeVO implements Serializable {
+import com.common.Result;
+
+public class LikeVO extends Result implements Serializable {
     private Integer forum_id;
     private Integer member_id;
 

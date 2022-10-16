@@ -13,11 +13,12 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.swing.plaf.basic.BasicLookAndFeel;
 
 import com.forum_message.model.Forum_messageVO;
 import com.member.vo.MemberVO;
 
-public class ForumJNDI {
+public class ForumJNDI implements ForumDAO{
 	private static DataSource ds = null;
 	static {
 		try {
@@ -27,10 +28,41 @@ public class ForumJNDI {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean addViewCount(Integer forumId) {
+		int row = 0;
+        String sql = "update forum set look = look+1 where forum_id =?;";
+		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        	ppst.setObject(1,forumId);
+            row = ppst.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return row>0;
+	}
+	
 	public List<ForumVO> getAll() {
         List<ForumVO> forumVOs = new ArrayList<>();
-        String sql = "SELECT * FROM forum;";
+        String sql = "SELECT * FROM barjarjo.forum order by `date` desc;";
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+            ResultSet rs = ppst.executeQuery();
+            while (rs.next()){
+                forumVOs.add(new ForumVO(rs.getInt(1), rs.getInt(2),
+                        rs.getString(3), rs.getObject(4, LocalDateTime.class)
+                        ,rs.getString(5), rs.getInt(6),rs.getInt(7),
+                        rs.getInt(8), rs.getInt(9)));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return forumVOs;
+    }
+	
+	public List<ForumVO> getAllByMenberId(Integer memberId) {
+        List<ForumVO> forumVOs = new ArrayList<>();
+        String sql = "SELECT * FROM barjarjo.forum where member_id = ?;";
+        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        	ppst.setObject(1,memberId);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
                 forumVOs.add(new ForumVO(rs.getInt(1), rs.getInt(2),
@@ -51,10 +83,10 @@ public class ForumJNDI {
         		+ "join `member` m on fm.member_id=m.member_id "
         		+ "where f.forum_id = ?;";
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
-        	ppst.setObject(1,forum_id);
+        	ppst.setInt(1,forum_id);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
-            	Map<String,Object> map = new HashMap<>();
+                Map<String,Object> map = new HashMap<>();
             	map.put("memberId", rs.getInt(1));
             	map.put("content", rs.getString(2));
             	map.put("date", rs.getObject(3,LocalDateTime.class));
@@ -63,6 +95,7 @@ public class ForumJNDI {
             	map.put("email",rs.getString(6));
             	messages.add(map);
             }
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -86,6 +119,7 @@ public class ForumJNDI {
                 forumVO.setMessage(rs.getInt(8));
                 forumVO.setStatus(rs.getInt(9));
             }
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -106,11 +140,11 @@ public class ForumJNDI {
         return rows == 1;
     }
     public MemberVO findMemberByForumId(Integer forumId) {
-        String sql = "SELECT `account` , gender,email from member join forum on member.member_id = forum.member_id\r\n"
+        String sql = "SELECT `account` , gender,email from member join forum on member.member_id = forum.member_id "
         		+ "where forum_id = ?;";
         MemberVO memberVO = null;
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
-            ppst.setObject(1,forumId);
+            ppst.setInt(1,forumId);
             ResultSet resultSet = ppst.executeQuery();
             while (resultSet.next()) {
 				memberVO = new MemberVO();
@@ -118,6 +152,7 @@ public class ForumJNDI {
 				memberVO.setGender(resultSet.getInt(2));
 				memberVO.setEmail(resultSet.getString(3));
 			}
+            resultSet.close();
         }catch (Exception e){
             e.printStackTrace();
         }

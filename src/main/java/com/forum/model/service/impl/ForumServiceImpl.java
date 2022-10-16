@@ -12,6 +12,15 @@ public class ForumServiceImpl implements ForumService{
 	public  ForumServiceImpl() {
 		this.jndi = new ForumJNDI();
 	}
+	
+	public boolean addViewCount(Integer forumId) {
+		return this.jndi.addViewCount(forumId);
+	}
+	
+	public List<ForumVO> getAllByMemberId(Integer id) {
+		return this.jndi.getAllByMenberId(id);
+	}
+	
 	@Override
 	public List<ForumVO> getAll() {
 		return this.jndi.getAll();
@@ -44,5 +53,7 @@ public class ForumServiceImpl implements ForumService{
 	public boolean blockade(Integer forumId) {
 		return this.jndi.blockade(forumId);
 	}
+	
+	
 
 }
