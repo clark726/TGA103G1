@@ -83,10 +83,10 @@ public class ForumJNDI implements ForumDAO{
         		+ "join `member` m on fm.member_id=m.member_id "
         		+ "where f.forum_id = ?;";
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
-        	ppst.setObject(1,forum_id);
+        	ppst.setInt(1,forum_id);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
-            	Map<String,Object> map = new HashMap<>();
+                Map<String,Object> map = new HashMap<>();
             	map.put("memberId", rs.getInt(1));
             	map.put("content", rs.getString(2));
             	map.put("date", rs.getObject(3,LocalDateTime.class));
@@ -95,6 +95,7 @@ public class ForumJNDI implements ForumDAO{
             	map.put("email",rs.getString(6));
             	messages.add(map);
             }
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -118,6 +119,7 @@ public class ForumJNDI implements ForumDAO{
                 forumVO.setMessage(rs.getInt(8));
                 forumVO.setStatus(rs.getInt(9));
             }
+            rs.close();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -138,11 +140,11 @@ public class ForumJNDI implements ForumDAO{
         return rows == 1;
     }
     public MemberVO findMemberByForumId(Integer forumId) {
-        String sql = "SELECT `account` , gender,email from member join forum on member.member_id = forum.member_id\r\n"
+        String sql = "SELECT `account` , gender,email from member join forum on member.member_id = forum.member_id "
         		+ "where forum_id = ?;";
         MemberVO memberVO = null;
         try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
-            ppst.setObject(1,forumId);
+            ppst.setInt(1,forumId);
             ResultSet resultSet = ppst.executeQuery();
             while (resultSet.next()) {
 				memberVO = new MemberVO();
@@ -150,6 +152,7 @@ public class ForumJNDI implements ForumDAO{
 				memberVO.setGender(resultSet.getInt(2));
 				memberVO.setEmail(resultSet.getString(3));
 			}
+            resultSet.close();
         }catch (Exception e){
             e.printStackTrace();
         }

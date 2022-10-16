@@ -22,8 +22,7 @@ public class ForumServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		res.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		ForumJNDI jndi = new ForumJNDI();
-		List<ForumVO> list = jndi.getAll();
+		
 		if(action != null) {
 			switch (action) {
 			case "watchOneForum": 
@@ -43,10 +42,12 @@ public class ForumServlet extends HttpServlet {
 		ForumJNDI jndi = new ForumJNDI();
 		ForumVO content = jndi.get(page);
 //		System.out.println(content.getContent());
-		
+		System.out.println("=====1");
 		req.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
+		System.out.println("=====2");
 		req.setAttribute("vo", content);
 		req.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
+		System.out.println("=====3");
 		req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
 	}
 	
