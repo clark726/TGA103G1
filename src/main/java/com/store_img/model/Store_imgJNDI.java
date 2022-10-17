@@ -19,6 +19,7 @@ import org.hibernate.query.Query;
 
 import com.common.HibernateUtil;
 import com.product_img.model.Product_imgVO;
+import com.store.model.StoreVO;
 
 public class Store_imgJNDI implements Store_imgDAO {
 
@@ -137,5 +138,67 @@ public class Store_imgJNDI implements Store_imgDAO {
 
 		return list;
 	}
+	// MAP
+
+	public List<StoreVO> getStoreImg() {
+		String sql = "SELECT  s.store_id,phone , name , address ,theme_id , dayoff , work_open , work_end , produce , i.img "
+				+ "FROM store s" + " join store_img i" + "  on s.store_id = i.store_id " + "where i.status = 1 ";
+		List<StoreVO> list = new ArrayList<StoreVO>();
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				StoreVO img = new StoreVO();
+				img.setPhone(rs.getString("phone"));
+				img.setStore_id(rs.getInt("s.store_id"));
+				img.setName(rs.getString("name"));
+				img.setAddress(rs.getString("address"));
+				img.setTheme_id(rs.getInt("theme_id"));
+				img.setDayoff(rs.getString("dayoff"));
+				img.setWork_end(rs.getString("work_end"));
+				img.setWork_open(rs.getString("work_open"));
+				img.setProduce(rs.getString("produce"));
+				img.setImgstr(new String(rs.getBytes("img")));
+				list.add(img);
+			}
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	@Override
+	public List<StoreVO> getStoreImgByTheme(Integer theme_id) {
+		String sql = "SELECT s.store_id,name  , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce , i.img \n"
+				+ "FROM store s "
+				+ "join store_img i "
+				+ "on s.store_id = i.store_id "
+				+ "where i.status = 1 and theme_id =?";
+		List<StoreVO> list = new ArrayList<StoreVO>();
+		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, theme_id);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				StoreVO img = new StoreVO();
+				img.setPhone(rs.getString("phone"));
+				img.setStore_id(rs.getInt("s.store_id"));
+				img.setName(rs.getString("name"));
+				img.setAddress(rs.getString("address"));
+				img.setTheme_id(rs.getInt("theme_id"));
+				img.setDayoff(rs.getString("dayoff"));
+				img.setWork_end(rs.getString("work_end"));
+				img.setWork_open(rs.getString("work_open"));
+				img.setProduce(rs.getString("produce"));
+				img.setImgstr(new String(rs.getBytes("img")));
+				list.add(img);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+		}
 
 }

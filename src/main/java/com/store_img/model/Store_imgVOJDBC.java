@@ -173,5 +173,15 @@ public class Store_imgVOJDBC implements Store_imgDAO {
 		return null;
 	}
 
+	@Override
+	public List<StoreVO> getStoreImg() {
+		return null;
+	}
+
+	@Override
+	public List<StoreVO> getStoreImgByTheme(Integer theme_id) {
+		return null;
+	}
+
 
 }

@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.store.model.StoreVO;
 import com.store.service.impl.StoreServiceImpl;
+import com.store_img.service.Store_imgService;
+import com.store_img.service.impl.Store_imgServiceImpl;
 
 @WebServlet("/ChangeTheme")
 public class ChangeTheme extends HttpServlet {
@@ -26,9 +28,10 @@ public class ChangeTheme extends HttpServlet {
 		StoreVO storeVO = gson.fromJson(req.getReader().readLine(), StoreVO.class);
 		Integer theme_id = storeVO.getTheme_id();
 
-		StoreServiceImpl svc = new StoreServiceImpl();
+		Store_imgService svc = new Store_imgServiceImpl();
+
 		if (theme_id == 4) {
-			List<StoreVO> list = svc.getAllTheme();
+			List<StoreVO> list = svc.getStoreImg();
 			res.setContentType("application/json");
 			try (PrintWriter pw = res.getWriter()) {
 				pw.print(new GsonBuilder().create().toJson(list));
@@ -36,8 +39,9 @@ public class ChangeTheme extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else {
-			List<StoreVO> list = svc.getTheme(theme_id);
+		}
+		else {
+			List<StoreVO> list = svc.getStoreImgByTheme(theme_id);
 			res.setContentType("application/json");
 			try (PrintWriter pw = res.getWriter()) {
 				pw.print(new GsonBuilder().create().toJson(list));

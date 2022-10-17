@@ -2,6 +2,7 @@ package com.store_img.service.impl;
 
 import java.util.List;
 
+import com.store.model.StoreVO;
 import com.store_img.model.Store_imgDAO;
 import com.store_img.model.Store_imgJNDI;
 import com.store_img.model.Store_imgVO;
@@ -125,5 +126,17 @@ public class Store_imgServiceImpl implements Store_imgService {
 	public void update(Store_imgVO img) {
 
 	}
+	@Override
+	public List<StoreVO> getStoreImg() {
+
+		return storeimgdao.getStoreImg();
+	}
+
+	@Override
+	public List<StoreVO> getStoreImgByTheme(Integer theme_id) {
+		return storeimgdao.getStoreImgByTheme(theme_id);
+	}
+
+
 
 }
