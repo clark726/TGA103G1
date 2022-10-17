@@ -74,7 +74,7 @@
 								aria-expanded="false">店家主題</a>
 								<div class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="#!">Bistro</a>
+									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Bistro</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="#!">Cocktail Bar</a>
 									<div class="dropdown-divider"></div>
@@ -98,7 +98,7 @@
 								aria-expanded="false">帳號</a>
 								<div class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="#!">修改資料</a>
+									<a class="dropdown-item" href="updatePassword.jsp">修改資料</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="/TGA103G1/control">登出</a>
 								</div></li>
@@ -116,7 +116,6 @@
 							<a class="front_paga"
 								href="<%=request.getContextPath()%>/admin/console/register.jsp">註冊新管理員</a>
 						</c:if>
-						<a class="front_paga" href="updatePassword.jsp">修改密碼</a>
 					</caption>
 					<thead>
 						<tr>
@@ -223,17 +222,19 @@
 			el.addEventListener("click", function(ev) {
 				var trEl = el.closest("tr");
 				var adminId = trEl.children[0].innerText;
+				var adminStatus = trEl.children[4].children[0].value;
+				console.log("adminStatus:"+adminStatus);
 				$.ajax({
 					url : "/TGA103G1/control",
 					type : "post",
 					data : {
 						"action" : "updateAdmin",
 						"adminId" : adminId,
-						"adminStatus" : document.querySelector("#status").value
+						"adminStatus" : adminStatus
 					},
 					dataType : "text",
 					success : function(xhr) {
-
+						console.log(xhr);
 					},
 					error : function(xhr) {
 						console.log("error");

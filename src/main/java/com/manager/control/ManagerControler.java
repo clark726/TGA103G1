@@ -1,5 +1,6 @@
 package com.manager.control;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -175,10 +176,15 @@ public class ManagerControler extends HttpServlet {
 			Integer status = Integer.parseInt(adminStatus);
 			if (this.managerService.updateStatus(id, status)) {
 				out.print(true);
+				return;
+			} else {
+				out.print(false);
+				return;
 			}
 		} catch (Exception e) {
 			out.print(false);
 			e.printStackTrace();
+			return;
 		} finally {
 			if (out != null) {
 				out.close();
@@ -190,9 +196,15 @@ public class ManagerControler extends HttpServlet {
 	private void changeFrontImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		Part part = req.getPart("img");
 		if (part.getContentType() != null) {
+			String path = super.getServletContext().getRealPath("/") + "img\\"+ req.getParameter("filename") + ".jpeg";
 			try (InputStream in = part.getInputStream();
-					FileOutputStream out = new FileOutputStream(super.getServletContext().getRealPath("/") + "img\\"
-							+ req.getParameter("filename") + ".jpeg");) {
+					FileOutputStream out = new FileOutputStream(path)) {
+//				"+super.getServletContext().getRealPath("/") + "img\\"+ req.getParameter("filename") + ".jpeg");
+//				C:\JavaFramework\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\TGA103G1\img\1.jpeg
+//				C:/JavaFramework/eclipse-workspace/TGA103G1/src/main/webapp/img/
+				System.out.println(new File(super.getServletContext().getRealPath("/") + "img\\"
+						+ req.getParameter("filename") + ".jpeg").getAbsolutePath());
+//				System.out.println(req.getLocalAddr());
 				in.transferTo(out);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -428,7 +440,11 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	private void cancelSearch(HttpServletRequest req, HttpServletResponse resp) {
-		sessionSetAttribute(req.getSession());
+		List<MemberVO> memberList = this.memberService.getAll();
+		HttpSession session = req.getSession();
+		session.setAttribute("members", memberList);
+		session.setAttribute("memberPages",
+				memberList.size() % datas == 0 ? memberList.size() / datas : memberList.size() / datas + 1);
 	}
 
 	private void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
