@@ -114,9 +114,18 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 	}
 
 	@Override
-	public void insert(Forum_reportVO report) {
-		// TODO Auto-generated method stub
-		
+	public boolean insert(Forum_reportVO report) {
+		int row = 0;
+		String sql="insert into forum_report (member_id, forum_id , reason) values (?,?,?);";
+		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+			ppst.setObject(1, report.getMember_id());
+			ppst.setObject(2, report.getForum_id());
+			ppst.setObject(3, report.getReason());
+			row = ppst.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return row ==1;
 	}
 
 	@Override

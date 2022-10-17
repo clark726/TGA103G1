@@ -44,7 +44,8 @@
 									<ul class="nav_ul">
 										<li><a href="#">HOME</a></li>
 										<li><a href="#">地圖</a></li>
-										<li><a href="http://localhost:8080/TGA103G1/fornt-end/forum/forum.jsp">討論區</a></li>
+										<li><a href="http://localhost:8080/TGA103G1/fornt-end/forum/forum.jsp">討論區</a>
+										</li>
 										<li><a href="#">廠商專區</a></li>
 										<li><a href="#" class="icon">店家主題</a>
 											<ul id="store">
@@ -74,7 +75,7 @@
 							<button id="reportContent" style="TRANSFORM: TRANSLATEX(1200%);">檢舉文章</button>
 							<button style="TRANSFORM: TRANSLATEX(500%);" id="like">我覺得這篇文章讚</button>
 
-							<button style="transform: translateX(500%);display:none; margin-left: 480px;"
+							<button style="transform: translateX(500%); display: none; margin-left: 480px;"
 								id="like2">已按讚</button>
 							<div class="container-fluid">
 								<div class="row">
@@ -120,8 +121,7 @@
 																<main style="border: 1px solid green; height: 25px">性別:
 																	${fmsg.gender==1?"女":"男"}</main>
 																<main style="border: 1px solid green; height: 25px">
-																	電子信箱:
-																	${fmsg.email}</main>
+																	電子信箱: ${fmsg.email}</main>
 													</div>
 												</div>
 												<div class="col-8" align="center">
@@ -144,8 +144,8 @@
 												<div class="text" style="background-color: White; height: 200px">
 													<!-- 						<form action="/TGA103G1/PostForumContentMessage" method="post"> -->
 													<main style="border: 1px solid green; height: 150px">
-														<main style="border: 1px solid green; height: 25px">留言作者:
-															${userid.account}
+														<main style="border: 1px solid green; height: 25px">
+															留言作者: ${userid.account}
 															<main style="height: 100px;">
 																<img src="${userid.gender==1?"
 																	/TGA103G1/front-end/member/images/woman.png":"/TGA103G1/front-end/member/images/man.png"}"
@@ -223,16 +223,20 @@
 								  })
 							</script>
 							<script>
-								function reportContentFuntion() {
-									var r = confirm("確定檢舉此篇文章?");
-									if (r == true) {
-										x = "yes"
-										console.log(x);
+								document.querySelector("#reportContent").addEventListener("click", function () {
+
+									if (<% Object userId3 = session.getAttribute("userid");
+									out.print(userId3 == null);%>) {
+									alert("您尚未登入")
+									location.href = "/TGA103G1/ForumContentReport";
+								}else {
+									
+									if (confirm("確定檢舉此篇文章?")) {
+										sessionStorage.setItem("forumId",<%=request.getParameter("page")%>);
+										location.href="/TGA103G1/fornt-end/forumContentReport/forumContentReprot.jsp";
 									}
 								}
-								$('#reportContent').on("click", function () {
-									reportContentFuntion()
-								})
+							});
 							</script>
 							<script>
 								let forum_id = "${param.page}";
