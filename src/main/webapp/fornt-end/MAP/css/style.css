@@ -103,6 +103,7 @@ ul.nav_ul li a.icon::after {
 	color: rgb(255, 157, 0);
 	text-align: center;
 	background-color: rgb(255, 255, 255);
+	/* border: 5px solid SaddleBrown; */
 	border-radius: 15px;
 	cursor: pointer;
 	margin-inline: 10px;
@@ -178,11 +179,11 @@ a#mapp:hover {
 .pro {
 	color: #009393
 }
+
 div.name{
   display: flex;
   justify-content: space-between;
 }
-
 div.f {
 	align-items: center;
 	display: inline-block;

@@ -106,16 +106,16 @@ ul.nav_ul li a.icon::after {
 }
 
 .btn {
-	width: 9%;
+	width: 125px;
 	line-height: 40px;
-	font-size: 16px;
+	font-size: 15px;
 	color: rgb(255, 157, 0);
 	text-align: center;
 	background-color: rgb(255, 255, 255);
-	/* border: 5px solid SaddleBrown; */
+/* 	border: 5px solid SaddleBrown;  */
 	border-radius: 15px;
 	cursor: pointer;
-	margin-inline: 10px;
+	margin-inline: 5px;
 }
 
 .btn:hover {
@@ -128,7 +128,7 @@ ul.nav_ul li a.icon::after {
 }
 
 .selected {
-	width: 150px;
+	width: 125px;
 	line-height: 40px;
 	font-size: 16px;
 	color: PapayaWhip;
@@ -202,6 +202,10 @@ div.nf {
 	align-items: center;
 	display: inline-block;
 }
+img.store{
+width:190px;
+height:190px;
+}
 </style>
 </head>
 <meta charset="UTF-8">
@@ -257,14 +261,13 @@ div.nf {
 	  map = new google.maps.Map(document.getElementById("map"), {
 	    zoom: 15,
 	    center: new google.maps.LatLng(25.048062816572394, 121.51710124831851),
-	    mapTypeId: "roadmap",
+	    mapTypeId: "roadmap"
 	  });
 	  infoWindow = new google.maps.InfoWindow();
 	  const script = document.createElement("script");
 	  script.src = "http://localhost:8080/TGA103G1/fornt-end/MAP/json.jsp";
 	  document.getElementsByTagName("head")[0].appendChild(script);
 	}
-
 	var a = 4;//初始值為全部主題
 	var arr = [];
 	$(".btn").click(function () {
@@ -273,7 +276,6 @@ div.nf {
 		a = this.dataset.id;
 		initMap();
 	});
-	
 	const eqfeed_callback = function (e) {
 		for (let i = 0; i < e.features.length; i++) {
 	    	const coords = e.features[i].geometry.coordinates;
@@ -356,15 +358,17 @@ div.nf {
 		      }),
 		    })
 		    .then(resp => resp.json())
-		    .then(result => {
+		    .then(response => {
+				console.log(response)
 		    	$(".store").empty();
-		        for (var i = 0; i < result.length; i++){
-		        	let id =result[i].store_id;
-		        	let name = "<a href='#' id="+id+">"+(i+1)+"." + result[i].name+"</a>" ;
-		        	let pro = " 電話: " + result[i].phone+"<br>"+result[i].produce;
-		        	let work = "營業時間："+result[i].work_open+"~"+result[i].work_end;
+		        for (var i = 0; i < response.length; i++){
+		        	let id =response[i].store_id;
+		        	let name = "<a href='#' id="+id+">"+(i+1)+"." + response[i].name+"</a>" ;
+		        	let pro = " 電話: " + response[i].phone+"<br>"+response[i].produce;
+		        	let work = "營業時間："+response[i].work_open+"~"+response[i].work_end;
 		        	let f = "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
-		        	$(".store").append("<div class='storeitem'>" + "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+					let img = response[i].imgstr;
+		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+ "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
 		        }
 				fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
 		     		method: "GET",
@@ -372,9 +376,8 @@ div.nf {
 				})
 				.then(resp => resp.json())
 				.then(user => {
-		   		 	console.log(user);
+		   		 	console.log("會員ID"+user);
 		   		 	if (user == null) {
-						console.log(123);
 		    			return;
 		   			 }else {
 						fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
@@ -385,9 +388,9 @@ div.nf {
 				    	}),
 				    	})
 				    	.then(resp => resp.json())
-				    	.then(result => {
-				        	for (var i = 0; i < result.length; i++){
-				        		let id=result[i].store_id;
+				    	.then(response => {
+				        	for (var i = 0; i < response.length; i++){
+				        		let id=response[i].store_id;
 				        		$("div#"+id+".nf").children().attr("src","./heart.png");
 				        		$("div#"+id+".nf").attr("class","f");
 				       		 }
@@ -397,7 +400,6 @@ div.nf {
 		      });
 		   
 		  });
-	 //若登入//////////////////
 	 $(document).on("click", "div.f", function(){
 		fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
 		      method: "GET",
@@ -423,8 +425,8 @@ div.nf {
 			    }),
 			})
 			.then(resp => resp.json())
-			.then(result => {
-			    console.log(result)
+			.then(response => {
+			    console.log(response)
 			});
 		}
 			}
@@ -439,8 +441,8 @@ div.nf {
 		.then(user => {
 		    console.log(user);
 		    if (user == null) {
-		    	window.alert("尚未登入，將導向至登入頁");
-		      	location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';
+	    		 if( window.confirm("尚未登入，將導向至登入頁")){
+		      		location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';}
 		    }else {
 				if(confirm('是否加入我的最愛？')){
 				$(this).children().attr("src","./heart.png");
@@ -455,8 +457,8 @@ div.nf {
 			    }),
 				})
 				.then(resp => resp.json())
-				.then(result => {
-					console.log(result)
+				.then(response => {
+					console.log(response)
 				});
 				}
 			}
@@ -484,17 +486,17 @@ div.nf {
 		        	let pro = " 電話: " + body[i].phone+"<br>"+body[i].produce;
 		        	let work = "營業時間："+body[i].work_open+"~"+body[i].work_end;
 		        	let f =  "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
-		        	$(".store").append("<div class='storeitem'>" + "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
-		        }//若登入執行以下///////////
+					let img = body[i].imgstr;
+
+		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+ "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        }
 				fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
 		     		method: "GET",
 		     		headers: { "Content-Type": "application/json" },
 				})
 				.then(resp => resp.json())
 				.then(user => {
-		   		 	console.log(user);
 		   		 	if (user == null) {
-						console.log(123);
 		    			return;
 		   			}else{
 						fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
@@ -514,11 +516,8 @@ div.nf {
 						});
 					}
 				});
-		      
-		        ////////////////////////////////////
 		      });
 		  });
-//若登入///////////////
 	 $(document).on("click", "button#btnf", function(){//我的最愛
 		 fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
 		      method: "GET",
@@ -528,8 +527,10 @@ div.nf {
 		      .then(user => {
 		    	  console.log(user);
 		    	  if (user == null) {
-		    		  window.alert("尚未登入，將導向至登入頁");
-		      		  location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';
+		    		 if(window.confirm("尚未登入，將導向至登入頁")){
+			      		  location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';
+		    		 }
+		    		 $("button.btn")[0].click();
 		    	  } else {
 		    		  fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
 					      method: "POST",
@@ -539,8 +540,8 @@ div.nf {
 					      }),
 					    })
 					      .then(resp => resp.json())
-					      .then(body => {
-					    	$(".store").empty();
+					      .then(body => {//user我的最愛中全部storeid
+							$(".store").empty();
 					        var g =1;
 					        for (var i = 0; i < body.length; i++){
 					        	let d=body[i].store_id;
@@ -551,14 +552,16 @@ div.nf {
 					  		      }),
 					  		    })
 					  		      .then(resp => resp.json())
-					  		      .then(body => {
-					  		        for (var i = 0; i < body.length; i++){
-					  		        	let id =body[i].store_id;
-					  		        	let pro = " 電話: " + body[i].phone+"<br>"+body[i].produce;
-					  		        	let work = "營業時間："+body[i].work_open+"~"+body[i].work_end;
+					  		      .then(response => {
+					  		        for (var i = 0; i < response.length; i++){
+					  		        	let id =response[i].store_id;
+					  		        	let pro = " 電話: " + response[i].phone+"<br>"+response[i].produce;
+					  		        	let work = "營業時間："+response[i].work_open+"~"+response[i].work_end;
 					  		        	let f =  "<div id='"+id+"' class='f'><img src='./heart.png'></div>";
+										let img = response[i].imgstr;
+
 					  		        	if(id==d){
-						  		        	$(".store").append("<div class='storeitem'>" +"<div class='name'>"+"<a href='#' id="+id+">"+g+"." + body[i].name+"</a>"+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+						  		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+"<div class='name'>"+"<a href='#' id="+id+">"+g+"." + response[i].name+"</a>"+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
 											g=g+1;
 					  		        	}
 					  		        }
@@ -570,21 +573,22 @@ div.nf {
 					  			      }),
 					  			    })
 					  			      .then(resp => resp.json())
-					  			      .then(result => {//map用
-					  			        for (var i = 0; i < result.length; i++){
-					  			        	arr[i]=result[i].store_id; 
+					  			      .then(response => {//map marker用
+										console.log(response);
+					  			        for (var i = 0; i < response.length; i++){
+					  			        	arr[i]=response[i].store_id; 
 					  			        }
 					  				  initMap();
 					  			      });	
 					  		      });
 					        }
 					      });
-		    		  
-		    		  
 		    	  }
 		    	  
 		      });
 		  });
+		  $(document).on("click", "div.storeitem", function(){
+		  })
 	window.initMap = initMap;
 	window.eqfeed_callback = eqfeed_callback;
 </script>

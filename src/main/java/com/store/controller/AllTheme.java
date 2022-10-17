@@ -15,20 +15,20 @@ import com.google.gson.GsonBuilder;
 import com.store.model.StoreVO;
 import com.store.service.StoreService;
 import com.store.service.impl.StoreServiceImpl;
+import com.store_img.service.Store_imgService;
+import com.store_img.service.impl.Store_imgServiceImpl;
 
 @WebServlet("/AllTheme")
 public class AllTheme extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-//	Gson gson = new Gson();
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		res.setCharacterEncoding("UTF-8");
-//		StoreVO storeVO = gson.fromJsson(req.getReader().readLine(), StoreVO.class);
 
 		
-		StoreService svc = new StoreServiceImpl();
-		List<StoreVO> list = svc.getAllTheme();
+		Store_imgService svc = new Store_imgServiceImpl();
+		List<StoreVO> list = svc.getStoreImg();
 	
 		
 		 res.setContentType("application/json");
