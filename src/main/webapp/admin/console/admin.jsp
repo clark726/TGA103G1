@@ -99,7 +99,7 @@ form {
 								aria-expanded="false">帳號</a>
 								<div class="dropdown-menu dropdown-menu-end"
 									aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="updatePassword.jsp">修改資料</a>
+									<a class="dropdown-item" href="updatePassword.jsp">換密碼</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="/TGA103G1/control">登出</a>
 								</div></li>

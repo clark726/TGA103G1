@@ -207,15 +207,15 @@
             <thead>
               <tr>
                 <td>id</td>
-                <td>type</td>
-                <td>price</td>
-                <td>store</td>
-                <td>stock</td>
-                <td>status</td>
-                <td>date</td>
-                <td>image</td>
-                <td>update</td>
-                <td>reset</td>
+                <td>類型</td>
+                <td>價錢</td>
+                <td>商店編號</td>
+                <td>庫存</td>
+                <td>上架沒</td>
+                <td>時間</td>
+                <td>圖片</td>
+                <td>更新</td>
+                <td>回復</td>
             </tr>
             </thead>
             <tbody>
