@@ -156,9 +156,7 @@
                 total += "<label>總計："+body[0].total+"</label>"
                         $("div.total").prepend(total);
                }else if(body[0].method == 1){   
-                total += "<label>運費："+120+"</label>"+
-                        "<br>"+
-                       "<label>總計："+ Number(120 +body[0].total) +"</label>"
+                total +=  "<label>總計："+ body[0].total +"</label>"
                        $("div.total").prepend(total);
               }
           });
