@@ -1,0 +1,13 @@
+diff a/src/main/java/com/forum/model/ForumServlet.java b/src/main/java/com/forum/model/ForumServlet.java	(rejected hunks)
+@@ -12,11 +12,6 @@
+ @WebServlet("/ForumServlet")
+ public class ForumServlet extends HttpServlet {
+ 
+-	public void doPostOne(HttpServletRequest req, HttpServletResponse res)
+-			throws ServletException, IOException {
+-		Integer page = Integer.parseInt(req.getParameter("page"));
+-		ForumJNDI jndi = new ForumJNDI();
+-		ForumVO content = jndi.get(page);
+     public void doGet(HttpServletRequest req, HttpServletResponse res)
+             throws ServletException, IOException {
+         doPost(req, res);

@@ -29,7 +29,8 @@ public class Message_reportJNDIDAO {
 	}
 	public MemberVO getMemberByMessageReportId(Integer id) {
 		final String sql = "select m.member_id,m.account,m.password,m.birthday,m.address,m.gender,m.email,m.nickname,m.phone,m.register,m.permission from message_report r join member m on r.member_id = m.member_id where r.message_report_id = ?; ";
-		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
+		try (Connection conn = ds.getConnection();
+        		PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setObject(1, id);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
@@ -55,7 +56,8 @@ public class Message_reportJNDIDAO {
 	public List<Object[]> getAllAndForumId(){
 		List <Object[]> list = new ArrayList<Object[]>();
 		String sql = "SELECT message_report_id,m.member_id,m.message_id,reason,m.date,status,forum_id FROM barjarjo.message_report m join forum_message f on m.message_id = f.message_id where status = 0;";
-		try(PreparedStatement ps = ds.getConnection().prepareStatement(sql)){
+		try(Connection conn = ds.getConnection();
+        		PreparedStatement ps = conn.prepareStatement(sql)){
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				Object[] obj = new Object[7];
@@ -78,7 +80,8 @@ public class Message_reportJNDIDAO {
 	public List<Integer> getForumIdByStatus(Integer id) {
 		List<Integer> list = new ArrayList<Integer>();
         String sql = "select forum_id from forum_message where message_id in (select message_id from message_report where status = ?);";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
         	ppst.setObject(1, id);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
@@ -93,7 +96,8 @@ public class Message_reportJNDIDAO {
 	public List<Integer> getMessageReportByMessageId(Integer messageId) {
 	       List<Integer> ids = new ArrayList<>();
 	        String sql = "select message_report_id from message_report where message_id = ?;";
-	        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+	        try(Connection conn = ds.getConnection();
+	        		PreparedStatement ppst = conn.prepareStatement(sql)){
 	        	ppst.setObject(1, messageId);
 	            ResultSet rs = ppst.executeQuery();
 	            while (rs.next()){

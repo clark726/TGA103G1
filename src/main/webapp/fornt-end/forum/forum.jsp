@@ -2,10 +2,12 @@
 	<%@page import="com.forum.model.ForumVO" %>
 		<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 			<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-				<% ForumVO forumVO=(ForumVO) request.getAttribute("forumVO"); ForumServiceImpl forumService=new
-					ForumServiceImpl(); List<ForumVO> list = forumService.getAll();
-					pageContext.setAttribute("list", list);
-					%>
+<%
+	ForumVO forumVO=(ForumVO) request.getAttribute("forumVO");
+	ForumServiceImpl forumService = new ForumServiceImpl();
+	List<ForumVO> list = forumService.getAll();
+	pageContext.setAttribute("list", list);
+%>
 					<!DOCTYPE html>
 					<html lang="en">
 

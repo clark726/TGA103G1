@@ -1,5 +1,6 @@
 package com.forum_report.model;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -29,7 +30,9 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 	public MemberVO findMemberByForumId(Integer id) {
 		MemberVO vo = null;
 		String sql = "select * from member where member.member_id = (select member_id from forum where forum_id = ?);";
-		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+		try(Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)
+				){
 			ppst.setObject(1, id);
 			ResultSet rs = ppst.executeQuery();
 			if(rs.next()) {
@@ -69,7 +72,8 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 	public List<Forum_reportVO> getAll(){
 		List<Forum_reportVO> list = new ArrayList<>();
 		String sql = "SELECT * FROM forum_report where status = 0;";
-		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql);
+		try(Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql);
 				ResultSet rsResultset = ppst.executeQuery();){
 			while(rsResultset.next()) {
 				Forum_reportVO vo = new Forum_reportVO();
@@ -89,7 +93,8 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 	public boolean update(Integer forum_report_id) {
 		int row = 0;
 		String sql="UPDATE `forum_report` SET status = 1 WHERE (`forum_report_id` = ?);";
-		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+		try(Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)){
 			ppst.setObject(1, forum_report_id);
 			row = ppst.executeUpdate();
 		}catch (Exception e) {
@@ -101,7 +106,8 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 	public List<Integer> getFourmIds(Integer id){
 		List<Integer> list = new ArrayList<>();
 		String sql = "select forum_report_id from forum_report where forum_id = ?;";
-		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql);){
+		try(Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql);){
 				ppst.setObject(1, id);
 				ResultSet rsResultset = ppst.executeQuery();
 			while(rsResultset.next()) {
@@ -117,7 +123,8 @@ public class Forum_reportJNDI implements Forum_reportDAO{
 	public boolean insert(Forum_reportVO report) {
 		int row = 0;
 		String sql="insert into forum_report (member_id, forum_id , reason) values (?,?,?);";
-		try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+		try(Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)){
 			ppst.setObject(1, report.getMember_id());
 			ppst.setObject(2, report.getForum_id());
 			ppst.setObject(3, report.getReason());

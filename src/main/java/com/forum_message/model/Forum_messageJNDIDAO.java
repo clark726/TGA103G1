@@ -28,7 +28,8 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	public List<Forum_messageVO> getAll() {
 		List<Forum_messageVO> forum_message = new ArrayList<Forum_messageVO>();
 		String sql = "select * from forum_message;";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Integer message_id = rs.getInt(1);
@@ -50,7 +51,8 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	public Forum_messageVO findByPrimaryKey(Integer id) {
 		Forum_messageVO m = null;
 		String sql = "select * from forum_message where message_id = ?;";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -72,7 +74,8 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	public void insert(Forum_messageVO obj) {
 		int rowCount = 0;
 		String sql = "Insert into forum_message(member_id,forum_id,content) " + "values(?,?,?);";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, obj.getMember_id());
 			ps.setInt(2, obj.getForum_id());
 			ps.setString(3, obj.getContent());
@@ -87,7 +90,8 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	public void update(Forum_messageVO obj) {
 		int rowCount = 0;
 		String sql = "Update forum_message set member_id = ?, forum_id = ?,content = ?,date = ? where message_id = ?;";
-		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, obj.getMember_id());
 			ps.setInt(2, obj.getForum_id());
 			ps.setString(3, obj.getContent());
@@ -97,6 +101,19 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean updateMeassage(Integer forumId ) {
+		int rowCount = 0;
+		String sql = "update forum set message = message+1  where forum_id=?";
+		try (Connection connection = ds.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
+			ps.setInt(1, forumId);
+			rowCount = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rowCount > 0;
 	}
 
 	@Override
@@ -122,7 +139,8 @@ public class Forum_messageJNDIDAO implements Forum_messageDAO {
 	public List<Integer> beforeDelete(Integer messageId) {
 		List<Integer> messageIds = new ArrayList<Integer>();
 		String sql = "select message_id from forum_message where forum_id = (select forum_id from forum_message where message_id = ?);";
-		try (PreparedStatement ps = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setObject(1, messageId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
