@@ -64,7 +64,7 @@
 
     <div class="modal fade" id="chaticon">
       <div class="modal-dialog">
-        <div class="modal-content" style="background-color: rgb(210, 192, 173)">
+        <div class="modal-content" style="background-color: rgb(211, 206, 201)">
           <!-- header -->
           <div class="modal-header">
             <h3>聊天室</h3>
@@ -142,10 +142,23 @@
         <ul class="item_list"></ul>
       </div>
     </main>
-
+    <!-- 聊天按鈕 -->
     <div class="icon">
-      <img src="../../img/chat.png" id="chaticon" data-bs-toggle="modal" data-bs-target="#chaticon" style="width:60px ; height:60px; position: absolute;
-      right: 10px; bottom: 40px;" class="picture">
+      <img
+        src="../../img/chat.png"
+        id="chaticonpricture"
+        data-bs-toggle="modal"
+        data-bs-target="#chaticon"
+        style="
+          width: 60px;
+          height: 60px;
+          position: absolute;
+          right: 10px;
+          bottom: 40px;
+          display: none;
+        "
+        class="picture"
+      />
     </div>
 
     <script
@@ -153,6 +166,7 @@
       integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
       crossorigin="anonymous"
     ></script>
+    <script src="../js/chat.js"></script>
     <script>
       function includeHTML() {
         const xxx = document.querySelector("#xxx");
@@ -215,43 +229,42 @@
       }
       //加入最愛
       function like() {
-        $(document).on("click", ".fa-solid", function (e) {
+        $(document).on("click", ".fa-heart", function (e) {
           let store_id = $(this)
             .closest("li")
             .find("#storeId")
             .attr("data-store_id");
-			console.log(store_id)
-		if(sessionStorage.getItem("memberAccount") == null){
-			alert("請先登入")
-		}else{
-			$(this).toggleClass("-on");
-			if ($(this).hasClass("-on")) {
-			  fetch("http://localhost:8080/TGA103G1/AddFavorite", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-				  store_id: store_id,
-				}),
-			  })
-				.then((resp) => resp.json())
-				.then((body) => {
-				  console.log(body);
-				 
-				});
-			}else{
-			  fetch("http://localhost:8080/TGA103G1/DeleteFavorite", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-				  store_id: store_id,
-				}),
-			  })
-				.then((resp) => resp.json())
-				.then((body) => {
-				  console.log(body);
-				});
-			}
-		}
+          console.log(store_id);
+          if (sessionStorage.getItem("memberAccount") == null) {
+            alert("請先登入");
+          } else {
+            $(this).toggleClass("-on");
+            if ($(this).hasClass("-on")) {
+              fetch("http://localhost:8080/TGA103G1/AddFavorite", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  store_id: store_id,
+                }),
+              })
+                .then((resp) => resp.json())
+                .then((body) => {
+                  console.log(body);
+                });
+            } else {
+              fetch("http://localhost:8080/TGA103G1/DeleteFavorite", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  store_id: store_id,
+                }),
+              })
+                .then((resp) => resp.json())
+                .then((body) => {
+                  console.log(body);
+                });
+            }
+          }
         });
       }
 
@@ -285,7 +298,7 @@
           console.log(body);
           for (var i = 0; i < body.length; i++) {
             let favoritedStore = body[i].store_id;
-            if(arrayFavorite != null){
+            if (arrayFavorite != null) {
               arrayFavorite.push(favoritedStore);
             }
           }
@@ -307,11 +320,10 @@
       })
         .then((resp) => resp.json())
         .then((body) => {
-         
           storetype.textContent = body[0].storetype;
           storeproduce.textContent = body[0].storeproduce;
           displayImg.src = body[0].imgstr;
-			//判斷是否有會員 有我的最愛加上愛心
+          //判斷是否有會員 有我的最愛加上愛心
           if (arrayFavorite != null) {
             for (var i = 0; i < body["length"]; i++) {
               // console.log(body[i])
@@ -335,7 +347,7 @@
               if (body[i].store_id != x) {
                 $("ul.item_list").append(`
 						 <li><i data-storeId="${body[i].store_id}" class="fa-solid fa-heart"></i> 
-							<i class="fa-sharp fa-solid fa-comment-dots clickIcon" id="${body[i].name}" ></i>
+							<i class="fa-sharp fa-solid fa-comment-dots clickIcon"  id="${body[i].name}" ></i>
 						<a href="http://localhost:8080/TGA103G1/back-end/store/store.html">
 								 <div class="img_block">
 									 <img src="${body[i].imgstr}" id="storeId" data-store_id="${body[i].store_id}" />
@@ -395,204 +407,7 @@
         new bootstrap.Toast(document.querySelector(".toast")).show();
       });
 
-      //聊天室
-      var storeAccount = sessionStorage.getItem("memberAccount")
-      var MyPoint = "/FriendWS/"+storeAccount;
-      var host = window.location.host;
-      var path = window.location.pathname;
-      var webCtx = path.substring(0, path.indexOf("/", 1));
-      var endPointURL = "ws://" + window.location.host + webCtx + MyPoint;
-
-      var statusOutput = document.getElementById("statusOutput");
-      var messagesArea = document.getElementById("messagesArea");
-      var self = storeAccount;
-      var webSocket;
-
-      function connect() {
-        // create a websocket
-        webSocket = new WebSocket(endPointURL);
-
-        webSocket.onopen = function (event) {
-          console.log("Connect Success!");
-          document.getElementById("sendMessage").disabled = false;
-          document.getElementById("connect").disabled = true;
-          document.getElementById("disconnect").disabled = false;
-        };
-
-        webSocket.onmessage = function (event) {
-          var jsonObj = JSON.parse(event.data);
-          if ("open" === jsonObj.type) {
-            refreshFriendList(jsonObj);
-          } else if ("history" === jsonObj.type) {
-            messagesArea.innerHTML = "";
-            var ul = document.createElement("ul");
-            ul.id = "area";
-            messagesArea.appendChild(ul);
-            // 這行的jsonObj.message是從redis撈出跟好友的歷史訊息，再parse成JSON格式處理
-            var messages = JSON.parse(jsonObj.message);
-            for (var i = 0; i < messages.length; i++) {
-              var historyData = JSON.parse(messages[i]);
-              var showMsg = historyData.message;
-              var li = document.createElement("li");
-              // 根據發送者是自己還是對方來給予不同的class名, 以達到訊息左右區分
-              historyData.sender === self
-                ? (li.className += "me")
-                : (li.className += "friend");
-              li.innerHTML = showMsg;
-              ul.appendChild(li);
-            }
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-          } else if ("chat" === jsonObj.type) {
-            //可以留言 創造一個新的ul
-            if (messagesArea.innerHTML == "") {
-              messagesArea.innerHTML = "";
-              var ul = document.createElement("ul");
-              ul.id = "area";
-              messagesArea.appendChild(ul);
-            }
-            var li = document.createElement("li");
-            jsonObj.sender === self
-              ? (li.className += "me")
-              : (li.className += "friend");
-            li.innerHTML = jsonObj.message;
-            console.log(li);
-            console.log(jsonObj.sender);
-            document.getElementById("area").appendChild(li);
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-          } else if ("close" === jsonObj.type) {
-            offWS(jsonObj);
-          } else if ("onstatus" === jsonObj.type) {
-            onstatus(jsonObj);
-          }
-        };
-
-        webSocket.onclose = function (event) {
-          console.log("Disconnected!");
-        };
-      }
-
-      function sendMessage() {
-        var inputMessage = document.getElementById("message");
-        var friend = statusOutput.textContent;
-        var message = inputMessage.value.trim();
-
-        if (message === "") {
-          alert("Input a message");
-          inputMessage.focus();
-        } else if (friend === "") {
-          alert("Choose a friend");
-        } else {
-          var jsonObj = {
-            type: "chat",
-            sender: self,
-            receiver: friend,
-            message: message,
-          };
-          webSocket.send(JSON.stringify(jsonObj));
-          inputMessage.value = "";
-          inputMessage.focus();
-        }
-      }
-
-      //上線狀態
-      function onstatus(jsonObj) {
-        var friends = jsonObj.users;
-        var row = document.getElementById("row");
-        var livefrends = row.children;
-
-        for (var i = 0; i < friends.length; i++) {
-          if (friends[i] === self) {
-            continue;
-          }
-          for (var j = 0; j < livefrends.length; j++) {
-            if (livefrends[j].getAttribute("value") == friends[i]) {
-              livefrends[j].style["background-color"] = "green";
-            }
-          }
-        }
-        addListener();
-      }
-      //離線狀態
-      function offWS(jsonObj) {
-        var row = document.getElementById("row");
-        var livefrends = row.children;
-        console.log(jsonObj.user);
-
-        for (var i = 0; i < livefrends.length; i++) {
-          if (livefrends[i].getAttribute("value") == jsonObj.user) {
-            livefrends[i].style["background-color"] = "white";
-          }
-        }
-
-        addListener();
-      }
-      // 拿取歷史聊過天的人 且有上線的人加綠色
-      function refreshFriendList(jsonObj) {
-        var friends = jsonObj.users;
-        var row = document.getElementById("row");
-        var livefrends = jsonObj.otherNames;
-        row.innerHTML = "";
-        for (var i = 0; i < friends.length; i++) {
-          if (friends[i] === self) {
-            continue;
-          }
-          row.innerHTML +=
-            "<div id=" +
-            friends[i] +
-            ' class="column" name="friendName" value=' +
-            friends[i] +
-            " ><h2>" +
-            friends[i] +
-            "</h2></div>";
-          for (var j = 0; j < livefrends.length; j++) {
-            if (livefrends[j] == friends[i]) {
-              var ans = livefrends[j];
-              document.querySelector("#" + ans).style["background-color"] =
-                "green";
-            }
-          }
-        }
-        addListener();
-      }
-      // 註冊列表點擊事件並抓取好友名字以取得歷史訊息
-      function addListener() {
-        var container = document.getElementById("row");
-        container.addEventListener("click", function (e) {
-          var friend = e.srcElement.textContent;
-          updateFriendName(friend);
-          var jsonObj = {
-            type: "history",
-            sender: self,
-            receiver: friend,
-            message: "",
-          };
-          webSocket.send(JSON.stringify(jsonObj));
-        });
-      }
-
-      function disconnect() {
-        webSocket.close();
-        document.querySelector("#row").innerHTML = "";
-        statusOutput.innerHTML = "";
-
-        document.getElementById("sendMessage").disabled = true;
-        document.getElementById("connect").disabled = false;
-        document.getElementById("disconnect").disabled = true;
-      }
-
-      function updateFriendName(name) {
-        statusOutput.innerHTML = name;
-      }
-
-      //點擊店家顯示聊天室
-      $(document).on("click", ".clickIcon", function () {
-        let id = $(this).attr("id");
-        $("#statusOutput").html(id);
-        if ($("#area")) {
-          $("#area").html("");
-        }
-        $("#chaticon").modal("show");
-      });
+      
     </script>
   </body>
 </html>

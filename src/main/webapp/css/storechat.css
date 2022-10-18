@@ -69,6 +69,7 @@ main.main {
 
 
 /* 聊天室 */
+
 .panel {
 	float: right;
 	border: 2px solid #0078ae;
@@ -117,19 +118,21 @@ h1 {
 	border: 1px solid grey;
 	padding: 0.2em;
 	box-shadow: 0 0 5px #000000;
-	width: 30%;
 	margin-top: 10%;
-	margin-left: 60%;
+  width: 200px;
+  margin-left: 53%;
+  font-size: 20px;
 }
 
 #row {
 	float: left;
 	width: 50%;
+  overflow: auto;
 }
 
 .column {
   float: left;
-  width: 50%;
+  width: 70%;
   padding: 5%;
   margin-bottom: 5px;
   background-color: #ffffff;
@@ -172,4 +175,9 @@ h1 {
 
 .me:last-of-type {
   border-bottom-right-radius: 30px;
+}
+#row{
+    display: flex;
+flex-direction: column;
+position: absolute;
 }

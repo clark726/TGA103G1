@@ -128,75 +128,8 @@ crossorigin="anonymous"
     integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
     crossorigin="anonymous"></script>
 <script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
- 
+ <script src="../js/header.js"></script>
 <script>
-  function includeHTML() {
-    const xxx = document.querySelector("#xxx");
-    fetch("/TGA103G1/com/header.html")
-      .then((resp) => resp.text())
-      .then((content) => {
-        xxx.innerHTML = content;
-        changelog();
-        logout();
-        changeTheme();
-        const username = document.querySelector("#account");
-        const password = document.querySelector("#password");
-        const errMsg = document.querySelector("#errMsg");
-        document.getElementById("btn1").addEventListener("click", () => {
-          fetch("/TGA103G1/StoreLogin", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              account: username.value,
-              password: password.value,
-            }),
-          })
-            .then((resp) => resp.json())
-            .then((body) => {
-              errMsg.textContent = "";
-              const { successful, message } = body;
-              if (successful) {
-                const { account, password } = body;
-                sessionStorage.setItem("account", account);
-                sessionStorage.setItem("password", password);
-                location = "/TGA103G1/ShowProduct";
-              } else {
-                errMsg.textContent = message;
-              }
-            });
-        });
-      });
-  }
-  includeHTML();
-
-  //登出鈕
-  function changelog() {
-    if (sessionStorage.getItem("account")) {
-      document.querySelector("#login").style.display = "none";
-      document.querySelector("#logout").style.display = "block";
-      document.querySelector("#loginbox").style.display = "none";
-      document.querySelector("#normal").style.display = "block";
-    }
-  }
-
-  //登出
-  function logout() {
-    document
-      .querySelector("#logout")
-      .addEventListener("click", function () {
-        sessionStorage.removeItem("account");
-      });
-  }
-  //點擊theme_id
-  function changeTheme() {
-    let allthemeid = document.querySelectorAll(".theme_id");
-    allthemeid.forEach(function (e) {
-      e.addEventListener("click", function (e) {
-        let id = e.target.getAttribute("data-themid");
-        sessionStorage.setItem("themeId", id);
-      });
-    });
-  }
 //取回商品資訊
 let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id=";
   let product =  JSON.parse(sessionStorage.getItem("product")) 
@@ -262,7 +195,7 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
     if(address == ""){
         address = '自取'
     }
-    console.log(address)
+ 
     //錯誤處理
     if(name == null || name.length == 0){
         alert("名字請勿空白")
@@ -280,55 +213,58 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
         }
         array.push(product2)
    }
-  //綠界
-  if(postMethod == 1){
-    fetch('https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',{
-      method:'POST',
-      headers:{'Content-type':'application/x-www-form-urlencoded'},
-      body: JSON.stringify({
-        MerchantID:'3002599',
-        MerchantTradeNo:'abc123',
-        MerchantTradeDate:'2022/10/14 10:33:33',
-        PaymentType:'aio',
-        TotalAmount:allPrice,
-        TradeDesc:"基本交易",
-        ItemName:product[0].name,
-        ReturnURL:'/TGA103G1/back-end/shop/shopProduct.html',
-        ChoosePayment:'Credit',
-        CheckMacValue:'CFA9BDE377361FBDD8F160274930E815D1A8A2E3E80CE7D404C45FC9A0A1E407',
-        EncryptType:'1,'
-  
-  
-      })
+   //綠界
+   if(pay_method == 1){
+
+    fetch('/TGA103G1/AddOrder',{
+        method:'POST',
+        headers:{'Content-type':'application/json'},
+        body: JSON.stringify({
+            method:postMethod,
+            pay_method:pay_method,
+            name:name,
+            phone:phone,
+            address:address,
+            note:note,
+            orderSmallVO:array,
+            price:allPrice,
+        }),
     })
+      .then(resp => resp.json())
+      .then(body =>{
+        console.log(body)
+            if(body.successful == true){
+                sessionStorage.removeItem("product");
+                fetch('https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',{
+                       method:'POST',
+                       headers:{'Content-type':'application/x-www-form-urlencoded'},
+                       body: JSON.stringify({
+                            MerchantID:'3002607',
+                            MerchantTradeNo:body.aio.MerchantTradeNo,
+                            MerchantTradeDate:body.aio.MerchantTradeDate,
+                            PaymentType:body.aio.PaymentType,
+                            TotalAmount:allPrice,
+                            TradeDesc:body.aio.TradeDesc,
+                            ItemName:body.aio.ItemName,
+                            ReturnURL:body.aio.ReturnURL,
+                            ChoosePayment:'ALL',
+                            CheckMacValue:body.message,
+                            EncryptType:'1',
+                            ClientBackURL:body.aio.ClientBackURL,
+                            NeedExtraPaidInfo:body.aio.NeedExtraPaidInfo
+                          })
+                  })
+                alert("購買成功！");
+                // location ="/TGA103G1/back-end/shop/shopProduct.html"
+
+            }else{
+                alert(body.message)
+                // location ="/TGA103G1/back-end/shop/shopProduct.html"
+            }
+      })
+   
   }
 
-    // fetch('/TGA103G1/AddOrder',{
-    //     method:'POST',
-    //     headers:{'Content-type':'application/json'},
-    //     body: JSON.stringify({
-    //         method:postMethod,
-    //         member_id:'1',
-    //         pay_method:pay_method,
-    //         name:name,
-    //         phone:phone,
-    //         address:address,
-    //         note:note,
-    //         orderSmallVO:array,
-    //     }),
-    // })
-    //   .then(resp => resp.json())
-    //   .then(body =>{
-    //         if(body.successful == true){
-    //             sessionStorage.removeItem("product");
-    //             alert("購買成功！");
-    //             location ="/TGA103G1/back-end/shop/shopProduct.html"
-
-    //         }else{
-    //             alert(body.message)
-    //             location ="/TGA103G1/back-end/shop/shopProduct.html"
-    //         }
-    //   })
     })
 
     //自取
