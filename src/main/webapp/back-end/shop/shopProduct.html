@@ -80,7 +80,7 @@
       </div>
       <div class="modal-body"></div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"> <a id="checkBtn" style="text-decoration: none; color: white;" href="http://localhost:8080/TGA103G1/back-end/shop/shopCheck.html">前往結帳</a> </button>
+        <button type="button" class="btn btn-secondary"> <a id="checkBtn" style="text-decoration: none; color: white;" href="/TGA103G1/back-end/shop/shopCheck.html">前往結帳</a> </button>
       </div>
     </div>
   </div>
@@ -95,7 +95,7 @@
     <script>
    
 
-      let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id=";
+      let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
       //進到頁面顯示全部商品
       fetch('/TGA103G1/GetProductByTypeId',{
         method:'GET',

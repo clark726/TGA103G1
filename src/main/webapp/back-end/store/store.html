@@ -94,9 +94,9 @@ let work_end = document.querySelector("#work_end");
 let dayoff = document.querySelector("#dayoff");
 let address = document.querySelector("#address");
 let store_product = document.querySelector("#store_product");
-let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id=";
+let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
 
-fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
+fetch("/TGA103G1/ShowStorePage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -137,7 +137,7 @@ fetch("http://localhost:8080/TGA103G1/ShowStorePage", {
       const meanuImg2 = document.querySelector("#meanuImg2");
 
 //store圖片
-      fetch("http://localhost:8080/TGA103G1/ShowStorePageImg", {
+      fetch("/TGA103G1/ShowStorePageImg", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

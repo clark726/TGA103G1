@@ -18,7 +18,7 @@ crossorigin="anonymous"
 
 <link rel="stylesheet" href="../../css/header.css" />
 </head>
-<body>
+<body id="ecpay">
     <div id="xxx"></div>
 
     <div class="container">
@@ -131,7 +131,7 @@ crossorigin="anonymous"
  <script src="../js/header.js"></script>
 <script>
 //取回商品資訊
-let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id=";
+let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
   let product =  JSON.parse(sessionStorage.getItem("product")) 
   let arrayprice = new Array();
   for(var i = 0; i < product.length; i++){
@@ -235,26 +235,33 @@ let url = "http://localhost:8080/TGA103G1/ShowStorePage?action=getImg&product_id
         console.log(body)
             if(body.successful == true){
                 sessionStorage.removeItem("product");
-                fetch('https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',{
-                       method:'POST',
-                       headers:{'Content-type':'application/x-www-form-urlencoded'},
-                       body: JSON.stringify({
-                            MerchantID:'3002607',
-                            MerchantTradeNo:body.aio.MerchantTradeNo,
-                            MerchantTradeDate:body.aio.MerchantTradeDate,
-                            PaymentType:body.aio.PaymentType,
-                            TotalAmount:allPrice,
-                            TradeDesc:body.aio.TradeDesc,
-                            ItemName:body.aio.ItemName,
-                            ReturnURL:body.aio.ReturnURL,
-                            ChoosePayment:'ALL',
-                            CheckMacValue:body.message,
-                            EncryptType:'1',
-                            ClientBackURL:body.aio.ClientBackURL,
-                            NeedExtraPaidInfo:body.aio.NeedExtraPaidInfo
-                          })
-                  })
-                alert("購買成功！");
+                $("#ecpay").html(body.message);
+//                 fetch('https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',{
+//                        method:'POST',
+//                        headers:{'Content-type':'application/x-www-form-urlencoded',
+//                     	   		'Access-Control-Allow-Origin':'*'
+//                     	   		},
+//                       mode: 'no-cors',
+//                        body: JSON.stringify({
+//                             MerchantID:'2000132',
+//                             MerchantTradeNo:body.aio.MerchantTradeNo,
+//                             MerchantTradeDate:body.aio.MerchantTradeDate,
+//                             PaymentType:body.aio.PaymentType,
+//                             TotalAmount:allPrice,
+//                             TradeDesc:body.aio.TradeDesc,
+//                             ItemName:body.aio.ItemName,
+//                             ReturnURL:body.aio.ReturnURL,
+//                             ChoosePayment:'ALL',
+//                             CheckMacValue:body.message,
+//                             EncryptType:'1',
+//                             ClientBackURL:body.aio.ClientBackURL,
+//                             NeedExtraPaidInfo:body.aio.NeedExtraPaidInfo
+//                           })
+//                   })
+//                   .then(body =>{
+//                 	 action
+//                   })
+                  // alert("購買成功！");
                 // location ="/TGA103G1/back-end/shop/shopProduct.html"
 
             }else{

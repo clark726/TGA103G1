@@ -126,13 +126,15 @@ public class OrderServiceImpl implements OrderService {
 		aCheckOut.setTotalAmount(obj.getPrice() + "");
 		aCheckOut.setTradeDesc("test");
 		aCheckOut.setItemName(name);
-		aCheckOut.setClientBackURL("http://localhost:8080/TGA103G1/main.html");
-		aCheckOut.setReturnURL("http://localhost:8080/TGA103G1/main.html");
+		aCheckOut.setClientBackURL("http://35.187.148.211:8080/TGA103G1/main.html");
+		aCheckOut.setReturnURL("http://35.187.148.211:8080/TGA103G1/main.html");
 		aCheckOut.setNeedExtraPaidInfo("N");
 
-		String checkValue = EcpayFunction.genCheckMacValue("pwFHCqoQZGmho4w6", "EkRm7iFT261dpevs", aCheckOut);
+//		String checkValue = EcpayFunction.genCheckMacValue("pwFHCqoQZGmho4w6", "EkRm7iFT261dpevs", aCheckOut);
+		String checkValue = allInOne.aioCheckOut(aCheckOut, null);
 		obj.setAio(aCheckOut);
 		obj.setMessage(checkValue);
+		System.out.println(checkValue);
 		return obj;
 	}
 
@@ -166,11 +168,12 @@ public class OrderServiceImpl implements OrderService {
 		aCheckOut.setTotalAmount(orderVO.getPrice() + "");
 		aCheckOut.setTradeDesc("test");
 		aCheckOut.setItemName(name);
-		aCheckOut.setClientBackURL("http://localhost:8080/TGA103G1/main.html");
-		aCheckOut.setReturnURL("http://localhost:8080/TGA103G1/main.html");
+		aCheckOut.setClientBackURL("http://35.187.148.211:8080/TGA103G1/main.html");
+		aCheckOut.setReturnURL("http://35.187.148.211:8080/TGA103G1/main.html");
 		aCheckOut.setNeedExtraPaidInfo("N");
 
-		String checkValue = EcpayFunction.genCheckMacValue("pwFHCqoQZGmho4w6", "EkRm7iFT261dpevs", aCheckOut);
+//		String checkValue = EcpayFunction.genCheckMacValue("pwFHCqoQZGmho4w6", "EkRm7iFT261dpevs", aCheckOut);
+		String checkValue = allInOne.aioCheckOut(aCheckOut, null);
 		orderVO.setAio(aCheckOut);
 		orderVO.setMessage(checkValue);
 		return orderVO;

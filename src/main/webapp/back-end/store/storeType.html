@@ -240,7 +240,7 @@
           } else {
             $(this).toggleClass("-on");
             if ($(this).hasClass("-on")) {
-              fetch("http://localhost:8080/TGA103G1/AddFavorite", {
+              fetch("/TGA103G1/AddFavorite", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -252,7 +252,7 @@
                   console.log(body);
                 });
             } else {
-              fetch("http://localhost:8080/TGA103G1/DeleteFavorite", {
+              fetch("/TGA103G1/DeleteFavorite", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -289,7 +289,7 @@
 
       //先看是否有我的最愛
       let arrayFavorite = new Array();
-      fetch("http://localhost:8080/TGA103G1/FindFavorite", {
+      fetch("/TGA103G1/FindFavorite", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -311,7 +311,7 @@
       let storeproduce = document.querySelector("#storeproduce");
       let displayImg = document.querySelector("#displayImg");
 
-      fetch("http://localhost:8080/TGA103G1/ShowStoreType", {
+      fetch("/TGA103G1/ShowStoreType", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -334,7 +334,7 @@
                   $("ul.item_list").append(`
 					 <li><i data-storeId ="${body[i].store_id}" class="fa-solid fa-heart -on"></i> 
 						<i class="fa-sharp fa-solid fa-comment-dots clickIcon" id="${body[i].name}" ></i>
-					<a href="http://localhost:8080/TGA103G1/back-end/store/store.html">
+					<a href="/TGA103G1/back-end/store/store.html">
 							 <div class="img_block">
 								 <img src="${body[i].imgstr}" id="storeId" data-store_id="${body[i].store_id}" />
 							 </div>
@@ -348,7 +348,7 @@
                 $("ul.item_list").append(`
 						 <li><i data-storeId="${body[i].store_id}" class="fa-solid fa-heart"></i> 
 							<i class="fa-sharp fa-solid fa-comment-dots clickIcon"  id="${body[i].name}" ></i>
-						<a href="http://localhost:8080/TGA103G1/back-end/store/store.html">
+						<a href="/TGA103G1/back-end/store/store.html">
 								 <div class="img_block">
 									 <img src="${body[i].imgstr}" id="storeId" data-store_id="${body[i].store_id}" />
 								 </div>
@@ -363,7 +363,7 @@
               $("ul.item_list").append(`
 						 <li><i data-storeId="${body[i].store_id}" class="fa-solid fa-heart"></i> 
 							<i class="fa-sharp fa-solid fa-comment-dots clickIcon" id="${body[i].name}" ></i>
-						<a href="http://localhost:8080/TGA103G1/back-end/store/store.html">
+						<a href="/TGA103G1/back-end/store/store.html">
 								 <div class="img_block">
 									 <img src="${body[i].imgstr}" id="storeId" data-store_id="${body[i].store_id}" />
 								 </div>
