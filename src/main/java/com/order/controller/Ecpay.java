@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.member.vo.MemberVO;
 import com.order.model.OrderVO;
 import com.order.service.OrderService;
 import com.order.service.impl.OrderServiceImpl;
