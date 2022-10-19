@@ -33,39 +33,39 @@
 				<li><a href="#">討論區</a></li>
 				<li><a href="#" data-bs-toggle="modal" id="loginbox"
 					data-bs-target="#loginModal">廠商專區</a><a
-					href="http://localhost:8080/TGA103G1/ShowProduct" id="normal"
+					href="/TGA103G1/ShowProduct" id="normal"
 					style="display: none; width: 65px;">廠商專區</a></li>
 				<li><a href="#" class="icon">店家主題</a>
 					<ul id="store" class="dropdown-menu">
 						<li><a
-							href="http://localhost:8080/TGA103G1/back-end/store/storeType.html"
+							href="/TGA103G1/back-end/store/storeType.html"
 							data-themid="1" class="theme_id">Bistro</a></li>
 						<li><a
-							href="http://localhost:8080/TGA103G1/back-end/store/storeType.html"
+							href="/TGA103G1/back-end/store/storeType.html"
 							data-themid="2" class="theme_id">Cocktail bar</a></li>
 						<li><a
-							href="http://localhost:8080/TGA103G1/back-end/store/storeType.html"
+							href="/TGA103G1/back-end/store/storeType.html"
 							data-themid="3" class="theme_id">Whisky bar</a></li>
 					</ul></li>
 				<li><a href="#" class="icon">會員專區</a>
 					<ul id="store" class="dropdown-menu">
 						<li><a
-							href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改會員資料</a></li>
+							href="/TGA103G1/front-end/member/jsp/member_center.jsp">修改會員資料</a></li>
 						<li><a
-							href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></li>
+							href="/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></li>
 						<li><a
-							href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></li>
+							href="/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></li>
 						<li><a
-							href="http://localhost:8080/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></li>
+							href="/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></li>
 					</ul></li>
 
-				<li><a href="http://localhost:8080/TGA103G1/back-end/shop/shopProduct.html">購物商城</a></li>
+				<li><a href="/TGA103G1/back-end/shop/shopProduct.html">購物商城</a></li>
 				<li><a
-					href="http://localhost:8080/TGA103G1/front-end/member/login.jsp"
+					href="/TGA103G1/front-end/member/login.jsp"
 					id="login">登入註冊</a><a
-					href="http://localhost:8080/TGA103G1/StoreLogout" id="logout"
+					href="/TGA103G1/StoreLogout" id="logout"
 					style="display: none; width: 40px;">登出</a> <a
-					href="http://localhost:8080/TGA103G1/MemberLogout"
+					href="/TGA103G1/MemberLogout"
 					id="memberlogout" style="display: none; width: 40px;">登出</a></li>
 			</ul>
 		</nav>
@@ -142,7 +142,7 @@
         const password = document.querySelector("#password");
         const errMsg = document.querySelector("#errMsg");
         document.getElementById("btn1").addEventListener("click", () => {
-          fetch("http://localhost:8080/TGA103G1/StoreLogin", {
+          fetch("/TGA103G1/StoreLogin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -158,7 +158,7 @@
                 const { account, password } = body;
                 sessionStorage.setItem("account", account);
                 sessionStorage.setItem("password", password);
-                location = "http://localhost:8080/TGA103G1/ShowProduct";
+                location = "/TGA103G1/ShowProduct";
               } else {
                 errMsg.textContent = message;
               }

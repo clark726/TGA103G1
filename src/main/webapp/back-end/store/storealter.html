@@ -397,7 +397,7 @@ const errMsgUpdateImg = document.querySelector("#errMsgUpdateImg");
         const { successful, message } = body;
         console.log(body)
          if (successful) {
-          //  location = 'http://localhost:8080/TGA103G1/back-end/store/storealter.html';
+          //  location = '/TGA103G1/back-end/store/storealter.html';
           alert("更新成功");
          } else {
           alert(message);
@@ -457,7 +457,7 @@ document.querySelector("#statusUpdate").addEventListener("click", function(){
         const{successful , message} = body
         if(successful){
           alert("更新成功") 
-          location = 'http://localhost:8080/TGA103G1/back-end/store/storealter.html';
+          location = '/TGA103G1/back-end/store/storealter.html';
         }else{
           alert(message)
         }
