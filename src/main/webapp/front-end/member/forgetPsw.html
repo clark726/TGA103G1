@@ -38,15 +38,13 @@
     <script>
       (()=>{
         const newPass = document.querySelector("#newPsw")
-        console.log(newPass);
         const checkPass = document.querySelector("#checkPsw");
         const submit = document.querySelector("#submit");
         const errPass = document.querySelector(".Psw");
         const errCheck = document.querySelector(".checkPsw");
         const msg = document.querySelector(".msg");
         const psRex = "^[a-zA-z0-9]{4,20}$"; 
-        newPass.addEventListener("input",()=>{
-          console.log(newPass.value);
+        newPass.addEventListener("input",(e)=>{
           if(newPass.value == ""){
             errPass.textContent = "請勿空白";
             return;
@@ -56,13 +54,17 @@
             errPass.textContent = "";
           }
         })
-        if(checkPass.value != newPass.value){
-          $(errCheck).append("兩次密碼不一致");
-        }else{
-          $(errCheck).empty();
-        }
+          checkPass.addEventListener("input",()=>{
+            if(checkPass.value != newPass.value){
+              errCheck.textContent = "兩次密碼不一致";
+              return;
+            }else{
+            	errCheck.textContent = "";
+            }
+          })
         
         submit.addEventListener("click",(e)=>{
+          $(errCheck).empty();
           fetch('/TGA103G1/memberForgetPass', {
             method: 'POST',
             headers: {
