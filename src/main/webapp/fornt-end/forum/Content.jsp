@@ -1,9 +1,9 @@
 <%@page import="com.mysql.cj.Session" %>
-<%@page import="com.member.vo.MemberVO" %>
-<%@page import="com.forum.model.service.impl.ForumServiceImpl,java.util.*" %>
-<%@page import="com.forum.model.ForumVO" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@page import="com.member.vo.MemberVO" %>
+		<%@page import="com.forum.model.service.impl.ForumServiceImpl,java.util.*" %>
+			<%@page import="com.forum.model.ForumVO" %>
+				<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+					<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -120,12 +120,12 @@
 							</div>
 						</div>
 						<div class="col-8" align="center">
-							<div class="text" style="background-color: #FFD382; height: 300px">
+							<main id="main" class="text" style="background-color: #FFD382; height: 300px">
 								<aside style="padding-bottom: 0px">留言時間:${fmsg.date}</aside>
-								<button id="reportMessage" style="TRANSFORM: TRANSLATEX(450%);">檢舉留言</button>
+								<button class="reportMessage" style="TRANSFORM: TRANSLATEX(450%);">檢舉留言</button>
 								<div style="border: 1px solid black; height: 225px; margin: 10px; margin: 10px">
 									${fmsg.content}</div>
-							</div>
+							</main>
 						</div>
 						<hr>
 					</div>
@@ -176,11 +176,56 @@
 
 	</script>
 	<script>
+function onTheRportMessage(){
 
+let TheRportMessage = document.querySelectorAll(".reportMessage")
+
+TheRportMessage.forEach((e,i)=>{
+e.addEventListener("click", function (e) {
+
+if (<% Object userId4 = session.getAttribute("userid");
+out.print(userId4 == null);%>) {
+alert("您尚未登入")
+location.href = "/TGA103G1/MessageReport";
+}else {
+
+if (confirm("確定檢舉此留言?")) {
+var text = $(this).closest("main").find("aside").text();
+// sessionStorage.setItem("forumId",<%=request.getParameter("page") %>);
+var report = prompt('請輸入檢舉原因');
+if (report != null && report != '') {
+	$.ajax({
+		url: "/TGA103G1/MessageReport",
+		data: {
+			"action": "insert",
+			"forumId":<%=request.getParameter("page") %>,
+			"reason": report,
+			"time": text
+		},
+		type: "post",
+		dataType: "text",
+		success: function (xhr) {
+			console.log(xhr);
+		}
+	})
+	alert('已送出');
+} else if (report == '') {
+	console.log(2)
+	alert('請輸入檢舉原因再送出');
+} else {
+	console.log(3)
+}
+} else {
+}
+}
+			});
+})
+
+}
 
 		var ContentMessage = CKEDITOR.replace('editorContentMessage');
 
-		document.querySelector("#alertContentMessage").addEventListener("click", function () {
+		document.querySelector("#alertContentMessage").addEventListener("click", function (ev) {
 			CKEDITOR.instances.editorContentMessage.updateElement();
 			if (
 								<% Object userId = session.getAttribute("userid");
@@ -190,6 +235,7 @@
 			location.href = "/TGA103G1/PostForumContentMessage?action=AreYouLogin";
 		} else {
 			console.log($('textarea[name=editorContentMessage]').val());
+
 			if (confirm("確定要送出嗎?")) {
 				$.ajax({
 					url: "/TGA103G1/PostForumContentMessage",
@@ -197,7 +243,7 @@
 					data: {
 						"memberId": "${userid.member_id}",
 						"forumId": <%=request.getParameter("page") %>,
-						"content": $('textarea[name=editorContentMessage]').val()
+						"content": $('textarea[name=editorContentMessage]').val(),
 					},
 					dataType: "text",
 					success: function (xhr) {
@@ -211,44 +257,32 @@
 			}
 			// window.location.reload();
 		}
+		onTheRportMessage();
 								  })
-	</script>
-	<!-- <script>
-		document.querySelector("#reportMessage").addEventListener("click", function () {
-
-			if (<% Object userId4 = session.getAttribute("userid");
-			out.print(userId4 == null);%>) {
-			alert("您尚未登入")
-			location.href = "/TGA103G1/MessageReport";
-		}else {
-
-			if (confirm("確定檢舉此留言?")) {
-				// sessionStorage.setItem("forumId",<%=request.getParameter("page") %>);
-				var report = prompt('請輸入檢舉原因');
-				if(prompt !=null){
-				alert('已送出');
-				}else{
-					alert('請輸入檢舉原因再送出');
-				}
-			}
+		window.onload = ()=>{
+			onTheRportMessage();
 		}
-							});
-	</script> -->
+	</script>
+	<script>
+
+
+		
+	</script>
 
 	<script>
-	document.querySelector("#reportContent").addEventListener("click", function () {
+		document.querySelector("#reportContent").addEventListener("click", function () {
 
-		if (<% Object userId3 = session.getAttribute("userid");
-		out.print(userId3 == null);%>) {
-		alert("您尚未登入")
-		location.href = "/TGA103G1/ForumContentReport";
-	}else {
+			if (<% Object userId3 = session.getAttribute("userid");
+			out.print(userId3 == null);%>) {
+			alert("您尚未登入")
+			location.href = "/TGA103G1/ForumContentReport";
+		}else {
 
-		if (confirm("確定檢舉此篇文章?")) {
-			sessionStorage.setItem("forumId",<%=request.getParameter("page") %>);
-			location.href = "/TGA103G1/fornt-end/forumContentReport/forumContentReprot.jsp";
+			if (confirm("確定檢舉此篇文章?")) {
+				sessionStorage.setItem("forumId",<%=request.getParameter("page") %>);
+				location.href = "/TGA103G1/fornt-end/forumContentReport/forumContentReprot.jsp";
+			}
 		}
-	}
 						});
 	</script>
 

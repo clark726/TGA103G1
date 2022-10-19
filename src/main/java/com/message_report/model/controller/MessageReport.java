@@ -34,18 +34,20 @@ public class MessageReport extends HttpServlet {
 	    }
 	    public void doPost(HttpServletRequest req, HttpServletResponse res)
 	            throws ServletException, IOException {
-	        req.setCharacterEncoding("UTF-8");
-	        res.setCharacterEncoding("UTF-8");
-	        Message_reportJNDIDAO jndi = new Message_reportJNDIDAO();
-	        
-	        MemberVO vo = (MemberVO)req.getSession().getAttribute("userid");
-	        Integer memberId = vo.getMember_id();
-	        String forumId = req.getParameter("forumId");
-	        String reasonString = req.getParameter("reason");
-
-	        Forum_reportVO forum_reportVO = new Forum_reportVO();
-	        forum_reportVO.setForum_id(Integer.parseInt(forumId));
-	        forum_reportVO.setMember_id(memberId);
-	        forum_reportVO.setReason(reasonString);
+//	    	String forumid =  req.getParameter("forumId");
+//	    	System.out.println(forumid);
+	    	String reason =  req.getParameter("reason");
+//	    	System.out.println(reason);
+	    	String time = req.getParameter("time");
+	    	if(time!=null && !time.isEmpty()) {
+	    		time = time.substring(time.indexOf(":")+1).replace("T"," ");
+	    	}
+//	    	System.out.println(time);
+	    	MemberVO vo = (MemberVO)req.getSession().getAttribute("userid");
+	    	Integer memberId = vo.getMember_id();
+//	    	System.out.println(memberId);
+	    	
+	    	new Message_reportJNDIDAO().insertReport(memberId,time, reason);
+	    	
 	    }
 	}
