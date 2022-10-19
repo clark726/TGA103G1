@@ -1,6 +1,7 @@
 package com.member.dao.impl;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import com.member.vo.MemberVO;
 
 public class MemberDaoImpl implements MemberDao {
 	private DataSource dataSource;
-
+	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 	public MemberDaoImpl() {
 		try {
@@ -34,7 +35,8 @@ public class MemberDaoImpl implements MemberDao {
 
 	public boolean updatePermission(Integer id,Integer permission) {
 		String sql = "UPDATE `member` SET `permission` = ? WHERE (`member_id` = ?);";
-		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setObject(1,permission);
 			ps.setObject(2, id);
 			return ps.executeUpdate() == 1;
@@ -46,7 +48,7 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public Integer insert(MemberVO member) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		
 		Session session = sessionFactory.openSession();
 //		final String sql = "insert into member(account,password,birthday,address,gender,email,nickname,phone) "
 //				+ "values(?,?,?,?,?,?,?,?);";
@@ -85,7 +87,8 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public boolean login(String account,String password) {
 		final String sql = "select 1 from member where account = ? and password = ?;";
-		try (PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql)){
 			ps.setString(1,account);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
@@ -102,7 +105,6 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public boolean update(MemberVO member) {
 //		String sql = "UPDATE member set  address=?, gender=?, email=?, nickname=?, phone=?" + "where member_id = ?;";
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
 		try 
@@ -127,7 +129,8 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public MemberVO selectByUsername(String username) {
 		final String sql = "select member_id,account,password,birthday,address,gender,email,nickname,phone from member where account = ?;";
-		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); 
+				PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setString(1, username);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
@@ -155,7 +158,8 @@ public class MemberDaoImpl implements MemberDao {
 		MemberVO m = null;
 		String sql = "select member_id, account, password, birthday,address,gender,email,nickname,phone,register,permission "
 				+ "from member where member_id = ?;";
-		try (Connection connection = dataSource.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection(); 
+				PreparedStatement ps = connection.prepareStatement(sql)) {
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -183,7 +187,8 @@ public class MemberDaoImpl implements MemberDao {
 		public List<MemberVO> getAll() {
 			List <MemberVO> member = new ArrayList<MemberVO>();
 			String sql = "select * from member;";
-			try(PreparedStatement ps = dataSource.getConnection().prepareStatement(sql)){
+			try(Connection connection = dataSource.getConnection();
+					PreparedStatement ps = connection.prepareStatement(sql)){
 				ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					Integer member_id = rs.getInt(1);
@@ -209,7 +214,6 @@ public class MemberDaoImpl implements MemberDao {
 		@Override
 		public boolean updatePassword(MemberVO member) {
 //			String sql = "UPDATE member set  password = ? where member_id = ?;";
-			SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 			Session session = sessionFactory.openSession();
 			try 
 //			(Connection conn = dataSource.getConnection(); 
