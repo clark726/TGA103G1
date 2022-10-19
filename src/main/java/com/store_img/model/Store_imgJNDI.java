@@ -141,7 +141,7 @@ public class Store_imgJNDI implements Store_imgDAO {
 	// MAP
 
 	public List<StoreVO> getStoreImg() {
-		String sql = "SELECT  s.store_id,phone , name , address ,theme_id , dayoff , work_open , work_end , produce , i.img "
+		String sql = "SELECT  s.store_id,phone , name , address ,lat,lng,theme_id , dayoff , work_open , work_end , produce , i.img "
 				+ "FROM store s" + " join store_img i" + "  on s.store_id = i.store_id " + "where i.status = 1 ";
 		List<StoreVO> list = new ArrayList<StoreVO>();
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -152,6 +152,8 @@ public class Store_imgJNDI implements Store_imgDAO {
 				img.setStore_id(rs.getInt("s.store_id"));
 				img.setName(rs.getString("name"));
 				img.setAddress(rs.getString("address"));
+				img.setLat(rs.getString("lat"));
+				img.setLng(rs.getString("lng"));
 				img.setTheme_id(rs.getInt("theme_id"));
 				img.setDayoff(rs.getString("dayoff"));
 				img.setWork_end(rs.getString("work_end"));

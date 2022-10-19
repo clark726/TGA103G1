@@ -236,7 +236,6 @@ height:190px;
 						<li><a href="#">修改密碼</a></li>
 						<li><a href="#">訂單管理</a></li>
 					</ul></li>
-
 				<li><a href="#">購物商城</a></li>
 				<li><a href="#">登入註冊</a></li>
 			</ul>
@@ -265,7 +264,7 @@ height:190px;
 	  });
 	  infoWindow = new google.maps.InfoWindow();
 	  const script = document.createElement("script");
-	  script.src = "http://localhost:8080/TGA103G1/fornt-end/MAP/json.jsp";
+	  script.src = "/TGA103G1/fornt-end/MAP/json.jsp";
 	  document.getElementsByTagName("head")[0].appendChild(script);
 	}
 	var a = 4;//初始值為全部主題
@@ -287,9 +286,9 @@ height:190px;
 	    	const produce = e.features[i].properties.produce;
 	    	const content =
 	    	'<div id="content">' +
-	      	"主題:" +
-	      	theme +
-	      	"<a id='mapp' href='#'>" +
+// 	      	"主題:" +
+// 	      	theme +
+	      	"<a class='storeName' href='/TGA103G1/back-end/store/store.html' id="+id+">" +
 	      	name +
 	      	"<br>"+
 	      	"</a>" +
@@ -302,7 +301,7 @@ height:190px;
 	        	animation: google.maps.Animation.DROP,
 	        	position: latLng,
 	        	map: map,
-	        	label: theme,
+// 	        	label: theme,
 	        	});
 	        	var infowindow = new google.maps.InfoWindow();
 	        	marker.addListener("click", function (e) {
@@ -318,7 +317,7 @@ height:190px;
 	        		animation: google.maps.Animation.DROP,
 	        		position: latLng,
 	        		map: map,
-	        		label: theme,
+// 	        		label: theme,
 	     		});
 	   			var infowindow = new google.maps.InfoWindow();
 	     		marker.addListener("click", function (e) {
@@ -335,7 +334,7 @@ height:190px;
 				        animation: google.maps.Animation.DROP,
 				        position: latLng,
 				        map: map,
-				        label: theme,
+// 				        label: theme,
 				      });
 				      var infowindow = new google.maps.InfoWindow();
 				      marker.addListener("click", function (e) {
@@ -351,7 +350,7 @@ height:190px;
 	};
 
 	 $(function(){//初始頁面
-		    fetch("http://localhost:8080/TGA103G1/AllTheme", {
+		    fetch("/TGA103G1/AllTheme", {
 		      method: "POST",
 		      headers: { "Content-Type": "application/json" },
 		      body: JSON.stringify({
@@ -363,14 +362,15 @@ height:190px;
 		    	$(".store").empty();
 		        for (var i = 0; i < response.length; i++){
 		        	let id =response[i].store_id;
-		        	let name = "<a href='#' id="+id+">"+(i+1)+"." + response[i].name+"</a>" ;
+		        	let name = "<a class='storeName' href='/TGA103G1/back-end/store/store.html' id="+id+">"+(i+1)+"." + response[i].name+"</a>" ;
 		        	let pro = " 電話: " + response[i].phone+"<br>"+response[i].produce;
 		        	let work = "營業時間："+response[i].work_open+"~"+response[i].work_end;
+		        	let add = "地址："+response[i].address+"<br>"
 		        	let f = "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
 					let img = response[i].imgstr;
-		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+ "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+ "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+add+pro+"<br>"+work+"</div>"+"</div>");
 		        }
-				fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
+				fetch("/TGA103G1/checkk", {//驗證登入
 		     		method: "GET",
 		     		headers: { "Content-Type": "application/json" },
 				})
@@ -380,7 +380,7 @@ height:190px;
 		   		 	if (user == null) {
 		    			return;
 		   			 }else {
-						fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
+						fetch("/TGA103G1/AllFavoriteM", {
 				    		method: "POST",
 				     		headers: { "Content-Type": "application/json" },
 				    		body: JSON.stringify({
@@ -401,7 +401,7 @@ height:190px;
 		   
 		  });
 	 $(document).on("click", "div.f", function(){
-		fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
+		fetch("/TGA103G1/checkk", {//驗證登入
 		      method: "GET",
 		      headers: { "Content-Type": "application/json" },
 		})
@@ -410,13 +410,13 @@ height:190px;
 		    console.log(user);
 		    if (user == null) {
 		    	window.alert("尚未登入，將導向至登入頁");
-		      	location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';
+		      	location = '/TGA103G1/front-end/member/login.jsp';
 		    } else {
 		if(confirm('是否從我的最愛移除？')){
 			$(this).children().attr("src","./nheart.png");
 			$(this).attr("class","nf");
 			let storeId =  this.id
-			fetch("http://localhost:8080/TGA103G1/DeleteFavorite", {
+			fetch("/TGA103G1/DeleteFavorite", {
 			    method: "POST",
 			    headers: { "Content-Type": "application/json" },
 			    body: JSON.stringify({
@@ -433,7 +433,7 @@ height:190px;
 		})
 	  });
 	 $(document).on("click", "div.nf", function(){
-		fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
+		fetch("/TGA103G1/checkk", {//驗證登入
 		      method: "GET",
 		      headers: { "Content-Type": "application/json" },
 		})
@@ -442,13 +442,13 @@ height:190px;
 		    console.log(user);
 		    if (user == null) {
 	    		 if( window.confirm("尚未登入，將導向至登入頁")){
-		      		location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';}
+		      		location = '/TGA103G1/front-end/member/login.jsp';}
 		    }else {
 				if(confirm('是否加入我的最愛？')){
 				$(this).children().attr("src","./heart.png");
 				$(this).attr("class","f");
 				let storeId =  this.id
-				fetch("http://localhost:8080/TGA103G1/AddFavorite", {
+				fetch("/TGA103G1/AddFavorite", {
 			    	method: "POST",
 			    	headers: { "Content-Type": "application/json" },
 			    	body: JSON.stringify({
@@ -469,7 +469,7 @@ height:190px;
 	
 	 $(document).on("click", "button#btn", function(){
 		    let themeId =  this.dataset.id;
-		    fetch("http://localhost:8080/TGA103G1/ChangeTheme", {
+		    fetch("/TGA103G1/ChangeTheme", {
 		      method: "POST",
 		      headers: { "Content-Type": "application/json" },
 		      body: JSON.stringify({
@@ -482,24 +482,26 @@ height:190px;
 		        console.log(body);
 		        for (var i = 0; i < body.length; i++){
 		        	let id =body[i].store_id;
-		        	let name = "<a href='#' id="+id+">"+(i+1)+"." + body[i].name+"</a>" ;
+		        	let add = "地址："+body[i].address+"<br>"
+		        	let name = "<a class='storeName' href='/TGA103G1/back-end/store/store.html' id="+id+">"+(i+1)+"." + body[i].name+"</a>" ;
 		        	let pro = " 電話: " + body[i].phone+"<br>"+body[i].produce;
 		        	let work = "營業時間："+body[i].work_open+"~"+body[i].work_end;
 		        	let f =  "<div id='"+id+"' class='nf'><img src='./nheart.png'></div>";
 					let img = body[i].imgstr;
 
-		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+ "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+ "<div class='name'>"+name+f+"</div>"+"<div class='pro'>"+add+pro+"<br>"+work+"</div>"+"</div>");
 		        }
-				fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
+				fetch("/TGA103G1/checkk", {//驗證登入
 		     		method: "GET",
 		     		headers: { "Content-Type": "application/json" },
 				})
 				.then(resp => resp.json())
 				.then(user => {
+		   		 	console.log(user);
 		   		 	if (user == null) {
 		    			return;
 		   			}else{
-						fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
+						fetch("/TGA103G1/AllFavoriteM", {
 				   			method: "POST",
 				   			headers: { "Content-Type": "application/json" },
 				    		body: JSON.stringify({
@@ -519,20 +521,19 @@ height:190px;
 		      });
 		  });
 	 $(document).on("click", "button#btnf", function(){//我的最愛
-		 fetch("http://localhost:8080/TGA103G1/checkk", {//驗證登入
+		 fetch("/TGA103G1/checkk", {//驗證登入
 		      method: "GET",
 		      headers: { "Content-Type": "application/json" },
 		    })
 		      .then(resp => resp.json())
 		      .then(user => {
-		    	  console.log(user);
 		    	  if (user == null) {
 		    		 if(window.confirm("尚未登入，將導向至登入頁")){
-			      		  location = 'http://localhost:8080/TGA103G1/front-end/member/login.jsp';
+			      		  location = '/TGA103G1/front-end/member/login.jsp';
 		    		 }
 		    		 $("button.btn")[0].click();
 		    	  } else {
-		    		  fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
+		    		  fetch("/TGA103G1/AllFavoriteM", {
 					      method: "POST",
 					      headers: { "Content-Type": "application/json" },
 					      body: JSON.stringify({
@@ -544,8 +545,8 @@ height:190px;
 							$(".store").empty();
 					        var g =1;
 					        for (var i = 0; i < body.length; i++){
-					        	let d=body[i].store_id;
-					            fetch("http://localhost:8080/TGA103G1/AllTheme", {
+                                let d=body[i].store_id;
+					            fetch("/TGA103G1/AllTheme", {
 					  		      method: "POST",
 					  		      headers: { "Content-Type": "application/json" },
 					  		      body: JSON.stringify({
@@ -555,17 +556,17 @@ height:190px;
 					  		      .then(response => {
 					  		        for (var i = 0; i < response.length; i++){
 					  		        	let id =response[i].store_id;
+							        	let add = "地址："+response[i].address+"<br>"
 					  		        	let pro = " 電話: " + response[i].phone+"<br>"+response[i].produce;
 					  		        	let work = "營業時間："+response[i].work_open+"~"+response[i].work_end;
 					  		        	let f =  "<div id='"+id+"' class='f'><img src='./heart.png'></div>";
 										let img = response[i].imgstr;
-
 					  		        	if(id==d){
-						  		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+"<div class='name'>"+"<a href='#' id="+id+">"+g+"." + response[i].name+"</a>"+f+"</div>"+"<div class='pro'>"+pro+"<br>"+work+"</div>"+"</div>");
+						  		        	$(".store").append("<div class='storeitem' id='"+id+"'>" +"<img  class='store' src='"+img+"'>"+"<div class='name'>"+"<a class='storeName' href='/TGA103G1/back-end/store/store.html' id="+id+">"+g+"." + response[i].name+"</a>"+f+"</div>"+"<div class='pro'>"+add+pro+"<br>"+work+"</div>"+"</div>");
 											g=g+1;
 					  		        	}
 					  		        }
-					  		      fetch("http://localhost:8080/TGA103G1/AllFavoriteM", {
+					  		      fetch("/TGA103G1/AllFavoriteM", {
 					  			      method: "POST",
 					  			      headers: { "Content-Type": "application/json" },
 					  			      body: JSON.stringify({
@@ -587,7 +588,8 @@ height:190px;
 		    	  
 		      });
 		  });
-		  $(document).on("click", "div.storeitem", function(){
+		  $(document).on("click", ".storeName", function(e){
+			  sessionStorage.setItem("store_id",$(this).attr("id"))
 		  })
 	window.initMap = initMap;
 	window.eqfeed_callback = eqfeed_callback;
