@@ -150,7 +150,11 @@ h1 {
 
 #row {
 	float: left;
-	width: 50%;
+    width: 50%;
+    position: absolute;
+    overflow: auto;
+    height: 60%;
+    width: 200px;
 }
 
 .column {

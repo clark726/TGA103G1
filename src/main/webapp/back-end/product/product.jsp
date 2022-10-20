@@ -16,6 +16,16 @@ ProductVO productVO = (ProductVO) request.getAttribute("productVO");
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/backproduct.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+	crossorigin="anonymous" />
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+	crossorigin="anonymous"></script> 
+
 <style>
 div.div_func div  a {
 	text-decoration: none;
@@ -64,9 +74,9 @@ div.div_func div  a {
 					<div class="title">
 						<h2>新增商品</h2>
 					</div>
-					<div class="comm">
-						<label for="p_type"> 商品類別: </label> <select name="p_type"
-							class="p_type">
+					<div class="comm col-6">
+						<label for="p_type" style="width: 200px"> 商品類別: </label> <select name="p_type"
+							class="p_type form-select">
 							<option value="1">水果類</option>
 							<option value="2">茶類</option>
 							<option value="3">氣泡類</option>
@@ -74,8 +84,8 @@ div.div_func div  a {
 						</select>
 					</div>
 
-					<div class="comm">
-						<label for="p_name">商品名稱 : </label> <input type="text" id="p_name"
+					<div class="comm col-6">
+						<label for="p_name" style="width: 200px">商品名稱 : </label> <input type="text" id="p_name"  class="form-control"
 							name="p_name"
 							value="<%=(productVO == null) ? "" : productVO.getName()%>">
 						<p>${errorMsgs.p_name}</p>
@@ -95,28 +105,28 @@ div.div_func div  a {
 
 					</div>
 
-					<div class="comm">
-						<label for="p_price">商品售價 :</label> <input type="text"
+					<div class="comm col-6">
+						<label for="p_price" style="width: 200px">商品售價 :</label> <input type="text" class="form-control"
 							id="p_price" name="p_price"
 							value="<%=(productVO == null) ? "" : productVO.getPrice()%>">
 						<p>${errorMsgs.p_price}</p>
 					</div>
 
-					<div class="comm">
-						<label for="p_stock">庫存 : </label> <input type="text" id="p_stock"
+					<div class="comm col-6">
+						<label for="p_stock" style="width: 150px">庫存 : </label> <input type="text" id="p_stock" class="form-control"
 							name="p_stock"
 							value="<%=(productVO == null) ? "" : productVO.getStock()%>">
 						<p>${errorMsgs.p_stock}</p>
 					</div>
 
-					<div class="comm">
-						<label for="p_produce">商品介紹 :</label>
-						<textarea name="p_produce" id="p_produce" cols="30" rows="10"><%=(productVO == null) ? "" : productVO.getDescription()%></textarea>
+					<div class="comm col-12">
+						<label for="p_produce" style="width: 150px">商品介紹 :</label>
+						<textarea name="p_produce" id="p_produce" cols="30" rows="10" class="form-control"><%=(productVO == null) ? "" : productVO.getDescription()%></textarea>
 						<p>${errorMsgs.p_produce}</p>
 
 						<div id="button">
 							<div id="button_new">
-								<input id="insert" type="submit" value="新增" ></input> <input type="hidden"
+								<input id="insert" type="submit" class="btn btn-secondary" value="新增" ></input> <input type="hidden"
 									name="action" value="insert">
 							</div>
 

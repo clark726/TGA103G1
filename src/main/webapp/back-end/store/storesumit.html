@@ -205,9 +205,12 @@ document.querySelector("#sumit").addEventListener("click" , function(){
     fetch(cros+'https://maps.googleapis.com/maps/api/geocode/json?address='+correctAddress+'&key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' ,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods':'POST, GET, PUT, DELETE'
+                'Access-Control-Allow-Origin':'http://localhost:8080',
+                'Access-Control-Allow-Methods':'POST, GET, PUT, DELETE',
+                'Access-Control-Allow-Credentials': 'true',
+                'Set-Cookie': '<cookie-name>=<cookie-value>'
                },
+     
     })
       .then(resp => resp.json() )
       .then(body => {
@@ -235,7 +238,7 @@ document.querySelector("#sumit").addEventListener("click" , function(){
       .then(body => {
         if(body.successful){
             alert("註冊成功")
-            // location = "http://localhost:8080/TGA103G1/main.html";
+            location = "http://localhost:8080/TGA103G1/main.html";
         }
       });
     })

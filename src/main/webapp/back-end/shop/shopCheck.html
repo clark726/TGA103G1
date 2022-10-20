@@ -193,7 +193,7 @@ let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
     let array = new Array();
     let allPrice = SumDataforEach(arrayprice);
     if(address == ""){
-        address = '自取'
+        address = '自取' 
     }
  
     //錯誤處理
@@ -236,31 +236,7 @@ let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
             if(body.successful == true){
                 sessionStorage.removeItem("product");
                 $("#ecpay").html(body.message);
-//                 fetch('https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5',{
-//                        method:'POST',
-//                        headers:{'Content-type':'application/x-www-form-urlencoded',
-//                     	   		'Access-Control-Allow-Origin':'*'
-//                     	   		},
-//                       mode: 'no-cors',
-//                        body: JSON.stringify({
-//                             MerchantID:'2000132',
-//                             MerchantTradeNo:body.aio.MerchantTradeNo,
-//                             MerchantTradeDate:body.aio.MerchantTradeDate,
-//                             PaymentType:body.aio.PaymentType,
-//                             TotalAmount:allPrice,
-//                             TradeDesc:body.aio.TradeDesc,
-//                             ItemName:body.aio.ItemName,
-//                             ReturnURL:body.aio.ReturnURL,
-//                             ChoosePayment:'ALL',
-//                             CheckMacValue:body.message,
-//                             EncryptType:'1',
-//                             ClientBackURL:body.aio.ClientBackURL,
-//                             NeedExtraPaidInfo:body.aio.NeedExtraPaidInfo
-//                           })
-//                   })
-//                   .then(body =>{
-//                 	 action
-//                   })
+
                   // alert("購買成功！");
                 // location ="/TGA103G1/back-end/shop/shopProduct.html"
 

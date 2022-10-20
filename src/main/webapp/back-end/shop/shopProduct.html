@@ -105,37 +105,40 @@
         .then(body => {
           //先清空
         $("#row").html("")
+        console.log(body)
           for(var i = 0; i < body.length; i++){
-          $("#row").append(`
-          <div class="col">
-                      <div class="card allproduct" style="max-width: 18rem;">
-                        <img src="${url+body[i].product_id}" class="card-img-top " >
-                        <div class="card-body">
-                          <h5 class="card-title" id="name">${body[i].name}</h5>
-                          <p class="card-text" style="
-                          margin-bottom: 5px;">${body[i].description}</p>
-                          <div class="card-text">
-                            <span>$</span><span id="price">${body[i].price}</span>
+            if(body[i].status == 1){
+              $("#row").append(`
+              <div class="col">
+                          <div class="card allproduct" style="max-width: 18rem;">
+                            <img src="${url+body[i].product_id}" class="card-img-top " >
+                            <div class="card-body">
+                              <h5 class="card-title" id="name">${body[i].name}</h5>
+                              <p class="card-text" style="
+                              margin-bottom: 5px;">${body[i].description}</p>
+                              <div class="card-text">
+                                <span>$</span><span id="price">${body[i].price}</span>
+                              </div>
+                              <p style="display:inline-block ;">訂購數量</p>
+                              <select name="amount" id="">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                              </select>
+                              <a  class="btn btn-secondary shopOrder" data-storeId = ${body[i].store_id} data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
+                            </div>
                           </div>
-                          <p style="display:inline-block ;">訂購數量</p>
-                          <select name="amount" id="">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                          </select>
-                          <a  class="btn btn-secondary shopOrder" data-storeId = ${body[i].store_id} data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
                         </div>
-                      </div>
-                    </div>
-          
-          `)
+              
+              `)
+            }
         }
         });
 
@@ -156,36 +159,39 @@
       .then(resp => resp.json() )
       .then(body => {
         for(var i = 0; i < body.length; i++){
-          $("#row").append(`
-          <div class="col">
-                      <div class="card allproduct" style="max-width: 18rem;">
-                        <img src="${url+body[i].product_id}" class="card-img-top " >
-                        <div class="card-body">
-                          <h5 class="card-title" id="name">${body[i].name}</h5>
-                          <p class="card-text" style="
-                          margin-bottom: 5px;">${body[i].description}</p>
-                          <div class="card-text">
-                            <span>$</span><span id="price">${body[i].price}</span>
+          if(body[i].status == 1){
+            $("#row").append(`
+            <div class="col">
+                        <div class="card allproduct" style="max-width: 18rem;">
+                          <img src="${url+body[i].product_id}" class="card-img-top " >
+                          <div class="card-body">
+                            <h5 class="card-title" id="name">${body[i].name}</h5>
+                            <p class="card-text" style="
+                            margin-bottom: 5px;">${body[i].description}</p>
+                            <div class="card-text">
+                              <span>$</span><span id="price">${body[i].price}</span>
+                            </div>
+                            <p style="display:inline-block ;">訂購數量</p>
+                            <select name="amount" id="">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                            </select>
+                            <a  class="btn btn-secondary shopOrder" data-storeId = ${body[i].store_id} data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
                           </div>
-                          <p style="display:inline-block ;">訂購數量</p>
-                          <select name="amount" id="">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                          </select>
-                          <a  class="btn btn-secondary shopOrder" data-storeId = ${body[i].store_id} data-id="${body[i].product_id}" style="display:block ;">加到購物車</a>
                         </div>
                       </div>
-                    </div>
-          
-          `)
+            
+            `)
+
+          }
         }
       });
 

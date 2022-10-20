@@ -126,8 +126,8 @@ public class OrderServiceImpl implements OrderService {
 		aCheckOut.setTotalAmount(obj.getPrice() + "");
 		aCheckOut.setTradeDesc("test");
 		aCheckOut.setItemName(name);
-		aCheckOut.setClientBackURL("http://35.187.148.211:8080/TGA103G1/main.html");
-		aCheckOut.setReturnURL("http://35.187.148.211:8080/TGA103G1/main.html");
+		aCheckOut.setClientBackURL("http://localhost:8080/TGA103G1/main.html");
+		aCheckOut.setReturnURL("http://localhost:8080/TGA103G1/main.html");
 		aCheckOut.setNeedExtraPaidInfo("N");
 
 //		String checkValue = EcpayFunction.genCheckMacValue("pwFHCqoQZGmho4w6", "EkRm7iFT261dpevs", aCheckOut);

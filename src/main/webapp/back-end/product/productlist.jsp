@@ -133,7 +133,7 @@ img {
 
 				<table
 					class="table table-striped table-bordered table-hover table-condensed"
-					style="max-width: 1000px; background-color: #c8bf9b57; border: black; text-align: center;">
+					style="max-width: 1000px; background-color: #a3b2bc57; border: black; text-align: center;">
 					<tr>
 						<th>商品編號</th>
 						<th>商品圖片</th>
@@ -150,23 +150,23 @@ img {
 					<c:forEach var="proVO" items="${Productlist}">
 
 						<tr> 
-							<td>\${proVO[i].product_id}</td>
+							<td>${proVO.product_id}</td>
 							<td><img
-								src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=\${proVO[i].product_id}">
+								src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${proVO.product_id}">
 							</td>
-							<td>\${proVO[i].name}</td>
-							<td>\${proVO[i].price}</td>
-							<td>\${proVO[i].description}</td>
-							<td>\${proVO[i].type_id == 1 ?  "水果" : ""}\${proVO[i].type_id == 2 ?  "茶類" : ""}
-								\${proVO[i].type_id == 3 ?  "氣泡" : ""} \${proVO[i].type_id == 4 ?  "草本" : ""}</td>
-							<td>\${proVO[i].stock}</td>
-							<td>\${proVO[i].status == 0 ? "下架":"上架"}</td>
+							<td>${proVO.name}</td>
+							<td>${proVO.price}</td>
+							<td>${proVO.description}</td>
+							<td>${proVO.type_id == 1 ?  "水果" : ""}${proVO.type_id == 2 ?  "茶類" : ""}
+								${proVO.type_id == 3 ?  "氣泡" : ""} ${proVO.type_id == 4 ?  "草本" : ""}</td>
+							<td>${proVO.stock}</td>
+							<td>${proVO.status == 0 ? "下架":"上架"}</td>
 							<td>
 								<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/ProductServlet"
 									style="margin-bottom: 0px;">
-									<input type="submit" value="修改"> <input type="hidden"
-										name="product_id" value="\${proVO[i].product_id}"> <input
+									<input type="submit" class="btn btn-secondary" value="修改"> <input type="hidden" 
+										name="product_id" value="${proVO.product_id}"> <input
 										type="hidden" name="action" value="getOne_For_Update">
 								</FORM>
 							</td>
@@ -174,8 +174,8 @@ img {
 								<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/ProductServlet"
 									style="margin-bottom: 0px;">
-									<input type="submit" value="刪除"> <input type="hidden"
-										name="product_id" value="\${proVO[i].product_id}"> <input
+									<input type="submit" class="btn btn-secondary" value="刪除"> <input type="hidden"
+										name="product_id" value="${proVO.product_id}"> <input
 										type="hidden" name="action" value="delete">
 								</FORM>
 							</td>

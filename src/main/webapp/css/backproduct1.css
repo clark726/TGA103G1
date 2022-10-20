@@ -1,5 +1,5 @@
 html {
-  height: 800px;
+  height: 100vh;
 }
 .contain {
   /* border: 1px solid red; */
@@ -145,5 +145,5 @@ width: 552px;
 height: 65px;
 }
 p{
-	color:yellow;
+	color:rgb(246, 101, 78);
 }
