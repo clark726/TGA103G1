@@ -58,7 +58,7 @@ function changelog() {
 		document.querySelector("#normal").style.display = "block";
 	} else if (sessionStorage.getItem("memberAccount")) {
 		document.querySelector("#login").style.display = "none";
-		document.querySelector("#logout").style.display = "block";
+		document.querySelector("#memberlogout").style.display = "block";
 	}
 
 }
