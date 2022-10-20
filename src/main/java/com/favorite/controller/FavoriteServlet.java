@@ -53,10 +53,11 @@ public class FavoriteServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		MemberVO memberVO = (MemberVO) request.getSession().getAttribute("userid");
-		Store_imgVO store_imgVO = service.getStoreImgByMemberId(memberVO.getMember_id());
-
+		List<Store_imgVO> list = service.getStoreImgByMemberId(memberVO.getMember_id());
+		
+		response.setContentType("application/json");
 		try (PrintWriter pw = response.getWriter()) {
-			pw.print(new GsonBuilder().create().toJson(store_imgVO));
+			pw.print(new GsonBuilder().create().toJson(list));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

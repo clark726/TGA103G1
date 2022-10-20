@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Document</title>
 <link rel="stylesheet" href="../../css/header.css" />
-<link rel="stylesheet" href="../../css/storechat.css">
+<link rel="stylesheet" href="../../css/storechat1.css">
 
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
@@ -68,76 +68,9 @@
 	<script src="https://code.jquery.com/jquery-3.6.1.js"
 		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
 		crossorigin="anonymous"></script>
+	<script src="../js/header.js"></script>
 	<script>
    
-   function includeHTML() {
-        const xxx = document.querySelector("#xxx");
-        fetch("/TGA103G1/com/header.html")
-          .then((resp) => resp.text())
-          .then((content) => {
-            xxx.innerHTML = content;
-            changelog();
-            logout();
-            changeTheme()
-            const username = document.querySelector("#account");
-            const password = document.querySelector("#password");
-            const errMsg = document.querySelector("#errMsg");
-            document.getElementById("btn1").addEventListener("click", () => {
-              fetch("/TGA103G1/StoreLogin", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  account: username.value,
-                  password: password.value,
-                }),
-              })
-                .then((resp) => resp.json())
-                .then((body) => {
-                  errMsg.textContent = "";
-                  const { successful, message } = body;
-                  if (successful) {
-                    const { account, password } = body;
-                    sessionStorage.setItem("account", account);
-                    sessionStorage.setItem("password", password);
-                    location = "/TGA103G1/ShowProduct";
-                  } else {
-                    errMsg.textContent = message;
-                  }
-                });
-            });
-          });
-      }
-      includeHTML();
-
-  
-
-//登出鈕
-function changelog(){
-			
-			if(sessionStorage.getItem("account")){
-            document.querySelector("#login").style.display='none'
-            document.querySelector("#logout").style.display='block'
-            document.querySelector("#loginbox").style.display = "none";
-            document.querySelector("#normal").style.display = "block";
-          }
-		}
-
-//登出
-      function logout(){
-        document.querySelector("#logout").addEventListener("click", function(){
-            sessionStorage.removeItem("account")
-          })
-      }
-	//點擊theme_id
-	function changeTheme(){
-let allthemeid =  document.querySelectorAll(".theme_id");
-allthemeid.forEach(function(e){
-  e.addEventListener("click", function(e){
-		let id = e.target.getAttribute("data-themid");
-		sessionStorage.setItem("themeId",id)
-  })
-})
-}
 
 //拿回店家名字
 let account = sessionStorage.getItem("account")

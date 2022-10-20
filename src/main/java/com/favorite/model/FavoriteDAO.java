@@ -16,7 +16,7 @@ public interface FavoriteDAO {
 
 	public FavoriteVO getStoreImgByStoreId(Integer member_id, Integer store_id);
 	
-	public Store_imgVO getStoreImgByMemberId(Integer member_id);
+	public List<Store_imgVO> getStoreImgByMemberId(Integer member_id);
 
 	//MAP
 	public List<FavoriteVO> getAllM(Integer id);

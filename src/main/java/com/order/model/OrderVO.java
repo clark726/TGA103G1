@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.common.Result;
 
+import ecpay.payment.integration.domain.AioCheckOutALL;
+
 public class OrderVO extends Result implements Serializable {
     private Integer order_id;
     private Integer store_id;
@@ -20,7 +22,7 @@ public class OrderVO extends Result implements Serializable {
     private String phone;
     private String note;
     private String account;
-    
+    private AioCheckOutALL aio;
     private List<OrderSmallVO> orderSmallVO;
     
     public OrderVO() {
@@ -60,7 +62,17 @@ public class OrderVO extends Result implements Serializable {
 
     
     
-    public List<OrderSmallVO> getOrderSmallVO() {
+    public AioCheckOutALL getAio() {
+		return aio;
+	}
+
+
+	public void setAio(AioCheckOutALL aio) {
+		this.aio = aio;
+	}
+
+
+	public List<OrderSmallVO> getOrderSmallVO() {
 		return orderSmallVO;
 	}
 

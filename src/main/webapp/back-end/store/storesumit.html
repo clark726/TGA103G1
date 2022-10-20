@@ -95,75 +95,10 @@
 		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
 		crossorigin="anonymous"></script>
 	<script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
+    <script src="../js/header.js"></script>
 <script>
    
-    function includeHTML() {
-         const xxx = document.querySelector("#xxx");
-         fetch("/TGA103G1/com/header.html")
-           .then((resp) => resp.text())
-           .then((content) => {
-             xxx.innerHTML = content;
-             changelog();
-             logout();
-             changeTheme()
-             const username = document.querySelector("#account");
-             const password = document.querySelector("#password");
-             const errMsg = document.querySelector("#errMsg");
-             document.getElementById("btn1").addEventListener("click", () => {
-               fetch("/TGA103G1/StoreLogin", {
-                 method: "POST",
-                 headers: { "Content-Type": "application/json" },
-                 body: JSON.stringify({
-                   account: username.value,
-                   password: password.value,
-                 }),
-               })
-                 .then((resp) => resp.json())
-                 .then((body) => {
-                   errMsg.textContent = "";
-                   const { successful, message } = body;
-                   if (successful) {
-                     const { account, password } = body;
-                     sessionStorage.setItem("account", account);
-                     sessionStorage.setItem("password", password);
-                     location = "/TGA103G1/ShowProduct";
-                   } else {
-                     errMsg.textContent = message;
-                   }
-                 });
-             });
-           });
-       }
-       includeHTML();
- 
-   
- //登出鈕
- function changelog(){
-             
-             if(sessionStorage.getItem("account")){
-             document.querySelector("#login").style.display='none'
-             document.querySelector("#logout").style.display='block'
-             document.querySelector("#loginbox").style.display = "none";
-             document.querySelector("#normal").style.display = "block";
-           }
-         }
- 
- //登出
-       function logout(){
-         document.querySelector("#logout").addEventListener("click", function(){
-             sessionStorage.removeItem("account")
-           })
-       }
-     //點擊theme_id
-     function changeTheme(){
- let allthemeid =  document.querySelectorAll(".theme_id");
- allthemeid.forEach(function(e){
-   e.addEventListener("click", function(e){
-         let id = e.target.getAttribute("data-themid");
-         sessionStorage.setItem("themeId",id)
-   })
- })
- }
+  
  
 let account = document.querySelector("#account")
 let accountsuccess = document.querySelector("#accountsuccess")
@@ -270,9 +205,12 @@ document.querySelector("#sumit").addEventListener("click" , function(){
     fetch(cros+'https://maps.googleapis.com/maps/api/geocode/json?address='+correctAddress+'&key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' ,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods':'POST, GET, PUT, DELETE'
+                'Access-Control-Allow-Origin':'http://localhost:8080',
+                'Access-Control-Allow-Methods':'POST, GET, PUT, DELETE',
+                'Access-Control-Allow-Credentials': 'true',
+                'Set-Cookie': '<cookie-name>=<cookie-value>'
                },
+     
     })
       .then(resp => resp.json() )
       .then(body => {
@@ -300,7 +238,7 @@ document.querySelector("#sumit").addEventListener("click" , function(){
       .then(body => {
         if(body.successful){
             alert("註冊成功")
-            // location = "http://localhost:8080/TGA103G1/main.html";
+            location = "http://localhost:8080/TGA103G1/main.html";
         }
       });
     })

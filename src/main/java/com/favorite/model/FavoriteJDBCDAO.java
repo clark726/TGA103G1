@@ -90,7 +90,7 @@ public class FavoriteJDBCDAO implements FavoriteDAO {
 	}
 
 	@Override
-	public Store_imgVO getStoreImgByMemberId(Integer member_id) {
+	public List<Store_imgVO> getStoreImgByMemberId(Integer member_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

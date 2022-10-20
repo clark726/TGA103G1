@@ -5,7 +5,8 @@ function includeHTML() {
 		.then((content) => {
 			xxx.innerHTML = content;
 			changelog();
-
+			changeTheme();	
+			logout();		
 			const username = document.querySelector("#account");
 			const password = document.querySelector("#password");
 			const errMsg = document.querySelector("#errMsg");
@@ -25,7 +26,6 @@ function includeHTML() {
 						if (successful) {
 							const { account, password } = body;
 							sessionStorage.setItem("account", account);
-							sessionStorage.setItem("password", password);
 							location = "/TGA103G1/ShowProduct";
 						} else {
 							errMsg.textContent = message;
@@ -37,42 +37,41 @@ function includeHTML() {
 includeHTML();
 
 
+
+//點擊theme_id
+function changeTheme() {
+	let allthemeid = document.querySelectorAll(".theme_id");
+	allthemeid.forEach(function(e) {
+		e.addEventListener("click", function(e) {
+			let id = e.target.getAttribute("data-themid");
+			sessionStorage.setItem("themeId", id)
+		})
+	})
+}
+
 //換登出鈕
-function check() {
+function changelog() {
 	if (sessionStorage.getItem("account")) {
 		document.querySelector("#login").style.display = "none";
 		document.querySelector("#logout").style.display = "block";
+		document.querySelector("#loginbox").style.display = "none";
+		document.querySelector("#normal").style.display = "block";
+	} else if (sessionStorage.getItem("memberAccount")) {
+		document.querySelector("#login").style.display = "none";
+		document.querySelector("#logout").style.display = "block";
 	}
+
 }
-
-
-//點擊theme_id
-let allthemeid = document.querySelectorAll(".theme_id");
-allthemeid.forEach(function(e) {
-	e.addEventListener("click", function(e) {
-		let id = e.target.getAttribute("data-themid");
-		sessionStorage.setItem("themeId", id);
-	});
-});
-
-//logout
-function logout() {
-	document
-		.querySelector("#logout")
-		.addEventListener("click", function() {
-			sessionStorage.removeItem("account");
-			check();
-		});
+//登出
+function logout(){
+	document.querySelector("#logout").addEventListener("click", function(){
+		if(sessionStorage.getItem("account")){
+			sessionStorage.removeItem("account")
+		}else if(sessionStorage.getItem("memberAccount")){
+			sessionStorage.removeItem("memberAccount")
+		}
+	  })
 }
-logout();
-
- //換登出鈕
-      function changelog() {
-        if (sessionStorage.getItem("account")) {
-          document.querySelector("#login").style.display = "none";
-          document.querySelector("#logout").style.display = "block";
-        }
-      }
 
 
 

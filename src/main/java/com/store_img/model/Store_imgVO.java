@@ -2,6 +2,7 @@ package com.store_img.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,6 +73,18 @@ public class Store_imgVO extends Result implements Serializable {
 		this.storeId = storeId;
 		this.date = date;
 		this.img = img;
+	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "Store_imgVO [img_id=" + img_id + ", storeId=" + storeId + ", date=" + date + ", img=" + img
+				+ ", status1=" + status1 + ", firstImg=" + firstImg + ", secondImg=" + secondImg + ", meanuImg="
+				+ meanuImg + ", meanuImg2=" + meanuImg2 + ", imgstr=" + imgstr + ", ingbyte=" + Arrays.toString(ingbyte)
+				+ ", account=" + account + ", dayoff=" + dayoff + ", work_open=" + work_open + ", work_end=" + work_end
+				+ ", produce=" + produce + ", name=" + name + "]";
 	}
 
 
