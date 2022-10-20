@@ -20,8 +20,8 @@ eqfeed_callback( { "type": "FeatureCollection", "features": [
         "geometry": {
           "type": "Point",
           "coordinates": [
-            ${storeVO.lat},
-            ${storeVO.lng}
+            ${storeVO.lng},
+            ${storeVO.lat}
           ]
         }
       },

@@ -6,95 +6,15 @@
 <head>
 <title>BarJarJo</title>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<link rel="stylesheet" href="../../css/header.css">
 <style>
-* {
+*{
 	box-sizing: border-box;
 }
 
 body {
 	margin: 0px;
 }
-
-header.header {
-	font-size: 16px;
-	width: 100%;
-	min-width: 1200px;
-	background-color: rgb(54, 26, 21);
-}
-
-.fl_left {
-	float: left;
-}
-
-a#logo {
-	text-decoration: none;
-	margin-left: 20px;
-	display: inline-block;
-	margin-top: 5px;
-	color: rgb(177, 123, 56);
-}
-
-#logo_h1 {
-	margin: 0px;
-}
-
-ul.nav_ul {
-	position: relative;
-	z-index: 2;
-	display: inline-block;
-	margin-left: 100px;
-}
-
-ul.nav_ul li {
-	display: inline-block;
-	margin: 0 20px;
-	position: relative;
-}
-
-ul.nav_ul li:hover ul#store {
-	visibility: visible;
-}
-
-ul.nav_ul li a {
-	text-decoration: none;
-	color: rgb(177, 123, 56);
-	width: 200px;
-}
-
-ul.nav_ul ul {
-	visibility: hidden;
-	position: absolute;
-	display: block;
-	background-color: rgb(54, 26, 21);
-	padding: 0px;
-	width: 150px;
-	padding-right: 20px;
-}
-
-ul.nav_ul ul li {
-	margin: 5px;
-	width: 100%;
-	padding: 5px;
-}
-
-ul.nav_ul li a:hover {
-	color: white;
-}
-
-ul.nav_ul li a.icon::after {
-	content: "";
-	display: inline-block;
-	width: 0px;
-	height: 0px;
-	border-top: 5px solid gray;
-	border-bottom: 0px solid red;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	position: relative;
-	top: -2px;
-	margin-left: 5px;
-}
-
 #map {
 	position: relative;
 	z-index: 1;
@@ -105,29 +25,28 @@ ul.nav_ul li a.icon::after {
 	float: right;
 }
 
-.btn {
+button.btn {
 	width: 125px;
 	line-height: 40px;
 	font-size: 15px;
 	color: rgb(255, 157, 0);
 	text-align: center;
 	background-color: rgb(255, 255, 255);
-/* 	border: 5px solid SaddleBrown;  */
 	border-radius: 15px;
 	cursor: pointer;
 	margin-inline: 5px;
 }
 
-.btn:hover {
+button.btn:hover {
 	transform: scale(1.05);
 }
 
-.btn:active {
+button.btn:active {
 	transform: scale(1.1);
 	box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .2);
 }
 
-.selected {
+button.selected {
 	width: 125px;
 	line-height: 40px;
 	font-size: 16px;
@@ -151,21 +70,22 @@ ul.nav_ul li a.icon::after {
 
 .storeitem {
 	padding: 8px 16px 6px;
-	border-bottom: 1px solid #d8d8d8;
+	border-bottom: 1.5px solid #d0aeae;
 	display: block;
 	height: 200px;
 }
 
-a {
-	text-decoration: none;
-}
 
+a.storename,a.theme{
+	text-decoration: none;
+	font-size:16px;
+}
 a:link {
-	color: #e6c3c3;
+	color: rgb(11, 93, 144);
 }
 
 a:visited {
-	color: #e6c3c3;
+	color: rgb(11, 93, 144);
 }
 
 a:active {
@@ -173,20 +93,13 @@ a:active {
 }
 
 a:hover {
-	color: white;
+	color: rgb(11, 93, 144);
 	box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .1);
 }
 
-a#mapp {
-	font-size: 19px;
-}
 
-a#mapp:hover {
-	color: brown;
-}
-
-.pro {
-	color: #009393
+div.pro {
+color: rgb(30, 30, 30);
 }
 
 div.name{
@@ -209,40 +122,11 @@ height:190px;
 </style>
 </head>
 <meta charset="UTF-8">
-<body style="background-color: rgb(129, 93, 65)">
-	<header class="header">
-		<div class="fl_left">
-			<h1 id="logo_h1">
-				<a href="＃" id="logo">Bar.Jar.Jo</a>
-			</h1>
-		</div>
-
-		<nav class="fl_right">
-			<ul class="nav_ul">
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">地圖</a></li>
-				<li><a href="#">討論區</a></li>
-				<li><a href="#">廠商專區</a></li>
-				<li><a href="#" class="icon">店家主題</a>
-					<ul id="store">
-						<li><a href="#">Bistro</a></li>
-						<li><a href="#">Cocktail bar</a></li>
-						<li><a href="#">Whisky bar</a></li>
-					</ul></li>
-				<li><a href="#" class="icon">會員專區</a>
-					<ul id="store">
-						<li><a href="#">我的最愛</a></li>
-						<li><a href="#">修改會員資料</a></li>
-						<li><a href="#">修改密碼</a></li>
-						<li><a href="#">訂單管理</a></li>
-					</ul></li>
-				<li><a href="#">購物商城</a></li>
-				<li><a href="#">登入註冊</a></li>
-			</ul>
-		</nav>
-	</header>
+<body style="background-color: rgb(224, 215, 208)">
+	<div id="xxx"></div>
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	
 	<div id="map"></div>
 	<br>
 	<button id="btn" data-id="4" class="btn selected">全部主題</button>
@@ -251,6 +135,7 @@ height:190px;
 	<button id="btn" data-id="3" class="btn">Cocktail bar</button>
 	<button id="btnf" data-id="5" class="btn">我的最愛</button>
 	<div class="store"></div>
+	<script src="../../back-end/js/header.js"></script>
 	<script
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ&callback=initMap&v=weekly"
 		defer></script>
@@ -281,17 +166,27 @@ height:190px;
 	    	const latLng = new google.maps.LatLng(coords[1], coords[0]);
 	    	const name = e.features[i].properties.name;
 	    	const id = e.features[i].properties.storeId;
-	    	const theme = e.features[i].properties.theme;
+	    	const themeId = e.features[i].properties.theme;
 	    	const address = e.features[i].properties.address;
 	    	const produce = e.features[i].properties.produce;
+	    	if(themeId==1){
+	    		theme='Bistro';
+	    	}else if(themeId==2){
+	    		theme='Whisky bar';
+	    	}else if(themeId==3){
+	    		theme='Cocktail bar';
+	    	} 
 	    	const content =
 	    	'<div id="content">' +
-// 	      	"主題:" +
-// 	      	theme +
-	      	"<a class='storeName' href='/TGA103G1/back-end/store/store.html' id="+id+">" +
+	      	"<a class='storename' href='/TGA103G1/back-end/store/store.html' id="+id+">" +
 	      	name +
 	      	"<br>"+
 	      	"</a>" +
+	      	"<a class='theme' href='/TGA103G1/back-end/store/storeType.html' id="+themeId+">"+
+	    	"主題:" +
+	      	theme +
+	      	"</a>"+
+	      	"<br>"+
 	      	address+
 	      	"</div>";
 	    	if (a == 1 || a == 2||a==3) {//主題1.2.3
@@ -301,7 +196,6 @@ height:190px;
 	        	animation: google.maps.Animation.DROP,
 	        	position: latLng,
 	        	map: map,
-// 	        	label: theme,
 	        	});
 	        	var infowindow = new google.maps.InfoWindow();
 	        	marker.addListener("click", function (e) {
@@ -317,7 +211,6 @@ height:190px;
 	        		animation: google.maps.Animation.DROP,
 	        		position: latLng,
 	        		map: map,
-// 	        		label: theme,
 	     		});
 	   			var infowindow = new google.maps.InfoWindow();
 	     		marker.addListener("click", function (e) {
@@ -591,8 +484,13 @@ height:190px;
 		  $(document).on("click", ".storeName", function(e){
 			  sessionStorage.setItem("store_id",$(this).attr("id"))
 		  })
+		  $(document).on("click", ".theme", function(){
+			  sessionStorage.setItem("themeId",$(this).attr("id"))
+		  });
 	window.initMap = initMap;
 	window.eqfeed_callback = eqfeed_callback;
 </script>
 </body>
 </html>
+
+
