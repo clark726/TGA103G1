@@ -15,7 +15,7 @@ ProductVO productVO = (ProductVO) request.getAttribute("productVO");
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/backproduct.css">
+	href="<%=request.getContextPath()%>/css/backproduct1.css">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -88,7 +88,7 @@ div.div_func div  a {
 						<label for="p_name" style="width: 200px">商品名稱 : </label> <input type="text" id="p_name"  class="form-control"
 							name="p_name"
 							value="<%=(productVO == null) ? "" : productVO.getName()%>">
-						<p>${errorMsgs.p_name}</p>
+						<p class="error">${errorMsgs.p_name}</p>
 					</div>
 
 					<div class="comm" id="p_pre">
@@ -109,20 +109,20 @@ div.div_func div  a {
 						<label for="p_price" style="width: 200px">商品售價 :</label> <input type="text" class="form-control"
 							id="p_price" name="p_price"
 							value="<%=(productVO == null) ? "" : productVO.getPrice()%>">
-						<p>${errorMsgs.p_price}</p>
+						<p class="error">${errorMsgs.p_price}</p>
 					</div>
 
 					<div class="comm col-6">
 						<label for="p_stock" style="width: 150px">庫存 : </label> <input type="text" id="p_stock" class="form-control"
 							name="p_stock"
 							value="<%=(productVO == null) ? "" : productVO.getStock()%>">
-						<p>${errorMsgs.p_stock}</p>
+						<p class="error">${errorMsgs.p_stock}</p>
 					</div>
 
 					<div class="comm col-12">
 						<label for="p_produce" style="width: 150px">商品介紹 :</label>
 						<textarea name="p_produce" id="p_produce" cols="30" rows="10" class="form-control"><%=(productVO == null) ? "" : productVO.getDescription()%></textarea>
-						<p>${errorMsgs.p_produce}</p>
+						<p class="error">${errorMsgs.p_produce}</p>
 
 						<div id="button">
 							<div id="button_new">
@@ -145,14 +145,13 @@ div.div_func div  a {
 	<script src="https://code.jquery.com/jquery-3.6.1.js"
 		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
 		crossorigin="anonymous"></script>
-
+	<script src="../js/header.js"></script>
 	<script>
  
 		let filereader;
      //file_1
      document.querySelector("#p_file1").addEventListener("change", function(e){
         if(this.files.length > 0){
-        	console.log("aa");
           document.querySelector("#preview1").innerHTML="";
 		  filereader = new FileReader();
 		  filereader.readAsDataURL(this.files[0]);
@@ -170,66 +169,8 @@ div.div_func div  a {
         };
       });
       
-      
-      //header
-function includeHTML() {
-			const xxx = document.querySelector('#xxx');
-				fetch('/TGA103G1/com/header.html')
-					.then(resp => resp.text())
-					.then(content => {
-						xxx.innerHTML = content;
-						changelog()
-						logout()
-						const username = document.querySelector('#account');
-						const password = document.querySelector('#password');
-						const errMsg = document.querySelector('#errMsg');
-						document.getElementById('btn1').addEventListener('click', () => {
-						    fetch('/TGA103G1/StoreLogin', {
-						      method: 'POST',
-						      headers: { 'Content-Type': 'application/json' },
-						      body: JSON.stringify({
-						        account: username.value,
-						        password: password.value
-						      }),
-						    })
-						      .then(resp => resp.json() )
-						      .then(body => {
-						        errMsg.textContent = "";
-						        const { successful, message } = body;
-						        if (successful) {
-						          const { account, password} = body;
-						          sessionStorage.setItem('account', account);
-						          sessionStorage.setItem('password', password);
-						          
-								  
-							
-	
-						        } else {
-						          errMsg.textContent = message;
-						        }
-						      });
-						  });			
-					});
-					
-		}
-		includeHTML();
-		
-		 //登出鈕
-        function changelog() {
-    if (sessionStorage.getItem("account")) {
-      document.querySelector("#login").style.display = "none";
-      document.querySelector("#logout").style.display = "block";
-      document.querySelector("#loginbox").style.display = "none";
-      document.querySelector("#normal").style.display = "block";
-    }
-  }
-		 
-      //登出
-      function logout(){
-        document.querySelector("#logout").addEventListener("click", function(){
-            sessionStorage.removeItem("account")
-          })
-      }
+
+  
       
       //WS
     var MyPoint = "/TogetherWS/james";

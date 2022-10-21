@@ -2,13 +2,11 @@ package com.order.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.order.model.OrderDAO;
@@ -18,22 +16,24 @@ import com.order.model.OrderVO;
 import com.order.service.OrderService;
 import com.order_detail.model.Order_detailDAO;
 import com.order_detail.model.Order_detailJNDI;
+import com.product.model.ProductDAO;
+import com.product.model.ProductJNDI;
 
 import ecpay.payment.integration.AllInOne;
 import ecpay.payment.integration.domain.AioCheckOutALL;
-import ecpay.payment.integration.ecpayOperator.EcpayFunction;
-import net.bytebuddy.asm.Advice.Return;
 
 public class OrderServiceImpl implements OrderService {
 
 	private OrderDAO orderDao;
 	private Order_detailDAO order_detailDAO;
 	public static AllInOne allInOne;
+	private ProductDAO productDAO;
 
 	public OrderServiceImpl() {
 
 		orderDao = new OrderJNDI();
 		order_detailDAO = new Order_detailJNDI();
+		productDAO = new ProductJNDI();
 	}
 
 	@Override
@@ -103,12 +103,13 @@ public class OrderServiceImpl implements OrderService {
 				Integer amount = entry.getValue().get(i).getCount();
 				Integer productId = entry.getValue().get(i).getProductId();
 				order_detailDAO.insert(orderId, productId, amount);
+				productDAO.updateStock(productId, amount);
 			}
 		}
 //		----------------------------綠界------------------------------------
 		List<OrderSmallVO> orderSmallVOs2 = obj.getOrderSmallVO();
 		// 綠界取出商品名稱
-		List<String> productName = orderSmallVOs2.stream().map(e->e.getName()).collect(Collectors.toList());
+		List<String> productName = orderSmallVOs2.stream().map(e -> e.getName()).collect(Collectors.toList());
 		// 為了配合綠界
 		Optional<String> reduce = productName.stream().reduce((String acc, String curr) -> {
 			return acc + "#" + curr;
@@ -134,7 +135,6 @@ public class OrderServiceImpl implements OrderService {
 		String checkValue = allInOne.aioCheckOut(aCheckOut, null);
 		obj.setAio(aCheckOut);
 		obj.setMessage(checkValue);
-		System.out.println(checkValue);
 		return obj;
 	}
 
@@ -152,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
 	public OrderVO ecPay(OrderVO orderVO) throws UnsupportedEncodingException {
 		List<OrderSmallVO> orderSmallVOs2 = orderVO.getOrderSmallVO();
 		// 綠界取出商品名稱
-		List<String> productName = orderSmallVOs2.stream().map(e->e.getName()).collect(Collectors.toList());
+		List<String> productName = orderSmallVOs2.stream().map(e -> e.getName()).collect(Collectors.toList());
 		// 為了配合綠界
 		Optional<String> reduce = productName.stream().reduce((String acc, String curr) -> {
 			return acc + "#" + curr;

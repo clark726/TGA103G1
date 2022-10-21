@@ -56,8 +56,11 @@ h1 {
 
 #row {
 	float: left;
-	width: 50%;
-  overflow: auto;
+    width: 50%;
+    position: absolute;
+    overflow: auto;
+    height: 60%;
+    width: 200px;
 }
 
 .column {

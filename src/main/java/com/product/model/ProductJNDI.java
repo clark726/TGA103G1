@@ -11,7 +11,6 @@ import com.common.HibernateUtil;
 
 public class ProductJNDI implements ProductDAO {
 
-
 	@Override
 	public Integer insert(ProductVO productVO) {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -62,8 +61,9 @@ public class ProductJNDI implements ProductDAO {
 		Session session = sessionFactory.openSession();
 		try {
 			Transaction transaction = session.beginTransaction();
-			ProductVO productVO = session.load(ProductVO.class, product_id);
-			session.remove(productVO);
+			ProductVO productVO = session.get(ProductVO.class, product_id);
+			System.out.println(productVO.getProduct_id());
+			session.delete(productVO);
 			transaction.commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -136,10 +136,8 @@ public class ProductJNDI implements ProductDAO {
 		Session session = sessionFactory.openSession();
 		try {
 			Transaction transaction = session.beginTransaction();
-		 row = session.createQuery("Update ProductVO set status = :status where product_id = :product_id")
-					.setParameter("status", status)
-					.setParameter("product_id",id)
-					.executeUpdate();
+			row = session.createQuery("Update ProductVO set status = :status where product_id = :product_id")
+					.setParameter("status", status).setParameter("product_id", id).executeUpdate();
 			transaction.commit();
 			return row != 0;
 		} catch (Exception e) {
@@ -147,7 +145,7 @@ public class ProductJNDI implements ProductDAO {
 			e.printStackTrace();
 			return false;
 		}
-	
+
 	}
 
 	@Override
@@ -166,6 +164,21 @@ public class ProductJNDI implements ProductDAO {
 			session.getTransaction().rollback();
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public void updateStock(Integer product_id, Integer amount) {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		try {
+			Transaction transaction = session.beginTransaction();
+			session.createQuery("Update ProductVO set stock = stock - :amount where product_id = :product_id")
+					.setParameter("amount", amount).setParameter("product_id", product_id).executeUpdate();
+			transaction.commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
 		}
 	}
 }

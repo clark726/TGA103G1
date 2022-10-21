@@ -119,7 +119,7 @@ fetch("/TGA103G1/ShowStorePage", {
         if(body[i].productStatus != 0){
 			$("ul#storeProduct").append(`<li>
           <div class="pro_2">
-            <a href="#"
+            <a href="/TGA103G1/back-end/shop/shopProduct.html"
               ><img src="${url+body[i].product_id}" class="img_pro" id="${body[i].product_id}"
             /></a>
             <p>${body[i].product_name}</p>

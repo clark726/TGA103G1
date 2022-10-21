@@ -68,6 +68,12 @@ crossorigin="anonymous"
              自取
             </label>
         </div>
+        <div class="form-check" style="display: inline-block; margin-left: 50px;">
+          <input class="form-check-input" type="checkbox" value="0" id="checkMember">
+          <label class="form-check-label" for="checkMember">
+            同訂購人
+          </label>
+        </div>
           <form class="row g-3 " style="margin-left:60px ; margin-right: 60px; margin-top: 15px; margin-top: 0px;" >
             <div class="col-md-6">
               <input type="email" class="form-control errorAll" id="name" placeholder="姓名">
@@ -214,7 +220,7 @@ let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
         array.push(product2)
    }
    //綠界
-   if(pay_method == 1){
+   
 
     fetch('/TGA103G1/AddOrder',{
         method:'POST',
@@ -235,18 +241,21 @@ let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
         console.log(body)
             if(body.successful == true){
                 sessionStorage.removeItem("product");
-                $("#ecpay").html(body.message);
-
-                  // alert("購買成功！");
-                // location ="/TGA103G1/back-end/shop/shopProduct.html"
+                console.log(pay_method)
+                if(pay_method == 1){
+                  $("#ecpay").html(body.message);
+                }else{
+                  alert("購買成功！");
+                  location ="/TGA103G1/back-end/shop/shopProduct.html"
+                }
 
             }else{
                 alert(body.message)
-                // location ="/TGA103G1/back-end/shop/shopProduct.html"
+                location ="/TGA103G1/back-end/shop/shopProduct.html"
             }
       })
    
-  }
+  
 
     })
 
@@ -257,6 +266,7 @@ let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
             $("#city").attr('disabled', true)
             $("#dist").attr('disabled', true)
             $("#postalCode").attr('disabled', true)
+            document.querySelector("#address").value = ""
         }else{
             $("#address").attr('disabled', false)
             $("#city").attr('disabled', false)
@@ -265,6 +275,38 @@ let url = "/TGA103G1/ShowStorePage?action=getImg&product_id=";
         }
     })
   
+    //同訂購人
+    $(document).on("click" , "#checkMember",function(){
+      let name = document.querySelector("#name")
+    let phone = document.querySelector("#phone")
+    let address = document.querySelector("#address")
+      if( $('#checkMember').prop('checked')){
+            $("#city").attr('disabled', true)
+            $("#dist").attr('disabled', true)
+            $("#postalCode").attr('disabled', true)
+
+
+    fetch('/TGA103G1/GetMember',{
+        method:'GET',
+        headers:{'Content-type':'application/json'},
+    })
+      .then(resp => resp.json())
+      .then(body =>{
+        name.value = body.nickname,
+        phone.value = body.phone,
+        address.value = body.address
+      
+      })
+      }else{
+            $("#city").attr('disabled', false)
+            $("#dist").attr('disabled', false)
+            $("#postalCode").attr('disabled', false)
+            name.value = ""
+            phone.value = ""
+            address.value = ""
+      }
+    })
+   
 
   </script>
 </body>
