@@ -95,10 +95,10 @@ img {
 	crossorigin="anonymous"></script>
 
 </head>
-<body style="background-color:rgb(216, 208, 208)">
+<body style="background-color: rgb(216, 208, 208)">
 	<div id="xxx"></div>
 	<div class="contain">
-		<aside class="aside" style="background-color:#3f3a38">
+		<aside class="aside" style="background-color: #3f3a38">
 			<p id="p1">廠商後台</p>
 			<div class="div_func">
 				<div>
@@ -111,7 +111,7 @@ img {
 				</div>
 				<div>
 					<a class="edit_item" type="button"
-					href="<%=request.getContextPath() %>/back-end/store/storeOrder.html">修改商家訂單內容</a>
+						href="<%=request.getContextPath()%>/back-end/store/storeOrder.html">修改商家訂單內容</a>
 				</div>
 				<div>
 					<a class="edit_item" type="button"
@@ -149,7 +149,7 @@ img {
 
 					<c:forEach var="proVO" items="${Productlist}">
 
-						<tr> 
+						<tr>
 							<td>${proVO.product_id}</td>
 							<td><img
 								src="<%=request.getContextPath()%>/ProductServlet?action=getImg&product_id=${proVO.product_id}">
@@ -165,18 +165,20 @@ img {
 								<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/ProductServlet"
 									style="margin-bottom: 0px;">
-									<input type="submit" class="btn btn-secondary" value="修改"> <input type="hidden" 
-										name="product_id" value="${proVO.product_id}"> <input
-										type="hidden" name="action" value="getOne_For_Update">
+									<input type="submit" class="btn btn-secondary" value="修改">
+									<input type="hidden" name="product_id"
+										value="${proVO.product_id}"> <input type="hidden"
+										name="action" value="getOne_For_Update">
 								</FORM>
 							</td>
 							<td>
 								<FORM METHOD="post"
 									ACTION="<%=request.getContextPath()%>/ProductServlet"
 									style="margin-bottom: 0px;">
-									<input type="submit" class="btn btn-secondary" value="刪除"> <input type="hidden"
-										name="product_id" value="${proVO.product_id}"> <input
-										type="hidden" name="action" value="delete">
+									<input type="submit" class="btn btn-secondary" value="刪除">
+									<input type="hidden" name="product_id"
+										value="${proVO.product_id}"> <input type="hidden"
+										name="action" value="delete">
 								</FORM>
 							</td>
 						</tr>
@@ -186,66 +188,80 @@ img {
 		</main>
 	</div>
 	<script>
-		function includeHTML() {
-			const xxx = document.querySelector('#xxx');
-				fetch('/TGA103G1/com/header.html')
-					.then(resp => resp.text())
-					.then(content => {
-						xxx.innerHTML = content;
-						changelog()
-						logout()
-						const username = document.querySelector('#account');
-						const password = document.querySelector('#password');
-						const errMsg = document.querySelector('#errMsg');
-						document.getElementById('btn1').addEventListener('click', () => {
-						    fetch('/TGA103G1/StoreLogin', {
-						      method: 'POST',
-						      headers: { 'Content-Type': 'application/json' },
-						      body: JSON.stringify({
-						        account: username.value,
-						        password: password.value
-						      }),
-						    })
-						      .then(resp => resp.json() )
-						      .then(body => {
-						        errMsg.textContent = "";
-						        const { successful, message } = body;
-						        if (successful) {
-						          const { account, password} = body;
-						          sessionStorage.setItem('account', account);
-						          sessionStorage.setItem('password', password);
-						          
-								  
-							
-	
-						        } else {
-						          errMsg.textContent = message;
-						        }
-						      });
-						  });			
+function includeHTML() {
+	const xxx = document.querySelector("#xxx");
+	fetch("/TGA103G1/com/header.html")
+		.then((resp) => resp.text())
+		.then((content) => {
+			xxx.innerHTML = content;
+			changelog();
+			changeTheme();	
+			logout();		
+			const username = document.querySelector("#account");
+			const password = document.querySelector("#password");
+			const errMsg = document.querySelector("#errMsg");
+			document.getElementById("btn1").addEventListener("click", () => {
+				fetch("/TGA103G1/StoreLogin", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						account: username.value,
+						password: password.value,
+					}),
+				})
+					.then((resp) => resp.json())
+					.then((body) => {
+						errMsg.textContent = "";
+						const { successful, message } = body;
+						if (successful) {
+							const { account, password } = body;
+							sessionStorage.setItem("account", account);
+							location = "/TGA103G1/ShowProduct";
+						} else {
+							errMsg.textContent = message;
+						}
 					});
-					
+			});
+		});
+}
+includeHTML();
+
+
+
+//點擊theme_id
+function changeTheme() {
+	let allthemeid = document.querySelectorAll(".theme_id");
+	allthemeid.forEach(function(e) {
+		e.addEventListener("click", function(e) {
+			let id = e.target.getAttribute("data-themid");
+			sessionStorage.setItem("themeId", id)
+		})
+	})
+}
+
+//換登出鈕
+function changelog() {
+	if (sessionStorage.getItem("account")) {
+		document.querySelector("#login").style.display = "none";
+		document.querySelector("#logout").style.display = "block";
+		document.querySelector("#loginbox").style.display = "none";
+		document.querySelector("#normal").style.display = "block";
+	} else if (sessionStorage.getItem("memberAccount")) {
+		document.querySelector("#login").style.display = "none";
+		document.querySelector("#memberlogout").style.display = "block";
+	}
+
+}
+//登出
+function logout(){
+	document.querySelector("#logout").addEventListener("click", function(){
+		if(sessionStorage.getItem("account")){
+			sessionStorage.removeItem("account")
+		}else if(sessionStorage.getItem("memberAccount")){
+			sessionStorage.removeItem("memberAccount")
 		}
-		includeHTML();
-		
-		 //登出鈕
-        function changelog() {
-    if (sessionStorage.getItem("account")) {
-      document.querySelector("#login").style.display = "none";
-      document.querySelector("#logout").style.display = "block";
-    }
-  }
-		 
-      //登出
-      function logout(){
-        document.querySelector("#logout").addEventListener("click", function(){
-            sessionStorage.removeItem("account")
-          })
-      }
-		
-		
-		
-	
-	</script>
+	  })
+}
+</script>
 </body>
 </html>

@@ -178,4 +178,10 @@ public class ProductVOJDBC implements ProductDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void updateStock(Integer product_id, Integer amount) {
+		// TODO Auto-generated method stub
+		
+	}
 }

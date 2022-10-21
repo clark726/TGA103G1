@@ -2,6 +2,8 @@ package com.product.model;
 
 import java.util.List;
 
+import com.order.model.OrderVO;
+
 
 public interface ProductDAO {
 
@@ -13,4 +15,5 @@ public interface ProductDAO {
 	public List<ProductVO> ShowStoreProduct(Integer store_id);
 	public boolean updateStatus(Integer id,Integer status);
 	public List<ProductVO> getProductBytypeId(Integer type_id);
+	public void updateStock (Integer product_id , Integer amount);
 }

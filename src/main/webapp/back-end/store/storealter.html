@@ -64,9 +64,9 @@
             margin-left: 110px;
         "></textarea>
 						<span id="errMsgUpdate" 
-							style="color: yellow; font-size: 20px"></span>
+							style="color: rgb(246, 101, 78); font-size: 20px"></span>
 							<span id="errMsgUpdateImg" 
-							style="color: yellow; font-size: 20px"></span>
+							style="color: rgb(246, 101, 78); font-size: 20px"></span>
 					</div>
 
 					<div class="store_produce">
@@ -370,6 +370,7 @@
 //         console.log("aa")
 //     }
 
+
     fetch('/TGA103G1/StoreUpdate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -385,6 +386,7 @@
         const { successful, message } = body;
          if (!successful) {
           errMsgUpdate.textContent = message;
+          return
          }
   
 
@@ -409,8 +411,8 @@ const errMsgUpdateImg = document.querySelector("#errMsgUpdateImg");
         const { successful, message } = body;
         console.log(body)
          if (successful) {
-          //  location = '/TGA103G1/back-end/store/storealter.html';
-          alert("更新成功");
+          errMsgUpdate.textContent = "";
+            alert("更新成功");
          } else {
           alert(message);
          }
@@ -453,7 +455,7 @@ document.querySelector("#statusUpdate").addEventListener("click", function(){
   let account = sessionStorage.getItem("account")
   let storePhone = document.querySelector("#storePhone")
   let storeEmail = document.querySelector("#storeEmail")
-  // console.log(account)
+ 
 
   fetch('/TGA103G1/StoreUpdateInfromation', {
       method: 'POST',

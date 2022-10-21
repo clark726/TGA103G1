@@ -144,6 +144,8 @@ textarea#p_produce{
 width: 552px; 
 height: 65px;
 }
-p{
+p.error{
 	color:rgb(246, 101, 78);
+	position: absolute;
+    left: 940px;
 }

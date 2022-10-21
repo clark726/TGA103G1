@@ -5,8 +5,8 @@ function includeHTML() {
 		.then((content) => {
 			xxx.innerHTML = content;
 			changelog();
-			changeTheme();	
-			logout();		
+			changeTheme();
+			logout();
 			const username = document.querySelector("#account");
 			const password = document.querySelector("#password");
 			const errMsg = document.querySelector("#errMsg");
@@ -26,6 +26,9 @@ function includeHTML() {
 						if (successful) {
 							const { account, password } = body;
 							sessionStorage.setItem("account", account);
+							if ($('#remember').prop('checked')) {
+								localStorage.setItem("remember", "1");
+							}
 							location = "/TGA103G1/ShowProduct";
 						} else {
 							errMsg.textContent = message;
@@ -63,15 +66,45 @@ function changelog() {
 
 }
 //登出
-function logout(){
-	document.querySelector("#logout").addEventListener("click", function(){
-		if(sessionStorage.getItem("account")){
+function logout() {
+	document.querySelector("#logout").addEventListener("click", function() {
+		if (sessionStorage.getItem("account")) {
 			sessionStorage.removeItem("account")
-		}else if(sessionStorage.getItem("memberAccount")){
+		} else if (sessionStorage.getItem("memberAccount")) {
 			sessionStorage.removeItem("memberAccount")
 		}
-	  })
+	})
 }
-
+//記住密碼
+document.querySelector("#loginbox").addEventListener("click", function() {
+	if ($('#remember').prop('checked')) {
+		fetch("/TGA103G1/StoreLogin", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				account: "",
+				password: "",
+			}),
+		})
+			.then((resp) => resp.json())
+			.then((body) => {
+				if (body.successful == true) {
+					sessionStorage.setItem("account", account);
+					localStorage.setItem("remember", "1")
+					location = "/TGA103G1/ShowProduct";
+				}
+			});
+	} else {
+		if (localStorage.getItem("remember")  {
+			localStorage.removeItem("remember")
+		}
+	}
+});
+//判斷有沒有勾選記住登入
+if (localStorage.getItem("remember")) {
+	$("#remember").prop("checked", "checked");
+} else {
+	$("#remember").prop("checked", false);
+}
 
 

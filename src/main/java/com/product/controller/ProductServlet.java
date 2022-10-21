@@ -69,6 +69,9 @@ public class ProductServlet extends HttpServlet {
 			Integer p_price = null;
 			try {
 				p_price = Integer.parseInt(req.getParameter("p_price").trim());
+				if(p_price == 0) {
+					errorMsgs.put("p_price", "不得為0");
+				}
 			} catch (NumberFormatException e) {
 				p_price = 0;
 				errorMsgs.put("p_price", "請填數字");
@@ -77,6 +80,9 @@ public class ProductServlet extends HttpServlet {
 			Integer p_stock = null;
 			try {
 				p_stock = Integer.parseInt(req.getParameter("p_stock").trim());
+				if(p_stock == 0) {
+					errorMsgs.put("p_stock", "不得為0");
+				}
 			} catch (NumberFormatException e) {
 				p_stock = 0;
 				errorMsgs.put("p_stock", "請填數字");
@@ -132,7 +138,6 @@ public class ProductServlet extends HttpServlet {
 
 			/*************************** 1.接收請求參數 ***************************************/
 			Integer product_id = Integer.valueOf(req.getParameter("product_id"));
-
 			/*************************** 2.開始刪除資料 ***************************************/
 			ProductServiceImpl productSvc = new ProductServiceImpl();
 			productSvc.delete(product_id);
@@ -177,6 +182,9 @@ public class ProductServlet extends HttpServlet {
 			Integer p_price = null;
 			try {
 				p_price = Integer.valueOf(req.getParameter("p_price").trim());
+				if(p_price == 0) {
+					errorMsgs.put("p_price", "不得為0");
+				}
 			} catch (NumberFormatException e) {
 				p_price = 0;
 				errorMsgs.put("p_price", "請填數字");
@@ -185,6 +193,9 @@ public class ProductServlet extends HttpServlet {
 			Integer p_stock = null;
 			try {
 				p_stock = Integer.valueOf(req.getParameter("p_stock").trim());
+				if( p_stock == 0) {
+					errorMsgs.put("p_stock", "不得為0");
+				}
 			} catch (NumberFormatException e) {
 				p_stock = 0;
 				errorMsgs.put("p_stock", "請填數字");

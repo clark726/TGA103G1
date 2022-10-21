@@ -96,7 +96,7 @@ img {
 					<div class="comm col-6">
 						<label for="p_name" style="width: 200px">商品名稱 : </label> <input type="text" id="p_name"  class="form-control"
 							name="p_name" value="<%=productVO.getName()%>">
-						<p>${errorMsgs.p_name}</p>
+						<p class="error">${errorMsgs.p_name}</p>
 					</div>
 
 					<div class="comm" id="p_pre">
@@ -121,13 +121,13 @@ img {
 						<label for="p_price" style="width: 200px;">商品售價 :</label> 
 						<input type="text"  class="form-control"
 							id="p_price" name="p_price" value="<%=productVO.getPrice()%>">
-						<p>${errorMsgs.p_price}</p>
+						<p class="error">${errorMsgs.p_price}</p>
 					</div>
 
 					<div class="comm col-6">
 						<label for="p_stock" style="width: 150px;">庫存 : </label> <input type="text" id="p_stock" class="form-control"
 							name="p_stock" value="<%=productVO.getStock()%>">
-						<p>${errorMsgs.p_stock}</p>
+						<p class="error">${errorMsgs.p_stock}</p>
 					</div>
 
 					<div class="comm col-6">
@@ -166,7 +166,7 @@ img {
 	<script src="https://code.jquery.com/jquery-3.6.1.js"
 		integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
 		crossorigin="anonymous"></script>
-
+	<script src="/TGA103G1/back-end/js/header.js"></script>
 	<script>
  
      //file_1
@@ -191,65 +191,7 @@ img {
       });
      
       
-     //header
-     function includeHTML() {
-     			const xxx = document.querySelector('#xxx');
-     				fetch('/TGA103G1/com/header.html')
-     					.then(resp => resp.text())
-     					.then(content => {
-     						xxx.innerHTML = content;
-     						changelog()
-     						logout()
-     						const username = document.querySelector('#account');
-     						const password = document.querySelector('#password');
-     						const errMsg = document.querySelector('#errMsg');
-     						document.getElementById('btn1').addEventListener('click', () => {
-     						    fetch('/TGA103G1/StoreLogin', {
-     						      method: 'POST',
-     						      headers: { 'Content-Type': 'application/json' },
-     						      body: JSON.stringify({
-     						        account: username.value,
-     						        password: password.value
-     						      }),
-     						    })
-     						      .then(resp => resp.json() )
-     						      .then(body => {
-     						        errMsg.textContent = "";
-     						        const { successful, message } = body;
-     						        if (successful) {
-     						          const { account, password} = body;
-     						          sessionStorage.setItem('account', account);
-     						          sessionStorage.setItem('password', password);
-     						          
-     								  
-     							
-     	
-     						        } else {
-     						          errMsg.textContent = message;
-     						        }
-     						      });
-     						  });			
-     					});
-     					
-     		}
-     		includeHTML();
-     		
-     		 //登出鈕
-             function changelog() {
-         if (sessionStorage.getItem("account")) {
-           document.querySelector("#login").style.display = "none";
-           document.querySelector("#logout").style.display = "block";
-           document.querySelector("#loginbox").style.display = "none";
-           document.querySelector("#normal").style.display = "block";
-         }
-       }
-     		 
-           //登出
-           function logout(){
-             document.querySelector("#logout").addEventListener("click", function(){
-                 sessionStorage.removeItem("account")
-               })
-           }
+
 		
 		
 		   //WS
