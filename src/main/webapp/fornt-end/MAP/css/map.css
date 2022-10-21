@@ -1,111 +1,119 @@
-*{
-	box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
 body {
-	margin: 0px;
+  margin: 0px;
 }
 #map {
-	position: relative;
-	z-index: 1;
-	margin-right: 10px;
-	margin-top: 10px;
-	height: 720px;
-	width: 49%;
-	float: right;
+  position: relative;
+  z-index: 1;
+  margin-right: 10px;
+  margin-top: 10px;
+  height: 720px;
+  width: 49%;
+  float: right;
 }
 
 button.btn {
-	width: 125px;
-	line-height: 40px;
-	font-size: 15px;
-	color: rgb(255, 157, 0);
-	text-align: center;
-	background-color: rgb(255, 255, 255);
-	border-radius: 15px;
-	cursor: pointer;
-	margin-inline: 5px;
+  width: 127px;
+  line-height: 30px;
+  font-size: 15px;
+  color: rgb(255, 157, 0);
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  cursor: pointer;
+  margin-inline: 5px;
+  margin-bottom: 10px;
 }
 
 button.btn:hover {
-	transform: scale(1.05);
+  transform: scale(1.05);
+  color: rgb(255, 157, 0);
 }
-
+button.selected:hover {
+  color: PapayaWhip;
+}
 button.btn:active {
-	transform: scale(1.1);
-	box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .2);
+  transform: scale(1.1);
+  box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.2);
 }
-
 button.selected {
-	width: 125px;
-	line-height: 40px;
-	font-size: 16px;
-	color: PapayaWhip;
-	text-align: center;
-	background-color: Chocolate;
-	border: 1px solid SaddleBrown;
-	border-radius: 15px;
-	cursor: pointer;
+  width: 127px;
+  line-height: 30px;
+  font-size: 16px;
+  color: PapayaWhip;
+  text-align: center;
+  background-color: #e59b4a;
+  border: 1px solid SaddleBrown;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .store {
-	border: 2px solid black;
-	display: block;
-	width: 49%;
-	height:650px;
-	overflow: auto;
-	float: left;
-	position: relative;
+  border: 2px solid black;
+  display: block;
+  width: 49%;
+  height: 650px;
+  overflow: auto;
+  float: left;
+  position: relative;
 }
 
 .storeitem {
-	padding: 8px 16px 6px;
-	border-bottom: 1.5px solid #d0aeae;
-	display: block;
-	height: 200px;
+  padding: 8px 16px 6px;
+  border-bottom: 1.5px solid #d0aeae;
+  display: block;
+  height: 200px;
 }
 
-a.storename,a.theme{
-	text-decoration: none;
-	font-size:16px;
+a.storename,
+a.theme {
+  text-decoration: none;
+  font-size: 16px;
 }
-
 a:link {
-	color: rgb(11, 93, 144);
+  color: rgb(11, 93, 144);
 }
 
 a:visited {
-	color: rgb(11, 93, 144);
+  color: rgb(11, 93, 144);
 }
 
 a:active {
-	box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .1);
+  box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
 }
 
 a:hover {
-	color: rgb(11, 93, 144);
-	box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, .1);
+  color: rgb(11, 93, 144);
+  box-shadow: inset 0 0 10px 1px rgba(0, 0, 0, 0.1);
 }
-
 
 div.pro {
-color: rgb(30, 30, 30);
+  color: rgb(30, 30, 30);
+  font-weight: 200;
+  line-height: 1.1;
 }
 
-div.name{
+div.name {
   display: flex;
   justify-content: space-between;
 }
 div.f {
-	align-items: center;
-	display: inline-block;
+  /*愛心圖片外div*/
+  align-items: center;
+  display: inline-block;
 }
 
 div.nf {
-	align-items: center;
-	display: inline-block;
+  /*空心圖片外div*/
+  align-items: center;
+  display: inline-block;
 }
-img.store{
-width:190px;
-height:190px;
+img.storeimg {
+  width: 190px;
+  height: 190px;
+  float: left;
 }
