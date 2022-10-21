@@ -12,6 +12,7 @@ import com.forum.model.*;
 @WebServlet("/ForumServlet")
 public class ForumServlet extends HttpServlet {
 
+
     public void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         doPost(req, res);
@@ -40,20 +41,24 @@ public class ForumServlet extends HttpServlet {
             throws ServletException, IOException {
         Integer page = Integer.parseInt(req.getParameter("page"));
         ForumJNDI jndi = new ForumJNDI();
-        ForumVO content = jndi.get(page);
-//		System.out.println(content.getContent());
-        HttpSession session = req.getSession();
-        if (session.getAttribute("forumContentMemberId") == null) {
-            session.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
-            session.setAttribute("vo", content);
-            session.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
-            req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
-        } else {
-            session.getAttribute("forumContentMemberId");
-            session.getAttribute("vo");
-            session.getAttribute("forumMessage");
-
-            req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
-        }
+        ForumVO content = jndi.get(page); 
+        req.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
+        req.setAttribute("vo", content);
+        req.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
+        req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
+//	=======================================================================================
+//        HttpSession session = req.getSession();
+//        if (session.getAttribute("forumContentMemberId") == null) {
+//            session.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
+//            session.setAttribute("vo", content);
+//            session.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
+//            req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
+//        } else {
+//            session.getAttribute("forumContentMemberId");
+//            session.getAttribute("vo");
+//            session.getAttribute("forumMessage");
+//
+//            req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
+//        }
     }
 }

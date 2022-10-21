@@ -32,7 +32,10 @@ public class ForumJNDI implements ForumDAO{
 	public boolean addViewCount(Integer forumId) {
 		int row = 0;
         String sql = "update forum set look = look+1 where forum_id =?;";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+		try (
+			Connection conn = ds.getConnection();
+			PreparedStatement ppst = conn.prepareStatement(sql)
+		){
         	ppst.setObject(1,forumId);
             row = ppst.executeUpdate();
         }catch (Exception e){
@@ -44,7 +47,9 @@ public class ForumJNDI implements ForumDAO{
 	public List<ForumVO> getAll() {
         List<ForumVO> forumVOs = new ArrayList<>();
         String sql = "SELECT * FROM barjarjo.forum order by `date` desc;";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)
+        		){
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
                 forumVOs.add(new ForumVO(rs.getInt(1), rs.getInt(2),
@@ -61,7 +66,9 @@ public class ForumJNDI implements ForumDAO{
 	public List<ForumVO> getAllByMenberId(Integer memberId) {
         List<ForumVO> forumVOs = new ArrayList<>();
         String sql = "SELECT * FROM barjarjo.forum where member_id = ?;";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)
+        		){
         	ppst.setObject(1,memberId);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
@@ -82,7 +89,9 @@ public class ForumJNDI implements ForumDAO{
         		+ "join forum_message fm on f.forum_id = fm.forum_id "
         		+ "join `member` m on fm.member_id=m.member_id "
         		+ "where f.forum_id = ?;";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)
+        		){
         	ppst.setInt(1,forum_id);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
@@ -105,7 +114,9 @@ public class ForumJNDI implements ForumDAO{
     public ForumVO get(Integer forum_id) {
         ForumVO forumVO = new ForumVO();
         String sql = "select * from forum where forum_id = ?;";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)
+        		){
             ppst.setObject(1,forum_id);
             ResultSet rs = ppst.executeQuery();
             while (rs.next()){
@@ -129,7 +140,8 @@ public class ForumJNDI implements ForumDAO{
     public boolean add(ForumVO obj) {
         int rows = 0;
         String sql = "INSERT INTO `forum` (`member_id`, `content`, `title`) VALUES (?,?,?);";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
             ppst.setObject(1,obj.getMember_id());
             ppst.setObject(2,obj.getContent());
             ppst.setObject(3,obj.getTitle());
@@ -143,7 +155,8 @@ public class ForumJNDI implements ForumDAO{
         String sql = "SELECT `account` , gender,email from member join forum on member.member_id = forum.member_id "
         		+ "where forum_id = ?;";
         MemberVO memberVO = null;
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
             ppst.setInt(1,forumId);
             ResultSet resultSet = ppst.executeQuery();
             while (resultSet.next()) {
@@ -163,7 +176,8 @@ public class ForumJNDI implements ForumDAO{
     public boolean activation(Integer forumId,Integer status) {
     	int row = 0 ;
     	String sql ="UPDATE `forum` SET `status` = ? WHERE `forum_id` = ?;";
-    	try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+    	try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
             ppst.setObject(1,status);
             ppst.setObject(2,forumId);
             row = ppst.executeUpdate();
@@ -176,7 +190,8 @@ public class ForumJNDI implements ForumDAO{
     public boolean blockade(Integer forumId) {
     	int row = 0 ;
     	String sql ="UPDATE `forum` SET `status` = 0 WHERE `forum_id` = ?;";
-    	try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+    	try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
             ppst.setObject(1,forumId);
             row = ppst.executeUpdate();
         }catch (Exception e){
@@ -188,7 +203,8 @@ public class ForumJNDI implements ForumDAO{
     public boolean update(ForumVO obj) {
         int rows = 0;
         String sql = "UPDATE `forum` SET `content` = ? WHERE (`forum_id` = ?);";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
             ppst.setObject(1,obj.getContent());
             ppst.setObject(2,obj.getForum_id());
             rows = ppst.executeUpdate();
@@ -201,7 +217,8 @@ public class ForumJNDI implements ForumDAO{
     public boolean delete(Integer id) {
         int rows = 0;
         String sql = "delete  from `forum` where forum_id = ?;";
-        try(PreparedStatement ppst = ds.getConnection().prepareStatement(sql)){
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
             ppst.setObject(1,id);
             rows = ppst.executeUpdate();
         }catch (Exception e){

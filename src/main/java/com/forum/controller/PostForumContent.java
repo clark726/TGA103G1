@@ -47,6 +47,7 @@ public class PostForumContent extends HttpServlet {
         forumVO.setContent(context);
         forumVO.setTitle(title);
         jndi.add(forumVO);
-        res.sendRedirect("/TGA103G1/fornt-end/forum/forum.jsp");       
+        res.sendRedirect("/TGA103G1/fornt-end/forum/forum.jsp");  
+//        res.getWriter().print("123");
     }
 }

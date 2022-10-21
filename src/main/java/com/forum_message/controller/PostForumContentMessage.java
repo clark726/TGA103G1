@@ -51,6 +51,7 @@ import com.google.gson.Gson;
             forum_messageVO.setForum_id(Integer.parseInt(forumId));
             forum_messageVO.setContent(content);
             jndi.insert(forum_messageVO);
+            req.setAttribute("postMessage", content);
             res.getWriter().print(123);
 //            res.sendRedirect("/TGA103G1/fornt-end/forum/Content.jsp");
 //            System.out.println(memberId);
