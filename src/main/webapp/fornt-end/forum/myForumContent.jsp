@@ -18,7 +18,7 @@ pageContext.setAttribute("list", list);
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fourm</title>
+<title>MyFourm</title>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/header.css" />
 <link rel="stylesheet"
@@ -38,7 +38,7 @@ pageContext.setAttribute("list", list);
 			<ul class="nav_ul">
 				<li><a href="#">HOME</a></li>
 				<li><a href="#">地圖</a></li>
-				<li><a href="#">討論區</a></li>
+				<li><a href="/TGA103G1/fornt-end/forum/forum.jsp">討論區</a></li>
 				<li><a href="#">廠商專區</a></li>
 				<li><a href="#" class="icon">店家主題</a>
 					<ul id="store">
