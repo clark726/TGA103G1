@@ -1,9 +1,11 @@
-<%@page import="com.mysql.cj.Session" %>
-	<%@page import="com.member.vo.MemberVO" %>
-		<%@page import="com.forum.model.service.impl.ForumServiceImpl,java.util.*" %>
-			<%@page import="com.forum.model.ForumVO" %>
-				<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-					<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.mysql.cj.Session"%>
+<%@page import="com.member.vo.MemberVO"%>
+<%@page
+	import="com.forum.model.service.impl.ForumServiceImpl,java.util.*"%>
+<%@page import="com.forum.model.ForumVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Content</title>
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css" />
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/backproduct.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/backproduct1.css">
 	<!-- CSS only -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
@@ -33,35 +35,40 @@
 	<header class="header">
 		<div class="fl_left">
 			<h1 id="logo_h1">
-				<a href="＃" id="logo">Bar.Jar.Jo</a>
+				<a href="/TGA103G1/main.html" id="logo">Bar.Jar.Jo</a>
 			</h1>
 		</div>
 
 		<nav class="fl_right">
 			<ul class="nav_ul">
-				<li><a href="#">HOME</a></li>
-				<li><a href="#">地圖</a></li>
-				<li><a href="http://localhost:8080/TGA103G1/fornt-end/forum/forum.jsp">討論區</a>
-				</li>
-				<li><a href="#">廠商專區</a></li>
+				<li><a href="#" id="home">HOME</a></li>
+				<li><a href="">地圖</a></li>
+				<li><a href="/TGA103G1/fornt-end/forum/forum.jsp">討論區</a></li>
+				<li><a href="#" data-bs-toggle="modal" id="loginbox" data-bs-target="#loginModal">廠商專區</a><a
+						href="/TGA103G1/ShowProduct" id="normal" style="display: none; width: 65px;">廠商專區</a></li>
 				<li><a href="#" class="icon">店家主題</a>
-					<ul id="store">
-						<li><a href="#">Bistro</a></li>
-						<li><a href="#">Cocktail bar</a></li>
-						<li><a href="#">Whisky bar</a></li>
+					<ul id="store" class="dropdown-menu">
+						<li><a href="/TGA103G1/back-end/store/storeType.html" data-themid="1"
+								class="theme_id">Bistro</a></li>
+						<li><a href="/TGA103G1/back-end/store/storeType.html" data-themid="2" class="theme_id">Cocktail
+								bar</a></li>
+						<li><a href="/TGA103G1/back-end/store/storeType.html" data-themid="3" class="theme_id">Whisky
+								bar</a></li>
 					</ul>
 				</li>
 				<li><a href="#" class="icon">會員專區</a>
-					<ul id="store">
-						<li><a href="#">我的最愛</a></li>
-						<li><a href="#">修改會員資料</a></li>
-						<li><a href="#">修改密碼</a></li>
-						<li><a href="#">訂單管理</a></li>
+					<ul id="store" class="dropdown-menu">
+						<li><a href="/TGA103G1/front-end/member/jsp/member_center.jsp">修改會員資料</a></li>
+						<li><a href="/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a></li>
+						<li><a href="/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a></li>
+						<li><a href="/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a></li>
 					</ul>
 				</li>
 
-				<li><a href="#">購物商城</a></li>
-				<li><a href="#">登入註冊</a></li>
+
+				<li><a href="/TGA103G1/back-end/shop/shopProduct.html">購物商城</a></li>
+				<li><a href="/TGA103G1/front-end/member/login.jsp" id="login">登入註冊</a><a href="/TGA103G1/StoreLogout"
+						id="logout" style="display: none; width: 40px;">登出</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -172,57 +179,96 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
 		crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+	<script>
+		
+
+		//點擊theme_id
+		function changeTheme() {
+			let allthemeid = document.querySelectorAll(".theme_id");
+			allthemeid.forEach(function (e) {
+				e.addEventListener("click", function (e) {
+					let id = e.target.getAttribute("data-themid");
+					sessionStorage.setItem("themeId", id)
+				})
+			})
+		}
+
+		//換登出鈕
+		function changelog() {
+			if (sessionStorage.getItem("account")) {
+				document.querySelector("#login").style.display = "none";
+				document.querySelector("#logout").style.display = "block";
+				document.querySelector("#loginbox").style.display = "none";
+				document.querySelector("#normal").style.display = "block";
+			} else if (sessionStorage.getItem("memberAccount")) {
+				document.querySelector("#login").style.display = "none";
+				document.querySelector("#memberlogout").style.display = "block";
+			}
+
+		}
+		//登出
+		function logout() {
+			document.querySelector("#logout").addEventListener("click", function () {
+				if (sessionStorage.getItem("account")) {
+					sessionStorage.removeItem("account")
+				} else if (sessionStorage.getItem("memberAccount")) {
+					sessionStorage.removeItem("memberAccount")
+				}
+			})
+		}
+
+
+
 
 	</script>
 	<script>
-function onTheRportMessage(){
+		function onTheRportMessage() {
 
-let TheRportMessage = document.querySelectorAll(".reportMessage")
+			let TheRportMessage = document.querySelectorAll(".reportMessage")
+			
+			TheRportMessage.forEach((e, i) => {
+				e.addEventListener("click", function (e) {
+					console.log(321);
+					if (<% Object userId4 = session.getAttribute("userid");
+					out.print(userId4 == null);%>) {
+					alert("您尚未登入")
+					location.href = "/TGA103G1/MessageReport";
+				}else {
 
-TheRportMessage.forEach((e,i)=>{
-e.addEventListener("click", function (e) {
-
-if (<% Object userId4 = session.getAttribute("userid");
-out.print(userId4 == null);%>) {
-alert("您尚未登入")
-location.href = "/TGA103G1/MessageReport";
-}else {
-
-if (confirm("確定檢舉此留言?")) {
-var text = $(this).closest("main").find("aside").text();
-// sessionStorage.setItem("forumId",<%=request.getParameter("page") %>);
-var report = prompt('請輸入檢舉原因');
-if (report != null && report != '') {
-	$.ajax({
-		url: "/TGA103G1/MessageReport",
-		data: {
-			"action": "insert",
-			"forumId":<%=request.getParameter("page") %>,
-			"reason": report,
-			"time": text
-		},
-		type: "post",
-		dataType: "text",
-		success: function (xhr) {
-			console.log(xhr);
-		}
-	})
-	alert('已送出');
-} else if (report == '') {
-	console.log(2)
-	alert('請輸入檢舉原因再送出');
-} else {
-	console.log(3)
-}
-} else {
-}
-}
+					if (confirm("確定檢舉此留言?")) {
+						var text = $(this).closest("main").find("aside").text();
+						// sessionStorage.setItem("forumId",<%=request.getParameter("page")%>);
+						var report = prompt('請輸入檢舉原因');
+						if (report != null && report != '') {
+							$.ajax({
+								url: "/TGA103G1/MessageReport",
+								data: {
+									"action": "insert",
+									"forumId":<%=request.getParameter("page") %>,
+									"reason": report,
+									"time": text
+								},
+								type: "post",
+								dataType: "text",
+								success: function (xhr) {
+									console.log(xhr);
+								}
+							})
+							alert('已送出');
+						} else if (report == '') {
+							console.log(2)
+							alert('請輸入檢舉原因再送出');
+						} else {
+							console.log(3)
+						}
+					} 
+				}
 			});
-})
+		})
 
 }
-
+onTheRportMessage();
 		var ContentMessage = CKEDITOR.replace('editorContentMessage');
 
 		document.querySelector("#alertContentMessage").addEventListener("click", function (ev) {
@@ -259,14 +305,14 @@ if (report != null && report != '') {
 		}
 		onTheRportMessage();
 								  })
-		window.onload = ()=>{
+		window.onload = () => {
 			onTheRportMessage();
 		}
 	</script>
 	<script>
 
 
-		
+
 	</script>
 
 	<script>
