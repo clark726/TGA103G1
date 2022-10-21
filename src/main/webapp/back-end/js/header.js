@@ -95,7 +95,7 @@ document.querySelector("#loginbox").addEventListener("click", function() {
 				}
 			});
 	} else {
-		if (localStorage.getItem("remember")  {
+		if (localStorage.getItem("remember")){
 			localStorage.removeItem("remember")
 		}
 	}
