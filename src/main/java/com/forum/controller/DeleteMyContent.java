@@ -28,7 +28,7 @@ public class DeleteMyContent extends HttpServlet {
 			if(new ForumJNDI().delete(Integer.parseInt(id))) { //記得該轉型的要轉型
 				out.print("刪除成功");
 			}else {
-				out.print("刪除失敗");
+				out.print("此文章已被檢舉 無法刪除");
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
