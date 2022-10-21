@@ -1,5 +1,6 @@
 package com.manager.model;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -28,7 +29,8 @@ public class ManagerJNDIDAO {
 	public boolean updatePassword(Integer id,String password) {
 		int row = 0;
 		String sql = "UPDATE `manager` SET `password` = ? WHERE (`manager_id` = ?);";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, password);
 			ppst.setObject(2, id);
 			row = ppst.executeUpdate();
@@ -40,7 +42,8 @@ public class ManagerJNDIDAO {
 	
 	public void updateLoginTime(Integer id) {
 		String sql = "UPDATE `manager` SET `last_login_time` = ? WHERE (`manager_id` = ?);";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			LocalDateTime localDateTime = LocalDateTime.now();
 			ppst.setObject(1, localDateTime);
 			ppst.setObject(2, id);
@@ -53,7 +56,8 @@ public class ManagerJNDIDAO {
 	public List<ManagerVO> getAll() {
 		List<ManagerVO> managerVOS = new ArrayList<>();
 		String sql = "SELECT * FROM manager;";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ResultSet rs = ppst.executeQuery();
 			while (rs.next()) {
 				ManagerVO vo = new ManagerVO();
@@ -74,7 +78,8 @@ public class ManagerJNDIDAO {
 	public ManagerVO get(Integer manager_id) {
 		ManagerVO vo = null;
 		String sql = "select * from manager where manager_id = ?;";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, manager_id);
 			ResultSet rs = ppst.executeQuery();
 			while (rs.next()) {
@@ -95,7 +100,8 @@ public class ManagerJNDIDAO {
 	public boolean add(ManagerVO obj) {
 		int rows = 0;
 		String sql = "INSERT INTO `manager` (`account`, `password`,`birthday`) VALUES (?, ?,?);";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, obj.getAccount());
 			ppst.setObject(2, obj.getPassword());
 			ppst.setObject(3, obj.getBirthday().toString());
@@ -109,7 +115,8 @@ public class ManagerJNDIDAO {
 	public boolean updateStatus(ManagerVO obj) {
 		int rows = 0;
 		String sql = "UPDATE `barjarjo`.`manager` SET  `status` = ? WHERE (`manager_id` = ?);";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, obj.getStatus());
 			ppst.setObject(2, obj.getManager_id());
 			rows = ppst.executeUpdate();
@@ -122,7 +129,8 @@ public class ManagerJNDIDAO {
 	public boolean update(ManagerVO obj) {
 		int rows = 0;
 		String sql = "UPDATE `barjarjo`.`manager` SET `password` = ?, `status` = ? WHERE (`manager_id` = ?);";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, obj.getPassword());
 			ppst.setObject(2, obj.getStatus());
 			ppst.setObject(3, obj.getManager_id());
@@ -136,7 +144,8 @@ public class ManagerJNDIDAO {
 	public boolean delete(Integer manager_id) {
 		int rows = 0;
 		String sql = "delete from manager where manager_id = ?;";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, manager_id);
 			rows = ppst.executeUpdate();
 		} catch (Exception e) {
@@ -148,7 +157,8 @@ public class ManagerJNDIDAO {
 	public ManagerVO login(String account, String password) {
 		ManagerVO vo = null;
 		String sql = "select manager_id,last_login_time,birthday,status from manager where account=? and password= ?;";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, account);
 			ppst.setObject(2, password);
 			ResultSet rs = ppst.executeQuery();
@@ -170,7 +180,8 @@ public class ManagerJNDIDAO {
 	public ManagerVO forgetPassword(String account, LocalDate birthday) {
 		ManagerVO vo = null;
 		String sql = "select manager_id ,password,last_login_time,status from manager where account=? and birthday= ?;";
-		try (PreparedStatement ppst = ds.getConnection().prepareStatement(sql)) {
+		try (Connection connection = ds.getConnection();
+				PreparedStatement ppst = connection.prepareStatement(sql)) {
 			ppst.setObject(1, account);
 			ppst.setObject(2, birthday.toString());
 			ResultSet rs = ppst.executeQuery();

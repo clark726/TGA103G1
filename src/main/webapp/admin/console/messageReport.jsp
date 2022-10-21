@@ -154,15 +154,15 @@
             </caption>
             <thead>
               <tr>
-                <td>report</td>
-                <td>member</td>
-                <td>message</td>
-                <td>reason</td>
-                <td>hyperlink</td>
-                <td>date</td>
-                <td>update</td>
-                <td>check</td>
-                <td>delete</td>
+                <td>id</td>
+                <td>會員編號</td>
+                <td>留言編號</td>
+                <td>原因</td>
+                <td>超連結</td>
+                <td>時間</td>
+                <td>更新</td>
+                <td>查看留言</td>
+                <td>刪除</td>
               </tr>
             </thead>
             <tbody>
@@ -179,7 +179,7 @@
                             <td><button type="button" class="seen">已讀</button></td>
                             <td><button type="button" value="${report.message_id}"
                                     class="check">查看</button></td>
-                            <td><button type=button class="deleteForumMessage">刪帖封號</button></td>
+                            <td><button type=button class="deleteForumMessage">刪除留言</button></td>
                         </form>
                     </tr>
             </c:forEach>

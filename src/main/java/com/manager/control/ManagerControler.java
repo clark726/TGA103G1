@@ -1,5 +1,6 @@
 package com.manager.control;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,9 +9,12 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -175,10 +179,15 @@ public class ManagerControler extends HttpServlet {
 			Integer status = Integer.parseInt(adminStatus);
 			if (this.managerService.updateStatus(id, status)) {
 				out.print(true);
+				return;
+			} else {
+				out.print(false);
+				return;
 			}
 		} catch (Exception e) {
 			out.print(false);
 			e.printStackTrace();
+			return;
 		} finally {
 			if (out != null) {
 				out.close();
@@ -190,9 +199,10 @@ public class ManagerControler extends HttpServlet {
 	private void changeFrontImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		Part part = req.getPart("img");
 		if (part.getContentType() != null) {
-			try (InputStream in = part.getInputStream();
-					FileOutputStream out = new FileOutputStream(super.getServletContext().getRealPath("/") + "img\\"
-							+ req.getParameter("filename") + ".jpeg");) {
+			String path = System.getProperty("catalina.home")+File.separator+"webapps"+
+					req.getContextPath()+File.separator+"img"+File.separator+req.getParameter("filename") + ".jpeg";
+//			String path = super.getServletContext().getRealPath("/") + "img\\" + req.getParameter("filename") + ".jpeg";
+			try (InputStream in = part.getInputStream(); FileOutputStream out = new FileOutputStream(path)) {
 				in.transferTo(out);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -304,8 +314,15 @@ public class ManagerControler extends HttpServlet {
 		try {
 			Integer forumId = Integer.parseInt(report);
 			this.forum.blockade(forumId);
-			List<Integer> ids = this.forumReport.getForunIds(forumId);
-			ArrayList<Forum_reportVO> list = (ArrayList<Forum_reportVO>) req.getSession().getAttribute("forumReport");
+			List<Forum_reportVO> list = (List<Forum_reportVO>)req.getSession().getAttribute("forumReport");
+			List<Integer> ids = list .stream()
+					.filter(f->f.getForum_id()
+							.equals(forumId))
+					.map(f->f.getForum_report_id())
+					.collect(Collectors.toList());
+//			session.setAttribute("forumReport", this.forumReport.getAll());
+//			List<Integer> ids = this.forumReport.getForunIds(forumId);
+//			ArrayList<Forum_reportVO> list = (ArrayList<Forum_reportVO>) req.getSession().getAttribute("forumReport");
 			for (int x = 0; x < ids.size(); x++) {
 				for (int y = 0; y < list.size(); y++) {
 					if (ids.get(x).equals(list.get(y).getForum_report_id())) {
@@ -321,7 +338,6 @@ public class ManagerControler extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		resp.sendRedirect(req.getHeader("referer"));
 	}
 
 	private void seenForum(HttpServletRequest req, HttpServletResponse resp) {
@@ -428,31 +444,54 @@ public class ManagerControler extends HttpServlet {
 	}
 
 	private void cancelSearch(HttpServletRequest req, HttpServletResponse resp) {
-		sessionSetAttribute(req.getSession());
+		List<MemberVO> memberList = this.memberService.getAll();
+		HttpSession session = req.getSession();
+		session.setAttribute("members", memberList);
+		session.setAttribute("memberPages",
+				memberList.size() % datas == 0 ? memberList.size() / datas : memberList.size() / datas + 1);
 	}
 
 	private void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
 			Integer member_id = Integer.valueOf(req.getParameter("member_id"));
-			MemberVO memberVO = memberService.findByPrimaryKey(member_id);
-			if (memberVO != null) {
-				List<MemberVO> list = new ArrayList<>();
-				list.add(memberVO);
-				req.getSession().removeAttribute("members");
+			List<MemberVO> list = this.memberService.getAll();
+			list = list.stream().filter(m -> m.getMember_id().equals(member_id)).collect(Collectors.toList());
+			if (list.isEmpty()) {
+				List<MemberVO> newlist = this.memberService.getAll();
+				req.getSession().setAttribute("members", newlist);
+				req.getSession().setAttribute("memberPages",
+						newlist.size() % datas == 0 ? newlist.size() / datas : newlist.size() / datas + 1);
+				requestSetError(req, resp, "找不到相關會員");
+			} else {
 				req.getSession().setAttribute("members", list);
 				req.getSession().setAttribute("memberPages",
 						list.size() % datas == 0 ? list.size() / datas : list.size() / datas + 1);
-			} else {
-				requestSetError(req, resp, "not found");
 			}
-			String url = req.getHeader("referer");
-			if (url.matches(".+(page=)\\d+")) {
-				url = url.substring(0, url.lastIndexOf("=") + 1).concat("0");
-			}
-			resp.sendRedirect(url);
 		} catch (Exception e) {
-			requestSetError(req, resp, "not found");
+			e.printStackTrace();
 		}
+
+//		try {
+//			Integer member_id = Integer.valueOf(req.getParameter("member_id"));
+//			MemberVO memberVO = memberService.findByPrimaryKey(member_id);
+//			if (memberVO != null) {
+//				List<MemberVO> list = new ArrayList<>();
+//				list.add(memberVO);
+//				req.getSession().removeAttribute("members");
+//				req.getSession().setAttribute("members", list);
+//				req.getSession().setAttribute("memberPages",
+//						list.size() % datas == 0 ? list.size() / datas : list.size() / datas + 1);
+//			} else {
+//				requestSetError(req, resp, "not found");
+//			}
+//			String url = req.getHeader("referer");
+//			if (url.matches(".+(page=)\\d+")) {
+//				url = url.substring(0, url.lastIndexOf("=") + 1).concat("0");
+//			}
+//			resp.sendRedirect(url);
+//		} catch (Exception e) {
+//			requestSetError(req, resp, "not found");
+//		}
 	}
 
 	private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -551,5 +590,6 @@ public class ManagerControler extends HttpServlet {
 		req.setAttribute("error", errorMessage);
 		req.setAttribute("url", req.getHeader("referer"));
 		req.getRequestDispatcher("/admin/console/error.jsp").forward(req, resp);
+		return;
 	}
 }
