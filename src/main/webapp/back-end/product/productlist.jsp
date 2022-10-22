@@ -144,7 +144,6 @@ img {
 						<th>庫存</th>
 						<th>狀態</th>
 						<th>修改</th>
-						<th>刪除</th>
 					</tr>
 
 					<c:forEach var="proVO" items="${Productlist}">
@@ -169,16 +168,6 @@ img {
 									<input type="hidden" name="product_id"
 										value="${proVO.product_id}"> <input type="hidden"
 										name="action" value="getOne_For_Update">
-								</FORM>
-							</td>
-							<td>
-								<FORM METHOD="post"
-									ACTION="<%=request.getContextPath()%>/ProductServlet"
-									style="margin-bottom: 0px;">
-									<input type="submit" class="btn btn-secondary" value="刪除">
-									<input type="hidden" name="product_id"
-										value="${proVO.product_id}"> <input type="hidden"
-										name="action" value="delete">
 								</FORM>
 							</td>
 						</tr>

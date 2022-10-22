@@ -2,7 +2,9 @@ package com.product_img.model;
 
 import java.util.List;
 
-public interface Product_imgDAO {
+import com.common.CoreDao;
+
+public interface Product_imgDAO extends CoreDao{
 
 	public void insert(Product_imgVO img);
 	public void update(Product_imgVO img);

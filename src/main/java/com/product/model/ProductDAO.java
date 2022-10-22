@@ -2,10 +2,10 @@ package com.product.model;
 
 import java.util.List;
 
-import com.order.model.OrderVO;
+import com.common.CoreDao;
 
 
-public interface ProductDAO {
+public interface ProductDAO extends CoreDao {
 
 	public Integer insert(ProductVO productvo);
 	public Integer update(ProductVO productvo);

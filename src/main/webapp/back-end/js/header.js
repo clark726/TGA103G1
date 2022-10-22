@@ -89,7 +89,7 @@ document.querySelector("#loginbox").addEventListener("click", function() {
 			.then((resp) => resp.json())
 			.then((body) => {
 				if (body.successful == true) {
-					sessionStorage.setItem("account", account);
+					sessionStorage.setItem("account", body.account);
 					localStorage.setItem("remember", "1")
 					location = "/TGA103G1/ShowProduct";
 				}

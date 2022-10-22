@@ -98,6 +98,7 @@ public class ProductServlet extends HttpServlet {
 			productVO.setName(p_name);
 			productVO.setPrice(p_price);
 			productVO.setStock(p_stock);
+			productVO.setStatus(0);
 			productVO.setDescription(p_produce);
 			productVO.setStore_id(store.getStore_id());
 			req.setAttribute("productVO", productVO); // 含有輸入格式錯誤的empVO物件,也存入req
