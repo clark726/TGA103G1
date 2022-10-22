@@ -203,6 +203,8 @@ public class ManagerControler extends HttpServlet {
 					req.getContextPath()+File.separator+"img"+File.separator+req.getParameter("filename") + ".jpeg";
 //			String path = super.getServletContext().getRealPath("/") + "img\\" + req.getParameter("filename") + ".jpeg";
 			try (InputStream in = part.getInputStream(); FileOutputStream out = new FileOutputStream(path)) {
+				File file = new File(path);
+				if(file.exists()) file.delete();
 				in.transferTo(out);
 			} catch (Exception e) {
 				e.printStackTrace();

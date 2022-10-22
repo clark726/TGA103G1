@@ -81,18 +81,18 @@ form {
 							<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/fornt-end/forum/forum.jsp" target="_blank">討論區</a></li>
 							<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/back-end/shop/shopProduct.html" target="_blank">購物商城</a>
 							</li>
-							<li class="nav-item dropdown"><a
-								class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-								role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false">店家主題</a>
-								<div class="dropdown-menu dropdown-menu-end"
-									aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Bistro</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Cocktail Bar</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Whicky Bar</a>
-								</div></li>
+<!-- 							<li class="nav-item dropdown"><a -->
+<!-- 								class="nav-link dropdown-toggle" id="navbarDropdown" href="#" -->
+<!-- 								role="button" data-bs-toggle="dropdown" aria-haspopup="true" -->
+<!-- 								aria-expanded="false">店家主題</a> -->
+<!-- 								<div class="dropdown-menu dropdown-menu-end" -->
+<!-- 									aria-labelledby="navbarDropdown"> -->
+<%-- 									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Bistro</a> --%>
+<!-- 									<div class="dropdown-divider"></div> -->
+<%-- 									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Cocktail Bar</a> --%>
+<!-- 									<div class="dropdown-divider"></div> -->
+<%-- 									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Whicky Bar</a> --%>
+<!-- 								</div></li> -->
 							<li class="nav-item dropdown"><a
 								class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
 								role="button" data-bs-toggle="dropdown" aria-haspopup="true"
