@@ -19,6 +19,16 @@
 	<!-- CSS only -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
+	
 	<style>
 		p {
 			color: black !important
@@ -76,14 +86,14 @@
 
 	<h1 align="center">bar jar jo 討論區</h1>
 	<h2 align="center">${vo.title}</h2>
-	<button id="reportContent" style="TRANSFORM: TRANSLATEX(1200%);">檢舉文章</button>
-	<button style="TRANSFORM: TRANSLATEX(500%);" id="like">我覺得這篇文章讚</button>
+	<button id="reportContent" style="TRANSFORM: TRANSLATEX(1150%);"class="btn btn-secondary">檢舉文章</button>
+	<button style="TRANSFORM: TRANSLATEX(510%);" id="like" class="btn btn-secondary">我覺得這篇文章讚</button>
 
-	<button style="transform: translateX(500%); display: none; margin-left: 480px;" id="like2">已按讚</button>
+	<button style="transform: translateX(450%); display: none; margin-left: 480px;" id="like2" class="btn btn-secondary">已按讚</button>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-2" align="center">
-				<div class="text" style="background-color: White; height: 400px;border-color: black">
+				<div class="text shadow p-3 mb-5 bg-body rounded" style="background-color: White; height: 400px;border: 1px solid black;">
 					<main style="height: 150px">
 						<main style="border: 1px solid black; height: 25px">
 							作者: ${forumContentMemberId.account}
@@ -94,12 +104,12 @@
 							</main>
 							<main style="border: 1px solid black; height: 25px">性別:
 								${forumContentMemberId.gender==1?"女":"男"}</main>
-							<main style="border: 1px solid black; height: 25px">電子信箱:
+							<main style="border: 1px solid black; height: 60px">電子信箱:
 								${forumContentMemberId.email}</main>
 				</div>
 			</div>
 			<div class="col-8" align="center">
-				<div class="text" style="background-color: #FFD382; height: 580px">
+				<div class="text shadow p-3 mb-5 bg-body rounded" style="background-color: #FFD382; height: 580px ;border: 1px solid black;">
 					<aside style="padding-bottom: 0px">發文時間:${vo.date.year}/${vo.date.monthValue}/${vo.date.dayOfMonth}
 							${vo.date.hour}時${vo.date.minute}分</aside>
 					<div style="border: 1px solid black; height: 502px; margin: 10px; margin: 10px">
@@ -112,8 +122,8 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-2" align="center">
-							<div class="text" style="background-color: White; height: 200px;border-color: black">
-								<main style="border: 1px solid black; height: 150px">
+							<div class="text shadow p-3 mb-5 bg-body rounded" style="background-color: White; height: 250px;border: 1px solid black">
+								<main style=" height: 200px">
 									<main style="border: 1px solid black; height: 25px">
 										留言作者: ${fmsg.account}
 										<main style="height: 100px;">
@@ -123,15 +133,15 @@
 										</main>
 										<main style="border: 1px solid black; height: 25px">性別:
 											${fmsg.gender==1?"女":"男"}</main>
-										<main style="border: 1px solid black; height: 25px">
+										<main style="border: 1px solid black; height: 50px">
 											電子信箱: ${fmsg.email}</main>
 							</div>
 						</div>
 						<div class="col-8" align="center">
-							<main id="main" class="text" style="background-color: #FFD382; height: 300px">
+							<main id="main" class="text shadow p-3 mb-5 bg-body rounded" style="background-color: #FFD382; height: 325px ;border: 1px solid black;">
 								<aside style="padding-bottom: 0px">留言時間:${fmsg.date.year}/${fmsg.date.monthValue}/${fmag.date.dayOfMonth}
 							${fmsg.date.hour}時${fmsg.date.minute}分</aside>
-								<button class="reportMessage" style="TRANSFORM: TRANSLATEX(450%);">檢舉留言</button>
+								<button class="reportMessage btn btn-secondary" style="TRANSFORM: TRANSLATEX(450%);">檢舉留言</button>
 								<div style="border: 1px solid black; height: 225px; margin: 10px; margin: 10px">
 									${fmsg.content}</div>
 							</main>
@@ -143,10 +153,10 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-2" align="center">
-						<div class="text" style="background-color: White; height: 200px ;border: 1px solid black;">
+						<div class="text shadow p-3 mb-5 bg-body rounded" style="background-color: White; height: 300px ;border: 1px solid black;">
 							<!-- 						<form action="/TGA103G1/PostForumContentMessage" method="post"> -->
-							<main style="border: 1px solid black; height: 150px">
-								<main style="height: 25px">
+							<main style="height: 150px">
+								<main style="height: 25px ;border: 1px solid black;">
 									留言作者: ${userid.account}
 									<main style="height: 100px;">
 										<img src="${userid.gender==1?"
@@ -160,14 +170,14 @@
 						</div>
 					</div>
 					<div class="col-8" align="center">
-						<div class="text" style="background-color: #FFD382; height: 385px">
+						<div class="text shadow p-3 mb-5 bg-body rounded" style="background-color: #FFD382; height: 405px ;border: 1px solid black;">
 							<div>
 								<h5>文章留言</h5>
 							</div>
 							<div style="border: 1px solid black; height: 310px; margin: 10px; margin: 10px">
 								<textarea name="editorContentMessage" style="height: 600px"></textarea>
 							</div>
-							<button id="alertContentMessage" class="messageButton">發表留言</button>
+							<button id="alertContentMessage" class="messageButton btn btn-secondary">發表留言</button>
 							<!-- 							</form> -->
 						</div>
 					</div>

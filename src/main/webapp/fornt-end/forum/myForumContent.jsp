@@ -97,12 +97,12 @@ pageContext.setAttribute("list", list);
 		<form method="get" action="/TGA103G1/SearchForum">
 			<input id="searchforum" name="serach" type="text"
 				style="TRANSFORM: TRANSLATEX(525%);">
-			<button id="searchbutton" style="TRANSFORM: TRANSLATEX(2200%);">搜尋</button>
+			<button id="searchbutton" style="TRANSFORM: TRANSLATEX(1800%);" class="btn btn-secondary">搜尋</button>
 		</form>
 		<button id="IWantToInsertContent" style="TRANSFORM: TRANSLATEX(0%);"
-			class="button">發表文章</button>
+			class="button btn btn-secondary"">發表文章</button>
 		<button id="MyContent" style="TRANSFORM: TRANSLATEX(0%);"
-			class="myButton">我的文章</button>
+			class="myButton btn btn-secondary">我的文章</button>
 
 
 		<table style="border-color: black;"  class="table table-hover"  border="3" align="center">
@@ -134,7 +134,7 @@ pageContext.setAttribute("list", list);
 						<td style="border-color:black">${forumvo.look}</td>
 						<td style="border-color:black">${forumvo.message}</td>
 					<td style="border-color:black">${forumvo.status==1?"公開":"封鎖"}</td>
-					<td style="border-color:black"><button class="del">刪除</button></td>
+					<td style="border-color:black"><button class="del btn btn-secondary"">刪除</button></td>
 					</tr>
 				</c:if>
 			</c:forEach>

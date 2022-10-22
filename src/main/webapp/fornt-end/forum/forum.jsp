@@ -84,10 +84,10 @@ if (vos == null || vos.isEmpty()) {
 		<h4 style="color: black;">歡迎您,${userid.nickname}</h4>
 		<form method="get" action="/TGA103G1/SearchForum">
 			<input id="searchforum" name="serach" type="text" style="TRANSFORM: TRANSLATEX(525%);">
-			<button id="searchbutton" style="TRANSFORM: TRANSLATEX(2200%);">搜尋</button>
+			<button id="searchbutton" style="TRANSFORM: TRANSLATEX(1800%)"class="btn btn-secondary">搜尋</button>
 		</form>
-		<button id="IWantToInsertContent" style="TRANSFORM: TRANSLATEX(0%);" class="button">發表文章</button>
-		<button id="MyContent" style="TRANSFORM: TRANSLATEX(0%);" class="myButton">我的文章</button>
+		<button id="IWantToInsertContent" style="TRANSFORM: TRANSLATEX(0%);" class="button btn btn-secondary">發表文章</button>
+		<button id="MyContent" style="TRANSFORM: TRANSLATEX(0%);" class="myButton btn btn-secondary">我的文章</button>
 
 
 		<table style="border-color: black;" class="table table-hover" border="3" align="center">
