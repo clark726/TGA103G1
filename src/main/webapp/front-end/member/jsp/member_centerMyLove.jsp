@@ -30,36 +30,36 @@
 					<li>
 						<button>
 							<a
-								href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_center.jsp">修改基本資料</a>
+								href="/TGA103G1/front-end/member/jsp/member_center.jsp">修改基本資料</a>
 						</button>
 					</li>
 					<li>
 						<button>
 							<a
-								href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a>
+								href="/TGA103G1/front-end/member/jsp/member_centerChangePsw.jsp">修改密碼</a>
 						</button>
 					</li>
 					<li>
 						<button>
 							<a
-								href="http://localhost:8080/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a>
+								href="/TGA103G1/front-end/member/jsp/menberCenter%EF%BC%ADanegerOrder.html">訂單管理</a>
 						</button>
 					</li>
 					<li>
 						<button>
 							<a
-								href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a>
+								href="/TGA103G1/front-end/member/jsp/member_centerMyLove.jsp">我的最愛</a>
 						</button>
 					</li>
 					<li>
 						<button>
 							<a
-								href="http://localhost:8080/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a>
+								href="/TGA103G1/front-end/member/jsp/member_centerForum.jsp">討論區</a>
 						</button>
 					</li>
 					<li>
 						<button>
-							<a href="http://localhost:8080/TGA103G1/memberLogout"
+							<a href="/TGA103G1/memberLogout"
 								id="innerLogout">登出</a>
 						</button>
 					</li>

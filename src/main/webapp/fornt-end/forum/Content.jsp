@@ -41,7 +41,7 @@
 			<ul class="nav_ul">
 				<li><a href="#">HOME</a></li>
 				<li><a href="#">地圖</a></li>
-				<li><a href="http://localhost:8080/TGA103G1/fornt-end/forum/forum.jsp">討論區</a>
+				<li><a href="/TGA103G1/fornt-end/forum/forum.jsp">討論區</a>
 				</li>
 				<li><a href="#">廠商專區</a></li>
 				<li><a href="#" class="icon">店家主題</a>
