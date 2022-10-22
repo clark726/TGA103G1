@@ -75,81 +75,35 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#!">Home</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#!">地圖</a></li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#!">討論區</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#!">購物商城</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    id="navbarDropdown"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >店家主題</a
-                  >
-                  <div
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <a class="dropdown-item" href="#!">Bistro</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#!">Cocktail Bar</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#!">Whicky Bar</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    id="navbarDropdown"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >會員專區</a
-                  >
-                  <div
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <a class="dropdown-item" href="#!">我的最愛</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#!">修改密碼</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#!">訂單管理</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    id="navbarDropdown"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >帳號</a
-                  >
-                  <div
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <a class="dropdown-item" href="#!">修改資料</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/TGA103G1/control">登出</a>
-                  </div>
-                </li>
-              </ul>
+							<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/main.html" target="_blank">Home</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/fornt-end/MAP/map.html" target="_blank">地圖</a></li>
+							<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/fornt-end/forum/forum.jsp" target="_blank">討論區</a></li>
+							<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/back-end/shop/shopProduct.html" target="_blank">購物商城</a>
+							</li>
+<!-- 							<li class="nav-item dropdown"><a -->
+<!-- 								class="nav-link dropdown-toggle" id="navbarDropdown" href="#" -->
+<!-- 								role="button" data-bs-toggle="dropdown" aria-haspopup="true" -->
+<!-- 								aria-expanded="false">店家主題</a> -->
+<!-- 								<div class="dropdown-menu dropdown-menu-end" -->
+<!-- 									aria-labelledby="navbarDropdown"> -->
+<%-- 									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Bistro</a> --%>
+<!-- 									<div class="dropdown-divider"></div> -->
+<%-- 									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Cocktail Bar</a> --%>
+<!-- 									<div class="dropdown-divider"></div> -->
+<%-- 									<a class="dropdown-item" href="<%=request.getContextPath()%>/back-end/store/storeType.html">Whicky Bar</a> --%>
+<!-- 								</div></li> -->
+							<li class="nav-item dropdown"><a
+								class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+								role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">帳號</a>
+								<div class="dropdown-menu dropdown-menu-end"
+									aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" href="updatePassword.jsp">換密碼</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="/TGA103G1/control">登出</a>
+								</div></li>
+						</ul>
             </div>
           </div>
         </nav>
@@ -159,14 +113,14 @@
             <div class="form-group">
               <label for="firstname" class="col-sm-2 control-label ">帳號</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control login" name="user" id="firstname" placeholder="请输入帳號" value="07"/>
+                <input type="text" class="form-control login" name="user" id="firstname" placeholder="请输入帳號"/>
               </div>
             </div>
             <div class="form-group">
               <label for="lastname" class="col-sm-2 control-label">密碼</label>
               <div class="col-sm-10">
                 <input
-                  type="password" name="password" value="07"
+                  type="password" name="password"
                   class="form-control login"
                   id="lastname"
                   placeholder="请输入密碼"
