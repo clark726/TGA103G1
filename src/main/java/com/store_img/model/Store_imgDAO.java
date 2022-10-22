@@ -2,9 +2,10 @@ package com.store_img.model;
 
 import java.util.List;
 
+import com.common.CoreDao;
 import com.store.model.StoreVO;
 
-public interface Store_imgDAO {
+public interface Store_imgDAO extends CoreDao {
 	
 	public Store_imgVO insert(Store_imgVO img);
 	public void update(Store_imgVO img);

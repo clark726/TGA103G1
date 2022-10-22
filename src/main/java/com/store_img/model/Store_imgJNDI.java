@@ -3,7 +3,6 @@ package com.store_img.model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +11,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.common.HibernateUtil;
-import com.product_img.model.Product_imgVO;
 import com.store.model.StoreVO;
 
 public class Store_imgJNDI implements Store_imgDAO {
@@ -35,54 +29,24 @@ public class Store_imgJNDI implements Store_imgDAO {
 
 	public Store_imgVO insert(Store_imgVO img) {
 
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
-		try {
-			Transaction transaction = session.beginTransaction();
-			session.persist(img);
-			transaction.commit();
-			return img;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		}
+		getSession().persist(img);
+		return img;
 	}
 
 	public void update(Store_imgVO img) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
-		try {
-			Transaction transaction = session.beginTransaction();
-			session.createQuery("Update Store_imgVO set img = :img where storeId = :storeId and status1 = :status ")
-					.setParameter("img", img.getImg()).setParameter("storeId", img.getStoreId())
-					.setParameter("status", img.getStatus1()).executeUpdate();
-			transaction.commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-		}
+		getSession().createQuery("Update Store_imgVO set img = :img where storeId = :storeId and status1 = :status ")
+				.setParameter("img", img.getImg()).setParameter("storeId", img.getStoreId())
+				.setParameter("status", img.getStatus1()).executeUpdate();
 
 	}
 
 	// 取資料時用
 	public Store_imgVO findImgByStoreIdandSratus(Integer store_id, Integer status) {
-		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-		Session session = sessionFactory.openSession();
-		try {
-			Transaction transaction = session.beginTransaction();
-			Query<Store_imgVO> query = session
-					.createQuery("From Store_imgVO where store_id = :store_id and status1 = :status", Store_imgVO.class)
-					.setParameter("store_id", store_id)
-					.setParameter("status", status);
-			Store_imgVO vo = query.uniqueResult();
-			transaction.commit();
-			return vo;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		}
+		Query<Store_imgVO> query = getSession()
+				.createQuery("From Store_imgVO where store_id = :store_id and status1 = :status", Store_imgVO.class)
+				.setParameter("store_id", store_id).setParameter("status", status);
+		Store_imgVO vo = query.uniqueResult();
+		return vo;
 
 	}
 
@@ -173,9 +137,7 @@ public class Store_imgJNDI implements Store_imgDAO {
 	@Override
 	public List<StoreVO> getStoreImgByTheme(Integer theme_id) {
 		String sql = "SELECT s.store_id,name  , phone , email , address , lng , lat , theme_id , dayoff , work_open , work_end , produce , i.img \n"
-				+ "FROM store s "
-				+ "join store_img i "
-				+ "on s.store_id = i.store_id "
+				+ "FROM store s " + "join store_img i " + "on s.store_id = i.store_id "
 				+ "where i.status = 1 and theme_id =?";
 		List<StoreVO> list = new ArrayList<StoreVO>();
 		try (Connection connection = ds.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -201,6 +163,6 @@ public class Store_imgJNDI implements Store_imgDAO {
 		}
 
 		return list;
-		}
+	}
 
 }
