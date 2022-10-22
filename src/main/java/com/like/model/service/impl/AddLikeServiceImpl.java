@@ -20,8 +20,8 @@ public class AddLikeServiceImpl implements AddLikeService {
     }
 
     @Override
-    public LikeVO get(Integer forum_id, Integer member_id) {
-        return this.jndi.get(forum_id, member_id);
+    public boolean get(Integer forum_id, Integer member_id) {
+        	 return this.jndi.get(forum_id, member_id);
     }
 
     @Override

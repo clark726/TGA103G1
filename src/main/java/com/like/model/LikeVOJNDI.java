@@ -39,7 +39,7 @@ public class LikeVOJNDI implements LikeDAO {
         }
         return likeVO;
     }
-    public LikeVO get(Integer forum_id,Integer member_id) {
+    public boolean get(Integer forum_id,Integer member_id) {
         LikeVO likeVO = new LikeVO();
         String sql = "select * from `like` where forum_id = ? and member_id = ?;";
         try (Connection conn = ds.getConnection();
@@ -49,11 +49,12 @@ public class LikeVOJNDI implements LikeDAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 likeVO = new LikeVO(rs.getInt(1),rs.getInt(2));
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return likeVO;
+        return false;
     }
     
     public boolean add(LikeVO obj) {

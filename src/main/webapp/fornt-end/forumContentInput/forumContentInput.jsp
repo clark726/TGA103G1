@@ -16,7 +16,7 @@
 					crossorigin="anonymous">
 			</head>
 
-			<body style="background-color: rgb(129, 93, 65)">
+			<body style="background-color: #cab79f73">
 				<script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
 				<header class="header">
 					<div class="fl_left">

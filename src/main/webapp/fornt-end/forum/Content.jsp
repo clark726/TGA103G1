@@ -83,24 +83,25 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-2" align="center">
-				<div class="text" style="background-color: White; height: 400px">
-					<main style="border: 1px solid green; height: 150px">
-						<main style="border: 1px solid green; height: 25px">
+				<div class="text" style="background-color: White; height: 400px;border-color: black">
+					<main style="height: 150px">
+						<main style="border: 1px solid black; height: 25px">
 							作者: ${forumContentMemberId.account}
 							<main style="height: 100px;">
 								<img src="${forumContentMemberId.gender==1?"
 									/TGA103G1/front-end/member/images/woman.png":"/TGA103G1/front-end/member/images/man.png"}"
 									style="width: 100px;">
 							</main>
-							<main style="border: 1px solid green; height: 25px">性別:
+							<main style="border: 1px solid black; height: 25px">性別:
 								${forumContentMemberId.gender==1?"女":"男"}</main>
-							<main style="border: 1px solid green; height: 25px">電子信箱:
+							<main style="border: 1px solid black; height: 25px">電子信箱:
 								${forumContentMemberId.email}</main>
 				</div>
 			</div>
 			<div class="col-8" align="center">
 				<div class="text" style="background-color: #FFD382; height: 580px">
-					<aside style="padding-bottom: 0px">發文時間:${vo.date}</aside>
+					<aside style="padding-bottom: 0px">發文時間:${vo.date.year}/${vo.date.monthValue}/${vo.date.dayOfMonth}
+							${vo.date.hour}時${vo.date.minute}分</aside>
 					<div style="border: 1px solid black; height: 502px; margin: 10px; margin: 10px">
 						${vo.content}</div>
 				</div>
@@ -111,24 +112,25 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-2" align="center">
-							<div class="text" style="background-color: White; height: 200px">
-								<main style="border: 1px solid green; height: 150px">
-									<main style="border: 1px solid green; height: 25px">
+							<div class="text" style="background-color: White; height: 200px;border-color: black">
+								<main style="border: 1px solid black; height: 150px">
+									<main style="border: 1px solid black; height: 25px">
 										留言作者: ${fmsg.account}
 										<main style="height: 100px;">
 											<img src="${fmsg.gender==1?"
 												/TGA103G1/front-end/member/images/woman.png":"/TGA103G1/front-end/member/images/man.png"}"
 												style="width: 100px;">
 										</main>
-										<main style="border: 1px solid green; height: 25px">性別:
+										<main style="border: 1px solid black; height: 25px">性別:
 											${fmsg.gender==1?"女":"男"}</main>
-										<main style="border: 1px solid green; height: 25px">
+										<main style="border: 1px solid black; height: 25px">
 											電子信箱: ${fmsg.email}</main>
 							</div>
 						</div>
 						<div class="col-8" align="center">
 							<main id="main" class="text" style="background-color: #FFD382; height: 300px">
-								<aside style="padding-bottom: 0px">留言時間:${fmsg.date}</aside>
+								<aside style="padding-bottom: 0px">留言時間:${fmsg.date.year}/${fmsg.date.monthValue}/${fmag.date.dayOfMonth}
+							${fmsg.date.hour}時${fmsg.date.minute}分</aside>
 								<button class="reportMessage" style="TRANSFORM: TRANSLATEX(450%);">檢舉留言</button>
 								<div style="border: 1px solid black; height: 225px; margin: 10px; margin: 10px">
 									${fmsg.content}</div>
@@ -141,19 +143,19 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-2" align="center">
-						<div class="text" style="background-color: White; height: 200px">
+						<div class="text" style="background-color: White; height: 200px ;border: 1px solid black;">
 							<!-- 						<form action="/TGA103G1/PostForumContentMessage" method="post"> -->
-							<main style="border: 1px solid green; height: 150px">
-								<main style="border: 1px solid green; height: 25px">
+							<main style="border: 1px solid black; height: 150px">
+								<main style="height: 25px">
 									留言作者: ${userid.account}
 									<main style="height: 100px;">
 										<img src="${userid.gender==1?"
 											/TGA103G1/front-end/member/images/woman.png":"/TGA103G1/front-end/member/images/man.png"}"
 											style="width: 100px;">
 									</main>
-									<main style="border: 1px solid green; height: 25px">性別:
+									<main style="border: 1px solid black; height: 25px">性別:
 										${userid.gender==1?"女":"男"}</main>
-									<main style="border: 1px solid green; height: 25px">電子信箱:
+									<main style="border: 1px solid black; height: 25px">電子信箱:
 										${userid.email}</main>
 						</div>
 					</div>
@@ -346,7 +348,23 @@ onTheRportMessage();
 		}
 	</script>
 	<script>
+		//判斷是否有按讚
+			fetch('/TGA103G1/SelectLike', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					forum_id: forum_id,
+					member_id: member_id
+				}),
+			})
+				.then(resp => resp.json())
+				.then(body => {
+					if(body.successful == true){
+						$("#like").css("display" , "none")
+						$("#like2").css("display" ,"inline-block")
+					}
 
+				});
 
 		document.querySelector("#like").addEventListener("click", function () {
 			if (

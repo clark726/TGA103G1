@@ -6,7 +6,7 @@ public interface LikeDAO {
 
     List<LikeVO> getAll();
 
-    LikeVO get(Integer forum_id,Integer member_id);
+    boolean get(Integer forum_id,Integer member_id);
 
     boolean add(LikeVO obj);
 
