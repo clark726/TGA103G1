@@ -226,5 +226,32 @@ public class ForumJNDI implements ForumDAO{
         }
         return rows == 1;
     }
+    
+    public List<ForumVO> getserach(String title) {
+    	List<ForumVO> vos = new ArrayList<>();
+        ForumVO forumVO = null;
+        String sql = "select * from forum where  title  like ?;";
+        try(Connection conn = ds.getConnection();
+        		PreparedStatement ppst = conn.prepareStatement(sql)){
+            ppst.setObject(1,"%"+title+"%");
+            ResultSet rs = ppst.executeQuery();
+            while (rs.next()){
+            	forumVO = new ForumVO();
+            	forumVO.setForum_id(rs.getInt(1));
+                forumVO.setMember_id(rs.getInt(2));
+                forumVO.setContent(rs.getString(3));
+                forumVO.setDate(rs.getObject(4,LocalDateTime.class));
+                forumVO.setTitle(rs.getString(5));
+                forumVO.setLike(rs.getInt(6));
+                forumVO.setLook(rs.getInt(7));
+                forumVO.setMessage(rs.getInt(8));
+                forumVO.setStatus(rs.getInt(9));
+                vos.add(forumVO);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return vos;
+    }
 
 }

@@ -45,20 +45,10 @@ public class ForumServlet extends HttpServlet {
         req.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
         req.setAttribute("vo", content);
         req.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
+        
+//        res.getWriter().print(true);
+        
+        
         req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
-//	=======================================================================================
-//        HttpSession session = req.getSession();
-//        if (session.getAttribute("forumContentMemberId") == null) {
-//            session.setAttribute("forumContentMemberId", jndi.findMemberByForumId(page));
-//            session.setAttribute("vo", content);
-//            session.setAttribute("forumMessage", jndi.getAllByForumMessage(page));
-//            req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
-//        } else {
-//            session.getAttribute("forumContentMemberId");
-//            session.getAttribute("vo");
-//            session.getAttribute("forumMessage");
-//
-//            req.getRequestDispatcher("/fornt-end/forum/Content.jsp").forward(req, res);
-//        }
     }
 }

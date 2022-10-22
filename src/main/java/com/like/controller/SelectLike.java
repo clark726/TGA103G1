@@ -28,11 +28,16 @@ public class SelectLike extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		LikeVO likeVO = gson.fromJson(request.getReader().readLine(), LikeVO.class);
-		LikeVO result = addLike.get(likeVO.getForum_id() ,likeVO.getMember_id());
-
+		boolean result = addLike.get(likeVO.getForum_id(), likeVO.getMember_id());
+		LikeVO backLikeVO = new LikeVO();
+		if (result == true) {
+			backLikeVO.setSuccessful(true);
+		} else {
+			backLikeVO.setSuccessful(false);
+		}
 		response.setContentType("application/json");
 		try (PrintWriter pw = response.getWriter()) {
-			pw.print(new GsonBuilder().create().toJson(result));
+			pw.print(new GsonBuilder().create().toJson(backLikeVO));
 
 		} catch (Exception e) {
 			e.printStackTrace();
