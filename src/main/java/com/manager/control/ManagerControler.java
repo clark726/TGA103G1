@@ -199,9 +199,9 @@ public class ManagerControler extends HttpServlet {
 	private void changeFrontImg(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		Part part = req.getPart("img");
 		if (part.getContentType() != null) {
-			String path = System.getProperty("catalina.home")+File.separator+"webapps"+
-					req.getContextPath()+File.separator+"img"+File.separator+req.getParameter("filename") + ".jpeg";
-//			String path = super.getServletContext().getRealPath("/") + "img\\" + req.getParameter("filename") + ".jpeg";
+//			String path = System.getProperty("catalina.home")+File.separator+"webapps"+
+//					req.getContextPath()+File.separator+"img"+File.separator+req.getParameter("filename") + ".jpeg";
+			String path = super.getServletContext().getRealPath("/") + "img\\" + req.getParameter("filename") + ".jpeg";
 			try (InputStream in = part.getInputStream(); FileOutputStream out = new FileOutputStream(path)) {
 				File file = new File(path);
 				if(file.exists()) file.delete();
