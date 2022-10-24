@@ -313,6 +313,7 @@ public class ManagerControler extends HttpServlet {
 		String report = req.getParameter("reportId");
 		String reason = req.getParameter("reason");
 		String memberId = req.getParameter("memberId");
+		System.out.println(report+" "+reason+" "+memberId);
 		try {
 			Integer forumId = Integer.parseInt(report);
 			this.forum.blockade(forumId);
@@ -322,9 +323,6 @@ public class ManagerControler extends HttpServlet {
 							.equals(forumId))
 					.map(f->f.getForum_report_id())
 					.collect(Collectors.toList());
-//			session.setAttribute("forumReport", this.forumReport.getAll());
-//			List<Integer> ids = this.forumReport.getForunIds(forumId);
-//			ArrayList<Forum_reportVO> list = (ArrayList<Forum_reportVO>) req.getSession().getAttribute("forumReport");
 			for (int x = 0; x < ids.size(); x++) {
 				for (int y = 0; y < list.size(); y++) {
 					if (ids.get(x).equals(list.get(y).getForum_report_id())) {
@@ -366,17 +364,28 @@ public class ManagerControler extends HttpServlet {
 	private void updateforumReport(HttpServletRequest req, HttpServletResponse resp) {
 		try {
 			Integer btnVal = Integer.parseInt(req.getParameter("btnVal"));
+//			System.out.println(btnVal);
 			this.message_reportService.update(btnVal);
 			HttpSession session = req.getSession();
 			ArrayList<HashMap<String, Object>> list = (ArrayList<HashMap<String, Object>>) session
 					.getAttribute("messageReportList");
+//			System.out.println(list.size());
+//			map.put("message_report_id", objlist.get(x)[0]);
+//			map.put("member_id", objlist.get(x)[1]);
+//			map.put("message_id", objlist.get(x)[2]);
+//			map.put("reason", objlist.get(x)[3]);
+//			map.put("date", objlist.get(x)[4]);
+//			map.put("status", objlist.get(x)[5]);
+//			map.put("forum_id", objlist.get(x)[6]);
 			for (int x = 0; x < list.size(); x++) {
-				if (list.get(x).get("message_id").equals(btnVal)) {
+//				System.out.println(list.get(x).get("message_report_id"));
+				if (list.get(x).get("message_report_id").equals(btnVal)) {
 					list.remove(x);
-					session.setAttribute("messageReportList", list);
 					break;
 				}
 			}
+			session.setAttribute("messageReportList", list);
+//			System.out.println(list.size());
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}

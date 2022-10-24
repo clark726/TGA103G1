@@ -124,7 +124,7 @@
 										<input type="hidden" name="reason" value="${report.reason}">
 										<input type="hidden" name="memberId" value="${report.member_id}">
 										<input type="hidden" name="action" value="deleteForum">
-										<input type="hidden" name="reportId" value="${report.forum_report_id }">
+										<input type="hidden" name="reportId" value="${report.forum_id }">
 										<button>屏蔽</button>
 									</form>
 								</td>

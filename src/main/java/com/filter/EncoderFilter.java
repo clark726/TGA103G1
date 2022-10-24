@@ -23,6 +23,9 @@ public class EncoderFilter extends HttpFilter{
     protected void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException {
         req.setCharacterEncoding(charset);
         resp.setCharacterEncoding(charset);
+        resp.setHeader("Pragma", "No-cache");
+        resp.setHeader("Cache-Control", "no-cache");
+        resp.setDateHeader("Expires", 0);
         chain.doFilter(req,resp);
     }
 }
