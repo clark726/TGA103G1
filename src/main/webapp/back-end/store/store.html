@@ -23,7 +23,7 @@
     ></script>
 
   </head>
-  <body style="background-color: rgb(216, 208, 208)">
+  <body style="background-color: rgb(216, 208, 208)" onload="connectWS()">
    <div id="xxx"></div>
     <main class="main">
       <div class="container">
@@ -61,6 +61,40 @@
         </div>
       </div>
     </main>
+
+    <!-- 推播視窗 -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      id="liveToastBtn"
+      style="display: none"
+    ></button>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+      <div
+        id="liveToast"
+        class="toast hide"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header">
+          <strong class="me-auto">BarJarJo</strong> <small>幾秒之前</small>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body">
+          <p id="toastbody" style="font-size: 20px"></p>
+          <a href="" id="storeIdWS"><img src="" id="imgWS" style="width: 200px; height: 200px" /></a>
+        </div>
+      </div>
+    </div>
+    <!-- 推播視窗結束 -->
+
     <footer id="footer" class="">
       <div class="div_li">
         <h2>組員履歷</h2>
@@ -82,7 +116,7 @@
     integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
     crossorigin="anonymous"></script>
     <script src="../js/header.js"></script>
-
+    <script src="../js/togetherWS.js"></script>
     <script>
     
 

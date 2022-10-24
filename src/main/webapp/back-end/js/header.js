@@ -52,7 +52,7 @@ function changeTheme() {
 	})
 }
 
-//換登出鈕
+//換登出鈕 
 function changelog() {
 	if (sessionStorage.getItem("account")) {
 		document.querySelector("#login").style.display = "none";

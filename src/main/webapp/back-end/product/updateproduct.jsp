@@ -232,8 +232,10 @@ img {
 		
 				var jsonObj = {
 				 	 /* "img":filereader.result,  */
-					"message" : p_name.value+"上架囉",
-					"img" : img
+					"message" : p_name.value+" 上架囉",
+					"img" : img,
+					"url" : "/TGA103G1/back-end/store/store.html",
+					"storeId" : ${productVO.store_id}
 				};
 				webSocket.send(JSON.stringify(jsonObj)); //送資料出去
 			}

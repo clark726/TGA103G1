@@ -54,7 +54,7 @@
         </div>
         <div class="toast-body">
           <p id="toastbody" style="font-size: 20px"></p>
-          <img src="" id="img" style="width: 200px; height: 200px" />
+          <a href="" id="storeIdWS"><img src="" id="img" style="width: 200px; height: 200px" /></a>
         </div>
       </div>
     </div>
@@ -180,6 +180,7 @@
             changeTheme();
             like();
             clickStore();
+            clickStoreWS();
             const username = document.querySelector("#account");
             const password = document.querySelector("#password");
             const errMsg = document.querySelector("#errMsg");
@@ -209,15 +210,20 @@
       }
       includeHTML();
 
-      //登出鈕
-      function changelog() {
-        if (sessionStorage.getItem("account")) {
-          document.querySelector("#login").style.display = "none";
-          document.querySelector("#logout").style.display = "block";
-          document.querySelector("#loginbox").style.display = "none";
-          document.querySelector("#normal").style.display = "block";
-        }
-      }
+  
+//換登出鈕
+function changelog() {
+	if (sessionStorage.getItem("account")) {
+		document.querySelector("#login").style.display = "none";
+		document.querySelector("#logout").style.display = "block";
+		document.querySelector("#loginbox").style.display = "none";
+		document.querySelector("#normal").style.display = "block";
+	} else if (sessionStorage.getItem("memberAccount")) {
+		document.querySelector("#login").style.display = "none";
+		document.querySelector("#memberlogout").style.display = "block";
+	}
+
+}
 
       //登出
       function logout() {
@@ -388,6 +394,7 @@
       let toastbody = document.querySelector("#toastbody");
       let liveToastBtn = document.querySelector("#liveToastBtn");
       let img = document.querySelector("#img");
+      let storeIdWS = document.querySelector("#storeIdWS");
       function connectWS() {
         // create a webSocketWS
         webSocketWS = new WebSocket(endPointURLWS);
@@ -398,8 +405,23 @@
           var jsonObj = JSON.parse(event.data);
           toastbody.innerText = jsonObj.message;
           img.setAttribute("src", jsonObj.img);
+          storeIdWS.setAttribute("href", jsonObj.url)
+          img.setAttribute("data-storeid", jsonObj.storeId)
+
           liveToastBtn.click();
         };
+      }
+      //bootstrap
+      $(document).on("click", "#liveToastBtn", function () {
+        new bootstrap.Toast(document.querySelector(".toast")).show();
+      });
+
+       //點擊store_idWS
+       function clickStoreWS() {
+        $(document).on("click", "#storeIdWS", function (e) {
+          let store_idWS = e.target.getAttribute("data-storeid");
+          sessionStorage.setItem("store_id", store_idWS);
+        });
       }
 
       //點擊店家顯示聊天室
@@ -411,10 +433,6 @@
 		}
 		$("#chaticon").modal("show")
 	});
-      //bootstrap
-      $(document).on("click", "#liveToastBtn", function () {
-        new bootstrap.Toast(document.querySelector(".toast")).show();
-      });
 
       
     </script>
