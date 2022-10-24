@@ -1,6 +1,8 @@
 <%@page import="java.util.*"%>
+<%@page import="com.manager.model.ManagerVO"%>
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,9 +28,7 @@
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/admin.jsp">修改會員資料</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員<span
-					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("admins")).size()%>
-				</span></a> <a
+					href="<%=request.getContextPath()%>/admin/console/administrators.jsp">修改管理員</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="<%=request.getContextPath()%>/admin/console/messageReport.jsp">留言檢舉<span
 					class="badge" style="background-color: rgb(50, 100, 82);"><%=((List) session.getAttribute("messageReportList")).size()%>
@@ -99,7 +99,9 @@
           </div>
         </nav>
         <!-- Page content-->
-        <h2>Hi ${admin.account}</h2>
+        <h2>Hi <%ManagerVO vo = (ManagerVO)session.getAttribute("admin");
+					String account = vo.getAccount();
+					out.print(account.substring(0,account.indexOf("@")));%></h2>
         <!--------------->
         <div class="container-fluid">
           <table class="table table-hover">
