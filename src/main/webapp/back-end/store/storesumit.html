@@ -96,6 +96,7 @@
 		crossorigin="anonymous"></script>
 	<script src="https://demeter.5fpro.com/tw/zipcode-selector.js"></script>
     <script src="../js/header.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ&amp;libraries=geometry&amp;callback=initMap&amp;language=zh-TW" async="" defer=""></script>
 <script>
    
   
@@ -174,6 +175,16 @@ email.addEventListener("blur" , function(){
         emailerror.innerText = ""
     }
 });
+
+
+//轉換經緯度
+var geocoder;
+var latChange;
+var lngChange;
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+    }
+   
 //驗證地址
 let addresserror = document.querySelector("#addresserror")
 address.addEventListener("blur" , function(){
@@ -181,6 +192,19 @@ address.addEventListener("blur" , function(){
         addresserror.innerText = ""
         addresserror.innerText = "請勿空白"
     }else{
+       let correctAddress = city.value + dist.value + address.value;
+       //轉換經緯度
+        geocoder.geocode({
+            'address': correctAddress
+        }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                latChange = results[0].geometry.location.lat() 
+                lngChange = results[0].geometry.location.lng()
+                console.log(latChange)
+            }else{
+                alert("錯誤地址")
+            }
+        });
         addresserror.innerText = ""
     }
 });
@@ -194,37 +218,20 @@ storename.addEventListener("blur" , function(){
         storenameerror.innerText = ""
     }
 });
- //送出註冊
-document.querySelector("#sumit").addEventListener("click" , function(){
-    let correctAddress = city.value + dist.value + address.value;
 
+
+//送出註冊
+ document.querySelector("#sumit").addEventListener("click" , function(){
+   
+    console.log(latChange)
     if(accounterror.innerText == "" && passworderror.innerText == "" && phoneerror.innerText == "" && emailerror.innerText == "" && addresserror.innerText == "" && storenameerror.innerText == "" && storename.value != ""){
-
-        //轉換經緯度
-    let cros = 'https://cors-anywhere.herokuapp.com/'
-    fetch(cros+'https://maps.googleapis.com/maps/api/geocode/json?address='+correctAddress+'&key=AIzaSyA8huJrjACqoILrwvDvMuR8Ntv_aAYLOKQ', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' ,
-                'Access-Control-Allow-Origin':'',
-                'Access-Control-Allow-Methods':'POST, GET, PUT, DELETE',
-                'Access-Control-Allow-Credentials': 'true',
-                'Set-Cookie': '<cookie-name>=<cookie-value>'
-               },
-     
-    })
-      .then(resp => resp.json() )
-      .then(body => {
-        console.log(body)
-      let lat = body.results[0].geometry.location.lat
-      let lng = body.results[0].geometry.location.lng
-
       fetch('/TGA103G1/StoreSumit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-
-        lat:lat,
-        lng:lng,
+        
+        lat:latChange,
+        lng:lngChange,
         account:account.value,
         password:password.value,
         name:storename.value,
@@ -242,17 +249,13 @@ document.querySelector("#sumit").addEventListener("click" , function(){
             // location = "/TGA103G1/main.html";
         }
       });
-    })
+    
    
     }else{
         alert("請按照格式填寫")
     }
     
-    
-    
-    
 })
 
- 
      </script>
 </html>
